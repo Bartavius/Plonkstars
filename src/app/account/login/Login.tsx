@@ -36,8 +36,8 @@ const Login: React.FC = () => {
 
             dispatch(loginSuccess(token));
         } catch (err: any) {
-            setError(err.message || 'Something went wrong');
-            dispatch(loginFailure(err.response?.data?.message || 'Login failed'));
+            setError(err.response?.data?.error || 'Login failed');
+            dispatch(loginFailure(err.response?.data?.error || 'Login failed'));
         }
     };
 

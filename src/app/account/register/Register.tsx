@@ -21,7 +21,7 @@ const Register: React.FC = () => {
             });
             
         }catch (err: any) {
-            setError(err.message || 'Something went wrong');
+            setError(err.response?.data?.error || 'Something went wrong');
             console.log(err);
         }
     }
