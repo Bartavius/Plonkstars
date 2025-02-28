@@ -1,0 +1,267 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+:root {
+  --background: #1b0124;
+  --foreground: #ffffff;
+  --color-accent1: #4d09b3;
+}
+
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  margin: 0;
+  background: linear-gradient(to right, var(--background), var(--color-accent1));
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+.contacts-container {
+  padding-top: 5dvh;
+}
+
+
+.leaflet-container-wrapper {
+  width: 52vh; /* 800 */
+  height: 32vh; /* 460 */
+  overflow: hidden;
+  z-index: 1000;
+  transition: transform 0.1s ease-in-out;
+  transform-origin: bottom right;
+  opacity: 0.6;
+  transform: scale(1); /* scale 0.59 */
+}
+
+.leaflet-container-wrapper.hovered {
+  transform: scaleX(1.7) scaleY(1.7); /* 1.2 instead */
+  opacity: 1;
+}
+
+
+.leaflet-container-wrapper:hover {
+  transform: scaleX(1.7) scaleY(1.7); /* 1.2 instead */
+  opacity: 1;
+}
+
+.leaflet-control-attribution {
+  font-size: 0.5rem !important;
+}
+
+.leaflet-map {
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-container-result-wrapper {
+  width: 100%;
+  height: 92vh;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.leaflet-result-map {
+  width: 100%;
+  height: 100%;
+}
+
+.combined-map-container {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.start-button {
+  width: 35%;
+  background: linear-gradient(
+    to right,
+    rgb(194, 93, 241),
+    rgb(69, 3, 126)
+  );
+  background-size: 200% auto;
+  background-position: left center;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+  border-width: 5px;
+  border-color: #7d47bf;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-position 0.5s ease;
+}
+
+.start-button:hover {
+  background-position: right center;
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  background: #000 !important;
+  cursor:not-allowed;
+}
+
+.map-result-container {
+  position: relative;
+  z-index: 0;
+}
+
+@media (max-width: 720px) {
+  .map-result-container {
+    top: -5vh;
+  }
+  .combined-map-container {
+    margin: 0%;
+    top: -10vh;
+  }
+  .leaflet-container-wrapper {
+    width: 100vh;
+    height: 30vh;
+    opacity: 1;
+  }
+
+  .leaflet-container-wrapper:hover {
+    transform: none;
+  }
+
+  @keyframes stagnant-hover {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+
+  }
+
+  .leaflet-container-result-wrapper {
+    width: 100%;
+    height: 80vh;
+    overflow: hidden;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    transform-origin: bottom right;
+  }
+  
+}
+
+
+.poppins-thin {
+  font-family: "Poppins", serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-extralight {
+  font-family: "Poppins", serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.poppins-light {
+  font-family: "Poppins", serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins", serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.poppins-extrabold {
+  font-family: "Poppins", serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.poppins-black {
+  font-family: "Poppins", serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.poppins-thin-italic {
+  font-family: "Poppins", serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.poppins-extralight-italic {
+  font-family: "Poppins", serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.poppins-light-italic {
+  font-family: "Poppins", serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.poppins-regular-italic {
+  font-family: "Poppins", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.poppins-medium-italic {
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.poppins-semibold-italic {
+  font-family: "Poppins", serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.poppins-bold-italic {
+  font-family: "Poppins", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.poppins-extrabold-italic {
+  font-family: "Poppins", serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.poppins-black-italic {
+  font-family: "Poppins", serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
