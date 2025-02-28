@@ -11,7 +11,7 @@ export default function Game() {
 
   useEffect(() => {
     const fetchMatchID = async () => {
-      const response = await api.post("/game/create");
+      const response = await api.post("/game/create",{"rounds":-1});
       const { id } = response.data;
       await api.post("/game/play", {id: id});
       router.push(`/game/${id}`);

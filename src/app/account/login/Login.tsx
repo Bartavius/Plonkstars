@@ -7,9 +7,11 @@ import api from '@/utils/api';
 import { RootState } from '@/redux/store';
 import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
+import { useRouter } from "next/navigation";
 
 const Login: React.FC = () => {
     const dispatch = useDispatch();
+    const router = useRouter();
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
     const [username, setUsername] = useState('');
@@ -35,6 +37,7 @@ const Login: React.FC = () => {
             });
 
             dispatch(loginSuccess(token));
+            router.push('/');
         } catch (err: any) {
             setError(err.response?.data?.error || 'Login failed');
             dispatch(loginFailure(err.response?.data?.error || 'Login failed'));
@@ -89,6 +92,9 @@ const Login: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                     />
+                </div>
+                <div style={{color: 'black'}}>
+                    To create an account: <a href="/account/register" style={{color: 'blue'}}>Register here</a>
                 </div>
                 <button
                     type="submit"

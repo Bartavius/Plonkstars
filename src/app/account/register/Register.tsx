@@ -1,6 +1,7 @@
 import api from '@/utils/api';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
+import { useRouter } from "next/navigation";
 
 
 const Register: React.FC = () => {
@@ -8,6 +9,8 @@ const Register: React.FC = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
+    
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,8 +22,8 @@ const Register: React.FC = () => {
                 username,
                 password,
             });
-            
-        }catch (err: any) {
+            router.push('/login');
+        } catch (err: any) {
             setError(err.response?.data?.error || 'Something went wrong');
             console.log(err);
         }
@@ -73,7 +76,7 @@ const Register: React.FC = () => {
                     <div>
                         <label htmlFor="cpassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
                         <input
-                            type="cpassword"
+                            type="password"
                             id="cpassword"
                             placeholder="Confirm Password"
                             value={confirmPassword}
