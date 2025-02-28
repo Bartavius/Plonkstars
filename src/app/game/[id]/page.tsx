@@ -200,10 +200,12 @@ export default function MatchPage() {
   //   locations[Math.floor(Math.random() * locations.length)];
 
 
-  const submitGuess = () => {
+  const submitGuess = async () => {
     if (lat !== null && lng !== null) {
+      const response = await api.post("/game/guess", {lat: lat, lng: lng, id: matchId});
+      const { score , distance } = response.data; // most likely, all displayed information would be obtained in results page
       router.push(
-        `/game/${matchId}/result?userLat=${lat}&userLng=${lng}&correctLat=${correctLat}&correctLng=${correctLng}`
+        `/game/${matchId}/result?userLat=${lat}&userLng=${lng}&correctLat=${correctLat}&correctLng=${correctLng}` // add queries for score / distance
       ); // will remove query for correct location later once peroperly hooked to backend
     } else { // maybe change this to that if time left == 0, and that if the user lat and user lng doesn't exist then return (avoid inspect)
       router.push(

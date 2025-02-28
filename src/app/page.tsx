@@ -34,7 +34,7 @@ export default function Home() {
           className={`${sigmar.className} start-button text-2xl`}
           onClick={navigateToGame}
         >
-          Start
+          Get Started
         </button>
       </div>
       <img src="palm-tree-clipart-xl.png" alt="palm tree" className="tree" />

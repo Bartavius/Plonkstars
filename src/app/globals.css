@@ -46,12 +46,14 @@ body {
 .leaflet-container-wrapper.hovered {
   transform: scaleX(1.7) scaleY(1.7); /* 1.2 instead */
   opacity: 1;
+  cursor:crosshair;
 }
 
 
 .leaflet-container-wrapper:hover {
   transform: scaleX(1.7) scaleY(1.7); /* 1.2 instead */
   opacity: 1;
+  cursor:crosshair;
 }
 
 .leaflet-control-attribution {
@@ -201,6 +203,48 @@ body {
     transform: rotate(-10deg);
   }
 }
+
+
+.navbar-elements {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-element {
+  position: relative;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.navbar-element::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  transform: scaleX(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+.navbar-element:hover::after {
+  transform: scaleX(1);
+}
+
+.navbar-element.active {
+  color: #911212;
+}
+
+.navbar-element.active::after {
+  transform: scaleX(1);
+}
+
 
 .poppins-thin {
   font-family: "Poppins", serif;
