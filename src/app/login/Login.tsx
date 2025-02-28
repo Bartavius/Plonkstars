@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, loginFailure } from '../redux/authSlice';
-import axiosInstance from '../api';  // Import the custom axios instance
-import { RootState } from '../redux/store';
+import { loginSuccess, loginFailure } from '../../redux/authSlice';
+import api from '../api'; 
+import { RootState } from '../../redux/store';
 import Cookies from 'js-cookie';
 
 const Login: React.FC = () => {
@@ -18,7 +18,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axiosInstance.post('/account/login', {
+      const response = await api.post('/account/login', {
         username,
         password,
       });
@@ -51,6 +51,7 @@ const Login: React.FC = () => {
           <input
             type="text"
             id="username"
+            style={{color: 'black'}}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -61,6 +62,7 @@ const Login: React.FC = () => {
           <input
             type="password"
             id="password"
+            style={{color: 'black'}}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
