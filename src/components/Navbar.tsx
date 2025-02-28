@@ -5,7 +5,7 @@ const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 export default function NavBar() {
   const tabs = [
     { tab: "Singleplayer", link: "/game" },
-    // { tab: "Login", link: "/login" },
+    { tab: "Login", link: "/login" },
     // { tab: "Contact", link: "/contact"}
   ];
 

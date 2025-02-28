@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Suspense } from "react";
 import NavBar from "@/components/Navbar";
@@ -14,6 +14,8 @@ const BasicMapResult = dynamic(
 export default function Results() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const params = useParams();
+  const matchId = params.id;
 
   const [userLatParsed, setUserLatParsed] = useState<number | null>(null);
   const [userLngParsed, setUserLngParsed] = useState<number | null>(null);
@@ -66,7 +68,7 @@ export default function Results() {
   }, []);
 
   const nextGame = () => {
-    router.push(`/game`);
+    router.push(`/game/${matchId}`);
   };
 
   const meters = getDistance(
