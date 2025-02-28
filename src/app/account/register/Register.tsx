@@ -22,7 +22,7 @@ const Register: React.FC = () => {
                 username,
                 password,
             });
-            router.push('/login');
+            router.push('/account/login');
         } catch (err: any) {
             setError(err.response?.data?.error || 'Something went wrong');
             console.log(err);
