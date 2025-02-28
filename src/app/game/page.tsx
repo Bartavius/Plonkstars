@@ -45,10 +45,15 @@ export default function Game() {
   // make a handle change function
 
   const joinGame = async () => {
-    await api.post("/game/play", {
-      id: "aa654dbf-e103-4105-b7e1-0067869219b9",
-    });
-    router.push("/game/aa654dbf-e103-4105-b7e1-0067869219b9");
+    try{
+      await api.post("/game/play", {
+        id: "aa654dbf-e103-4105-b7e1-0067869219b9",
+      });
+    }catch(error){
+
+    }finally{
+      router.push("/game/aa654dbf-e103-4105-b7e1-0067869219b9");
+    }
   };
 
   return (

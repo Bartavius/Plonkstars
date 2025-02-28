@@ -31,7 +31,7 @@ const Login: React.FC = () => {
             const token = response.data.token;
       
             Cookies.set('authToken', token, {
-                expires: 7,
+                expires: 30,
                 secure: true,
                 sameSite: 'Strict',
             });
