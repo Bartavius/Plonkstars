@@ -1,9 +1,10 @@
 .footer-container {
-    background: linear-gradient(135deg, rgba(67, 1, 136, 0.8), rgba(2, 5, 98, 0.8));
+    background: linear-gradient(135deg, rgba(67, 1, 136, 1), rgba(2, 5, 98, 1));
     padding: 2rem;
     text-align: center;
     color: white;
     font-family: 'Arial', sans-serif;
+    opacity: 1;
   }
   
   .footer-container p {

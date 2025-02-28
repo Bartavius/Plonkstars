@@ -22,7 +22,7 @@ export default function Home() {
       </div>
 
       <div
-        className="flex-grow z-10 flex flex-col items-center justify-center gap-8 px-4 text-center pt-24 sm:pt-28 md:pt-32"
+        className="relative flex-grow z-10 flex flex-col items-center justify-center gap-8 px-4 text-center pt-24 sm:pt-28 md:pt-32"
         style={{ minHeight: "calc(100vh - 60px)" }}
       >
         {/* Logo goes here */}
@@ -37,6 +37,8 @@ export default function Home() {
           Start
         </button>
       </div>
+      <img src="palm-tree-clipart-xl.png" alt="palm tree" className="tree" />
+      <img src="palm-tree-clipart-xl.png" alt="palm tree" className="tree2" />
 
       <div className="relative w-full">
         <svg
@@ -53,14 +55,14 @@ export default function Home() {
         </svg>
       </div>
 
-      <div id="contact" className="bg-[#5000ca] w-full min-h-screen -mt-2 transition ease-in-out">
+      <div id="contact" className="bg-[#5000ca] w-full -mt-2 pb-6 transition ease-in-out">
         <div className="mt-16">
           <div className="p-12">
             <span className={`${sigmar.className} font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl`}>
               Who we are
             </span>
             
-            <Contacts />
+            <div className="mt-12"><Contacts /></div>
           </div>
         </div>
       </div>

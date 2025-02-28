@@ -136,15 +136,6 @@ body {
     transform: none;
   }
 
-  @keyframes stagnant-hover {
-    0% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    
-
-  }
-
   .leaflet-container-result-wrapper {
     width: 100%;
     height: 80vh;
@@ -156,6 +147,60 @@ body {
   
 }
 
+.tree {
+  display: flex;
+  position: absolute;
+  z-index: -10;
+  max-width: 500px;
+  height: auto;
+  rotate: 20deg;
+  left: -10%;
+  bottom: 10%;
+  transition: transform 3s ease-in-out;
+  animation: tree-sway1 3s linear infinite;
+  transform-origin: center bottom;
+}
+
+.tree2 {
+  display: flex;
+  position: absolute;
+  z-index: -10;
+  max-width: 550px;
+  height: auto;
+  rotate: 20deg;
+  right: 0;
+  bottom: 10%;
+  transition: transform 3s ease-in-out;
+  animation: tree-sway2 3s linear infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes tree-sway1 {
+  0% {
+    transform: rotate(0deg);
+  } 33% {
+    transform: rotate(5deg);
+  }
+  66% {
+    transform: rotate(-5deg);
+  } 100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes tree-sway2 {
+  0% {
+    transform: rotate(-10deg);
+  } 25% {
+    transform: rotate(-20deg);
+  } 50% {
+    transform: rotate(-25deg);
+  } 75% {
+    transform: rotate(-20deg);
+  } 100% {
+    transform: rotate(-10deg);
+  }
+}
 
 .poppins-thin {
   font-family: "Poppins", serif;
