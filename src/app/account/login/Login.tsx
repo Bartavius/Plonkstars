@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, loginFailure } from '../../../redux/authSlice';
-import api from '../../api'; 
-import { RootState } from '../../../redux/store';
+import { loginSuccess, loginFailure } from '@/redux/authSlice';
+import api from '@/utils/api'; 
+import { RootState } from '@/redux/store';
 import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
 

@@ -1,4 +1,4 @@
-import api from '@/app/api';
+import api from '@/utils/api';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
