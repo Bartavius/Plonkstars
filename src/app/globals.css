@@ -250,7 +250,7 @@ body {
 }
 
 .hamburger {
-  transition: 0.1s ease;
+  transition: 0.15s ease;
   border-radius: 30%;
 }
 
@@ -262,7 +262,7 @@ body {
 }
 
 .hamburger-active {
-  transform: rotate(90deg);
+  transform: rotate(-90deg);
   color: rgb(151, 150, 150);
 }
 
