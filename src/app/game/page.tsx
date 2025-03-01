@@ -68,75 +68,72 @@ export default function Game() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen text-white p-4">
+    <div className="flex items-center justify-center min-h-screen text-white p-6">
       <NavBar />
-      <div className="w-full max-w-lg border-white border-4 shadow-lg rounded-2xl p-6">
-        <h2 className="text-xl font-semibold mb-4 text-center">Game Setup</h2>
-        <p>** none of these inputs are tracked at the moment. Click start game if you want to play by yourself, or join game if you want to play the same location with a friend.**</p>
-
-        <div className="mb-4">
-          <label className="block mb-2 text-gray-300">Map Name</label>
-          <div className="flex">
-            <input
-              className="w-full px-3 py-2 rounded-l-lg bg-white text-black border border-gray-600 focus:outline-none focus:ring-2 focus:ring-white"
-              type="text"
-              placeholder="Search for a map..."
-              defaultValue={mapSearch}
-              onChange={(e) => setMapSearch(e.target.value)}
-            />
-            <button className="px-4 py-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600">
-              Search
-            </button>
+      <div className="grid grid-cols-2 gap-4 w-full max-w-lg border-white border-4 shadow-lg rounded-2xl p-6">
+        <div>
+          <h2 className="text-xl font-semibold mb-4 text-center">Game Setup</h2>
+          <div className="mb-4">
+            <label className="block mb-2 text-gray-300">Map Name</label>
+            <div className="flex">
+              <input
+                className="w-full px-3 py-2 rounded-lg bg-white text-black border border-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type="text"
+                placeholder="Search for a map..."
+                defaultValue={mapSearch}
+                onChange={(e) => setMapSearch(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="mb-4">
-          <label className="block mb-2 text-gray-300">No. of Rounds</label>
-          <input
-            className="w-full px-3 py-2 rounded-lg bg-white text-black border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            type="number"
-            defaultValue={rounds}
-            onChange={(e) => setRounds(Number(e.target.value))}
-          />
+          <div className="mb-4">
+            <label className="block mb-2 text-gray-300">No. of Rounds</label>
+            <input
+              className="w-full px-3 py-2 rounded-lg bg-white text-black border border-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="number"
+              defaultValue={rounds}
+              onChange={(e) => setRounds(Number(e.target.value))}
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block mb-2 text-gray-300">
+              Time Limit (seconds)
+            </label>
+            <input
+              className="w-full px-3 py-2 rounded-lg bg-white text-black border border-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="number"
+              defaultValue={time}
+              onChange={(e) => setTime(Number(e.target.value))}
+            />
+          </div>
+          <button
+            className="w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200"
+            onClick={startGame}
+          >
+            Start Game
+          </button>
         </div>
-
-        <div className="mb-6">
-          <label className="block mb-2 text-gray-300">
-            Time Limit (seconds)
-          </label>
-          <input
-            className="w-full px-3 py-2 rounded-lg bg-white text-black border border-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            type="number"
-            defaultValue={time}
-            onChange={(e) => setTime(Number(e.target.value))}
-          />
+        <div>
+          <h2 className="text-xl font-semibold mb-4 text-center">Join Game</h2>
+          <div className="mb-6">
+            <label className="block mb-2 text-gray-300">
+              Session ID
+            </label>
+            <input
+              type="text"
+              defaultValue={replay}
+              onChange={(e) => setReplay(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-white text-black border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter Game ID to join..."
+            />
+          </div>
+          <button
+            className="w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200"
+            onClick={joinGame}
+          >
+            Join
+          </button>
         </div>
-        <button
-          className="w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200"
-          onClick={startGame}
-        >
-          Start Game
-        </button>
-
-        <hr className="my-6 border-white" />
-        <div className="mb-6">
-          <label className="block mb-2 text-gray-300">
-            Session ID
-          </label>
-          <input
-            type="text"
-            defaultValue={replay}
-            onChange={(e) => setReplay(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg bg-white text-black border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Game ID to join..."
-          />
-        </div>
-        <button
-          className="w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200"
-          onClick={joinGame}
-        >
-          Join Game
-        </button>
       </div>
     </div>
   );
