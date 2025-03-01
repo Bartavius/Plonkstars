@@ -18,7 +18,7 @@ export default function Game() {
     event.preventDefault();
 
     try {
-      const response = await api.post("/game/create");
+      const response = await api.post("/game/create", {rounds,time,"map":{"name":mapSearch}}); //////////////////////////////////////////////////
       const { id } = response.data;
       console.log("Game created with ID:", id);
 
