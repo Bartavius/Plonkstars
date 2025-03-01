@@ -8,19 +8,23 @@ const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
 export default function NavBar() {
   const auth = useSelector((state: any) => state.auth.isAuthenticated);
-  let registeredTabs: { tab: string; link: string }[] = [{ tab: "home", link: "/" }];
-  let unregisteredTabs: { tab: string; link: string }[] = [{ tab: "home", link: "/" }];
-  
+  let registeredTabs: { tab: string; link: string }[] = [
+    { tab: "home", link: "/" },
+  ];
+  let unregisteredTabs: { tab: string; link: string }[] = [
+    { tab: "home", link: "/" },
+  ];
+
   if (auth !== null) {
     registeredTabs = [
       { tab: "home", link: "/" },
       { tab: "game", link: "/game" },
-      { tab: "logout", link: "/account/logout" }
+      { tab: "logout", link: "/account/logout" },
     ];
     unregisteredTabs = [
       { tab: "home", link: "/" },
       { tab: "login", link: "/account/login" },
-      { tab: "register", link: "/account/register" }
+      { tab: "register", link: "/account/register" },
     ];
   }
 
@@ -39,12 +43,17 @@ export default function NavBar() {
           <a href="/" className="text-xl font-bold text-gray-200">
             <span className="text-red-500">Plonk</span>Stars
           </a>
-            <button onClick={toggleMenu} className={`text-gray-200 hamburger ${isMenuOpen && "hamburger-active"}`}>
-              <FiMenu size={24} />
-            </button>
-      
+          <button
+            onClick={toggleMenu}
+            className={`text-gray-200 hamburger ${
+              isMenuOpen && "hamburger-active"
+            }`}
+          >
+            <FiMenu size={24} />
+          </button>
         </div>
-        {isMenuOpen && <ul className="navbar-elements">
+        
+          <ul className={`navbar-elements ${isMenuOpen && "navbar-elements-open"}`}>
             {(auth ? registeredTabs : unregisteredTabs).map((tab) => (
               <li
                 key={tab.tab}
@@ -57,7 +66,7 @@ export default function NavBar() {
                 <a href={tab.link}>{tab.tab}</a>
               </li>
             ))}
-          </ul>}
+          </ul>
       </nav>
     </div>
   );

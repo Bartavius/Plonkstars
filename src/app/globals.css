@@ -218,6 +218,13 @@ body {
   gap: 20px;
   margin: 0;
   padding: 0;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.2s ease-in-out;
+}
+
+.navbar-elements-open {
+  max-height: 100vh;
 }
 
 .navbar-element {
@@ -252,7 +259,6 @@ body {
   padding: 1px;
   transform-origin: center;
   transition: 0.3s ease;
-
 }
 
 .hamburger-active {
