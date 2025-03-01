@@ -5,14 +5,16 @@ import NavBar from "@/components/Navbar";
 import Contacts from "./Contacts";
 import { Sigmar } from "next/font/google";
 import Footer from "@/components/footer/Footer";
+import { useSelector } from "react-redux";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
 export default function Home() {
   const router = useRouter();
+  const { isAuthenticated } = useSelector((state: any) => state.auth);
 
   const navigateToGame = () => {
-    router.push("/game");
+    router.push(`/${isAuthenticated ? "/game" : "/account/login"}`);
   };
 
   return (
