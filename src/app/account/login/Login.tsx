@@ -63,7 +63,7 @@ const Login: React.FC = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="w-full max-w-md p-6 login-window shadow-lg rounded-2xl"
+                className="w-full max-w-md p-6 form-window shadow-lg rounded-2xl"
             >
             <div className="text-center mb-6">
                 <h2 className={formTitle}>Login</h2>
