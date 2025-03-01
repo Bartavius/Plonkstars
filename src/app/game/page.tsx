@@ -32,8 +32,9 @@ export default function Game() {
         console.log("Navigating to:", gameUrl);
 
         router.push(gameUrl);
-      } catch (error) {
-        console.error("Error starting game:", error);
+      } catch (err:any) {
+        setError(err.response?.data?.error || "Error starting game");
+        setLoading(false);
       }
     }
   };
@@ -82,7 +83,7 @@ export default function Game() {
                 type="text"
                 placeholder="Search for a map..."
                 defaultValue={mapSearch}
-                onChange={(e) => setMapSearch(e.target.value)}
+                onChange={(e) => e.target.value === "" ? setMapSearch(undefined): setMapSearch(e.target.value)}
               />
             </div>
           </div>
