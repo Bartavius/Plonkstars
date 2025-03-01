@@ -354,3 +354,37 @@ body {
   font-style: italic;
 }
 
+.login-window {
+  background-color: #7d47bf;
+}
+
+.form-button-selected{
+  background-color: oklch(0.714 0.203 305.504);
+}
+
+.form-button-selected:hover{
+  background-color: oklch(0.606 0.25 292.717);
+}
+
+.form-button-not-selected{
+  background-color: oklch(0.902 0.063 306.703);
+  cursor: not-allowed
+}
+
+.form-button-general{
+  color: #FFFFFF;
+  text-align: center;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.input-field{
+  background-color:oklch(0.902 0.063 306.703);
+  color:oklch(0.291 0.149 302.717);
+  border-radius: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+}
+
+
+
