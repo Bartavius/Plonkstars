@@ -7,14 +7,16 @@ const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
 export default function NavBar() {
   const auth = useSelector((state: any) => state.auth.isAuthenticated);
-  let registeredTabs: { tab: string; link: string }[] = [];
-  let unregisteredTabs: { tab: string; link: string }[] = [];
+  let registeredTabs: { tab: string; link: string }[] = [{ tab: "home", link: "/"}];
+  let unregisteredTabs: { tab: string; link: string }[] = [{ tab: "home", link: "/"}];
   if (auth !== null) {
     registeredTabs = [
+      { tab: "home", link: "/"},
       { tab: "game", link: "/game" },
       // { tab: "logout", link: "/account/logout"}
     ];
     unregisteredTabs = [
+      {tab: "home", link: "/"},
       { tab: "login", link: "/account/login" },
       { tab: "register", link: "/account/register" },
     ];
