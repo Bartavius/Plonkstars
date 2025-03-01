@@ -60,7 +60,7 @@ export default function MatchPage() {
   useEffect(() => {
     console.log(matchId);
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (lat && lng && event.code === "Space") {
+      if (lat !== undefined && lng !== undefined && event.code === "Space") {
         event.preventDefault();
         submitGuess();
       }
