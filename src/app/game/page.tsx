@@ -13,23 +13,28 @@ export default function Game() {
   const [mapSearch, setMapSearch] = useState<string>();
   const [rounds, setRounds] = useState<number>(5);
   const [time, setTime] = useState<number>(-1); // -1 is inf time
+  const [replay, setReplay] = useState<string>("aa654dbf-e103-4105-b7e1-0067869219b9");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const startGame = async (event: React.FormEvent) => {
     event.preventDefault();
+    
+    {!loading && 
+      setLoading(true);
+      try {
+        const response = await api.post("/game/create", {rounds,time,"map":{"name":mapSearch}}); //////////////////////////////////////////////////
+        const { id } = response.data;
+        console.log("Game created with ID:", id);
 
-    try {
-      const response = await api.post("/game/create", {rounds,time,"map":{"name":mapSearch}}); //////////////////////////////////////////////////
-      const { id } = response.data;
-      console.log("Game created with ID:", id);
+        await api.post("/game/play", { id });
 
-      await api.post("/game/play", { id });
+        const gameUrl = `/game/${id}`;
+        console.log("Navigating to:", gameUrl);
 
-      const gameUrl = `/game/${id}`;
-      console.log("Navigating to:", gameUrl);
-
-      router.push(gameUrl);
-    } catch (error) {
-      console.error("Error starting game:", error);
+        router.push(gameUrl);
+      } catch (error) {
+        console.error("Error starting game:", error);
+      }
     }
   };
 
@@ -45,16 +50,22 @@ export default function Game() {
   // make a handle change function
 
   const joinGame = async () => {
-    try{
-      await api.post("/game/play", {
-        id: "aa654dbf-e103-4105-b7e1-0067869219b9",
-      });
-    }catch(error){
+    {!loading && 
+      setLoading(true);
+      try{
+        await api.post("/game/play", {
+          id: "aa654dbf-e103-4105-b7e1-0067869219b9",
+        });
+      }catch(error){
 
-    }finally{
-      router.push("/game/aa654dbf-e103-4105-b7e1-0067869219b9");
+      }finally{
+        router.push("/game/aa654dbf-e103-4105-b7e1-0067869219b9");
+      }
     }
   };
+  if (loading){
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen text-white p-4">
@@ -100,7 +111,6 @@ export default function Game() {
             onChange={(e) => setTime(Number(e.target.value))}
           />
         </div>
-
         <button
           className="w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200"
           onClick={startGame}
@@ -109,11 +119,23 @@ export default function Game() {
         </button>
 
         <hr className="my-6 border-white" />
+        <div className="mb-6">
+          <label className="block mb-2 text-gray-300">
+            Session ID
+          </label>
+          <input
+            type="text"
+            defaultValue={replay}
+            onChange={(e) => setReplay(e.target.value)}
+            className="w-full px-3 py-2 rounded-lg bg-white text-black border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter Game ID to join..."
+          />
+        </div>
         <button
           className="w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200"
           onClick={joinGame}
         >
-          Join Game "aa654dbf-e103-4105-b7e1-0067869219b9"
+          Join Game
         </button>
       </div>
     </div>
