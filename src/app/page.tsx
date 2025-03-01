@@ -33,7 +33,7 @@ export default function Home() {
           <span className="text-red-500">Plonk</span> Stars
         </h1>
         <button
-          className={`${sigmar.className} start-button text-2xl`}
+          className={`${sigmar.className} start-button flex text-2xl justify-center text-center align-center`}
           onClick={navigateToGame}
         >
           Get Started
