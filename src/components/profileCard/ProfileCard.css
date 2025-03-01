@@ -48,13 +48,13 @@
 
 @media (min-width: 980px) {
   .profile-card-container {
+    display: flex;
     flex-direction: row;
     max-width: 600px;
   }
 }
 
 .profile-card-image {
-  width: 100%;
   max-width: 180px;
   overflow: hidden;
   display: flex;
@@ -69,8 +69,6 @@
 }
 
 .profile-card-content {
-  padding-left: 2dvh;
-  padding-right: 2dvh;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -152,6 +150,7 @@
 @media (max-width: 980px) {
   .profile-card-footer a button {
     width: 100%;
+    display: flex;
   }
 
   .profile-card-container {
@@ -170,6 +169,6 @@
     border-radius: 50%;
     border-color: white;
     border-width: 3px;
-    margin: 10%;
+    margin: 3vw;
   }
 }
