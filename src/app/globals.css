@@ -206,6 +206,10 @@ body {
   }
 }
 
+.navbar {
+  z-index: 200;
+}
+
 
 .navbar-elements {
   list-style: none;
@@ -222,6 +226,7 @@ body {
   text-transform: uppercase;
   cursor: pointer;
   padding: 10px;
+  padding-left: 4rem;
 }
 
 .navbar-element::after {
@@ -235,6 +240,28 @@ body {
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.1s ease-in-out;
+}
+
+.hamburger {
+  transition: 0.1s ease;
+  border-radius: 30%;
+}
+
+.hamburger:active {
+  background-color: rgb(74, 73, 73);
+  padding: 1px;
+  transform-origin: center;
+  transition: 0.3s ease;
+
+}
+
+.hamburger-active {
+  transform: rotate(90deg);
+  color: rgb(151, 150, 150);
+}
+
+.navbar-element:hover {
+  color: oklch(0.637 0.237 25.331);
 }
 
 .navbar-element:hover::after {

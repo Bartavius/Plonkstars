@@ -39,7 +39,7 @@ export default function NavBar() {
           <a href="/" className="text-xl font-bold text-gray-200">
             <span className="text-red-500">Plonk</span>Stars
           </a>
-            <button onClick={toggleMenu} className="text-gray-200">
+            <button onClick={toggleMenu} className={`text-gray-200 hamburger ${isMenuOpen && "hamburger-active"}`}>
               <FiMenu size={24} />
             </button>
       
