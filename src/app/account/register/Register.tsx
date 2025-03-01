@@ -9,23 +9,30 @@ const Register: React.FC = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [buttonEnabled,setButtonEnabled] = useState(true);
     const router = useRouter();
     
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            if (password !== confirmPassword) {
-                throw new Error('Passwords do not match');
+           
+            {buttonEnabled &&
+                console.log('buttonEnabled', buttonEnabled);
+                setButtonEnabled(false);
+                if (password !== confirmPassword) {
+                    throw new Error('Passwords do not match');
+                }
+                await api.post('/account/register', {
+                    username,
+                    password,
+                });
+                router.push('/login');
             }
-            const response = await api.post('/account/register', {
-                username,
-                password,
-            });
-            router.push('/login');
         } catch (err: any) {
-            setError(err.response?.data?.error || 'Something went wrong');
-            console.log(err);
+            setError(err.response?.data?.error || err.message || 'Something went wrong');
+            setButtonEnabled(true);
+
         }
     }
     return (
@@ -86,7 +93,8 @@ const Register: React.FC = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 text-center"
+                        disabled={!buttonEnabled}
+                        className={`w-full ${buttonEnabled? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-400 cursor-not-allowed'} text-white rounded-lg py-2 text-center`}
                     >
                         Register
                     </button>

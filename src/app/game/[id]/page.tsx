@@ -19,6 +19,7 @@ export default function MatchPage() {
   const [lng, setLng] = useState<number>();
   const [correctLat, setCorrectLat] = useState<number>(0);
   const [correctLng, setCorrectLng] = useState<number>(0);
+  const [submitted, setSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   const router = useRouter();
@@ -40,6 +41,66 @@ export default function MatchPage() {
     }
   }, [matchId]
   )
+
+  const submitGuess = async () => {
+    if (lat !== undefined && lng !== undefined && !submitted) {
+      setSubmitted(true);
+      const response = await api.post("/game/guess", {lat: lat, lng: lng, id: matchId});
+      const { score , distance } = response.data; // most likely, all displayed information would be obtained in results page
+      router.push(
+        `/game/${matchId}/result?userLat=${lat}&userLng=${lng}&correctLat=${correctLat}&correctLng=${correctLng}` // add queries for score / distance
+      ); // will remove query for correct location later once peroperly hooked to backend
+    } else { // maybe change this to that if time left == 0, and that if the user lat and user lng doesn't exist then return (avoid inspect)
+      router.push(
+        `/game/${matchId}/result?userLat=null&userLng=null&correctLat=${correctLat}&correctLng=${correctLng}`
+      );
+    }
+  };
+
+  useEffect(() => {
+    console.log(matchId);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (lat && lng && event.code === "Space") {
+        event.preventDefault();
+        submitGuess();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [lat, lng]);
+
+  if (loading) {
+    return (<div>Loading...</div>)
+  }
+
+  return (
+    <div>
+      <div className="combined-map-container top-0 left-0 fixed">
+        {" "}
+        <CombinedMap
+          setLat={setLat}
+          setLng={setLng}
+          lat={correctLat}
+          lng={correctLng}
+        />{" "}
+        <button
+          onClick={submitGuess}
+          disabled={(lat !== undefined && lng !== undefined && !submitted) ? false : true}
+          style={{zIndex: 10000}}
+          className="mb-12 submit-button mr-5 float-end bg-green-600 pl-40 pr-40 pt-2 pb-2 rounded-full border transition duration-150 ease-in-out"
+        >
+          {" "}
+          <b>Submit</b>{" "}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 
   // const locations: location[] = [
   //   { lat: 12.3460211, lng: 92.7708896 },
@@ -198,62 +259,3 @@ export default function MatchPage() {
 
   // const randomLocation =
   //   locations[Math.floor(Math.random() * locations.length)];
-
-
-  const submitGuess = async () => {
-    if (lat !== null && lng !== null) {
-      const response = await api.post("/game/guess", {lat: lat, lng: lng, id: matchId});
-      const { score , distance } = response.data; // most likely, all displayed information would be obtained in results page
-      router.push(
-        `/game/${matchId}/result?userLat=${lat}&userLng=${lng}&correctLat=${correctLat}&correctLng=${correctLng}` // add queries for score / distance
-      ); // will remove query for correct location later once peroperly hooked to backend
-    } else { // maybe change this to that if time left == 0, and that if the user lat and user lng doesn't exist then return (avoid inspect)
-      router.push(
-        `/game/${matchId}/result?userLat=null&userLng=null&correctLat=${correctLat}&correctLng=${correctLng}`
-      );
-    }
-  };
-
-  useEffect(() => {
-    console.log(matchId);
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (lat && lng && event.code === "Space") {
-        event.preventDefault();
-        submitGuess();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [lat, lng]);
-
-  if (loading) {
-    return (<div>Loading...</div>)
-  }
-
-  return (
-    <div>
-      <div className="combined-map-container top-0 left-0 fixed">
-        {" "}
-        <CombinedMap
-          setLat={setLat}
-          setLng={setLng}
-          lat={correctLat}
-          lng={correctLng}
-        />{" "}
-        <button
-          onClick={submitGuess}
-          disabled={lat && lng ? false : true}
-          style={{zIndex: 10000}}
-          className="mb-12 submit-button mr-5 float-end bg-green-600 pl-40 pr-40 pt-2 pb-2 rounded-full border transition duration-150 ease-in-out"
-        >
-          {" "}
-          <b>Submit</b>{" "}
-        </button>
-      </div>
-    </div>
-  );
-}

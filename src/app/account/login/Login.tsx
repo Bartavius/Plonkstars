@@ -16,6 +16,7 @@ const Login: React.FC = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [buttonEnabled,setButtonEnabled] = useState(true);
     const [error, setError] = useState<string | null>(null);
     
 
@@ -23,24 +24,28 @@ const Login: React.FC = () => {
         e.preventDefault();
 
         try {
-            const response = await api.post('/account/login', {
-                username,
-                password,
-            });
+            {buttonEnabled &&
+                setButtonEnabled(false);
+                const response = await api.post('/account/login', {
+                    username,
+                    password,
+                });
 
-            const token = response.data.token;
-      
-            Cookies.set('authToken', token, {
-                expires: 30,
-                secure: true,
-                sameSite: 'Strict',
-            });
+                const token = response.data.token;
+        
+                Cookies.set('authToken', token, {
+                    expires: 30,
+                    secure: true,
+                    sameSite: 'Strict',
+                });
 
-            dispatch(loginSuccess(token));
-            router.push('/');
+                dispatch(loginSuccess(token));
+                router.push('/');
+            }
         } catch (err: any) {
             setError(err.response?.data?.error || 'Login failed');
             dispatch(loginFailure(err.response?.data?.error || 'Login failed'));
+            setButtonEnabled(true);
         }
     };
 
@@ -98,7 +103,8 @@ const Login: React.FC = () => {
                 </div>
                 <button
                     type="submit"
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 text-center"
+                    disabled={!buttonEnabled}
+                    className={`w-full ${buttonEnabled? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-400 cursor-not-allowed'} text-white rounded-lg py-2 text-center`}
                 >
                     Sign In
                 </button>
