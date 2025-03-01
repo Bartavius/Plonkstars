@@ -2,7 +2,10 @@ import api from '@/utils/api';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { useRouter } from "next/navigation";
+import { Sigmar } from "next/font/google";
 
+
+const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -41,17 +44,17 @@ const Register: React.FC = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="w-full max-w-md p-6 bg-white shadow-lg rounded-2xl"
+                className="w-full max-w-md p-6 form-window shadow-lg rounded-2xl"
             >
                 <div className="text-center mb-6">
-                    <h2 className="text-xl font-semibold text-black">Register</h2>
+                    <h2 className={`${sigmar.className} text-white text-4xl`}>Register</h2>
                 </div>
                 {error && (
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="mb-4 text-center text-red-600 bg-red-100 p-2 rounded-lg border border-red-400"
+                        className={`${sigmar.className} mb-4 text-center text-red-600 bg-red-100 p-2 rounded-lg border border-red-400`}
                         aria-live="polite"
                     >
                         {error}
@@ -59,42 +62,42 @@ const Register: React.FC = () => {
                 )}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+                        <label htmlFor="username" className="block text-sm font-medium text-gray-700"></label>
                         <input
                             type="username"
                             id="username"
-                            placeholder="Username"
+                            placeholder="Enter Username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                            className={`input-field ${sigmar.className}`}
                         />
                     </div>
                     <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700"></label>
                         <input
                             type="password"
                             id="password"
-                            placeholder="Password"
+                            placeholder="Enter Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                            className={`input-field ${sigmar.className}`}
                         />
                     </div>
                     <div>
-                        <label htmlFor="cpassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+                        <label htmlFor="cpassword" className="block text-sm font-medium text-gray-700"></label>
                         <input
                             type="password"
                             id="cpassword"
                             placeholder="Confirm Password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                            className={`input-field ${sigmar.className}`}
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={!buttonEnabled}
-                        className={`w-full ${buttonEnabled? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-400 cursor-not-allowed'} text-white rounded-lg py-2 text-center`}
+                        className={`${buttonEnabled? `form-button-selected` : `form-button-not-selected`} ${sigmar.className} py-2 form-button-general`}
                     >
                         Register
                     </button>

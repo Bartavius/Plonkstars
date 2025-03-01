@@ -1,21 +1,16 @@
-- hooked up to the backend and it works, but the speed tho...gotta make it faster
-    - perhaps make it randomize from a growing database instead of generating.
-    - for the development cycle, game mode selection can offer (generate on load ; generate from existing)
+## What is Plonkstars?
+Plonkstars, inspired by GeoGuessr, is a completely free (both developer side and user side) geolocation guessing game using Google Streetview Embeds and React Leaflet's functionality to create a seamlessly addictive game.
 
-- fix phone UI contact card
-- find a fix for dimensional travel polyline
+As active GeoGuessr players, my friends and I were heartbroken when we heard that GeoGuessr was going to charge users a monthly subscription as it became too expensive to maintain its functionalities. As broke college students, this was an absolute dealbreaker. So instead, we figured we would make it ourselves, completely free.
 
-- set round limit (currently it doesn't stop at 5)
-- add clickable marker to redirect to actual coords
-- add loading page
-- add time limit
-- get the current round number
-- create map functionality
-- game mode / settings page
-- protected routes so that only logged in users can play
-- user guesses are summarized when the "results" page is accessed instead of querying user guess
-- return to start button
+## Getting started
+head over to https://plonkstars.vercel.app and register an account. Click on the Game tab and input your game settings: the map, the no. of rounds (-1 for infinite rounds), and the time per round in seconds (-1 for infinite). If you want to play a game synchronously with a friend, you can enter in the match ID (found in the URL) and paste it into the join game input box. Otherwise, you can get started on a new game!
 
-# future implementations:
+Select the minimap to place your guess after looking around on the streetview embed, and take your guess! Your distance from the correct location will then be displayed on the results page. Then try again! Have fun! Just don't get too addicted and let it distract you from class.
 
-- hide and seek mode? each player puts a pin down, people spawn there and has to guess, pictionary-esque
+## Tech stack
+Frontend - React.js, TailwindCSS, Next.js
+Backend - pyFlask, SQL (Postgres)
+
+Server-side is hosted on Render
+client-side is hosted on Vercel
