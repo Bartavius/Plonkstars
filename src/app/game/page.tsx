@@ -2,12 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import api from "../../utils/api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavBar from "@/components/Navbar";
 
 export default function Game() {
   const router = useRouter();
-
   // page for starting NEW game, also render all the settings and options here.
   const [maps, setMaps] = useState<string[]>([]);
   const [mapSearch, setMapSearch] = useState<string>();

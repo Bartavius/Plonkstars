@@ -1,14 +1,26 @@
 import { Sigmar } from "next/font/google";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
 export default function NavBar() {
-  const tabs = [
-    { tab: "game", link: "/game" },
-    { tab: "login", link: "/account/login" },
-    // { tab: "Contact", link: "/contact"}
-  ];
+  const auth = useSelector((state: any) => state.auth.isAuthenticated);
+  let registeredTabs: { tab: string; link: string }[] = [{ tab: "home", link: "/"}];
+  let unregisteredTabs: { tab: string; link: string }[] = [{ tab: "home", link: "/"}];
+  if (auth !== null) {
+    registeredTabs = [
+      { tab: "home", link: "/"},
+      { tab: "game", link: "/game" },
+      // { tab: "logout", link: "/account/logout"}
+    ];
+    unregisteredTabs = [
+      {tab: "home", link: "/"},
+      { tab: "login", link: "/account/login" },
+      { tab: "register", link: "/account/register" },
+    ];
+  }
 
   const params = useParams();
 
@@ -20,8 +32,15 @@ export default function NavBar() {
             <span className="text-red-500">Plonk</span>Stars
           </a>
           <ul className="flex space-x-6 navbar-elements">
-            {tabs.map((tab) => (
-              <li key={tab.tab} className={`navbar-element ${Array.isArray(params) && params.includes(tab.tab) ? 'active' : ''}`}>
+            {(auth ? registeredTabs : unregisteredTabs).map((tab) => (
+              <li
+                key={tab.tab}
+                className={`navbar-element ${
+                  Array.isArray(params) && params.includes(tab.tab)
+                    ? "active"
+                    : ""
+                }`}
+              >
                 <a href={tab.link}>{tab.tab}</a>
               </li>
             ))}
@@ -31,4 +50,3 @@ export default function NavBar() {
     </div>
   );
 }
-

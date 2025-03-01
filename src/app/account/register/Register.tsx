@@ -7,7 +7,7 @@ import { Sigmar } from "next/font/google";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
-const Register: React.FC = () => {
+const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -102,6 +102,9 @@ const Register: React.FC = () => {
                         Register
                     </button>
                 </form>
+                <div className={`${sigmar.className} text-white`}>
+                    Already have an account? <a href="/account/login" style={{color: '#60a1db'}}>Login here</a>
+                </div>
             </motion.div>
         </div>
     );

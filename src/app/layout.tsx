@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
+import ReduxProvider from "./reduxProvider";
+import ReinstateSession from "./reinstateSession";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Plonk Stars",
+  title: "PlonkStars",
   description: "Find out where you are in the world",
   icons: {
     icon: "/PlonkStarsMarker.png",
@@ -31,7 +33,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ReduxProvider>
+          <ReinstateSession />
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );
