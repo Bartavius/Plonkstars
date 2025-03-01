@@ -137,6 +137,9 @@ body {
   .leaflet-container-wrapper:hover {
     transform: none;
   }
+  .leaflet-container-wrapper.hovered {
+    transform: none;
+  }
 
   .leaflet-container-result-wrapper {
     width: 100%;
