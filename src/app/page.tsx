@@ -14,7 +14,7 @@ export default function Home() {
   const { isAuthenticated } = useSelector((state: any) => state.auth);
 
   const navigateToGame = () => {
-    router.push(`/${isAuthenticated ? "/game" : "/account/login"}`);
+    router.push(`/${isAuthenticated ? "game" : "account/login"}`);
   };
 
   return (
