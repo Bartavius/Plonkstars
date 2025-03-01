@@ -13,10 +13,10 @@ export default function NavBar() {
     registeredTabs = [
       { tab: "home", link: "/"},
       { tab: "game", link: "/game" },
-      // { tab: "logout", link: "/account/logout"}
+      { tab: "logout", link: "/account/logout"}
     ];
     unregisteredTabs = [
-      {tab: "home", link: "/"},
+      { tab: "home", link: "/"},
       { tab: "login", link: "/account/login" },
       { tab: "register", link: "/account/register" },
     ];

@@ -27,6 +27,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
     },
     logout(state) {
+      Cookies.remove('authToken');
       state.token = null;
       state.isAuthenticated = false;
       state.error = null;
