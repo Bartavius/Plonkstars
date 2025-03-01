@@ -12,8 +12,9 @@ export default function Game() {
   const [mapSearch, setMapSearch] = useState<string>();
   const [rounds, setRounds] = useState<number>(5);
   const [time, setTime] = useState<number>(-1); // -1 is inf time
-  const [replay, setReplay] = useState<string>("aa654dbf-e103-4105-b7e1-0067869219b9");
+  const [replay, setReplay] = useState<string>("a0ca3868-7d03-48b4-86bd-fadf4ad916fe");
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const startGame = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -48,23 +49,24 @@ export default function Game() {
 
   // make a handle change function
 
-  const joinGame = async () => {
+  const joinGame = async (e: React.FormEvent) => {
+    e.preventDefault();
     {!loading && 
       setLoading(true);
       try{
-        await api.post("/game/play", {
-          id: "aa654dbf-e103-4105-b7e1-0067869219b9",
+        const res = await api.post("/game/play", {
+          id: replay,
         });
-      }catch(error){
-
-      }finally{
-        router.push("/game/aa654dbf-e103-4105-b7e1-0067869219b9");
+      }catch(err:any){
+        if (err.response?.status === 404) {
+          setLoading(false);
+          setError(err.response?.data?.error || "Game not found");
+          return;
+        }
       }
+      router.push(`/game/${replay}`);
     }
   };
-  if (loading){
-    return <div>Loading...</div>
-  }
 
   return (
     <div className="flex items-center justify-center min-h-screen text-white p-6">
@@ -106,7 +108,8 @@ export default function Game() {
             />
           </div>
           <button
-            className="w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200"
+            disabled={loading}
+            className={`w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={startGame}
           >
             Start Game
@@ -127,11 +130,20 @@ export default function Game() {
             />
           </div>
           <button
-            className="w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200"
+            disabled={loading}
+            className={`w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={joinGame}
           >
             Join
           </button>
+          
+          {error && (
+            <div className="mt-4"> 
+              <div className="text-center text-red-500 bg-red-100 p-2 rounded-lg border border-red-400">
+                {error}
+              </div> 
+            </div>
+          )}
         </div>
       </div>
     </div>
