@@ -45,16 +45,15 @@ const BasicMapWithMarker = ({
     return null;
   }
 
-    const handleMouseEnter = () => {
-      setIsHovered(true);
-    };
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
 
-    const handleMouseLeave = () => {
-      setTimeout(() => {
-        setIsHovered(false);
-      }, 1000);
-    };
-  
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      setIsHovered(false);
+    }, 1000);
+  };
 
   return (
     <div
@@ -72,7 +71,8 @@ const BasicMapWithMarker = ({
           url={osm.maptiler.url}
           attribution={osm.maptiler.attribution}
           tileSize={256}
-          detectRetina={true} className="leaflet-control-attribution"
+          detectRetina={true}
+          className="leaflet-control-attribution"
         />
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
