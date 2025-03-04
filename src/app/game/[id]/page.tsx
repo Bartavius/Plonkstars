@@ -19,6 +19,7 @@ export default function MatchPage() {
   const [lng, setLng] = useState<number>();
   const [correctLat, setCorrectLat] = useState<number>(0);
   const [correctLng, setCorrectLng] = useState<number>(0);
+  const [roundNumber, setRoundNumber] = useState<number>(-1);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -30,7 +31,8 @@ export default function MatchPage() {
     const fetchLocation = async (id: string) => {
       setLoading(true);
       const response = await api.get(`/game/round?id=${id}`)
-      const {lat, lng} = response.data;
+      const {lat, lng, round} = response.data;
+      setRoundNumber(round);
       setCorrectLat(lat);
       setCorrectLng(lng);
       setLoading(false);
@@ -45,15 +47,10 @@ export default function MatchPage() {
   const submitGuess = async () => {
     if (lat !== undefined && lng !== undefined && !submitted) {
       setSubmitted(true);
-      const response = await api.post("/game/guess", {lat: lat, lng: lng, id: matchId});
-      const { score , distance } = response.data; // most likely, all displayed information would be obtained in results page
+      await api.post("/game/guess", {lat: lat, lng: lng, id: matchId});
       router.push(
-        `/game/${matchId}/result?userLat=${lat}&userLng=${lng}&correctLat=${correctLat}&correctLng=${correctLng}` // add queries for score / distance
+        `/game/${matchId}/result?round=${roundNumber}` // add queries for score / distance
       ); // will remove query for correct location later once peroperly hooked to backend
-    } else { // maybe change this to that if time left == 0, and that if the user lat and user lng doesn't exist then return (avoid inspect)
-      router.push(
-        `/game/${matchId}/result?userLat=null&userLng=null&correctLat=${correctLat}&correctLng=${correctLng}`
-      );
     }
   };
 

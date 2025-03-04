@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Suspense } from "react";
 import NavBar from "@/components/Navbar";
 import dynamic from "next/dynamic";
+import api from "@/utils/api";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -21,37 +22,30 @@ export default function Results() {
   const [userLngParsed, setUserLngParsed] = useState<number | null>(null);
   const [correctLatParsed, setCorrectLatParsed] = useState<number>(0);
   const [correctLngParsed, setCorrectLngParsed] = useState<number>(0);
+  const [distance, setDistance] = useState<number>(0);
+  const [score, setScore] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // testing distance (client side for now)
-  function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-    const R = 6371000;
-    const φ1 = lat1 * (Math.PI / 180);
-    const φ2 = lat2 * (Math.PI / 180);
-    const Δφ = (lat2 - lat1) * (Math.PI / 180);
-    const Δλ = (lon2 - lon1) * (Math.PI / 180);
-
-    const a =
-      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    const distance = R * c; // Distance in meters
-    return Math.round(distance);
-  }
-
   useEffect(() => {
-    const userLat = searchParams.get("userLat");
-    const userLng = searchParams.get("userLng");
-    const correctLat = searchParams.get("correctLat");
-    const correctLng = searchParams.get("correctLng");
+    const getResults = async () => {
+      const roundNumber = searchParams.get("round");
+      try{
+        const response = await api.get(`/game/results?id=${matchId}&round=${roundNumber}`);
+        const { userLat, userLng, correctLat, correctLng, distance, score } = response.data;
+        setUserLatParsed(userLat);
+        setUserLngParsed(userLng);
+        setCorrectLatParsed(correctLat);
+        setCorrectLngParsed(correctLng);
+        setDistance(distance);
+        setScore(score);
+      } catch (err:any) {
+        setError(err.response?.data?.error || "Error getting results");
+      }
+      setLoading(false);
+    }
 
-    setUserLatParsed(userLat ? parseFloat(userLat) : null);
-    setUserLngParsed(userLng ? parseFloat(userLng) : null);
-    setCorrectLatParsed(correctLat ? parseFloat(correctLat) : 0);
-    setCorrectLngParsed(correctLng ? parseFloat(correctLng) : 0);
-    setLoading(false);
+    getResults();
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === "Space") {
@@ -67,19 +61,18 @@ export default function Results() {
     };
   }, []);
 
+
   const nextGame = () => {
     router.push(`/game/${matchId}`);
   };
 
-  const meters = getDistance(
-    userLatParsed ?? 0,
-    userLngParsed ?? 0,
-    correctLatParsed,
-    correctLngParsed
-  );
+  const m = distance * 1000;
+  const km = Math.round(m / 10) / 100;
+  const formatter = km > 1 ? `${km} KM` : `${m} M`;
 
-  const km = Math.round(meters / 10) / 100;
-  const formatter = km > 1 ? `${km} KM` : `${meters} M`;
+  if(error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
