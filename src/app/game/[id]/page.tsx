@@ -47,7 +47,7 @@ export default function MatchPage() {
   const submitGuess = async () => {
     if (lat !== undefined && lng !== undefined && !submitted) {
       setSubmitted(true);
-      await api.post("/game/guess", {lat: lat, lng: (lng%360 + 360) % 360 - 180, id: matchId});
+      await api.post("/game/guess", {lat: lat, lng: (lng%360 + 540) % 360 - 180, id: matchId});
       router.push(
         `/game/${matchId}/result?round=${roundNumber}` // add queries for score / distance
       ); // will remove query for correct location later once peroperly hooked to backend
