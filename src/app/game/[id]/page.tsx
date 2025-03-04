@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "../../../utils/api";
+import NavBar from "@/components/Navbar";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
   ssr: false,
@@ -76,25 +77,30 @@ export default function MatchPage() {
 
   return (
     <div>
-      <div className="combined-map-container top-0 left-0 fixed">
-        {" "}
-        <CombinedMap
-          setLat={setLat}
-          setLng={setLng}
-          lat={correctLat}
-          lng={correctLng}
-        />{" "}
-        <button
-          onClick={submitGuess}
-          disabled={(lat !== undefined && lng !== undefined && !submitted) ? false : true}
-          style={{zIndex: 10000}}
-          className="mb-12 submit-button mr-5 float-end bg-green-600 pl-40 pr-40 pt-2 pb-2 rounded-full border transition duration-150 ease-in-out"
-        >
+      <div className="relative">
+          <div className="fixed top-0 left-0 w-full z-20">
+            <NavBar />
+          </div>
           {" "}
-          <b>Submit</b>{" "}
-        </button>
+          <CombinedMap
+            setLat={setLat}
+            setLng={setLng}
+            lat={correctLat}
+            lng={correctLng}
+          />{" "}
+        </div>
+        <div className="game-footer justify-end pr-8">
+          <button
+            onClick={submitGuess}
+            disabled={(lat !== undefined && lng !== undefined && !submitted) ? false : true}
+            style={{zIndex: 10000}}
+            className="game-button"
+          >
+            {" "}
+            <b>Submit</b>{" "}
+          </button>
+        </div>
       </div>
-    </div>
   );
 }
 

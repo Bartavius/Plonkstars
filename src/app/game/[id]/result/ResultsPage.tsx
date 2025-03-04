@@ -69,44 +69,73 @@ export default function Results() {
 
   const m = distance * 1000;
   const km = Math.round(m / 10) / 100;
-  const formatter = km > 1 ? `${km} KM` : `${m} M`;
+  const formatter = km > 1 ? `${km}` : `${m}`;
+  const units = km > 1 ? "KM" : "M";
 
   if(error) {
     return <div>{error}</div>;
   }
 
+  if(loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
       <div className="relative">
         <div className="fixed top-0 left-0 w-full z-20">
           <NavBar />
         </div>
-
         <div className="map-result-container">
-          {!loading && (
-            <div className="">
-              <BasicMapResult
-                userLat={userLatParsed}
-                userLng={userLngParsed}
-                correctLat={correctLatParsed}
-                correctLng={correctLngParsed}
-              />
-            </div>
-          )}
+          <div className="">
+            <BasicMapResult
+              userLat={userLatParsed}
+              userLng={userLngParsed}
+              correctLat={correctLatParsed}
+              correctLng={correctLngParsed}
+            />
+          </div>
         </div>
-        {userLatParsed && userLngParsed && (
-          <h2 className="text-center text-4xl text-bold mt-1 inline">
-            <b>Distance: {formatter}</b>
-          </h2>
-        )}
-        <button
-          onClick={nextGame}
-          style={{ zIndex: 10000 }}
-          className="inline m-2 mr-5 float-end bg-green-600 pl-40 pr-40 pt-2 pb-2 rounded-full border transition duration-150 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-green-700"
-        >
-          <b>Next Round</b>
-        </button>
+        <div className="game-footer justify-center">
+          <div className="results-score">
+            {distance && (
+              <h2 className="text-center mt-1 inline">
+                <div>
+                  <b className="text-2xl">
+                    {formatter}
+                  </b>
+                </div>
+                <div>
+                  <label>
+                    {units}
+                  </label>
+                </div>
+              </h2>
+            )}
+          </div>
+          <div className="game-footer-element px-6">
+            <button
+              onClick={nextGame}
+              style={{ zIndex: 10000 }}
+              className="game-button"
+            >
+              <b>Next Round</b>
+            </button>
+          </div>
+          {score && (
+              <h2 className="text-center mt-1 inline">
+                <div>
+                  <b className="text-2xl">
+                    {score}
+                  </b>
+                </div>
+                <div>
+                  <label>
+                    SCORE
+                  </label>
+                </div>
+              </h2>
+            )}
+        </div>
       </div>
-    </Suspense>
   );
 }

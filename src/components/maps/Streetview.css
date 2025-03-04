@@ -1,14 +1,14 @@
 .street-view-box {
-    height: 93vh;
-    width: 100%;;
+    height: 90vh;
+    width: 100%;
     overflow: hidden;
     position: relative;
     
 }
 
 .street-view-box .street-view-embed iframe {
-    position: absolute;
-    height: 100%;
+    position: relative;
+    height: 90vh;
     width: 100%;
 }
 
