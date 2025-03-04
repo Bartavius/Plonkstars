@@ -10,7 +10,7 @@ Select the minimap to place your guess after looking around on the streetview em
 
 ## Tech stack
 Frontend - React.js, TailwindCSS, Next.js
-Backend - Flask, SQL (Postgres)
+Backend - Flask, PostgreSQL
 
 Server-side is hosted on Render<br>
 Client-side is hosted on Vercel

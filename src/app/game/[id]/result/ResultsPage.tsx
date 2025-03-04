@@ -32,7 +32,8 @@ export default function Results() {
       const roundNumber = searchParams.get("round");
       try{
         const response = await api.get(`/game/results?id=${matchId}&round=${roundNumber}`);
-        const { userLat, userLng, correctLat, correctLng, distance, score } = response.data;
+        const { userLat, userLng, correctLat, correctLng, distance, score, time} = response.data;
+        console.log(time);
         setUserLatParsed(userLat);
         setUserLngParsed(userLng);
         setCorrectLatParsed(correctLat);
