@@ -31,12 +31,18 @@ export default function MatchPage() {
   useEffect( () => {
     const fetchLocation = async (id: string) => {
       setLoading(true);
-      const response = await api.get(`/game/round?id=${id}`)
-      const {lat, lng, round} = response.data;
-      setRoundNumber(round);
-      setCorrectLat(lat);
-      setCorrectLng(lng);
-      setLoading(false);
+      try{
+        const response = await api.get(`/game/round?id=${id}`)
+        const {lat, lng, round} = response.data;
+        setRoundNumber(round);
+        setCorrectLat(lat);
+        setCorrectLng(lng);
+        setLoading(false);
+      }catch(err:any){
+        if(err.response?.data?.error == "No more rounds are available"){
+          router.push('/');
+        }
+      }
     }
 
     if (matchId) {
