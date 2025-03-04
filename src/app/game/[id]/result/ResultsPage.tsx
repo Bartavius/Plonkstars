@@ -22,9 +22,9 @@ export default function Results() {
   const [userLngParsed, setUserLngParsed] = useState<number | null>(null);
   const [correctLatParsed, setCorrectLatParsed] = useState<number>(0);
   const [correctLngParsed, setCorrectLngParsed] = useState<number>(0);
-  const [distance, setDistance] = useState<number>(0);
+  const [distance, setDistance] = useState<number|undefined>(undefined);
   const [score, setScore] = useState<number>(0);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function Results() {
     router.push(`/game/${matchId}`);
   };
 
-  const m = distance * 1000;
+  const m = distance === undefined? -1:(distance * 1000);
   const km = Math.round(m / 10) / 100;
   const formatter = km > 1 ? `${km}` : `${m}`;
   const units = km > 1 ? "KM" : "M";
@@ -97,7 +97,7 @@ export default function Results() {
         </div>
         <div className="game-footer justify-center">
           <div className="results-score">
-            {distance && (
+            {distance!==undefined && (
               <h2 className="text-center mt-1 inline">
                 <div>
                   <b className="text-2xl">
@@ -111,6 +111,10 @@ export default function Results() {
                 </div>
               </h2>
             )}
+
+            {distance===undefined && (
+              <b className="text-2xl">Timed Out</b>
+            )}
           </div>
           <div className="game-footer-element px-6">
             <button
@@ -121,20 +125,18 @@ export default function Results() {
               <b>Next Round</b>
             </button>
           </div>
-          {score && (
-              <h2 className="text-center mt-1 inline">
-                <div>
-                  <b className="text-2xl">
-                    {score}
-                  </b>
-                </div>
-                <div>
-                  <label>
-                    SCORE
-                  </label>
-                </div>
-              </h2>
-            )}
+            <h2 className="text-center mt-1 inline">
+              <div>
+                <b className="text-2xl">
+                  {score}
+                </b>
+              </div>
+              <div>
+                <label>
+                  SCORE
+                </label>
+              </div>
+            </h2>
         </div>
       </div>
   );

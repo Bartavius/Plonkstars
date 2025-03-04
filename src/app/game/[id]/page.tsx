@@ -48,7 +48,9 @@ export default function MatchPage() {
   const submitGuess = async () => {
     if (lat !== undefined && lng !== undefined && !submitted) {
       setSubmitted(true);
-      await api.post("/game/guess", {lat: lat, lng: (lng%360 + 540) % 360 - 180, id: matchId});
+      try{
+        await api.post("/game/guess", {lat: lat, lng: (lng%360 + 540) % 360 - 180, id: matchId});
+      }catch(err:any){}
       router.push(
         `/game/${matchId}/result?round=${roundNumber}`
       );
@@ -81,13 +83,12 @@ export default function MatchPage() {
           <div className="fixed top-0 left-0 w-full z-20">
             <NavBar />
           </div>
-          {" "}
           <CombinedMap
             setLat={setLat}
             setLng={setLng}
             lat={correctLat}
             lng={correctLng}
-          />{" "}
+          />
         </div>
         <div className="game-footer justify-end pr-8">
           <button
@@ -96,8 +97,8 @@ export default function MatchPage() {
             style={{zIndex: 10000}}
             className="game-button"
           >
-            {" "}
-            <b>Submit</b>{" "}
+            
+            <b>Submit</b>
           </button>
         </div>
       </div>
