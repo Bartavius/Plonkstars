@@ -49,8 +49,8 @@ export default function MatchPage() {
       setSubmitted(true);
       await api.post("/game/guess", {lat: lat, lng: (lng%360 + 540) % 360 - 180, id: matchId});
       router.push(
-        `/game/${matchId}/result?round=${roundNumber}` // add queries for score / distance
-      ); // will remove query for correct location later once peroperly hooked to backend
+        `/game/${matchId}/result?round=${roundNumber}`
+      );
     }
   };
 

@@ -9,7 +9,7 @@ head over to https://plonkstars.vercel.app and register an account. Click on the
 Select the minimap to place your guess after looking around on the streetview embed, and take your guess! Your distance from the correct location will then be displayed on the results page. Then try again! Have fun! Just don't get too addicted and let it distract you from class.
 
 ## Tech stack
-Frontend - React.js, TailwindCSS, Next.js
+Frontend - React.js, TailwindCSS, Next.js<br>
 Backend - Flask, PostgreSQL
 
 Server-side is hosted on Render<br>
