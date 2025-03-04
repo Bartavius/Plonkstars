@@ -29,7 +29,7 @@ export default function MatchPage() {
   useEffect( () => {
     const fetchLocation = async (id: string) => {
       setLoading(true);
-      const response = await api.get(`/game/next?id=${id}`)
+      const response = await api.get(`/game/round?id=${id}`)
       const {lat, lng} = response.data;
       setCorrectLat(lat);
       setCorrectLng(lng);
