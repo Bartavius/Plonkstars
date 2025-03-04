@@ -7,8 +7,9 @@ import {
   TileLayer,
   Polyline,
   useMap,
+  Popup
 } from "react-leaflet";
-import L, { setOptions } from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import osm from "../../utils/leaflet";
 
@@ -47,6 +48,7 @@ const BasicMapResult = ({
     dashArray: "5, 15",
   };
 
+
   return (
     <div className="leaflet-container-result-wrapper">
       <MapContainer
@@ -63,11 +65,18 @@ const BasicMapResult = ({
         />
 
         {correctMarkerPosition && (
-          <a
-            href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${correctMarkerPosition.lat},${correctMarkerPosition.lng}`}
-          >
-            <Marker position={correctMarkerPosition} icon={correctIcon} />
-          </a>
+          <Marker
+            position={correctMarkerPosition}
+            icon={correctIcon}
+            eventHandlers={{
+              click: () => {
+                window.open(
+                  `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${correctMarkerPosition.lat},${correctMarkerPosition.lng}`,
+                  "_blank"
+                );
+              },
+            }}
+          />
         )}
 
         {userMarkerPosition.lat && userMarkerPosition.lng && (
