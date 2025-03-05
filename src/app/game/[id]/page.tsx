@@ -79,9 +79,7 @@ export default function MatchPage() {
 
   return (
     <div>
-      <div className="timer bg-black">
-        <h1>Timer</h1>
-      </div>
+
       <div className="relative min-h-[90vh] min-w-full">
           <CombinedMap
             setLat={setLat}
