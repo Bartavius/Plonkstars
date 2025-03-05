@@ -12,7 +12,7 @@ export default function Game() {
   const [mapSearch, setMapSearch] = useState<string>();
   const [rounds, setRounds] = useState<number>(5);
   const [time, setTime] = useState<number>(-1); // -1 is inf time
-  const [replay, setReplay] = useState<string>("a0ca3868-7d03-48b4-86bd-fadf4ad916fe");
+  const [replay, setReplay] = useState<string>("d5afbc6c-58e2-4330-bfb2-bb39feb34e94");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
