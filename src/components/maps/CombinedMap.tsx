@@ -13,7 +13,7 @@ export default function CombinedMap({
   lng: number;
 }) {
   return (
-    <div className="map-over-street-view relative">
+    <div className="relative">
       <StreetView lat={lat} lng={lng}/> 
       <div style={{ position: "absolute", bottom: "1.5%", right: "0.8%" }}>
         <BasicMapWithMarker setLat={setLat} setLng={setLng} />

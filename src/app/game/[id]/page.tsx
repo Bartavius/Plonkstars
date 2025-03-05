@@ -4,16 +4,10 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "../../../utils/api";
-import NavBar from "@/components/Navbar";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
   ssr: false,
 });
-
-interface location {
-  lat: number;
-  lng: number;
-}
 
 export default function MatchPage() {
   const [lat, setLat] = useState<number>();
@@ -85,7 +79,10 @@ export default function MatchPage() {
 
   return (
     <div>
-      <div className="relative">
+      <div className="timer bg-black">
+        <h1>Timer</h1>
+      </div>
+      <div className="relative min-h-[90vh] min-w-full">
           <CombinedMap
             setLat={setLat}
             setLng={setLng}

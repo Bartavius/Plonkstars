@@ -2,8 +2,6 @@
 
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Suspense } from "react";
-import NavBar from "@/components/Navbar";
 import dynamic from "next/dynamic";
 import api from "@/utils/api";
 
@@ -82,7 +80,7 @@ export default function Results() {
 
   return (
       <div className="relative">
-        <div className="map-result-container">
+        <div className="map-result-container min-h-[90vh] min-w-full">
           <div className="">
             <BasicMapResult
               userLat={userLatParsed}
