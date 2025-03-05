@@ -39,15 +39,6 @@ export default function Game() {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchMaps = async () => {
-  //     const response = await api.get(); // getting maps //////////////////////////////////////////////////
-  //     const { maps } = response.data;
-  //     setMaps(maps);
-  //   }
-  //   fetchMaps();
-  // }, [])
-
   // make a handle change function
 
   const joinGame = async (e: React.FormEvent) => {
@@ -72,14 +63,14 @@ export default function Game() {
   return (
     <div className="flex items-center justify-center min-h-screen text-white p-6">
       <NavBar />
-      <div className="grid grid-cols-2 gap-4 w-full max-w-lg border-white border-4 shadow-lg rounded-2xl p-6">
+      <div className="grid grid-cols-2 gap-4 w-full max-w-lg border-white border-4 shadow-lg rounded-2xl p-6 form-window">
         <div>
           <h2 className="text-xl font-semibold mb-4 text-center">Game Setup</h2>
           <div className="mb-4">
             <label className="block mb-2 text-gray-300">Map Name</label>
             <div className="flex">
               <input
-                className="w-full px-3 py-2 rounded-lg bg-white text-black border border-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
                 type="text"
                 placeholder="Search for a map..."
                 defaultValue={mapSearch}
@@ -91,7 +82,7 @@ export default function Game() {
           <div className="mb-4">
             <label className="block mb-2 text-gray-300">No. of Rounds</label>
             <input
-              className="w-full px-3 py-2 rounded-lg bg-white text-black border border-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
               type="number"
               defaultValue={rounds}
               onChange={(e) => setRounds(Number(e.target.value))}
@@ -102,7 +93,7 @@ export default function Game() {
               Time Limit (seconds)
             </label>
             <input
-              className="w-full px-3 py-2 rounded-lg bg-white text-black border border-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
               type="number"
               defaultValue={time}
               onChange={(e) => setTime(Number(e.target.value))}
@@ -126,7 +117,7 @@ export default function Game() {
               type="text"
               defaultValue={replay}
               onChange={(e) => setReplay(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg bg-white text-black border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
               placeholder="Enter Game ID to join..."
             />
           </div>
