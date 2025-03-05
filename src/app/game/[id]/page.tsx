@@ -86,9 +86,6 @@ export default function MatchPage() {
   return (
     <div>
       <div className="relative">
-          <div className="fixed top-0 left-0 w-full z-20">
-            <NavBar />
-          </div>
           <CombinedMap
             setLat={setLat}
             setLng={setLng}

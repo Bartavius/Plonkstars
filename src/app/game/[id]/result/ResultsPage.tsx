@@ -82,9 +82,6 @@ export default function Results() {
 
   return (
       <div className="relative">
-        <div className="fixed top-0 left-0 w-full z-20">
-          <NavBar />
-        </div>
         <div className="map-result-container">
           <div className="">
             <BasicMapResult

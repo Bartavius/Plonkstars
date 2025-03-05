@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import ReduxProvider from "./reduxProvider";
 import ReinstateSession from "./reinstateSession";
+import NavBar from "@/components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

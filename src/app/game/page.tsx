@@ -62,7 +62,6 @@ export default function Game() {
 
   return (
     <div className="flex items-center justify-center min-h-screen text-white p-6">
-      <NavBar />
       <div className="grid grid-cols-2 gap-4 w-full max-w-lg border-white border-4 shadow-lg rounded-2xl p-6 form-window">
         <div>
           <h2 className="text-xl font-semibold mb-4 text-center">Game Setup</h2>
