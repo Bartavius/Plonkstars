@@ -1,5 +1,5 @@
 import { Sigmar } from "next/font/google";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { FiMenu } from "react-icons/fi"; // Import the FiMenu icon
@@ -7,6 +7,8 @@ import { FiMenu } from "react-icons/fi"; // Import the FiMenu icon
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
 export default function NavBar() {
+
+  const router = useRouter();
   const auth = useSelector((state: any) => state.auth.isAuthenticated);
   let registeredTabs: { tab: string; link: string }[] = [
     { tab: "home", link: "/" },
@@ -55,7 +57,12 @@ export default function NavBar() {
         
           <ul className={`navbar-elements ${isMenuOpen && "navbar-elements-open"}`}>
             {(auth ? registeredTabs : unregisteredTabs).map((tab) => (
-              <li
+              
+                <li
+                onClick={()=>{
+                  router.push(tab.link);
+                  setIsMenuOpen(false);
+                }}
                 key={tab.tab}
                 className={`navbar-element ${
                   Array.isArray(params) && params.includes(tab.tab)
@@ -63,8 +70,9 @@ export default function NavBar() {
                     : ""
                 }`}
               >
-                <a href={tab.link}>{tab.tab}</a>
+                <label>{tab.tab}</label>
               </li>
+              
             ))}
           </ul>
       </nav>
