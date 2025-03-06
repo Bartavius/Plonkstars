@@ -22,6 +22,7 @@ export default function Results() {
   const [correctLngParsed, setCorrectLngParsed] = useState<number>(0);
   const [distance, setDistance] = useState<number|undefined>(undefined);
   const [score, setScore] = useState<number>(0);
+  const [totalScore, setTotalScore] = useState<number>(0);
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
@@ -30,13 +31,14 @@ export default function Results() {
       const roundNumber = searchParams.get("round");
       try{
         const response = await api.get(`/game/results?id=${matchId}&round=${roundNumber}`);
-        const { userLat, userLng, correctLat, correctLng, distance, score, time} = response.data;
+        const { userLat, userLng, correctLat, correctLng, distance, score, total, time} = response.data;
         setUserLatParsed(userLat);
         setUserLngParsed(userLng);
         setCorrectLatParsed(correctLat);
         setCorrectLngParsed(correctLng);
         setDistance(distance);
         setScore(score);
+        setTotalScore(total);
       } catch (err:any) {
         setError(err.response?.data?.error || "Error getting results");
       }
@@ -89,48 +91,65 @@ export default function Results() {
             />
           </div>
         </div>
-        <div className="game-footer justify-center">
-          <div className="results-score">
-            {distance!==undefined && (
-              <h2 className="text-center mt-1 inline">
+        <div className="game-footer justify-between">
+          {/* left elements */}
+          <div className="float-right ml-2">
+              <div className="text-center inline">
                 <div>
                   <b className="text-2xl">
-                    {formatter}
+                    {totalScore}
                   </b>
                 </div>
                 <div>
-                  <label>
-                    {units}
-                  </label>
+                  TOTAL SCORE
                 </div>
-              </h2>
-            )}
-
-            {distance===undefined && (
-              <b className="text-2xl">Timed Out</b>
-            )}
-          </div>
-          <div className="game-footer-element px-6">
-            <button
-              onClick={nextGame}
-              style={{ zIndex: 10000 }}
-              className="game-button"
-            >
-              <b>Next Round</b>
-            </button>
-          </div>
-            <h2 className="text-center mt-1 inline">
-              <div>
-                <b className="text-2xl">
-                  {score}
-                </b>
               </div>
-              <div>
-                <label>
+          </div>
+          {/* center elements */}
+          <div className="game-footer-element">
+            <div>
+              <div className="text-center inline">
+                <div>
+                  <b className="text-2xl">
+                    {score}
+                  </b>
+                </div>
+                <div>
                   SCORE
-                </label>
+                </div>
               </div>
-            </h2>
+            </div>
+            <div className="game-footer-element px-6">
+              <button
+                onClick={nextGame}
+                style={{ zIndex: 10000 }}
+                className="game-button"
+              >
+                <b>Next Round</b>
+              </button>
+            </div>
+            <div className="results-score">
+              {distance!==undefined && (
+                <div>
+                  <div className="text-center inline">
+                    <div>
+                      <b className="text-2xl">
+                        {formatter}
+                      </b>
+                    </div>
+                    <div>
+                      {units}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {distance===undefined && (
+                <b className="text-2xl">Timed Out</b>
+              )}
+            </div>
+          </div>
+          {/* right elements done for balancing */}
+          <div className="mr-2" style={{visibility:"hidden"}}>TOTAL SCORE</div>
         </div>
       </div>
   );
