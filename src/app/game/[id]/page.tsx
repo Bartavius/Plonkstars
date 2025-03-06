@@ -110,17 +110,32 @@ export default function MatchPage() {
           />
         </div>
         <div className="game-footer justify-between">
-          <div className="text-center inline">
-            <div>
-              <b className="text-2xl">
-                {totalScore}
-              </b>
-            </div>
-            <div className="text-red">
-              TOTAL SCORE
+          <div className="game-footer-element">
+            <div className="text-center inline ml-2">
+              <div>
+                <b className="text-2xl">
+                  {totalScore}
+                </b>
+              </div>
+              <div className="text-red font-bold">
+                <b>TOTAL SCORE</b>
+              </div>
             </div>
           </div>
-          <div className=" pr-8">
+          <div className="game-footer-element">
+              <div className="text-center inline">
+                <div>
+                  {roundNumber && <b className="text-2xl">
+                    {roundNumber.toString().padStart(2, "0")}
+                  </b>
+                  }
+                </div>
+                <div className="text-red font-bold">
+                  <b>ROUND NUMBER</b>
+                </div>
+              </div>
+          </div>
+          <div className="game-footer-element pr-8">
             <button
               onClick={submitGuess}
               disabled={(lat !== undefined && lng !== undefined && !submitted) ? false : true}

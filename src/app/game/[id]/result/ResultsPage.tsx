@@ -15,6 +15,8 @@ export default function Results() {
   const router = useRouter();
   const params = useParams();
   const matchId = params.id;
+  const roundNumber = searchParams.get("round");
+  
 
   const [userLatParsed, setUserLatParsed] = useState<number | null>(null);
   const [userLngParsed, setUserLngParsed] = useState<number | null>(null);
@@ -28,7 +30,6 @@ export default function Results() {
 
   useEffect(() => {
     const getResults = async () => {
-      const roundNumber = searchParams.get("round");
       try{
         const response = await api.get(`/game/results?id=${matchId}&round=${roundNumber}`);
         const { userLat, userLng, correctLat, correctLng, distance, score, total, time} = response.data;
@@ -93,7 +94,7 @@ export default function Results() {
         </div>
         <div className="game-footer justify-between">
           {/* left elements */}
-          <div className="float-right ml-2">
+          <div className="game-footer-element ml-2">
               <div className="text-center inline">
                 <div>
                   <b className="text-2xl">
@@ -148,8 +149,19 @@ export default function Results() {
               )}
             </div>
           </div>
-          {/* right elements done for balancing */}
-          <div className="mr-2 " style={{visibility:"hidden"}}>TOTAL SCORE</div>
+          <div className="mr-2 game-footer-element">
+              <div className="text-center inline">
+                <div>
+                  {roundNumber && <b className="text-2xl">
+                    {roundNumber.toString().padStart(2, "0")}
+                  </b>
+                  }
+                </div>
+                <div className="text-red font-bold">
+                  <b>ROUND NUMBER</b>
+                </div>
+              </div>
+          </div>
         </div>
       </div>
   );
