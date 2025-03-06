@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation";
 import api from "../../utils/api";
 import { useState } from "react";
-import NavBar from "@/components/Navbar";
+
+const minRounds = 5;
+const maxRounds = 20;
+const minTime = 5;
+const maxTime = 300;
 
 export default function Game() {
   const router = useRouter();
@@ -25,8 +29,11 @@ export default function Game() {
     {
       !loading && setLoading(true);
       try {
+        const checkInfRounds =
+          rounds < minRounds || rounds >= maxRounds + 1 ? -1 : rounds;
+        const checkInfTime = time < minTime || time >= maxTime + 1 ? -1 : time;
         const response = await api.post("/game/create", {
-          rounds,
+          checkInfRounds,
           time,
           map: { id: mapId },
         }); //////////////////////////////////////////////////
@@ -91,12 +98,18 @@ export default function Game() {
         <div>
           <h2 className="text-xl font-semibold mb-4 text-center">Game Setup</h2>
           <div className="mb-4 relative">
-            <label className="block mb-2 text-gray-300">Map Name</label>
+            <label
+              className="block mb-2 text-gray-300"
+              htmlFor="map-search-bar"
+            >
+              Map Name
+            </label>
             <div className="flex">
               <input
+                id="map-search-bar"
                 className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field-1"
                 type="text"
-                placeholder="Search for a map..."
+                placeholder="World"
                 value={mapSearch}
                 onChange={(e) =>
                   e.target.value === ""
@@ -135,22 +148,34 @@ export default function Game() {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-2 text-gray-300">No. of Rounds</label>
+            <label className="block mb-2 text-gray-300" htmlFor="round-range">
+              No. of Rounds: {rounds >= maxRounds + 1 ? "Infinite" : rounds}
+            </label>
             <input
               className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
-              type="number"
-              defaultValue={rounds}
+              style={{ padding: "0px" }}
+              type="range"
+              id="round-range"
+              min={minRounds}
+              max={maxRounds + 1}
+              step="1"
+              value={rounds}
               onChange={(e) => setRounds(Number(e.target.value))}
             />
           </div>
           <div className="mb-6">
-            <label className="block mb-2 text-gray-300">
-              Time Limit (seconds)
+            <label className="block mb-2 text-gray-300" htmlFor="time-range">
+              Time Limit: {time >= maxTime + 1 ? "Infinite" : `${time}s`}
             </label>
             <input
               className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
-              type="number"
-              defaultValue={time}
+              style={{ padding: "0px" }}
+              type="range"
+              id="time-range"
+              min={minTime}
+              max={maxTime + 1}
+              step="1"
+              value={time}
               onChange={(e) => setTime(Number(e.target.value))}
             />
           </div>
@@ -167,8 +192,11 @@ export default function Game() {
         <div>
           <h2 className="text-xl font-semibold mb-4 text-center">Join Game</h2>
           <div className="mb-6">
-            <label className="block mb-2 text-gray-300">Session ID</label>
+            <label className="block mb-2 text-gray-300" htmlFor="session-id">
+              Session ID
+            </label>
             <input
+              id="session-id"
               type="text"
               defaultValue={replay}
               onChange={(e) => setReplay(e.target.value)}
