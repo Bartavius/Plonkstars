@@ -15,23 +15,13 @@ const Timer = ({
     useEffect(() => {
         function updateTimer() {
             const remaining = ((time.getTime() - new Date().getTime()) / 1000) - 1;
-            
-            console.log("Remaining Time (Seconds):", remaining);
-            
-            setTimeLeft((prevTimeLeft) => {
-              const percent = Math.max(0, remaining / timeLimit);
-              console.log("Percent Remaining:", percent);
-              
-              setPercentRemaining(percent);
-              
-              if (remaining < 0) {
+            setTimeLeft(remaining);
+            setPercentRemaining(remaining / timeLimit);
+            if (remaining < 0) {
                 clearInterval(intervalId);
                 timeoutFunction();
-              }
-              
-              return remaining;
-            });
-          }
+            }
+        }
         const intervalId = setInterval(updateTimer, 100);
         updateTimer(); 
         return () => clearInterval(intervalId);
@@ -55,8 +45,7 @@ const Timer = ({
             style={{ 
                 maxWidth: `${percentRemaining * 100}%`,
                 background: getColor(percentRemaining),
-                zIndex: 1, 
-                willChange: "width"
+                zIndex: 1 
             }}
         />
             
