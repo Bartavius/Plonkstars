@@ -416,10 +416,20 @@ body {
   width: 100%;
 }
 
+
+
 .input-field{
   background-color:oklch(0.902 0.063 306.703);
   color:oklch(0.291 0.149 302.717);
   border-radius: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+}
+
+.input-field-1{
+  background-color:oklch(0.902 0.063 306.703);
+  color:oklch(0.291 0.149 302.717);
+  border-radius: 0.5rem 0rem 0rem 0.5rem;
   width: 100%;
   padding: 0.75rem;
 }
