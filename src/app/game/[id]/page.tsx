@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "../../../utils/api";
-import Timer from "@/components/timer/timer";
+import GamePanel from "@/components/game/GamePanel";
 import "../game.css";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
@@ -91,17 +91,13 @@ export default function MatchPage() {
 
   return (
     <div color="bg-dark">
-      {time && (
-        <div className="timer-wrapper" style={{zIndex: 1}}>
-          <Timer 
-            time={time}
-            timeLimit={timeLimit}
-            timeoutFunction={() =>{
-              submitGuess();
-            }}
-          />
-        </div>
-      )}
+      <GamePanel 
+        time={time}
+        timeLimit={timeLimit}
+        timeoutFunction={submitGuess}
+        totalScore={totalScore}
+        roundNumber={roundNumber}
+      />
       <div className="relative min-h-[90vh] min-w-full">
           <CombinedMap
             setLat={setLat}
@@ -110,37 +106,11 @@ export default function MatchPage() {
             lng={correctLng}
           />
         </div>
-        <div className="game-footer justify-between">
-          <div className="game-footer-element">
-            <div className="text-center inline ml-2">
-              <div>
-                <b className="text-2xl">
-                  {totalScore}
-                </b>
-              </div>
-              <div className="text-red font-bold">
-                <b>TOTAL SCORE</b>
-              </div>
-            </div>
-          </div>
-          <div className="game-footer-element">
-              <div className="text-center inline">
-                <div>
-                  {roundNumber && <b className="text-2xl">
-                    {roundNumber.toString().padStart(2, "0")}
-                  </b>
-                  }
-                </div>
-                <div className="text-red font-bold">
-                  <b>ROUND NUMBER</b>
-                </div>
-              </div>
-          </div>
+        <div className="game-footer justify-end">
           <div className="game-footer-element pr-8">
             <button
               onClick={submitGuess}
               disabled={(lat !== undefined && lng !== undefined && !submitted) ? false : true}
-              style={{zIndex: 100}}
               className="game-button"
             >
               <b>Submit</b>

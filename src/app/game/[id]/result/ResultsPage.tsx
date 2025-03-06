@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "@/utils/api";
 import "../../game.css";
+import GamePanel from "@/components/game/GamePanel";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -16,8 +17,11 @@ export default function Results() {
   const router = useRouter();
   const params = useParams();
   const matchId = params.id;
-  const roundNumber = searchParams.get("round");
+  const roundNumber = parseInt(searchParams.get("round") || "-1");
   
+  if(roundNumber === -1){
+    return <div>Invalid round number</div>;
+  }
 
   const [userLatParsed, setUserLatParsed] = useState<number | null>(null);
   const [userLngParsed, setUserLngParsed] = useState<number | null>(null);
@@ -83,6 +87,13 @@ export default function Results() {
 
   return (
       <div className="relative">
+        <GamePanel 
+          time={null}
+          timeLimit={null}
+          timeoutFunction={null}
+          totalScore={totalScore}
+          roundNumber={roundNumber}
+        />
         <div className="map-result-container min-h-[90vh] min-w-full">
           <div>
             <BasicMapResult
@@ -93,21 +104,7 @@ export default function Results() {
             />
           </div>
         </div>
-        <div className="game-footer justify-between">
-          {/* left elements */}
-          <div className="game-footer-element ml-2">
-              <div className="text-center inline">
-                <div>
-                  <b className="text-2xl">
-                    {totalScore}
-                  </b>
-                </div>
-                <div className="text-red font-bold">
-                  <b>TOTAL SCORE</b>
-                </div>
-              </div>
-          </div>
-          {/* center elements */}
+        <div className="game-footer justify-center">
           <div className="game-footer-element">
             <div>
               <div className="text-center inline">
@@ -149,19 +146,6 @@ export default function Results() {
                 <b className="text-2xl">Timed Out</b>
               )}
             </div>
-          </div>
-          <div className="mr-2 game-footer-element">
-              <div className="text-center inline">
-                <div>
-                  {roundNumber && <b className="text-2xl">
-                    {roundNumber.toString().padStart(2, "0")}
-                  </b>
-                  }
-                </div>
-                <div className="text-red font-bold">
-                  <b>ROUND NUMBER</b>
-                </div>
-              </div>
           </div>
         </div>
       </div>

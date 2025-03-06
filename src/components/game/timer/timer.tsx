@@ -49,15 +49,15 @@ const Timer = ({
             }}
         />
             
-          <div className="timer-box relative">
-            {timeLeft >= 0 && (
-                    <b className="timer-text">{hours!=0 && <label>{hours}:</label>}
-                    {minutes.toString().padStart(2,"0")}:{seconds.toString().padStart(2,"0")}</b>
-                )
-            }
-            {timeLeft < 0 && 
-                <b className="timer-text">00:00</b>
-            }
+        <div className="timer-box relative">
+          {timeLeft >= 0 && (
+                  <div className="timer-text">{hours!=0 && <label>{hours}:</label>}
+                  {minutes.toString().padStart(2,"0")}:{seconds.toString().padStart(2,"0")}</div>
+              )
+          }
+          {timeLeft < 0 && 
+              <b className="timer-text">00:00</b>
+          }
         </div>
       </div>
     );
