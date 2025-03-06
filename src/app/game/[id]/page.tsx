@@ -90,7 +90,7 @@ export default function MatchPage() {
   }
 
   return (
-    <div>
+    <div color="bg-dark">
       {time && (
         <div className="timer-wrapper" style={{zIndex: 1}}>
           <Timer 

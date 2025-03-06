@@ -49,7 +49,7 @@ const Timer = ({
             }}
         />
             
-          <div className="timer-box relative" style={{zIndex: 2}}>
+          <div className="timer-box relative">
             {timeLeft >= 0 && (
                     <b className="timer-text">{hours!=0 && <label>{hours}:</label>}
                     {minutes.toString().padStart(2,"0")}:{seconds.toString().padStart(2,"0")}</b>

@@ -2,7 +2,8 @@ import { Sigmar } from "next/font/google";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { FiMenu } from "react-icons/fi"; // Import the FiMenu icon
+import { FiMenu } from "react-icons/fi";
+import "./Navbar.css";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
@@ -40,10 +41,10 @@ export default function NavBar() {
 
   return (
     <div className={`navbar ${sigmar.className}`}>
-      <nav className="fixed top-0 left-0 w-full bg-black/30 backdrop-blur-lg shadow-md pb-2">
+      <nav className={`nav ${isMenuOpen ? "open" : ""}`}>
         <div className="mx-auto flex justify-between items-center p-4">
           <a href="/" className="text-xl font-bold text-gray-200">
-            <span className="text-red-500">Plonk</span>Stars
+            <span className="text-red">Plonk</span>Stars
           </a>
           <button
             onClick={toggleMenu}

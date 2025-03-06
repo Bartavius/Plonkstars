@@ -19,9 +19,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="fixed top-0 left-0 w-full z-20">
-        <NavBar />
-      </div>
 
       <div
         className="relative flex-grow z-10 flex flex-col items-center justify-center gap-8 px-4 text-center pt-24 sm:pt-28 md:pt-32"

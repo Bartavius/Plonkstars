@@ -1,0 +1,86 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-bottom: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.nav.open {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.navbar {
+  z-index: 100;
+}
+
+.navbar-elements {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.2s ease-in-out;
+}
+
+.navbar-elements-open {
+  max-height: 100vh;
+}
+
+.navbar-element {
+  position: relative;
+  color: var(--plonk-stars-white);
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 10px;
+  padding-left: 4rem;
+}
+
+.navbar-element::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--plonk-stars-white);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.1s ease-in-out;
+}
+
+.hamburger {
+  transition: 0.15s ease;
+  border-radius: 30%;
+}
+
+.hamburger:active {
+  background-color: rgb(74, 73, 73);
+  padding: 1px;
+  transform-origin: center;
+  transition: 0.3s ease;
+}
+
+.hamburger-active {
+  transform: rotate(-90deg);
+  color: rgb(151, 150, 150);
+}
+
+.navbar-element:hover {
+  color: var(--plonk-stars-red);
+}
+
+.navbar-element:hover::after {
+  transform: scaleX(1);
+}
+
+.navbar-element.active::after {
+  transform: scaleX(1);
+}

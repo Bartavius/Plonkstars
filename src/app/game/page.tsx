@@ -99,7 +99,7 @@ export default function Game() {
           <h2 className="text-xl font-semibold mb-4 text-center">Game Setup</h2>
           <div className="mb-4 relative">
             <label
-              className="block mb-2 text-gray-300"
+              className="block mb-2 text-white"
               htmlFor="map-search-bar"
             >
               Map Name
@@ -107,7 +107,7 @@ export default function Game() {
             <div className="flex">
               <input
                 id="map-search-bar"
-                className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field-1"
+                className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field-1 text-dark"
                 type="text"
                 placeholder="World"
                 value={mapSearch}
@@ -118,13 +118,13 @@ export default function Game() {
                 }
               />
               <button
-                className="bg-blue-500 px-2 rounded-r-md"
+                className="game-setup-btn px-2 rounded-r-md"
                 onClick={search}
               >
                 Search
               </button>
               {maps.length > 0 && mapSearch !== "" && (
-                <ul className="absolute absolute left-0 right-0 mt-14 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-auto input-field z-10">
+                <ul className="absolute absolute left-0 right-0 mt-14 rounded-lg shadow-lg max-h-48 overflow-auto bg-accent1 z-10">
                   {maps
                     .filter((map: any) =>
                       map.name.toLowerCase().includes(mapSearch.toLowerCase())
@@ -137,7 +137,7 @@ export default function Game() {
                           setMapSearch(map.name);
                           setMaps([]);
                         }}
-                        className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-black"
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-dark"
                       >
                         {map.name}
                       </li>
@@ -148,11 +148,11 @@ export default function Game() {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-2 text-gray-300" htmlFor="round-range">
+            <label className="block mb-2 text-white" htmlFor="round-range">
               No. of Rounds: {rounds >= maxRounds + 1 ? "Infinite" : rounds}
             </label>
             <input
-              className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
+              className="focus:outline-none input-field"
               style={{ padding: "0px" }}
               type="range"
               id="round-range"
@@ -164,11 +164,11 @@ export default function Game() {
             />
           </div>
           <div className="mb-6">
-            <label className="block mb-2 text-gray-300" htmlFor="time-range">
+            <label className="block mb-2 text-white" htmlFor="time-range">
               Time Limit: {time >= maxTime + 1 ? "Infinite" : `${time}s`}
             </label>
             <input
-              className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
+              className="text-dark focus:outline-none  input-field"
               style={{ padding: "0px" }}
               type="range"
               id="time-range"
@@ -181,7 +181,7 @@ export default function Game() {
           </div>
           <button
             disabled={loading}
-            className={`w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200 ${
+            className={`game-setup-btn w-full py-2 rounded-lg font-semibold ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={startGame}
@@ -192,7 +192,7 @@ export default function Game() {
         <div>
           <h2 className="text-xl font-semibold mb-4 text-center">Join Game</h2>
           <div className="mb-6">
-            <label className="block mb-2 text-gray-300" htmlFor="session-id">
+            <label className="block mb-2 text-white" htmlFor="session-id">
               Session ID
             </label>
             <input
@@ -200,13 +200,13 @@ export default function Game() {
               type="text"
               defaultValue={replay}
               onChange={(e) => setReplay(e.target.value)}
-              className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
+              className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field text-dark"
               placeholder="Enter Game ID to join..."
             />
           </div>
           <button
             disabled={loading}
-            className={`w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200 ${
+            className={`w-full bg-dark py-2 rounded-lg font-semibold game-setup-btn ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={joinGame}
