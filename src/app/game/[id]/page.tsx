@@ -86,7 +86,9 @@ export default function MatchPage() {
   }, [lat, lng]);
 
   if (loading) {
-    return (<div>Loading...</div>)
+    return (<div>
+        Loading...
+      </div>)
   }
 
   return (
