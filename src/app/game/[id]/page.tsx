@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "../../../utils/api";
+import Timer from "@/components/timer/timer";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
   ssr: false,
@@ -14,6 +15,7 @@ export default function MatchPage() {
   const [lng, setLng] = useState<number>();
   const [correctLat, setCorrectLat] = useState<number>(0);
   const [correctLng, setCorrectLng] = useState<number>(0);
+  const [time, setTime] = useState<Date|null>(null);
   const [roundNumber, setRoundNumber] = useState<number>(-1);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -27,10 +29,13 @@ export default function MatchPage() {
       setLoading(true);
       try{
         const response = await api.get(`/game/round?id=${id}`)
-        const {lat, lng, round} = response.data;
+        const {lat, lng, round, time} = response.data;
+        console.log(response.data);
         setRoundNumber(round);
         setCorrectLat(lat);
         setCorrectLng(lng);
+        setTime(new Date(time));
+        console.log(new Date(time));
         setLoading(false);
       }catch(err:any){
         if(err.response?.data?.error == "No more rounds are available"){
@@ -51,10 +56,10 @@ export default function MatchPage() {
       try{
         await api.post("/game/guess", {lat: lat, lng: (lng%360 + 540) % 360 - 180, id: matchId});
       }catch(err:any){}
-      router.push(
-        `/game/${matchId}/result?round=${roundNumber}`
-      );
     }
+    router.push(
+      `/game/${matchId}/result?round=${roundNumber}`
+    );
   };
 
   useEffect(() => {
@@ -79,7 +84,14 @@ export default function MatchPage() {
 
   return (
     <div>
-
+      {time && (
+        <div className="timer-wrapper" style={{zIndex: 1}}>
+          <Timer 
+            time={time}
+            timeoutFunction={submitGuess}
+          />
+        </div>
+      )}
       <div className="relative min-h-[90vh] min-w-full">
           <CombinedMap
             setLat={setLat}
@@ -92,7 +104,7 @@ export default function MatchPage() {
           <button
             onClick={submitGuess}
             disabled={(lat !== undefined && lng !== undefined && !submitted) ? false : true}
-            style={{zIndex: 10000}}
+            style={{zIndex: 100}}
             className="game-button"
           >
             
