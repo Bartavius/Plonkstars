@@ -52,12 +52,16 @@ export default function MatchPage() {
   }, [matchId]
   )
 
+  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
   const submitGuess = async () => {
     if (lat !== undefined && lng !== undefined && !submitted) {
       setSubmitted(true);
       try{
         await api.post("/game/guess", {lat: lat, lng: (lng%360 + 540) % 360 - 180, id: matchId});
       }catch(err:any){}
+    }
+    else{
+      await sleep(1000);
     }
     router.push(
       `/game/${matchId}/result?round=${roundNumber}`
@@ -92,7 +96,7 @@ export default function MatchPage() {
             time={time}
             timeLimit={timeLimit}
             timeoutFunction={() =>{
-              setTimeout(()=>{submitGuess();},1500);
+              submitGuess();
             }}
           />
         </div>
