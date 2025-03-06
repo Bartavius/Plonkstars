@@ -14,7 +14,7 @@ export default function Logout() {
     }, [dispatch])
 
     return (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen text-dark">
             Logging you out...
         </div>
     )

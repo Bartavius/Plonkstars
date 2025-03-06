@@ -103,7 +103,7 @@ const Login: React.FC = () => {
                     />
                 </div>
                 <div className={`${sigmar.className} text-white`}>
-                    To create an account: <a href="/account/register" style={{color: '#60a1db'}}>Register here</a>
+                    To create an account: <a href="/account/register">Register here</a>
                 </div>
                 <button
                     type="submit"

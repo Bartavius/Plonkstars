@@ -34,9 +34,9 @@ export default function Game() {
         const checkInfTime = time < minTime || time >= maxTime + 1 ? -1 : time;
         const response = await api.post("/game/create", {
           checkInfRounds,
-          time,
+          checkInfTime,
           map: { id: mapId },
-        }); //////////////////////////////////////////////////
+        });
         const { id } = response.data;
 
         await api.post("/game/play", { id });

@@ -8,6 +8,7 @@
   --foreground: rgba(201, 233, 238, 1);
   --color-accent1: rgba(170, 222, 231, 1);
   --color-accent2: #59a2cd;
+  --color-accent3: gold;
   --main-dark: rgba(30, 75, 102, 1);
 
   --plonk-stars-red: rgba(220, 80, 75, 1);
@@ -30,6 +31,15 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-accent3);
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .contacts-container {

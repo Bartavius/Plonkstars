@@ -43,7 +43,7 @@ export default function NavBar() {
     <div className={`navbar ${sigmar.className}`}>
       <nav className={`nav ${isMenuOpen ? "open" : ""}`}>
         <div className="mx-auto flex justify-between items-center p-4">
-          <a href="/" className="text-xl font-bold text-gray-200">
+          <a href="/" className="text-xl font-bold text-gray-200 nav-logo">
             <span className="text-red">Plonk</span>Stars
           </a>
           <button

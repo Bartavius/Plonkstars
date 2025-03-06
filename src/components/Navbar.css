@@ -18,6 +18,10 @@
   z-index: 100;
 }
 
+.nav-logo:hover {
+    text-decoration: none;
+}
+
 .navbar-elements {
   list-style: none;
   display: flex;
