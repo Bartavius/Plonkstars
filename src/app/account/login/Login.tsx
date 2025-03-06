@@ -109,7 +109,6 @@ const Login: React.FC = () => {
                 <button
                     type="submit"
                     disabled={!buttonEnabled}
-                    //className={`${sigmar.className} start-button text-2xl`}
                     className={`${buttonEnabled? `form-button-selected` : `form-button-not-selected`} ${sigmar.className} py-2 form-button-general`}
                 >
                     Sign In

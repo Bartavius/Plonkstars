@@ -5,6 +5,7 @@ import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import L, { LatLngLiteral } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import osm from "../../utils/leaflet";
+import "./map.css";
 
 const MapCreationMap = ({
   setLat,

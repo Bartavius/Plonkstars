@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "../../../utils/api";
 import Timer from "@/components/timer/timer";
+import "../game.css";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
   ssr: false,

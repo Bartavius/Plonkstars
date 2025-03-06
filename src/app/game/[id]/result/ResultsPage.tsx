@@ -4,6 +4,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "@/utils/api";
+import "../../game.css";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),

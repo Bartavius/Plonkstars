@@ -1,0 +1,87 @@
+.leaflet-container-wrapper {
+    width: 35vw; /* 800 */
+    height: 40vh; /* 460 */
+    overflow: hidden;
+    z-index: 1000;
+    transition: transform 0.1s ease-in-out;
+    transform-origin: bottom right;
+    opacity: 0.6;
+    transform: scale(1); /* scale 0.59 */
+}
+  
+.leaflet-container-wrapper.hovered {
+    transform: scaleX(1.7) scaleY(1.7); /* 1.2 instead */
+    opacity: 1;
+    cursor: crosshair;
+}
+  
+.leaflet-container-wrapper:hover {
+    transform: scaleX(1.7) scaleY(1.7); /* 1.2 instead */
+    opacity: 1;
+    cursor: crosshair;
+}
+  
+.leaflet-control-attribution {
+    font-size: 0.5rem !important;
+}
+  
+.leaflet-map {
+    width: 100%;
+    height: 100%;
+}
+  
+.leaflet-container-result-wrapper {
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    z-index: 1000;
+}
+  
+.leaflet-result-map {
+    width: 100%;
+    height: 100%;
+}
+
+.combined-map-container {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+  
+  .map-result-container {
+        position: relative;
+        z-index: 0;
+  }
+  
+@media (max-width: 720px) {
+    .map-result-container {
+        top: -5vh;
+    }
+    .combined-map-container {
+        margin: 0%;
+        top: -10vh;
+    }
+    .leaflet-container-wrapper {
+        width: 100vh;
+        height: 30vh;
+        opacity: 1;
+    }
+  
+    .leaflet-container-wrapper:hover {
+        transform: none;
+    }
+    .leaflet-container-wrapper.hovered {
+        transform: none;
+    }
+  
+    .leaflet-container-result-wrapper {
+        width: 100%;
+        height: 80vh;
+        overflow: hidden;
+        z-index: 1000;
+        transition: transform 0.3s ease-in-out;
+        transform-origin: bottom right;
+    }
+}

@@ -12,6 +12,8 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import osm from "../../utils/leaflet";
+import "./map.css";
+
 
 const BasicMapResult = ({
   userLat,

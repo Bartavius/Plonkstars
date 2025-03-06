@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import api from "../../utils/api";
 import { useState } from "react";
+import "./game.css";
 
 const minRounds = 5;
 const maxRounds = 20;
