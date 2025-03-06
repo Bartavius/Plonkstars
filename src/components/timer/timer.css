@@ -10,7 +10,7 @@
 
 .timer-box{
     width: 100%;
-    color: yellow;
+    color: white;
     text-align: center;
 }
 
@@ -25,5 +25,5 @@
 
 .timer-text{
     padding: 2rem;
-    background-color: #000;
+    background-color: #1b1818;
 }

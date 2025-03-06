@@ -35,8 +35,9 @@ const Timer = ({
     const seconds = Math.round(timeLeft % 60);
 
     const getColor = (percent: number) => {
-        const red = 255 * (1-percent);
-        const green = 255 * percent;
+        
+        const red = percent < .5 ? 255: 255 * (1 - ((percent - 0.5) * 2));
+        const green = percent > .5 ? 255:255 * 2 * percent;
         return `rgb(${red},${green},0)`;
     };
 
@@ -55,6 +56,9 @@ const Timer = ({
                     <b className="timer-text">{hours!=0 && <label>{hours}:</label>}
                     {minutes.toString().padStart(2,"0")}:{seconds.toString().padStart(2,"0")}</b>
                 )
+            }
+            {timeLeft < 0 && 
+                <b className="timer-text">00:00</b>
             }
         </div>
       </div>
