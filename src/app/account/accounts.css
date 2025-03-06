@@ -1,0 +1,8 @@
+a {
+    text-decoration: none;
+    color: var(--color-accent-gold);
+  }
+  
+a:hover {
+text-decoration: underline;
+}

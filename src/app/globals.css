@@ -34,15 +34,6 @@ body {
   font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
 
-a {
-  text-decoration: none;
-  color: var(--color-accent-gold);
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
 .contacts-container {
   padding-top: 5dvh;
 }

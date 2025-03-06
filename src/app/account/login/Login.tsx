@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
 import { useRouter } from "next/navigation";
 import { Sigmar } from "next/font/google";
+import "../accounts.css"
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 const formTitle = `${sigmar.className} text-white text-4xl`
