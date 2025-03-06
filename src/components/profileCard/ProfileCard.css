@@ -4,9 +4,9 @@
   height: auto;
   background: linear-gradient(
     to bottom,
-    rgba(213, 151, 239, 0.8) 0%,
-    rgba(204, 84, 251, 0.9) 20%,
-    rgba(122, 30, 249) 100%
+    var(--color-accent1) 0%,
+    var(--foreground) 20%,
+    var(--background) 100%
   );
   border-radius: 2dvh;
   overflow: hidden;
@@ -82,21 +82,21 @@
   font-weight: 700;
   margin-bottom: 0.25dvh;
   letter-spacing: 0.08rem;
-  color: rgb(244, 234, 97);
+  color: var(--plonk-stars-red);
   opacity: 1 !important;
   text-align: center;
 }
 
 .profile-card-title {
   font-size: 0.875rem;
-  color: #cfc4d5;
+  color: #7b747f;
   margin-bottom: 0.5dvh;
   text-align: center;
 
 }
 
 .profile-card-body {
-  color: #ffffff;
+  color: var(--main-dark);
   font-size: 1rem;
   flex-grow: 1;
   overflow-y: auto;
@@ -123,8 +123,8 @@
   min-width: 120px;
   background: linear-gradient(
     to right,
-    rgb(241, 93, 238),
-    var(--color-accent1)
+    var(--plonk-stars-red),
+    var(--foreground)
   );
   background-size: 200% auto;
   background-position: left center;
@@ -133,7 +133,7 @@
   padding: 0.5rem 0.75rem;
   margin-bottom: 1rem;
   border-width: 3px;
-  border-color: #edcae6;
+  border-color: var(--plonk-stars-red);
   border-radius: 0.375rem;
   cursor: pointer;
   transition: background-position 0.5s ease, transform 0.2s ease-in-out;

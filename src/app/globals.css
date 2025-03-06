@@ -5,9 +5,13 @@
 
 
 :root {
-  --background: #1b0124;
-  --foreground: #ffffff;
-  --color-accent1: #4d09b3;
+  --background: rgba(132, 188, 221, 1);
+  --foreground: rgba(201, 233, 238, 1);
+  --color-accent1: rgba(170, 222, 231, 1);
+  --main-dark: rgba(30, 75, 102, 1);
+
+  --plonk-stars-red:rgba(220,80,75,1);
+  --plonk-stars-white: #ebebeb;
 }
 
 html, body {
@@ -89,8 +93,8 @@ body {
   width: 35%;
   background: linear-gradient(
     to right,
-    rgb(194, 93, 241),
-    rgb(69, 3, 126)
+    var(--plonk-stars-red) 30%,
+    var(--foreground)
   );
   background-size: 200% auto;
   background-position: left center;
@@ -99,7 +103,7 @@ body {
   padding: 1rem 2rem;
   margin-bottom: 1rem;
   border-width: 5px;
-  border-color: #7d47bf;
+  border-color: var(--plonk-stars-red);
   border-radius: 2rem;
   cursor: pointer;
   transition: background-position 0.5s ease;
