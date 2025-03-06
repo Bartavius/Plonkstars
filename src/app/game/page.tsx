@@ -16,7 +16,7 @@ export default function Game() {
   const [mapSearch, setMapSearch] = useState<string>("");
   const [mapId, setMapId] = useState<string>("");
   const [rounds, setRounds] = useState<number>(minRounds);
-  const [time, setTime] = useState<number>(minTime); // -1 is inf time
+  const [time, setTime] = useState<number>(60); // -1 is inf time
   const [replay, setReplay] = useState<string>(
     "d5afbc6c-58e2-4330-bfb2-bb39feb34e94"
   );
