@@ -328,8 +328,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .game-setup-btn:hover {
-  background-color: var(--background);
-  color: var(--main-dark);
+  filter: brightness(90%)
 }
 
 .game-footer {
