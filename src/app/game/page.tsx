@@ -33,8 +33,8 @@ export default function Game() {
           rounds < minRounds || rounds >= maxRounds + 1 ? -1 : rounds;
         const checkInfTime = time < minTime || time >= maxTime + 1 ? -1 : time;
         const response = await api.post("/game/create", {
-          checkInfRounds,
-          checkInfTime,
+          "round":checkInfRounds,
+          "time":checkInfTime,
           map: { id: mapId },
         });
         const { id } = response.data;
