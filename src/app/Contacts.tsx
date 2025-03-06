@@ -22,7 +22,7 @@ export default function Contacts() {
       name: `Yuval Ailon`,
       title: "Frontend and Art :)",
       image: "profile/yuval.png",
-      body: "Yuval is probably drawing new plonkstars cosmetic items or ballroom dancing right now.",
+      body: "Yuval is probably messing with Plonkstars code (maliciously) or ballroom dancing right now.",
       linkedin: "https://www.linkedin.com/in/yuval-ailon/",
       github: "https://github.com/YuvalAilon",
     },
