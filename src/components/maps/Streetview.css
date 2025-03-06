@@ -13,5 +13,5 @@
 }
 
 .bg-accent1 {
-    background: linear-gradient(to right, var(--background), var(--color-accent1));
+    background: linear-gradient(to right, var(--theme-blue), var(--lighter-blue));
 }

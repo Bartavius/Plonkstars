@@ -1,5 +1,5 @@
 .footer-container {
-    background: linear-gradient(135deg, var(--background), var(--foreground));
+    background: linear-gradient(135deg, var(--theme-blue), var(--lightest-blue));
     padding: 2rem;
     text-align: center;
     color: white;
@@ -16,7 +16,7 @@
     font-style: italic;
     font-size: 0.9rem;
     margin-bottom: 1rem;
-    color: var(--main-dark);
+    color: var(--darkest-blue);
   }
 
   @media (max-width: 600px) {
@@ -25,7 +25,7 @@
     }
     .footer-links {
       flex-direction: column;
-      color: var(--foreground);
+      color: var(--lightest-blue);
       gap: 1rem;
     }
   

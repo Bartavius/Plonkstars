@@ -4,9 +4,9 @@
   height: auto;
   background: linear-gradient(
     to bottom,
-    var(--color-accent1) 0%,
-    var(--foreground) 20%,
-    var(--background) 100%
+    var(--lighter-blue) 0%,
+    var(--lightest-blue) 20%,
+    var(--theme-blue) 100%
   );
   border-radius: 2dvh;
   overflow: hidden;
@@ -96,7 +96,7 @@
 }
 
 .profile-card-body {
-  color: var(--main-dark);
+  color: var(--darkest-blue);
   font-size: 1rem;
   flex-grow: 1;
   overflow-y: auto;
@@ -124,7 +124,7 @@
   background: linear-gradient(
     to right,
     var(--plonk-stars-red),
-    var(--foreground)
+    var(--lightest-blue)
   );
   background-size: 200% auto;
   background-position: left center;

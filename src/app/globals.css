@@ -4,15 +4,16 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-  --background: rgba(132, 188, 221, 1);
-  --foreground: rgba(201, 233, 238, 1);
-  --color-accent1: rgba(170, 222, 231, 1);
-  --color-accent2: #59a2cd;
-  --color-accent3: gold;
-  --main-dark: rgba(30, 75, 102, 1);
+  --lightest-blue     : rgba(201, 233, 238, 1);
+  --lighter-blue      : rgba(170, 222, 231, 1);
+  --theme-blue        : rgba(132, 188, 221, 1);
+  --darker-blue       : rgba( 89, 162, 205, 1);
+  --darkest-blue      : rgba( 30,  75, 102, 1);
 
-  --plonk-stars-red: rgba(220, 80, 75, 1);
-  --plonk-stars-white: #ebebeb;
+  --color-accent-gold : rgba(255, 215,   0, 1);
+
+  --plonk-stars-red   : rgba(220,  80,  75, 1);
+  --plonk-stars-white : rgba(235, 235, 235, 1);
 }
 
 html,
@@ -23,9 +24,9 @@ body {
 }
 
 body {
-  color: var(--foreground);
+  color: var(--lightest-blue);
   margin: 0;
-  background-color: var(--background);
+  background-color: var(--theme-blue);
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
@@ -35,7 +36,7 @@ body {
 
 a {
   text-decoration: none;
-  color: var(--color-accent3);
+  color: var(--color-accent-gold);
 }
 
 a:hover {
@@ -103,7 +104,7 @@ a:hover {
   background: linear-gradient(
     to right,
     var(--plonk-stars-red) 30%,
-    var(--foreground)
+    var(--lightest-blue)
   );
   background-size: 200% auto;
   background-position: left center;
@@ -231,7 +232,7 @@ a:hover {
 }
 
 .form-window {
-  background-color: var(--color-accent2);
+  background-color: var(--darker-blue);
 }
 
 .form-button-selected {
@@ -257,15 +258,15 @@ a:hover {
 }
 
 .input-field {
-  background-color: var(--foreground);
-  color: var(--color-accent2);
+  background-color: var(--lightest-blue);
+  color: var(--darkest-blue);
   border-radius: 0.5rem;
   width: 100%;
   padding: 0.75rem;
 }
 
 .input-field-1 {
-  background-color: var(--foreground);
+  background-color: var(--lightest-blue);
   color: var(--plonk-stars-white);
   border-radius: 0.5rem 0rem 0rem 0.5rem;
   width: 100%;
@@ -273,7 +274,7 @@ a:hover {
 }
 
 .bg-dark {
-  background-color: var(--main-dark);
+  background-color: var(--darkest-blue);
 }
 
 .bg-white {
@@ -285,7 +286,7 @@ a:hover {
 }
 
 .bg-accent1 {
-  background-color: var(--color-accent1);
+  background-color: var(--lighter-blue);
 }
 
 .bg-accent2 {
@@ -293,7 +294,7 @@ a:hover {
 }
 
 .text-dark {
-  color: var(--main-dark);
+  color: var(--darkest-blue);
 }
 
 .text-white {
@@ -305,11 +306,11 @@ a:hover {
 }
 
 .text-accent1 {
-  color: var(--color-accent1);
+  color: var(--lighter-blue);
 }
 
 .text-accent2 {
-  color: var(--color-accent2);
+  color: var(--darker-blue);
 }
 
 input[type="range"] {
@@ -319,7 +320,7 @@ input[type="range"] {
 }
 
 input[type="range"]:focus {
-  outline-color: var(--main-dark);
+  outline-color: var(--darkest-blue);
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -328,7 +329,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: var(--main-dark);
+  background-color: var(--darkest-blue);
 }
 
 .game-setup-btn {
