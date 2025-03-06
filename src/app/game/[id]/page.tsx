@@ -18,7 +18,8 @@ export default function MatchPage() {
   const [correctLng, setCorrectLng] = useState<number>(0);
   const [time, setTime] = useState<Date|null>(null);
   const [timeLimit, setTimeLimit] = useState<number>(0);
-  const [roundNumber, setRoundNumber] = useState<number>(-1);
+  const [roundNumber, setRoundNumber] = useState<number>(0);
+  const [totalScore, setTotalScore] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -31,13 +32,14 @@ export default function MatchPage() {
       setLoading(true);
       try{
         const response = await api.get(`/game/round?id=${id}`)
-        const {lat, lng, round, time, time_limit} = response.data;
+        const {lat, lng, round, time, time_limit,total} = response.data;
         setRoundNumber(round);
         setCorrectLat(lat);
         setCorrectLng(lng);
         setTime(new Date(time));
         setTimeLimit(time_limit)
         setLoading(false);
+        setTotalScore(total);
       }catch(err:any){
         if(err.response?.data?.error == "No more rounds are available"){
           router.push('/');
@@ -107,16 +109,27 @@ export default function MatchPage() {
             lng={correctLng}
           />
         </div>
-        <div className="game-footer justify-end pr-8">
-          <button
-            onClick={submitGuess}
-            disabled={(lat !== undefined && lng !== undefined && !submitted) ? false : true}
-            style={{zIndex: 100}}
-            className="game-button"
-          >
-            
-            <b>Submit</b>
-          </button>
+        <div className="game-footer justify-between">
+          <div className="text-center inline">
+            <div>
+              <b className="text-2xl">
+                {totalScore}
+              </b>
+            </div>
+            <div className="text-red">
+              TOTAL SCORE
+            </div>
+          </div>
+          <div className=" pr-8">
+            <button
+              onClick={submitGuess}
+              disabled={(lat !== undefined && lng !== undefined && !submitted) ? false : true}
+              style={{zIndex: 100}}
+              className="game-button"
+            >
+              <b>Submit</b>
+            </button>
+          </div>
         </div>
       </div>
   );

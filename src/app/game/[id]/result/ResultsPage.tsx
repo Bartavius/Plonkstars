@@ -82,7 +82,7 @@ export default function Results() {
   return (
       <div className="relative">
         <div className="map-result-container min-h-[90vh] min-w-full">
-          <div className="">
+          <div>
             <BasicMapResult
               userLat={userLatParsed}
               userLng={userLngParsed}
@@ -100,8 +100,8 @@ export default function Results() {
                     {totalScore}
                   </b>
                 </div>
-                <div>
-                  TOTAL SCORE
+                <div className="text-red font-bold">
+                  <b>TOTAL SCORE</b>
                 </div>
               </div>
           </div>
@@ -114,8 +114,8 @@ export default function Results() {
                     {score}
                   </b>
                 </div>
-                <div>
-                  SCORE
+                <div className="text-red font-bold">
+                  <b>SCORE</b>
                 </div>
               </div>
             </div>
@@ -137,8 +137,8 @@ export default function Results() {
                         {formatter}
                       </b>
                     </div>
-                    <div>
-                      {units}
+                    <div className="text-red font-bold">
+                      <b>{units}</b>
                     </div>
                   </div>
                 </div>
@@ -149,7 +149,7 @@ export default function Results() {
             </div>
           </div>
           {/* right elements done for balancing */}
-          <div className="mr-2" style={{visibility:"hidden"}}>TOTAL SCORE</div>
+          <div className="mr-2 " style={{visibility:"hidden"}}>TOTAL SCORE</div>
         </div>
       </div>
   );
