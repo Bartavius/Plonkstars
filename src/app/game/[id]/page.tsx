@@ -4,15 +4,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "../../../utils/api";
+import Timer from "@/components/timer/timer";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
   ssr: false,
 });
 
-const Timer = dynamic(
-  () => import("@/components/timer/timer"),
-  { ssr: false }
-);
 
 export default function MatchPage() {
   const [lat, setLat] = useState<number>();
