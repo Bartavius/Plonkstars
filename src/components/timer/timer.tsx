@@ -9,7 +9,7 @@ const Timer = ({
     timeLimit: number;
     timeoutFunction: () => void;
   }) => {
-    const [timeLeft, setTimeLeft] = useState<number>(-1);
+    const [timeLeft, setTimeLeft] = useState<number>(0);
     const [percentRemaining, setPercentRemaining] = useState<number>(1);
     
     useEffect(() => {
@@ -45,7 +45,9 @@ const Timer = ({
             style={{ 
                 maxWidth: `${percentRemaining * 100}%`,
                 background: getColor(percentRemaining),
-                zIndex: 1 }}
+                zIndex: 1, 
+                willChange: "width"
+            }}
         />
             
           <div className="timer-box relative" style={{zIndex: 2}}>
