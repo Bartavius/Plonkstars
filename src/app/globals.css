@@ -47,8 +47,8 @@ a:hover {
 }
 
 .leaflet-container-wrapper {
-  width: 52vh; /* 800 */
-  height: 32vh; /* 460 */
+  width: 35vw; /* 800 */
+  height: 40vh; /* 460 */
   overflow: hidden;
   z-index: 1000;
   transition: transform 0.1s ease-in-out;
