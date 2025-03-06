@@ -1,12 +1,28 @@
-.timer-box{
-    padding-left: 1rem;
-    padding-right: 1rem; 
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;   
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 1rem;
+.timer-container{
+    min-width: 5rem;
+    width: 100%;
     font-size: large;
+    background-color: None;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.timer-box{
+    width: 100%;
+    color: yellow;
+    text-align: center;
+}
+
+.timer-fill{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #00FF00;
+    opacity: 0.8;
+}
+
+.timer-text{
+    padding: 2rem;
     background-color: #000;
 }

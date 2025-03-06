@@ -16,6 +16,7 @@ export default function MatchPage() {
   const [correctLat, setCorrectLat] = useState<number>(0);
   const [correctLng, setCorrectLng] = useState<number>(0);
   const [time, setTime] = useState<Date|null>(null);
+  const [timeLimit, setTimeLimit] = useState<number>(0);
   const [roundNumber, setRoundNumber] = useState<number>(-1);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -29,12 +30,13 @@ export default function MatchPage() {
       setLoading(true);
       try{
         const response = await api.get(`/game/round?id=${id}`)
-        const {lat, lng, round, time} = response.data;
+        const {lat, lng, round, time, time_limit} = response.data;
         console.log(response.data);
         setRoundNumber(round);
         setCorrectLat(lat);
         setCorrectLng(lng);
         setTime(new Date(time));
+        setTimeLimit(time_limit)
         console.log(new Date(time));
         setLoading(false);
       }catch(err:any){
@@ -88,7 +90,10 @@ export default function MatchPage() {
         <div className="timer-wrapper" style={{zIndex: 1}}>
           <Timer 
             time={time}
-            timeoutFunction={submitGuess}
+            timeLimit={timeLimit}
+            timeoutFunction={() =>{
+              setTimeout(()=>{submitGuess();},1500);
+            }}
           />
         </div>
       )}

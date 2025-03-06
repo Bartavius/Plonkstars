@@ -468,9 +468,9 @@ body {
 }
 
 .timer-wrapper {
-  position: absolute;
-  top: 15vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* padding: 20px; */
+    top: 10vh;
+    display: flex;
+    justify-content: center; /* Center children horizontally */
+    position: relative;
+    background-color: None;
 }
