@@ -5,7 +5,7 @@ export default function Contacts() {
     {
       name: "Patrick Zhang",
       image: "profile/patrick.png",
-      title: "Backend Developer",
+      title: "Full-stack Developer",
       body: "Patrick is a such big fan of rice, in fact, his phone's wallpaper is rice.",
       linkedin: "https://linkedin.com/in/patrick--zhang",
       github: "https://github.com/pzhang345",
