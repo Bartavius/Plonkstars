@@ -27,6 +27,15 @@ const BasicMapResult = ({
   const userMarkerPosition = { lat: userLat, lng: userLng };
   const correctMarkerPosition = { lat: correctLat, lng: correctLng };
 
+  if (userMarkerPosition.lng !== null){
+    if (userMarkerPosition.lng - correctLng > 180) {
+      userMarkerPosition.lng -= 360;
+    } 
+    else if (userMarkerPosition.lng - correctLng < -180){
+      userMarkerPosition.lng += 360;
+    }
+  }
+
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;
 
@@ -99,8 +108,8 @@ const BasicMapResult = ({
               pathOptions={dottedLine}
             />
             <FitBounds
-              userLat={userLat ?? 0}
-              userLng={userLng ?? 0}
+              userLat={userMarkerPosition.lat ?? 0}
+              userLng={userMarkerPosition.lng ?? 0}
               correctLat={correctLat}
               correctLng={correctLng}
             />
