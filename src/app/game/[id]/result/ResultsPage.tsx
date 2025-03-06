@@ -31,7 +31,6 @@ export default function Results() {
       try{
         const response = await api.get(`/game/results?id=${matchId}&round=${roundNumber}`);
         const { userLat, userLng, correctLat, correctLng, distance, score, time} = response.data;
-        console.log(time);
         setUserLatParsed(userLat);
         setUserLngParsed(userLng);
         setCorrectLatParsed(correctLat);

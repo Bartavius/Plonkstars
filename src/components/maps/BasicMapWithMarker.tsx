@@ -36,7 +36,6 @@ const BasicMapWithMarker = ({
     useMapEvents({
       click(e) {
         const { lat, lng } = e.latlng;
-        console.log("Marker dropped at:", lat, lng);
         setLat(lat);
         setLng(lng);
         setMarkerPosition({ lat, lng });

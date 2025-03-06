@@ -21,7 +21,6 @@ const Register = () => {
         try {
            
             {buttonEnabled &&
-                console.log('buttonEnabled', buttonEnabled);
                 setButtonEnabled(false);
                 if (password !== confirmPassword) {
                     throw new Error('Passwords do not match');

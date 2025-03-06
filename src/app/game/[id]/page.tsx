@@ -31,13 +31,11 @@ export default function MatchPage() {
       try{
         const response = await api.get(`/game/round?id=${id}`)
         const {lat, lng, round, time, time_limit} = response.data;
-        console.log(response.data);
         setRoundNumber(round);
         setCorrectLat(lat);
         setCorrectLng(lng);
         setTime(new Date(time));
         setTimeLimit(time_limit)
-        console.log(new Date(time));
         setLoading(false);
       }catch(err:any){
         if(err.response?.data?.error == "No more rounds are available"){
@@ -69,7 +67,6 @@ export default function MatchPage() {
   };
 
   useEffect(() => {
-    console.log(matchId);
     const handleKeyDown = (event: KeyboardEvent) => {
       if (lat !== undefined && lng !== undefined && event.code === "Space") {
         event.preventDefault();

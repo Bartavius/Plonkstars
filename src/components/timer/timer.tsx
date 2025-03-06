@@ -14,20 +14,17 @@ const Timer = ({
     
     useEffect(() => {
         function updateTimer() {
-          const remaining = ((time.getTime() - new Date().getTime()) / 1000) - 1;
-          setTimeLeft((prevTimeLeft) => {
+            const remaining = ((time.getTime() - new Date().getTime()) / 1000) - 1;
+            setTimeLeft(remaining);
             setPercentRemaining(remaining / timeLimit);
             if (remaining < 0) {
-              clearInterval(intervalId);
-              timeoutFunction();
+                clearInterval(intervalId);
+                timeoutFunction();
             }
-            return remaining;
-          });
         }
-    
         const intervalId = setInterval(updateTimer, 100);
-        updateTimer(); // Run immediately to avoid waiting 1 second
-        return () => clearInterval(intervalId); // Cleanup on unmount
+        updateTimer(); 
+        return () => clearInterval(intervalId);
       }, [time, timeLimit, timeoutFunction]);
     
     const hours = Math.floor(timeLeft / 3600);
