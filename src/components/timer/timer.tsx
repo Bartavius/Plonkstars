@@ -10,14 +10,14 @@ const Timer = ({
     timeoutFunction: () => void;
   }) => {
     const [timeLeft, setTimeLeft] = useState<number>(-1);
-    const [percentRemaining, setPercentRemaining] = useState<number>(-1);
+    const [percentRemaining, setPercentRemaining] = useState<number>(1);
     
     useEffect(() => {
         function updateTimer() {
-          const remaining = Math.round((time.getTime() - new Date().getTime()) / 1000) - 1;
+          const remaining = ((time.getTime() - new Date().getTime()) / 1000) - 1;
           setTimeLeft((prevTimeLeft) => {
-            setPercentRemaining(Math.round((remaining / timeLimit) * 1000));
-            if (remaining === 0) {
+            setPercentRemaining(remaining / timeLimit);
+            if (remaining < 0) {
               clearInterval(intervalId);
               timeoutFunction();
             }
@@ -25,19 +25,29 @@ const Timer = ({
           });
         }
     
-        const intervalId = setInterval(updateTimer, 1000);
+        const intervalId = setInterval(updateTimer, 100);
         updateTimer(); // Run immediately to avoid waiting 1 second
         return () => clearInterval(intervalId); // Cleanup on unmount
       }, [time, timeLimit, timeoutFunction]);
     
     const hours = Math.floor(timeLeft / 3600);
     const minutes = Math.floor((timeLeft % 3600) / 60);
-    const seconds = timeLeft % 60;
+    const seconds = Math.round(timeLeft % 60);
+
+    const getColor = (percent: number) => {
+        const red = 255 * (1-percent);
+        const green = 255 * percent;
+        return `rgb(${red},${green},0)`;
+    };
+
     return (
       <div className="absolute timer-container">
         <div
             className="timer-fill"
-            style={{ maxWidth: `${percentRemaining}%`,zIndex: 1 }}
+            style={{ 
+                maxWidth: `${percentRemaining * 100}%`,
+                background: getColor(percentRemaining),
+                zIndex: 1 }}
         />
             
           <div className="timer-box relative" style={{zIndex: 2}}>
