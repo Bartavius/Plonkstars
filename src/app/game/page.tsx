@@ -9,20 +9,27 @@ export default function Game() {
   const router = useRouter();
   // page for starting NEW game, also render all the settings and options here.
   const [maps, setMaps] = useState<string[]>([]);
-  const [mapSearch, setMapSearch] = useState<string>();
+  const [mapSearch, setMapSearch] = useState<string>("");
+  const [mapId, setMapId] = useState<string>("");
   const [rounds, setRounds] = useState<number>(5);
   const [time, setTime] = useState<number>(-1); // -1 is inf time
-  const [replay, setReplay] = useState<string>("d5afbc6c-58e2-4330-bfb2-bb39feb34e94");
+  const [replay, setReplay] = useState<string>(
+    "d5afbc6c-58e2-4330-bfb2-bb39feb34e94"
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const startGame = async (event: React.FormEvent) => {
     event.preventDefault();
-    
-    {!loading && 
-      setLoading(true);
+
+    {
+      !loading && setLoading(true);
       try {
-        const response = await api.post("/game/create", {rounds,time,"map":{"name":mapSearch}}); //////////////////////////////////////////////////
+        const response = await api.post("/game/create", {
+          rounds,
+          time,
+          map: { id: mapId },
+        }); //////////////////////////////////////////////////
         const { id } = response.data;
         console.log("Game created with ID:", id);
 
@@ -32,7 +39,7 @@ export default function Game() {
         console.log("Navigating to:", gameUrl);
 
         router.push(gameUrl);
-      } catch (err:any) {
+      } catch (err: any) {
         setError(err.response?.data?.error || "Error starting game");
         setLoading(false);
       }
@@ -43,13 +50,13 @@ export default function Game() {
 
   const joinGame = async (e: React.FormEvent) => {
     e.preventDefault();
-    {!loading && 
-      setLoading(true);
-      try{
+    {
+      !loading && setLoading(true);
+      try {
         const res = await api.post("/game/play", {
           id: replay,
         });
-      }catch(err:any){
+      } catch (err: any) {
         if (err.response?.status === 404) {
           setLoading(false);
           setError(err.response?.data?.error || "Game not found");
@@ -60,21 +67,72 @@ export default function Game() {
     }
   };
 
+  const search = async () => {
+    try {
+      // currently, setting pages to only be the first page, and 10 per page. When we implement the search PAGE, then we add
+      // customizations to that
+      const page = 1;
+      const per_page = 10;
+      const res = await api.get(
+        `/map/search?name=${mapSearch}&page=${page}&per_page=${per_page}`
+      );
+      const mapList = res.data;
+      setMaps(mapList);
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        setLoading(false);
+        setError(err.response?.data?.error || "Game not found");
+        return;
+      }
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen text-white p-6">
       <div className="grid grid-cols-2 gap-4 w-full max-w-lg border-white border-4 shadow-lg rounded-2xl p-6 form-window">
         <div>
           <h2 className="text-xl font-semibold mb-4 text-center">Game Setup</h2>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label className="block mb-2 text-gray-300">Map Name</label>
             <div className="flex">
               <input
-                className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field"
+                className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field-1"
                 type="text"
                 placeholder="Search for a map..."
-                defaultValue={mapSearch}
-                onChange={(e) => e.target.value === "" ? setMapSearch(undefined): setMapSearch(e.target.value)}
+                value={mapSearch}
+                onChange={(e) =>
+                  e.target.value === ""
+                    ? setMapSearch("")
+                    : setMapSearch(e.target.value)
+                }
               />
+              <button
+                className="bg-blue-500 px-2 rounded-r-md"
+                onClick={search}
+              >
+                Search
+              </button>
+              {maps.length > 0 && mapSearch !== "" && (
+                <ul className="absolute absolute left-0 right-0 mt-14 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-auto input-field z-10">
+                  {maps
+                    .filter((map: any) =>
+                      map.name.toLowerCase().includes(mapSearch.toLowerCase())
+                    )
+                    .map((map: any, index) => (
+                      <li
+                        key={index}
+                        onClick={() => {
+                          setMapId(map.id);
+                          setMapSearch(map.name);
+                          setMaps([]);
+                        }}
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-black"
+                      >
+                        {map.name}
+                      </li>
+                    ))}
+                </ul>
+              )}
             </div>
           </div>
 
@@ -100,7 +158,9 @@ export default function Game() {
           </div>
           <button
             disabled={loading}
-            className={`w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={startGame}
           >
             Start Game
@@ -109,9 +169,7 @@ export default function Game() {
         <div>
           <h2 className="text-xl font-semibold mb-4 text-center">Join Game</h2>
           <div className="mb-6">
-            <label className="block mb-2 text-gray-300">
-              Session ID
-            </label>
+            <label className="block mb-2 text-gray-300">Session ID</label>
             <input
               type="text"
               defaultValue={replay}
@@ -122,17 +180,19 @@ export default function Game() {
           </div>
           <button
             disabled={loading}
-            className={`w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`w-full bg-blue-500 py-2 rounded-lg font-semibold text-white hover:bg-blue-600 transition duration-200 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={joinGame}
           >
             Join
           </button>
-          
+
           {error && (
-            <div className="mt-4"> 
+            <div className="mt-4">
               <div className="text-center text-red-500 bg-red-100 p-2 rounded-lg border border-red-400">
                 {error}
-              </div> 
+              </div>
             </div>
           )}
         </div>
