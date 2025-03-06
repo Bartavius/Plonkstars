@@ -18,6 +18,14 @@ export default function Contacts() {
       linkedin: "https://linkedin.com/in/jlojanarungsiri",
       github: "https://github.com/Bartavius",
     },
+    {
+      name: `Yuval Ailon`,
+      title: "Frontend and Art :)",
+      image: "profile/yuval.png",
+      body: "Yuval is probably drawing new plonkstars cosmetic items or ballroom dancing right now.",
+      linkedin: "https://www.linkedin.com/in/yuval-ailon/",
+      github: "https://github.com/YuvalAilon",
+    },
   ];
 
   return (

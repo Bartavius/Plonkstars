@@ -12,6 +12,7 @@ export default function CombinedMap({
   lat: number;
   lng: number;
 }) {
+  
   return (
     <div className="relative">
       <StreetView lat={lat} lng={lng}/> 
