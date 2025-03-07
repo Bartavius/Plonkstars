@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { useRouter } from "next/navigation";
 import { Sigmar } from "next/font/google";
-import "../accounts.css"
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 

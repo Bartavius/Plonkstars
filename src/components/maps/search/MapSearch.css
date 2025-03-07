@@ -1,16 +1,30 @@
-.btn {
+.btn{
     background-color: var(--plonk-stars-red);
     color: var(--plonk-stars-white);
     transition: 0.2s ease-in-out;
 }
-  
+
 .btn:hover {
     filter: brightness(90%)
 }
 
-.grid {
+.next {
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+}
+
+
+.results-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1rem;
     padding: 1rem;
 }
+.search-body {
+    overflow-y: scroll;
+    color: var(--darkest-blue);
+    font-size: 1rem;
+    flex-grow: 1;
+    height: 70vh;
+    padding: 1rem;
+  }

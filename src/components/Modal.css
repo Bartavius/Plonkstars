@@ -1,0 +1,7 @@
+.modal-window{
+    background-color: var(--darker-blue);
+    color: var(--plonk-stars-white);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: 90%;
+}
