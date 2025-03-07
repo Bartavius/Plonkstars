@@ -11,6 +11,7 @@ body {
   width: 100%;
   height: 70%;
   overflow: hidden;
+  position: relative;
 }
 
 .btn-selected {
