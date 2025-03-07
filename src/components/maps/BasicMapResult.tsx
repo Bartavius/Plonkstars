@@ -1,45 +1,41 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import {
   MapContainer,
   Marker,
   TileLayer,
   Polyline,
   useMap,
-  Popup
+  Popup,
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import osm from "../../utils/leaflet";
 import "./map.css";
 
+interface guessPair {
+  user: { lat: number | null; lng: number | null };
+  correct: { lat: number; lng: number };
+}
 
-const BasicMapResult = ({
-  userLat,
-  userLng,
-  correctLat,
-  correctLng,
-}: {
-  userLat: number | null;
-  userLng: number | null;
-  correctLat: number; // make this not null later
-  correctLng: number;
-}) => {
-  const userMarkerPosition = { lat: userLat, lng: userLng };
-  const correctMarkerPosition = { lat: correctLat, lng: correctLng };
+const BasicMapResult = ({ markers }: { markers: guessPair[] }) => {
 
-  if (userMarkerPosition.lng !== null){
-    if (userMarkerPosition.lng - correctLng > 180) {
-      userMarkerPosition.lng -= 360;
-    } 
-    else if (userMarkerPosition.lng - correctLng < -180){
-      userMarkerPosition.lng += 360;
+  const boundedMarkers = markers.map((marker: guessPair) => {
+    let newLng = marker.user.lng;
+    if (marker.user.lng !== null) {
+      if (marker.user.lng - marker.correct.lng > 180) {
+        newLng = marker.user.lng - 360;
+      } else if (marker.user.lng - marker.correct.lng < -180) {
+        newLng = marker.user.lng += 360;
+      }
     }
-  }
+    return {...marker, user: { lat: marker.user.lat, lng: newLng }}
+  });
 
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;
+  const CENTER = { lat: 0, lng: 0 };
 
   const userIcon = L.icon({
     iconUrl: "/PlonkStarsAvatar.png",
@@ -59,7 +55,6 @@ const BasicMapResult = ({
     dashArray: "5, 15",
   };
 
-
   return (
     <div className="leaflet-container-result-wrapper">
       <MapContainer
@@ -67,7 +62,7 @@ const BasicMapResult = ({
         wheelPxPerZoomLevel={PX_PER_ZOOM_LEVEL}
         scrollWheelZoom={true}
         className="leaflet-result-map"
-        center={correctMarkerPosition}
+        center={CENTER}
         zoom={7}
       >
         <TileLayer
@@ -75,48 +70,55 @@ const BasicMapResult = ({
           attribution={osm.maptiler.attribution}
         />
 
-        {correctMarkerPosition && (
-          <Marker
-            position={correctMarkerPosition}
-            icon={correctIcon}
-            eventHandlers={{
-              click: () => {
-                window.open(
-                  `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${correctMarkerPosition.lat},${correctMarkerPosition.lng}`,
-                  "_blank"
-                );
-              },
-            }}
-          />
-        )}
+        {boundedMarkers.map((marker: guessPair, index: number) => (
+          <div key={index}>
+            {marker.user && (
+              <Marker
+                key={index}
+                position={{
+                  lat: marker.user.lat ?? 0,
+                  lng: marker.user.lng ?? 0,
+                }}
+                icon={userIcon}
+              />
+            )}
 
-        {userMarkerPosition.lat && userMarkerPosition.lng && (
-          <Marker
-            position={{
-              lat: userMarkerPosition.lat,
-              lng: userMarkerPosition.lng,
-            }}
-            icon={userIcon}
-          />
-        )}
+            {marker.correct && (
+              <Marker
+                position={marker.correct}
+                icon={correctIcon}
+                eventHandlers={{
+                  click: () => {
+                    window.open(
+                      `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${marker.correct.lat},${marker.correct.lng}`,
+                      "_blank"
+                    );
+                  },
+                }}
+              />
+            )}
 
-        {userMarkerPosition.lat && userMarkerPosition.lng && (
-          <div>
-            <Polyline
-              positions={[
-                [userMarkerPosition.lat, userMarkerPosition.lng],
-                [correctMarkerPosition.lat, correctMarkerPosition.lng],
-              ]}
-              pathOptions={dottedLine}
-            />
-            <FitBounds
-              userLat={userMarkerPosition.lat ?? 0}
-              userLng={userMarkerPosition.lng ?? 0}
-              correctLat={correctLat}
-              correctLng={correctLng}
-            />
+            {marker.user &&
+              marker.user.lat !== null &&
+              marker.user.lng !== null && (
+                <div>
+                  <Polyline
+                    positions={[
+                      [marker.user.lat, marker.user.lng],
+                      [marker.correct.lat, marker.correct.lng],
+                    ]}
+                    pathOptions={dottedLine}
+                  />
+                  <FitBounds
+                    userLat={marker.user.lat ?? 0}
+                    userLng={marker.user.lng ?? 0}
+                    correctLat={marker.correct.lat}
+                    correctLng={marker.correct.lng}
+                  />
+                </div>
+              )}
           </div>
-        )}
+        ))}
       </MapContainer>
     </div>
   );

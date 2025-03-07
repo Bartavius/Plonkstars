@@ -18,8 +18,8 @@ export default function Results() {
   const params = useParams();
   const matchId = params.id;
   const roundNumber = parseInt(searchParams.get("round") || "-1");
-  
-  if(roundNumber === -1){
+
+  if (roundNumber === -1) {
     return <div>Invalid round number</div>;
   }
 
@@ -27,7 +27,7 @@ export default function Results() {
   const [userLngParsed, setUserLngParsed] = useState<number | null>(null);
   const [correctLatParsed, setCorrectLatParsed] = useState<number>(0);
   const [correctLngParsed, setCorrectLngParsed] = useState<number>(0);
-  const [distance, setDistance] = useState<number|undefined>(undefined);
+  const [distance, setDistance] = useState<number | undefined>(undefined);
   const [score, setScore] = useState<number>(0);
   const [totalScore, setTotalScore] = useState<number>(0);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -35,9 +35,20 @@ export default function Results() {
 
   useEffect(() => {
     const getResults = async () => {
-      try{
-        const response = await api.get(`/game/results?id=${matchId}&round=${roundNumber}`);
-        const { userLat, userLng, correctLat, correctLng, distance, score, total, time} = response.data;
+      try {
+        const response = await api.get(
+          `/game/results?id=${matchId}&round=${roundNumber}`
+        );
+        const {
+          userLat,
+          userLng,
+          correctLat,
+          correctLng,
+          distance,
+          score,
+          total,
+          time,
+        } = response.data;
         setUserLatParsed(userLat);
         setUserLngParsed(userLng);
         setCorrectLatParsed(correctLat);
@@ -45,11 +56,11 @@ export default function Results() {
         setDistance(distance);
         setScore(score);
         setTotalScore(total);
-      } catch (err:any) {
+      } catch (err: any) {
         setError(err.response?.data?.error || "Error getting results");
       }
       setLoading(false);
-    }
+    };
 
     getResults();
 
@@ -67,87 +78,82 @@ export default function Results() {
     };
   }, []);
 
-
   const nextGame = () => {
     router.push(`/game/${matchId}`);
   };
 
-  const m = distance === undefined? -1:(distance * 1000);
+  const m = distance === undefined ? -1 : distance * 1000;
   const km = Math.round(m / 10) / 100;
   const formatter = km > 1 ? `${km}` : `${m}`;
   const units = km > 1 ? "KM" : "M";
 
-  if(error) {
+  if (error) {
     return <div>{error}</div>;
   }
 
-  if(loading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-      <div className="relative">
-        <GamePanel 
-          time={null}
-          timeLimit={null}
-          timeoutFunction={null}
-          totalScore={totalScore}
-          roundNumber={roundNumber}
-        />
-        <div className="map-result-container min-h-[90vh] min-w-full">
-          <div>
-            <BasicMapResult
-              userLat={userLatParsed}
-              userLng={userLngParsed}
-              correctLat={correctLatParsed}
-              correctLng={correctLngParsed}
-            />
-          </div>
+    <div className="relative">
+      <GamePanel
+        time={null}
+        timeLimit={null}
+        timeoutFunction={null}
+        totalScore={totalScore}
+        roundNumber={roundNumber}
+      />
+      <div className="map-result-container min-h-[90vh] min-w-full">
+        <div>
+          <BasicMapResult
+            markers={[
+              {
+                user: { lat: userLatParsed, lng: userLngParsed },
+                correct: { lat: correctLatParsed, lng: correctLngParsed },
+              },
+            ]}
+          />
         </div>
-        <div className="game-footer justify-center">
-          <div className="game-footer-element">
-            <div>
-              <div className="text-center inline">
-                <div>
-                  <b className="text-2xl">
-                    {score}
-                  </b>
-                </div>
-                <div className="text-red font-bold">
-                  <b>SCORE</b>
-                </div>
+      </div>
+      <div className="game-footer justify-center">
+        <div className="game-footer-element">
+          <div>
+            <div className="text-center inline">
+              <div>
+                <b className="text-2xl">{score}</b>
+              </div>
+              <div className="text-red font-bold">
+                <b>SCORE</b>
               </div>
             </div>
-            <div className="game-footer-element px-6">
-              <button
-                onClick={nextGame}
-                style={{ zIndex: 10000 }}
-                className="game-button"
-              >
-                <b>Next Round</b>
-              </button>
-            </div>
-            <div className="results-score">
-              {distance!==undefined && (
-                <div>
-                  <div className="text-center inline">
-                    <div>
-                      <b className="text-2xl">
-                        {formatter}
-                      </b>
-                    </div>
-                    <div className="text-red font-bold">
-                      <b>{units}</b>
-                    </div>
+          </div>
+          <div className="game-footer-element px-6">
+            <button
+              onClick={nextGame}
+              style={{ zIndex: 10000 }}
+              className="game-button"
+            >
+              <b>Next Round</b>
+            </button>
+          </div>
+          <div className="results-score">
+            {distance !== undefined && (
+              <div>
+                <div className="text-center inline">
+                  <div>
+                    <b className="text-2xl">{formatter}</b>
+                  </div>
+                  <div className="text-red font-bold">
+                    <b>{units}</b>
                   </div>
                 </div>
-              )}
-              {distance===undefined && (
-                <b className="text-2xl">Timed Out</b>
-              )}
-            </div>
+              </div>
+            )}
+            {distance === undefined && <b className="text-2xl">Timed Out</b>}
           </div>
         </div>
       </div>
+    </div>
   );
 }
