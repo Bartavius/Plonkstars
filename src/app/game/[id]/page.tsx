@@ -43,7 +43,7 @@ export default function MatchPage() {
         setTotalScore(total);
       }catch(err:any){
         if(err.response?.data?.error == "No more rounds are available"){
-          router.push('/');
+          router.push(`/game/${id}/summary`);
         }
       }
     }

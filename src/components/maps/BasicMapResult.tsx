@@ -19,7 +19,7 @@ interface guessPair {
   correct: { lat: number; lng: number };
 }
 
-const BasicMapResult = ({ markers }: { markers: guessPair[] }) => {
+const BasicMapResult = ({ markers, height }: { markers: guessPair[]; height?: number}) => {
 
   const boundedMarkers = markers.map((marker: guessPair) => {
     let newLng = marker.user.lng;
@@ -56,7 +56,7 @@ const BasicMapResult = ({ markers }: { markers: guessPair[] }) => {
   };
 
   return (
-    <div className="leaflet-container-result-wrapper">
+    <div className="leaflet-container-result-wrapper" style={height ? {height: `${height}dvh`} : undefined}>
       <MapContainer
         zoomDelta={ZOOM_DELTA}
         wheelPxPerZoomLevel={PX_PER_ZOOM_LEVEL}
@@ -72,12 +72,12 @@ const BasicMapResult = ({ markers }: { markers: guessPair[] }) => {
 
         {boundedMarkers.map((marker: guessPair, index: number) => (
           <div key={index}>
-            {marker.user && (
+            {marker.user && marker.user.lat && marker.user.lng && (
               <Marker
                 key={index}
                 position={{
-                  lat: marker.user.lat ?? 0,
-                  lng: marker.user.lng ?? 0,
+                  lat: marker.user.lat,
+                  lng: marker.user.lng,
                 }}
                 icon={userIcon}
               />
@@ -99,8 +99,8 @@ const BasicMapResult = ({ markers }: { markers: guessPair[] }) => {
             )}
 
             {marker.user &&
-              marker.user.lat !== null &&
-              marker.user.lng !== null && (
+              marker.user.lat &&
+              marker.user.lng && (
                 <div>
                   <Polyline
                     positions={[

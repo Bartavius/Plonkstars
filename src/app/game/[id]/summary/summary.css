@@ -1,0 +1,31 @@
+.summary-container {
+  width: 100dvw;
+  height: 100dvh;
+}
+
+body {
+  scroll-behavior: smooth;
+}
+
+.map-container {
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+}
+
+.btn-selected {
+  background-color: gray;
+  border-radius: 1rem;
+  color: var(--plonk-stars-white);
+  padding: 0.5rem 1rem;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-selected:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
+}
+
+.btn-selected:active {
+  transform: scale(0.97);
+}

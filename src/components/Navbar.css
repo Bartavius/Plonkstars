@@ -8,14 +8,16 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding-bottom: 8px;
   transition: background-color 0.2s ease-in-out;
+  z-index: 100;
 }
 
 .nav.open {
   background-color: rgba(0, 0, 0, 0.6);
+  z-index: 102;
 }
 
-.navbar {
-  z-index: 100;
+.nav-logo:hover {
+    text-decoration: none;
 }
 
 .navbar-elements {
