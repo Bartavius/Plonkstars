@@ -17,6 +17,10 @@
   --plonk-stars-white : rgba(235, 235, 235, 1);
 }
 
+html{
+  overflow: hidden;
+}
+
 html,
 body {
   height: 100%;
