@@ -72,7 +72,7 @@ const BasicMapResult = ({ markers }: { markers: guessPair[] }) => {
 
         {boundedMarkers.map((marker: guessPair, index: number) => (
           <div key={index}>
-            {marker.user && (
+            {marker.user.lat && marker.user.lng && (
               <Marker
                 key={index}
                 position={{
