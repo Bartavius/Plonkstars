@@ -1,0 +1,16 @@
+.btn {
+    background-color: var(--plonk-stars-red);
+    color: var(--plonk-stars-white);
+    transition: 0.2s ease-in-out;
+}
+  
+.btn:hover {
+    filter: brightness(90%)
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}

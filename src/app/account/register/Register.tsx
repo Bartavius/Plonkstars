@@ -102,7 +102,7 @@ const Register = () => {
                     </button>
                 </form>
                 <div className={`${sigmar.className} text-white`}>
-                    Already have an account? <a href="/account/login">Login here</a>
+                    Already have an account? <a href="/account/login" className='link'>Login here</a>
                 </div>
             </motion.div>
         </div>

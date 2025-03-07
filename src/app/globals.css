@@ -39,6 +39,15 @@ body {
   font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
 
+.link {
+  text-decoration: none;
+  color: var(--color-accent-gold);
+}
+
+.link:hover {
+text-decoration: underline;
+}
+
 .form-window {
   background-color: var(--darker-blue);
 }
@@ -119,4 +128,8 @@ body {
 
 .text-accent2 {
   color: var(--darker-blue);
+}
+
+.nav-bar-buffer{
+  height: 10vh;
 }
