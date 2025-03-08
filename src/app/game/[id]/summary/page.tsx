@@ -1,10 +1,12 @@
 "use client";
-import BasicMapResult from "@/components/maps/BasicMapResult";
 import "./summary.css";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
 import { useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const BasicMapResult = dynamic(() => import("@/components/maps/BasicMapResult"),{ ssr: false });
 
 export default function Summary() {
   // needs to call for all rounds info

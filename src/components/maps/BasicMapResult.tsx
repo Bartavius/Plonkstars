@@ -125,10 +125,7 @@ const BasicMapResult = ({
           </div>
         ))}
         <FitBounds
-          markers={boundedMarkers.filter(
-            (marker): marker is GuessPairValid =>
-              marker.user.lat !== null && marker.user.lng !== null
-          )}
+          markers={boundedMarkers}
         />
       </MapContainer>
     </div>
@@ -137,7 +134,7 @@ const BasicMapResult = ({
 
 export default BasicMapResult;
 
-const FitBounds = ({ markers }: { markers: GuessPairValid[] }) => {
+const FitBounds = ({ markers }: { markers: GuessPair[] }) => {
   const map = useMap();
 
   let topLeftLat = 90;
@@ -148,22 +145,22 @@ const FitBounds = ({ markers }: { markers: GuessPairValid[] }) => {
   for (let i = 0; i < markers.length; i++) {
     topLeftLat = Math.min(
       topLeftLat,
-      markers[i].user.lat,
+      markers[i].user.lat ?? 90,
       markers[i].correct.lat
     );
     topLeftLng = Math.min(
       topLeftLng,
-      markers[i].user.lng,
+      markers[i].user.lng ?? 180,
       markers[i].correct.lng
     );
     bottomRightLat = Math.max(
       bottomRightLat,
-      markers[i].user.lat,
+      markers[i].user.lat ?? -90,
       markers[i].correct.lat
     );
     bottomRightLng = Math.max(
       bottomRightLng,
-      markers[i].user.lng,
+      markers[i].user.lng ?? -180,
       markers[i].correct.lng
     );
   }
