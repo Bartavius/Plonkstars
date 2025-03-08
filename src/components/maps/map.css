@@ -1,6 +1,6 @@
 .leaflet-container-wrapper {
-    width: 35vw; /* 800 */
-    height: 40vh; /* 460 */
+    width: 23vw; /* 800 */
+    height: 25vh; /* 460 */
     overflow: hidden;
     z-index: 99;
     transition: transform 0.1s ease-in-out;
@@ -10,13 +10,13 @@
 }
   
 .leaflet-container-wrapper.hovered {
-    transform: scaleX(1.7) scaleY(1.7); /* 1.2 instead */
+    transform: scaleX(2.4) scaleY(2.4); /* 1.2 instead */
     opacity: 1;
     cursor: crosshair;
 }
   
 .leaflet-container-wrapper:hover {
-    transform: scaleX(1.7) scaleY(1.7); /* 1.2 instead */
+    transform: scaleX(2.4) scaleY(2.4); /* 1.2 instead */
     opacity: 1;
     cursor: crosshair;
 }
