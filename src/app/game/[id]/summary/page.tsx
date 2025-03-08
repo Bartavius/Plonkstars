@@ -5,6 +5,8 @@ import api from "@/utils/api";
 import { useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { get } from "http";
+import { all } from "axios";
 
 const BasicMapResult = dynamic(() => import("@/components/maps/BasicMapResult"),{ ssr: false });
 
@@ -31,6 +33,9 @@ export default function Summary() {
   const [displayedLocation, setDisplayedLocation] = useState<Location[]>([]);
   const [topGuesses, setTopGuesses] = useState<Guess[][]>([]);
   const [userGuesses, setUserGuesses] = useState<Guess[]>([]);
+
+  const [allGuesses, setAllGuesses] = useState<Guess[][]>([]);
+  const [displayedGuesses, setDisplayedGuesses] = useState<Guess[][]>([]);
   const [data, setData] = useState<any[]>([]);
   const params = useParams();
   const router = useRouter();
@@ -47,10 +52,13 @@ export default function Summary() {
         const location = res.data.rounds.map((guess:any) => guess.correct);
         const topGuesses = res.data.rounds.map((guess:any) => guess.top);
         const userGuesses = res.data.rounds.map((guess:any) => guess.this_user);
+        const allGuesses = topGuesses.map((top:Guess[],index:number) => getUserMap(top,userGuesses[index]));
         setLocations(location);
         setDisplayedLocation(location);
         setTopGuesses(topGuesses);
         setUserGuesses(userGuesses);
+        setAllGuesses(allGuesses);
+        setDisplayedGuesses(allGuesses);
         setData(res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -99,7 +107,7 @@ export default function Summary() {
           displayedLocation.map((location, index) => {
             return {
               correct: location,
-              users: getUserMap(topGuesses[index], userGuesses[index])
+              users: displayedGuesses[index]
             };
           })
         }
@@ -110,6 +118,7 @@ export default function Summary() {
           <button
             className="btn-selected"
             onClick={() => {
+              setDisplayedGuesses(allGuesses);
               setDisplayedLocation(locations);
               router.push("#map-summary");
             }}
@@ -131,14 +140,18 @@ export default function Summary() {
               <a
                 href="#map-summary"
                 className="flex mx-20 justify-between items-center bg-accent1 p-4 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200"
-                onClick={() => setDisplayedLocation([locations[index]])}
+                onClick={() => {
+                    setDisplayedGuesses([allGuesses[index]]);
+                    setDisplayedLocation([locations[index]]);
+                  }
+                }
               >
                 <div className="flex flex-col">
                   <span className="text-lg font-semibold text-dark">
-                    Round {index}
+                    Round {index + 1}
                   </span>
                   <span className="text-dark text-sm">
-                    ⏳ {guess.time}s
+                    ⏳ {guess.time ? `${guess.time}s` : "Timed Out"}
                   </span>
                 </div>
                 <div className="text-right">
@@ -146,7 +159,7 @@ export default function Summary() {
                     {guess.score} pts
                   </span>
                   <span className="text-dark text-sm">
-                    📍 {guess.distance !== null ? `${parseFloat(guess.distance.toString()).toFixed(2)} km away` : 'Timed out'}
+                    {guess.distance && `📍 ${parseFloat(guess.distance.toString()).toFixed(2)} km away`}
                   </span>
                 </div>
               </a>
