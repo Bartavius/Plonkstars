@@ -69,8 +69,8 @@ const BasicMapWithMarker = ({
         className="leaflet-map"
       >
         <TileLayer
-          url={osm.maptiler.url}
-          attribution={osm.maptiler.attribution}
+          url={osm.map.url}
+          attribution={osm.map.attribution}
           tileSize={256}
           detectRetina={true}
           className="leaflet-control-attribution"
