@@ -5,8 +5,6 @@ import api from "@/utils/api";
 import { useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { get } from "http";
-import { all } from "axios";
 
 const BasicMapResult = dynamic(() => import("@/components/maps/BasicMapResult"),{ ssr: false });
 
