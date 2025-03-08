@@ -96,7 +96,13 @@ export default function Game() {
               >
                 Map Name
               </label>
-              <button className="game-setup-btn w-full py-2 rounded-lg font-semibold " onClick={() => {setIsModalOpen(true)}}>{mapName}</button>
+              <button 
+                className={`game-setup-btn w-full py-2 rounded-lg font-semibold ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                disabled={loading}
+                onClick={() => {!loading && setIsModalOpen(true)}}
+              >
+                {mapName}
+              </button>
             </div>
             <div className="mb-4">
               <label className="block mb-2 text-white" htmlFor="round-range">
