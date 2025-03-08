@@ -80,8 +80,8 @@ const BasicMapResult = ({
         zoom={7}
       >
         <TileLayer
-          url={osm.maptiler.url}
-          attribution={osm.maptiler.attribution}
+          url={osm.map.url}
+          attribution={osm.map.attribution}
         />
         {boundedMarkers.map((markerObj, index) => (
           <div key={index}>
