@@ -74,7 +74,7 @@ const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => v
                                     key={index}
                                     onClick={() => mapSelect(map.id, map.name)}
                                 >
-                                    <div className="mt-2 cursor-pointer hover:bg-gray-100 text-dark flex items-center bg-white rounded-lg shadow-lg">
+                                    <div className="cursor-pointer hover:bg-gray-100 text-dark flex items-center bg-white rounded-lg shadow-lg">
                                         <img src="/PlonkStarsMarker.png" className="h-full p-4"/>
                                         <div className="inline">
                                             <div className="text-lg">
