@@ -17,7 +17,7 @@ export default function Game() {
   // page for starting NEW game, also render all the settings and options here.
   const [maps, setMaps] = useState<string[]>([]);
   const [mapName, setMapName] = useState<string>("World");
-  const [mapId, setMapId] = useState<string>("");
+  const [mapId, setMapId] = useState<string>("6de5dcca-72c2-4c5a-8984-bcff7f059ea0");
   const [rounds, setRounds] = useState<number>(minRounds);
   const [time, setTime] = useState<number>(60); // -1 is inf time
   const [replay, setReplay] = useState<string>(
