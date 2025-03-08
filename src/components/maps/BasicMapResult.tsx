@@ -14,14 +14,24 @@ import "leaflet/dist/leaflet.css";
 import osm from "../../utils/leaflet";
 import "./map.css";
 
-interface guessPair {
+interface GuessPair {
   user: { lat: number | null; lng: number | null };
   correct: { lat: number; lng: number };
 }
 
-const BasicMapResult = ({ markers, height }: { markers: guessPair[]; height?: number}) => {
+interface GuessPairValid {
+  user: { lat: number; lng: number };
+  correct: { lat: number; lng: number };
+}
 
-  const boundedMarkers = markers.map((marker: guessPair) => {
+const BasicMapResult = ({
+  markers,
+  height,
+}: {
+  markers: GuessPair[];
+  height?: number;
+}) => {
+  const boundedMarkers = markers.map((marker: GuessPair) => {
     let newLng = marker.user.lng;
     if (marker.user.lng !== null) {
       if (marker.user.lng - marker.correct.lng > 180) {
@@ -30,7 +40,7 @@ const BasicMapResult = ({ markers, height }: { markers: guessPair[]; height?: nu
         newLng = marker.user.lng += 360;
       }
     }
-    return {...marker, user: { lat: marker.user.lat, lng: newLng }}
+    return { ...marker, user: { lat: marker.user.lat, lng: newLng } };
   });
 
   const ZOOM_DELTA = 2;
@@ -56,7 +66,10 @@ const BasicMapResult = ({ markers, height }: { markers: guessPair[]; height?: nu
   };
 
   return (
-    <div className="leaflet-container-result-wrapper" style={height ? {height: `${height}dvh`} : undefined}>
+    <div
+      className="leaflet-container-result-wrapper"
+      style={height ? { height: `${height}dvh` } : undefined}
+    >
       <MapContainer
         zoomDelta={ZOOM_DELTA}
         wheelPxPerZoomLevel={PX_PER_ZOOM_LEVEL}
@@ -70,7 +83,7 @@ const BasicMapResult = ({ markers, height }: { markers: guessPair[]; height?: nu
           attribution={osm.maptiler.attribution}
         />
 
-        {boundedMarkers.map((marker: guessPair, index: number) => (
+        {boundedMarkers.map((marker: GuessPair, index: number) => (
           <div key={index}>
             {marker.user && marker.user.lat && marker.user.lng && (
               <Marker
@@ -98,27 +111,25 @@ const BasicMapResult = ({ markers, height }: { markers: guessPair[]; height?: nu
               />
             )}
 
-            {marker.user &&
-              marker.user.lat &&
-              marker.user.lng && (
-                <div>
-                  <Polyline
-                    positions={[
-                      [marker.user.lat, marker.user.lng],
-                      [marker.correct.lat, marker.correct.lng],
-                    ]}
-                    pathOptions={dottedLine}
-                  />
-                  <FitBounds
-                    userLat={marker.user.lat ?? 0}
-                    userLng={marker.user.lng ?? 0}
-                    correctLat={marker.correct.lat}
-                    correctLng={marker.correct.lng}
-                  />
-                </div>
-              )}
+            {marker.user && marker.user.lat && marker.user.lng && (
+              <div>
+                <Polyline
+                  positions={[
+                    [marker.user.lat, marker.user.lng],
+                    [marker.correct.lat, marker.correct.lng],
+                  ]}
+                  pathOptions={dottedLine}
+                />
+              </div>
+            )}
           </div>
         ))}
+        <FitBounds
+          markers={boundedMarkers.filter(
+            (marker): marker is GuessPairValid =>
+              marker.user.lat !== null && marker.user.lng !== null
+          )}
+        />
       </MapContainer>
     </div>
   );
@@ -126,31 +137,49 @@ const BasicMapResult = ({ markers, height }: { markers: guessPair[]; height?: nu
 
 export default BasicMapResult;
 
-// sets the bound to include both markers
-const FitBounds = ({
-  userLat,
-  userLng,
-  correctLat,
-  correctLng,
-}: {
-  userLat: number;
-  userLng: number;
-  correctLat: number;
-  correctLng: number;
-}) => {
+const FitBounds = ({ markers }: { markers: GuessPairValid[] }) => {
   const map = useMap();
+
+  let topLeftLat = 90;
+  let topLeftLng = 180;
+  let bottomRightLat = -90;
+  let bottomRightLng = -180;
+
+  for (let i = 0; i < markers.length; i++) {
+    topLeftLat = Math.min(
+      topLeftLat,
+      markers[i].user.lat,
+      markers[i].correct.lat
+    );
+    topLeftLng = Math.min(
+      topLeftLng,
+      markers[i].user.lng,
+      markers[i].correct.lng
+    );
+    bottomRightLat = Math.max(
+      bottomRightLat,
+      markers[i].user.lat,
+      markers[i].correct.lat
+    );
+    bottomRightLng = Math.max(
+      bottomRightLng,
+      markers[i].user.lng,
+      markers[i].correct.lng
+    );
+  }
+
   useEffect(() => {
-    if (map && userLat && userLng && correctLat && correctLng) {
+    if (map && markers.length > 0) {
       const bounds: L.LatLngBoundsExpression = [
-        [userLat, userLng],
-        [correctLat, correctLng],
+        [topLeftLat, topLeftLng],
+        [bottomRightLat, bottomRightLng],
       ];
       map.fitBounds(bounds, {
         paddingTopLeft: [10, 50],
         paddingBottomRight: [10, 20],
       });
     }
-  }, [map, userLat, userLng, correctLat, correctLng]);
+  }, [map, markers]);
 
   return null;
 };

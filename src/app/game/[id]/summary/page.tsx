@@ -40,19 +40,19 @@ export default function Summary() {
   }, [user, params.id]);
 
   useEffect(() => {
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.code === "Space") {
-          event.preventDefault();
-          router.push("/game");
-        }
-      };
-  
-      window.addEventListener("keydown", handleKeyDown);
-  
-      return () => {
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    }, []);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code === "Space") {
+        event.preventDefault();
+        router.push("/game");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <div className="summary-container">
@@ -61,7 +61,13 @@ export default function Summary() {
       </div>
       <div className="mx-auto p-6 bg-main-dark shadow-lg rounded-lg">
         <div className="flex items-center justify-between mb-4">
-          <button className="btn-selected" onClick={() => {setTimeout(() => setDisplayedLocation(locations), 100); router.push("#map-summary")}}>
+          <button
+            className="btn-selected"
+            onClick={() => {
+              setDisplayedLocation(locations);
+              router.push("#map-summary");
+            }}
+          >
             Select All
           </button>
 
