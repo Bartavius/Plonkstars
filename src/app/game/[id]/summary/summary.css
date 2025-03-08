@@ -12,6 +12,7 @@ body {
   height: 70%;
   overflow: hidden;
   position: relative;
+  z-index: 0;
 }
 
 .btn-selected {

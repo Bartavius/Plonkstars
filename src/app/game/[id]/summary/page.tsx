@@ -56,7 +56,7 @@ export default function Summary() {
 
   return (
     <div className="summary-container">
-      <div id="map-summary" className="map-container">
+      <div id="map-summary" className="map-container absolute">
         <BasicMapResult markers={displayedLocation} height={70} />
       </div>
       <div className="mx-auto p-6 bg-main-dark shadow-lg rounded-lg">

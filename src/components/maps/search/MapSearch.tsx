@@ -2,6 +2,7 @@
 
 import api from "@/utils/api";
 import { use, useEffect, useState } from "react";
+import MapCard from "./MapCard";
 import "./MapSearch.css"
 
 const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => void,pageSize:number}) => {
@@ -74,17 +75,7 @@ const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => v
                                     key={index}
                                     onClick={() => mapSelect(map.id, map.name)}
                                 >
-                                    <div className="cursor-pointer hover:bg-gray-100 text-dark flex items-center bg-white rounded-lg shadow-lg">
-                                        <img src="/PlonkStarsMarker.png" className="h-full p-4"/>
-                                        <div className="inline">
-                                            <div className="text-lg">
-                                                {map.name}
-                                            </div>
-                                            <div className="text-sm">
-                                                {map.creator.username}                             
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <MapCard map={map}/>
                                 </li>
                             ))}
                         </ul>
