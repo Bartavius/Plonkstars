@@ -15,12 +15,7 @@ import osm from "../../utils/leaflet";
 import "./map.css";
 
 interface GuessPair {
-  user: { lat: number | null; lng: number | null };
-  correct: { lat: number; lng: number };
-}
-
-interface GuessPairValid {
-  user: { lat: number; lng: number };
+  users: { lat: number | null; lng: number | null }[];
   correct: { lat: number; lng: number };
 }
 
@@ -32,16 +27,22 @@ const BasicMapResult = ({
   height?: number;
 }) => {
   const boundedMarkers = markers.map((marker: GuessPair) => {
-    let newLng = marker.user.lng;
-    if (marker.user.lng !== null) {
-      if (marker.user.lng - marker.correct.lng > 180) {
-        newLng = marker.user.lng - 360;
-      } else if (marker.user.lng - marker.correct.lng < -180) {
-        newLng = marker.user.lng += 360;
+    console.log(marker);
+    const newUsers = marker.users.map((user: { lat: number | null; lng: number | null }) => {
+      let newLng = user.lng;
+      if (user.lng !== null) {
+        if (user.lng - marker.correct.lng > 180) {
+          newLng = user.lng - 360;
+        } else if (user.lng - marker.correct.lng < -180) {
+          newLng = user.lng + 360;
+        }
       }
-    }
-    return { ...marker, user: { lat: marker.user.lat, lng: newLng } };
+      return { lat: user.lat, lng: newLng };
+    })
+    return {...marker,users:newUsers};
   });
+
+  console.log(boundedMarkers);
 
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;
@@ -82,48 +83,49 @@ const BasicMapResult = ({
           url={osm.maptiler.url}
           attribution={osm.maptiler.attribution}
         />
-
-        {boundedMarkers.map((marker: GuessPair, index: number) => (
+        {boundedMarkers.map((markerObj, index) => (
           <div key={index}>
-            {marker.user && marker.user.lat && marker.user.lng && (
+            {markerObj && 
               <Marker
-                key={index}
-                position={{
-                  lat: marker.user.lat,
-                  lng: marker.user.lng,
-                }}
-                icon={userIcon}
-              />
-            )}
-
-            {marker.correct && (
-              <Marker
-                position={marker.correct}
+                position={markerObj.correct}
                 icon={correctIcon}
                 eventHandlers={{
                   click: () => {
                     window.open(
-                      `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${marker.correct.lat},${marker.correct.lng}`,
+                      `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${markerObj.correct.lat},${markerObj.correct.lng}`,
                       "_blank"
                     );
                   },
                 }}
               />
-            )}
-
-            {marker.user && marker.user.lat && marker.user.lng && (
-              <div>
-                <Polyline
-                  positions={[
-                    [marker.user.lat, marker.user.lng],
-                    [marker.correct.lat, marker.correct.lng],
-                  ]}
-                  pathOptions={dottedLine}
-                />
+            }
+            {markerObj.users.map((user, userIndex) => (
+              <div key={userIndex}>
+                {user && user.lat && user.lng && (
+                  <>
+                    <Marker
+                      key={index}
+                      position={{
+                        lat: user.lat,
+                        lng: user.lng,
+                      }}
+                      icon={userIcon}
+                    />
+                    <div>
+                      <Polyline
+                        positions={[
+                          [user.lat, user.lng],
+                          [markerObj.correct.lat, markerObj.correct.lng],
+                        ]}
+                        pathOptions={dottedLine}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
-            )}
-          </div>
-        ))}
+            ))}
+        </div>
+      ))}
         <FitBounds
           markers={boundedMarkers}
         />
@@ -143,24 +145,39 @@ const FitBounds = ({ markers }: { markers: GuessPair[] }) => {
   let bottomRightLng = -180;
 
   for (let i = 0; i < markers.length; i++) {
+    for (let j = 0; j < markers[i].users.length; j++) {
+      
+      topLeftLat = Math.min(
+        topLeftLat,
+        markers[i].users[j].lat ?? 90
+      );
+      topLeftLng = Math.min(
+        topLeftLng,
+        markers[i].users[j].lng ?? 180
+      );
+      bottomRightLat = Math.max(
+        bottomRightLat,
+        markers[i].users[j].lat ?? -90
+      );
+      bottomRightLng = Math.max(
+        bottomRightLng,
+        markers[i].users[j].lng ?? -180
+      );
+    }
     topLeftLat = Math.min(
       topLeftLat,
-      markers[i].user.lat ?? 90,
       markers[i].correct.lat
     );
     topLeftLng = Math.min(
       topLeftLng,
-      markers[i].user.lng ?? 180,
       markers[i].correct.lng
     );
     bottomRightLat = Math.max(
       bottomRightLat,
-      markers[i].user.lat ?? -90,
       markers[i].correct.lat
     );
     bottomRightLng = Math.max(
       bottomRightLng,
-      markers[i].user.lng ?? -180,
       markers[i].correct.lng
     );
   }

@@ -12,6 +12,21 @@ const BasicMapResult = dynamic(
   { ssr: false }
 );
 
+interface Guess{
+  user:string;
+  score:number;
+  total_score:number;
+  distance:number | null;
+  time:number | null;
+  lat:number | null;
+  lng:number | null;
+}
+
+interface Location{
+  lat:number;
+  lng:number;
+}
+
 export default function Results() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -23,15 +38,14 @@ export default function Results() {
     return <div>Invalid round number</div>;
   }
 
-  const [userLatParsed, setUserLatParsed] = useState<number | null>(null);
-  const [userLngParsed, setUserLngParsed] = useState<number | null>(null);
-  const [correctLatParsed, setCorrectLatParsed] = useState<number>(0);
-  const [correctLngParsed, setCorrectLngParsed] = useState<number>(0);
-  const [distance, setDistance] = useState<number | undefined>(undefined);
-  const [score, setScore] = useState<number>(0);
-  const [totalScore, setTotalScore] = useState<number>(0);
+  const [top,setTop] = useState<Guess[]>([]);
+  const [user,setUser] = useState<Guess>();
+  const [correct,setCorrect] = useState<Location>();
   const [error, setError] = useState<string | undefined>(undefined);
-  const [loading, setLoading] = useState(true);
+
+  const nextGame = () => {
+    router.push(`/game/${matchId}`);
+  };
 
   useEffect(() => {
     const getResults = async () => {
@@ -40,26 +54,16 @@ export default function Results() {
           `/game/results?id=${matchId}&round=${roundNumber}`
         );
         const {
-          userLat,
-          userLng,
-          correctLat,
-          correctLng,
-          distance,
-          score,
-          total,
-          time,
+          this_user,
+          top,
+          correct
         } = response.data;
-        setUserLatParsed(userLat);
-        setUserLngParsed(userLng);
-        setCorrectLatParsed(correctLat);
-        setCorrectLngParsed(correctLng);
-        setDistance(distance);
-        setScore(score);
-        setTotalScore(total);
+        setUser(this_user);
+        setTop(top);
+        setCorrect(correct);
       } catch (err: any) {
         setError(err.response?.data?.error || "Error getting results");
       }
-      setLoading(false);
     };
 
     getResults();
@@ -78,21 +82,39 @@ export default function Results() {
     };
   }, []);
 
-  const nextGame = () => {
-    router.push(`/game/${matchId}`);
-  };
-
-  const m = distance === undefined ? -1 : distance * 1000;
-  const km = Math.round(m / 10) / 100;
-  const formatter = km > 1 ? `${km}` : `${m}`;
-  const units = km > 1 ? "KM" : "M";
-
-  if (error) {
-    return <div>{error}</div>;
+  if (!user || !correct) {
+    return <div>Loading...</div>;
   }
 
-  if (loading) {
-    return <div>Loading...</div>;
+  const getUserMap = () => {
+    if(!top || !user){
+      return [{ lat:0, lng: 0 }];
+    }
+    let userIn = false;
+    let copy = [...top];
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].user === user.user) {
+        userIn = true;
+        break;
+      }
+    }
+    if (!userIn) {
+      copy.push(user);
+    }
+    return copy;
+  }
+
+  const distanceString = (distance:number|null) => {
+    const m = distance === null ? -1 : distance * 1000;
+    const km = Math.round(m / 10) / 100;
+    const userDistance = km > 1 ? km : m;
+    const units = km > 1 ? "KM" : "M";
+    return {userDistance,units};
+  }
+
+  const userDistance = distanceString(user.distance);
+  if (error) {
+    return <div>{error}</div>;
   }
 
   return (
@@ -101,18 +123,16 @@ export default function Results() {
         time={null}
         timeLimit={null}
         timeoutFunction={null}
-        totalScore={totalScore}
+        totalScore={user.total_score}
         roundNumber={roundNumber}
       />
       <div className="map-result-container min-h-[90vh] min-w-full">
         <div>
           <BasicMapResult
-            markers={[
-              {
-                user: { lat: userLatParsed, lng: userLngParsed },
-                correct: { lat: correctLatParsed, lng: correctLngParsed },
-              },
-            ]}
+            markers={[{
+              users: getUserMap(),
+              correct: correct
+            }]}
           />
         </div>
       </div>
@@ -121,7 +141,7 @@ export default function Results() {
           <div>
             <div className="text-center inline">
               <div>
-                <b className="text-2xl">{score}</b>
+                <b className="text-2xl">{user.score}</b>
               </div>
               <div className="text-red font-bold">
                 <b>SCORE</b>
@@ -138,19 +158,19 @@ export default function Results() {
             </button>
           </div>
           <div className="results-score">
-            {distance !== undefined && (
+            {user.distance !== undefined && (
               <div>
                 <div className="text-center inline">
                   <div>
-                    <b className="text-2xl">{formatter}</b>
+                    <b className="text-2xl">{userDistance.userDistance}</b>
                   </div>
                   <div className="text-red font-bold">
-                    <b>{units}</b>
+                    <b>{userDistance.units}</b>
                   </div>
                 </div>
               </div>
             )}
-            {distance === undefined && <b className="text-2xl">Timed Out</b>}
+            {user.distance === undefined && <b className="text-2xl">Timed Out</b>}
           </div>
         </div>
       </div>

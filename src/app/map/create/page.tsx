@@ -8,11 +8,11 @@ const BasicMapResult = dynamic(() => import("@/components/maps/BasicMapResult"),
 
 const MAPID = "c5ce2041-a992-44f1-a8e6-104c6d6d4a43"
 export default function Results() {
-    const [locations,setLocations] = useState([{correct:{lat:0,lng:0},user: { lat:null, lng: null }}]);
+    const [locations,setLocations] = useState([{correct:{lat:0,lng:0},users: []}]);
 
     const getLocations = async () => {
         const response = await api.get(`/map/info?id=${MAPID}`);
-        const bounds = response.data.bounds.map((bound: any) => ({correct: { lat: bound.start[0], lng: bound.start[1] }, user: { lat:null, lng: null }}));
+        const bounds = response.data.bounds.map((bound: any) => ({correct: { lat: bound.start[0], lng: bound.start[1] }, users: []}));
         console.log(bounds);
         setLocations(bounds);
     }
