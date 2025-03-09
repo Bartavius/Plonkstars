@@ -8,22 +8,66 @@
     filter: brightness(90%)
 }
 
-.next {
+.next-button {
     padding: 0.5rem;
     border-radius: 0.375rem;
 }
 
+.map-title {
+    display: inline;
+    width: 40%;
 
+}
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 1rem;
     padding: 1rem;
 }
 .search-body {
     overflow-y: scroll;
-    color: var(--darkest-blue);
     font-size: 1rem;
     flex-grow: 1;
     height: 60vh;
-  }
+}
+
+.map-stat {
+    width:15%;
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.map-icon{
+    color: grey;
+    filter: brightness(75%);
+    padding-right: 0.2rem;
+    font-size: x-large;
+}
+
+.map-stat-stat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+}
+
+.map-card {
+    background-color: var(--plonk-stars-white);
+    color: var(--even-darker-darkest-blue);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    box-shadow: 1rem;
+}
+
+.map-name {
+    font-size: 1.2rem;
+}
+
+.map-creator {
+    font-size: 0.8rem;
+    color: gray;
+}
