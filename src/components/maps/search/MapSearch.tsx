@@ -1,7 +1,7 @@
 "use client";
 
 import api from "@/utils/api";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MapCard from "./MapCard";
 import "./MapSearch.css"
 
@@ -54,8 +54,10 @@ const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => v
                         }}
                     />
                     <button
-                        className="btn px-2 rounded-r-md"
+                        disabled={loading}
+                        className={`btn px-2 rounded-r-md ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                         onClick={() => {
+                            if (loading) return;
                             setPage(1);
                             setMapName(input);
                         }}
@@ -80,8 +82,8 @@ const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => v
                             ))}
                         </ul>
                         <div className="flex justify-between">
-                            {page != 1? <button onClick={() => setPage(page - 1)} className="btn next">Prev Page</button>: <div></div>}
-                            {hasNext? <button onClick={() => setPage(page + 1)} className="btn next">Next Page</button>: <div></div>}
+                            {page != 1? <button onClick={() => setPage(page - 1)} className="btn next-button">Prev Page</button>: <></>}
+                            {hasNext? <button onClick={() => setPage(page + 1)} className="btn next-button">Next Page</button>: <></>}
                         </div>
                     </div>
                     )
