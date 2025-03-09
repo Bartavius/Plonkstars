@@ -150,6 +150,6 @@ text-decoration: underline;
   color: var(--darker-blue);
 }
 
-.nav-bar-buffer{
+.navbar-buffer{
   height: 10vh;
 }

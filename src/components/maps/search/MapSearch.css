@@ -27,10 +27,12 @@
 }
 
 .search-body {
-    overflow-y: scroll;
     font-size: 1rem;
     flex-grow: 1;
-    height: 60vh;
+}
+
+.search-body-height {
+    overflow-y: scroll;
 }
 
 .map-stat {

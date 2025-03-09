@@ -5,13 +5,17 @@ import { useEffect, useState } from "react";
 import MapCard from "./MapCard";
 import "./MapSearch.css"
 
-const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => void,pageSize:number}) => {
-    const [loading, setLoading] = useState(false);
+const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:string) => void,pageSize?:number, bodySize?:string}) => {
+    const [loading, setLoading] = useState<boolean>();
     const [page, setPage] = useState(1);
     const [input, setInput] = useState("");
     const [mapName, setMapName] = useState("");
     const [hasNext, setHasNext] = useState(false);
     const [maps, setMaps] = useState([]);
+
+    if (!pageSize) {
+        pageSize = 24;
+    }
 
     const query = async () => {
         if (!loading) {
@@ -66,9 +70,9 @@ const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => v
                     </button>
                 </div>
             </div>
-            <div className="search-body">
-                {loading && <div className="mx-10">Loading results...</div>}
-                {!loading && maps.length === 0 && page === 1 && (<div className="mx-10">No results found.</div>)}
+            <div className={`search-body ${bodySize? "search-body-height":""}`} style={{height: bodySize? bodySize: "100%"}}>
+                {(loading || loading == undefined) && <div className="mx-10">Loading results...</div>}
+                {loading == false && maps.length === 0 && page === 1 && (<div className="mx-10">No results found.</div>)}
                 {!loading && (
                     <div className="mx-10">
                         <ul className="results-grid">

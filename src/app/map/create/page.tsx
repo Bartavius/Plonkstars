@@ -12,7 +12,7 @@ export default function Results() {
 
     const getLocations = async () => {
         const response = await api.get(`/map/info?id=${MAPID}`);
-        const bounds = response.data.bounds.map((bound: any) => ({correct: { lat: bound.start[0], lng: bound.start[1] }, users: []}));
+        const bounds = response.data.bounds.map((bound: any) => ({correct: bounds.start, users: []}));
         console.log(bounds);
         setLocations(bounds);
     }

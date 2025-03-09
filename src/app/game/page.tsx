@@ -200,7 +200,7 @@ export default function Game() {
       </div>
       <div className="fixed">
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <MapSearch mapSelect={addMap} pageSize={12}/>
+          <MapSearch mapSelect={addMap} pageSize={12} bodySize="60vh"/>
         </Modal>
       </div>
     </div>
