@@ -27,7 +27,7 @@ const MapCard = ({map}:{map:MapInfo}) => {
     }
 
     return(
-    <div className="map-card">
+    <div className="map-card">  
         <img src="/PlonkStarsMarker.png" className="h-full p-4"/>
         <div className="map-title">
             <div className="map-name">

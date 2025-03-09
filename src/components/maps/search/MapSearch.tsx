@@ -82,8 +82,8 @@ const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => v
                             ))}
                         </ul>
                         <div className="flex justify-between">
-                            {page != 1? <button onClick={() => setPage(page - 1)} className="btn next-button">Prev Page</button>: <></>}
-                            {hasNext? <button onClick={() => setPage(page + 1)} className="btn next-button">Next Page</button>: <></>}
+                            {page != 1? <button onClick={() => setPage(page - 1)} className="btn next-button">Prev Page</button>: <div></div>}
+                            {hasNext? <button onClick={() => setPage(page + 1)} className="btn next-button">Next Page</button>: <div></div>}
                         </div>
                     </div>
                     )
