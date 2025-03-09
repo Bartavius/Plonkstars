@@ -5,7 +5,6 @@ import api from "@/utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { initializeSettings } from "@/redux/gameSlice";
 
 const BasicMapResult = dynamic(() => import("@/components/maps/BasicMapResult"),{ ssr: false });
 

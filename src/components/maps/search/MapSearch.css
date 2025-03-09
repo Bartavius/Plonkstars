@@ -54,6 +54,9 @@
     justify-content: center;
     font-size: small;
 }
+.map-card:hover {
+    background-color: lightgray;
+}
 
 .map-card {
     background-color: var(--plonk-stars-white);
