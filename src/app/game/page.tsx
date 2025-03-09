@@ -7,25 +7,33 @@ import "./game.css";
 import Modal from "@/components/Modal";
 import MapSearch from "@/components/maps/search/MapSearch";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { setGameSettings } from "@/redux/gameSlice";
 
-const minRounds = 5;
-const maxRounds = 20;
-const minTime = 5;
-const maxTime = 300;
+const MIN_ROUNDS = 5;
+const MAX_ROUNDS = 20;
+const MIN_TIME = 5;
+const MAX_TIME = 300;
+const DEFAULT_TIME = 60
+const DEFAULT_MAP_NAME = "World";
+const DEFAULT_MAP_UUID = "6de5dcca-72c2-4c5a-8984-bcff7f059ea0";
+const REPLAY_GAME = "d5afbc6c-58e2-4330-bfb2-bb39feb34e94";
 
 export default function Game() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  // loading past game settings
+  const lastSetting = useSelector((state: any) => state.game);
+
   // page for starting NEW game, also render all the settings and options here.
   const [maps, setMaps] = useState<string[]>([]);
-  const [mapName, setMapName] = useState<string>("World");
-  const [mapId, setMapId] = useState<string>("6de5dcca-72c2-4c5a-8984-bcff7f059ea0");
-  const [rounds, setRounds] = useState<number>(minRounds);
-  const [time, setTime] = useState<number>(60); // -1 is inf time
-  const [replay, setReplay] = useState<string>(
-    "d5afbc6c-58e2-4330-bfb2-bb39feb34e94"
-  );
+  const [mapName, setMapName] = useState<string>(lastSetting.mapName ? lastSetting.mapName : DEFAULT_MAP_NAME);
+  const [mapId, setMapId] = useState<string>(lastSetting.mapId ? lastSetting.mapId : DEFAULT_MAP_UUID);
+  const [rounds, setRounds] = useState<number>(lastSetting.rounds ? lastSetting.rounds : MIN_ROUNDS);
+  const [time, setTime] = useState<number>(lastSetting.seconds ? lastSetting.seconds : DEFAULT_TIME); // -1 is inf time
+  const [replay, setReplay] = useState<string>(REPLAY_GAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,19 +44,18 @@ export default function Game() {
       !loading && setLoading(true);
       try {
         const checkInfRounds =
-          rounds < minRounds || rounds >= maxRounds + 1 ? -1 : rounds;
-        const checkInfTime = time < minTime || time >= maxTime + 1 ? -1 : time;
+          rounds < MIN_ROUNDS
+         || rounds >= MAX_ROUNDS + 1 ? -1 : rounds;
+        const checkInfTime = time < MIN_TIME || time >= MAX_TIME + 1 ? -1 : time;
         const response = await api.post("/game/create", {
           "rounds": checkInfRounds,
           "time": checkInfTime,
           map: { id: mapId },
         });
         const { id } = response.data;
-
         await api.post("/game/play", { id });
-
+        dispatch(setGameSettings({mapName: mapName, mapId: mapId, seconds: time, rounds: rounds}));
         const gameUrl = `/game/${id}`;
-
         router.push(gameUrl);
       } catch (err: any) {
         setError(err.response?.data?.error || "Error starting game");
@@ -107,15 +114,17 @@ export default function Game() {
             </div>
             <div className="mb-4">
               <label className="block mb-2 text-white" htmlFor="round-range">
-                No. of Rounds: {rounds >= maxRounds + 1 ? "Infinite" : rounds}
+                No. of Rounds: {rounds >= MAX_ROUNDS + 1 ? "Infinite" : rounds}
               </label>
               <input
                 className="focus:outline-none input-field"
                 style={{ padding: "0px" }}
                 type="range"
                 id="round-range"
-                min={minRounds}
-                max={maxRounds + 1}
+                min={MIN_ROUNDS
+                
+                }
+                max={MAX_ROUNDS + 1}
                 step="1"
                 value={rounds}
                 onChange={(e) => setRounds(Number(e.target.value))}
@@ -123,15 +132,15 @@ export default function Game() {
             </div>
             <div className="mb-6">
               <label className="block mb-2 text-white" htmlFor="time-range">
-                Time Limit: {time >= maxTime + 1 ? "Infinite" : `${time}s`}
+                Time Limit: {time >= MAX_TIME + 1 ? "Infinite" : `${time}s`}
               </label>
               <input
                 className="text-dark focus:outline-none  input-field"
                 style={{ padding: "0px" }}
                 type="range"
                 id="time-range"
-                min={minTime}
-                max={maxTime + 1}
+                min={MIN_TIME}
+                max={MAX_TIME + 1}
                 step="1"
                 value={time}
                 onChange={(e) => setTime(Number(e.target.value))}
