@@ -2,7 +2,7 @@
 import "./summary.css";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
@@ -34,7 +34,6 @@ export default function Summary() {
   const [data, setData] = useState<any[]>([]);
   const params = useParams();
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const getUserMap = (top:Guess[],user:Guess) => {
     if(!top || !user){
@@ -102,7 +101,7 @@ export default function Summary() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === "Space") {
         event.preventDefault();
-        router.push("/game");
+        startNewGame();
       }
     };
 
