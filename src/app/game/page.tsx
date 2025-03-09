@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import api from "../../utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./game.css";
 import Modal from "@/components/Modal";
 import MapSearch from "@/components/maps/search/MapSearch";
@@ -90,6 +90,13 @@ export default function Game() {
     setMapId(id);
     setMapName(name);
   }
+
+  useEffect(() => {
+    setMapName(lastSetting.mapName || ""); 
+    setMapId(lastSetting.mapId || ""); 
+    setRounds(lastSetting.rounds || 0);
+    setTime(lastSetting.seconds || 0);
+  }, [lastSetting]);
 
   return (
     <div className="relative">
