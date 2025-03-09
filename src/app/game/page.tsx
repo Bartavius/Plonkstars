@@ -6,6 +6,7 @@ import { useState } from "react";
 import "./game.css";
 import Modal from "@/components/Modal";
 import MapSearch from "@/components/maps/search/MapSearch";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 const minRounds = 5;
 const maxRounds = 20;
@@ -101,7 +102,7 @@ export default function Game() {
                 disabled={loading}
                 onClick={() => {!loading && setIsModalOpen(true)}}
               >
-                {mapName}
+                 <FaMagnifyingGlass className="inline"/> {mapName}
               </button>
             </div>
             <div className="mb-4">
