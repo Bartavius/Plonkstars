@@ -22,21 +22,53 @@ interface Guess{
   lng:number | null;
 }
 export default function Summary() {
-  // needs to call for all rounds info
 
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
-
-  //
+  const previousGame = useSelector((state: any) => state.game);
   const [locations, setLocations] = useState<Location[]>([]);
   const [displayedLocation, setDisplayedLocation] = useState<Location[]>([]);
   const [topGuesses, setTopGuesses] = useState<Guess[][]>([]);
   const [userGuesses, setUserGuesses] = useState<Guess[]>([]);
-
   const [allGuesses, setAllGuesses] = useState<Guess[][]>([]);
   const [displayedGuesses, setDisplayedGuesses] = useState<Guess[][]>([]);
   const [data, setData] = useState<any[]>([]);
   const params = useParams();
   const router = useRouter();
+
+  const getUserMap = (top:Guess[],user:Guess) => {
+    if(!top || !user){
+      return [{ lat:0, lng: 0 }];
+    }
+    let userIn = false;
+    let copy = [...top];
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].user === user.user) {
+        userIn = true;
+        break;
+      }
+    }
+    if (!userIn) {
+      copy.push(user);
+    }
+    return copy;
+  }
+
+  const startNewGame = async () => {
+    try {
+      const response = await api.post("/game/create", {
+        "rounds": previousGame.rounds,
+        "time": previousGame.seconds,
+        map: { id: previousGame.mapId },
+      });
+      const { id } = response.data;
+      await api.post("/game/play", { id });
+      const gameUrl = `/game/${id}`;
+      router.push(gameUrl);
+    } catch (err: any) {
+      console.error(err);
+    }
+    
+  }
 
   useEffect(() => {
     if (!params.id) {
@@ -80,24 +112,6 @@ export default function Summary() {
     };
   }, []);
 
-  const getUserMap = (top:Guess[],user:Guess) => {
-    if(!top || !user){
-      return [{ lat:0, lng: 0 }];
-    }
-    let userIn = false;
-    let copy = [...top];
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].user === user.user) {
-        userIn = true;
-        break;
-      }
-    }
-    if (!userIn) {
-      copy.push(user);
-    }
-    return copy;
-  }
-
   return (
     <div className="summary-container">
       <div id="map-summary" className="map-container absolute">
@@ -127,7 +141,7 @@ export default function Summary() {
           <h2 className="text-3xl font-bold text-center text-dark flex-1">
             Game Summary
           </h2>
-          <button className="btn-primary" onClick={() => router.push("/game")}>
+          <button className="btn-primary" onClick={() => startNewGame()}>
             Next Game
           </button>
         </div>

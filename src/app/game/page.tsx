@@ -14,9 +14,10 @@ const MIN_ROUNDS = 5;
 const MAX_ROUNDS = 20;
 const MIN_TIME = 5;
 const MAX_TIME = 300;
-const DEFAULT_TIME = 60
-const DEFAULT_MAP_NAME = "World";
-const DEFAULT_MAP_UUID = "6de5dcca-72c2-4c5a-8984-bcff7f059ea0";
+// const DEFAULT_TIME = 60
+// const DEFAULT_MAP_NAME = "World";
+// const DEFAULT_MAP_UUID = "6de5dcca-72c2-4c5a-8984-bcff7f059ea0";
+// all default values are initialized in the gameSlice redux
 const REPLAY_GAME = "d5afbc6c-58e2-4330-bfb2-bb39feb34e94";
 
 export default function Game() {
@@ -28,10 +29,10 @@ export default function Game() {
 
   // page for starting NEW game, also render all the settings and options here.
   const [maps, setMaps] = useState<string[]>([]);
-  const [mapName, setMapName] = useState<string>(lastSetting.mapName ? lastSetting.mapName : DEFAULT_MAP_NAME);
-  const [mapId, setMapId] = useState<string>(lastSetting.mapId ? lastSetting.mapId : DEFAULT_MAP_UUID);
-  const [rounds, setRounds] = useState<number>(lastSetting.rounds ? lastSetting.rounds : MIN_ROUNDS);
-  const [time, setTime] = useState<number>(lastSetting.seconds ? lastSetting.seconds : DEFAULT_TIME); // -1 is inf time
+  const [mapName, setMapName] = useState<string>(lastSetting.mapName);
+  const [mapId, setMapId] = useState<string>(lastSetting.mapId);
+  const [rounds, setRounds] = useState<number>(lastSetting.rounds);
+  const [time, setTime] = useState<number>(lastSetting.seconds); // -1 is inf time
   const [replay, setReplay] = useState<string>(REPLAY_GAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,7 +40,6 @@ export default function Game() {
 
   const startGame = async (event: React.FormEvent) => {
     event.preventDefault();
-
     {
       !loading && setLoading(true);
       try {
