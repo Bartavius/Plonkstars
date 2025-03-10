@@ -11,7 +11,6 @@ import { PiMapPinAreaBold } from "react-icons/pi";
 
 import api from "@/utils/api";
 import "./page.css"
-import { get } from "node:http";
 
 interface Location {
     lat:number,

@@ -128,7 +128,11 @@
 
 .horizontal-alignment {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Each column is at least 100px */
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     width: 100%;
+}
+
+.map-info-back-button{
+    position: relative;
+    color:white;
 }
