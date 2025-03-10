@@ -94,7 +94,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--darker-blue);
+    background-color: var(--theme-blue);
     width:100%;
 }
 
@@ -111,15 +111,17 @@
     width:90%;
     border-radius: 1rem;
     flex-grow: 1;
-    background-color: var(--pastel-dark-blue);
+    background-color: var(--darker-blue);
     flex-direction: column;
     align-items: center;
     justify-content: center;
     display: flex;
+    border-width: 4px;
+    border-color: white;
 }
 
 .map-info-header {
-    color:var(--even-darker-darkest-blue);
+    color:white;
     font-size: 2rem;
     font-weight: 700;
 }
