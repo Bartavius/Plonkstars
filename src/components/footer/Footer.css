@@ -16,7 +16,7 @@
     font-style: italic;
     font-size: 0.9rem;
     margin-bottom: 1rem;
-    color: var(--darkest-blue);
+    color: var(--darker-blue);
   }
 
   @media (max-width: 600px) {
