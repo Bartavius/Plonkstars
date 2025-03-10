@@ -57,7 +57,7 @@
     font-size: small;
 }
 .map-card:hover {
-    background-color: lightgray;
+    background-color: var(--lighter-blue);
 }
 
 .map-card {

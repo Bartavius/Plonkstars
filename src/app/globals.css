@@ -10,6 +10,7 @@
   --darker-blue       : rgba( 89, 162, 205, 1);
   --darkest-blue      : rgba( 30,  75, 102, 1);
   --even-darker-darkest-blue: rgba(  0,  25,  51, 1);
+  --pastel-dark-blue: #396ed6;
 
   --color-accent-gold : rgba(255, 215,   0, 1);
 
@@ -151,5 +152,5 @@ text-decoration: underline;
 }
 
 .navbar-buffer{
-  height: 10vh;
+  height: 68px;
 }
