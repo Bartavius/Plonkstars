@@ -5,10 +5,9 @@ import storage from 'redux-persist/lib/storage';
 import authReducer from './authSlice';
 import gameReducer from './gameSlice';
 
-
 const gamePersistConfig = {
   key: 'game',
-  storage, // Uses localStorage
+  storage,
 };
 
 export const store = configureStore({
