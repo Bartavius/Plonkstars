@@ -7,10 +7,10 @@
   --lightest-blue     : rgba(201, 233, 238, 1);
   --lighter-blue      : rgba(170, 222, 231, 1);
   --theme-blue        : rgba(132, 188, 221, 1);
-  --darker-blue       : rgba( 89, 162, 205, 1);
-  --darkest-blue      : rgba( 30,  75, 102, 1);
-  --even-darker-darkest-blue: rgba(  0,  25,  51, 1);
-  --pastel-dark-blue: #396ed6;
+  --dark-blue         : rgba( 89, 162, 205, 1);
+  --darker-blue       : rgba( 30,  75, 102, 1);
+  --darkest-blue      : rgba(  0,  25,  51, 1);
+  --pastel-dark-blue  : rgba( 57, 110, 214, 1);
 
   --color-accent-gold : rgba(255, 215,   0, 1);
 
@@ -67,7 +67,7 @@ text-decoration: underline;
 }
 
 .form-window {
-  background-color: var(--darker-blue);
+  background-color: var(--dark-blue);
 }
 
 .form-button-selected {
@@ -97,7 +97,7 @@ text-decoration: underline;
 
 .input-field {
   background-color: var(--lightest-blue);
-  color: var(--darkest-blue);
+  color: var(--darker-blue);
   border-radius: 0.5rem;
   width: 100%;
   padding: 0.75rem;
@@ -112,7 +112,7 @@ text-decoration: underline;
 }
 
 .bg-dark {
-  background-color: var(--darkest-blue);
+  background-color: var(--darker-blue);
 }
 
 .bg-white {
@@ -132,7 +132,7 @@ text-decoration: underline;
 }
 
 .text-dark {
-  color: var(--darkest-blue);
+  color: var(--darker-blue);
 }
 
 .text-white {
@@ -148,7 +148,7 @@ text-decoration: underline;
 }
 
 .text-accent2 {
-  color: var(--darker-blue);
+  color: var(--dark-blue);
 }
 
 .navbar-buffer{

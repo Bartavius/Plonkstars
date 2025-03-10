@@ -48,14 +48,14 @@ export default function Home() {
           preserveAspectRatio="none"
         >
           <path
-            fill="var(--darkest-blue)"
+            fill="var(--darker-blue)"
             fillOpacity="1"
             d="M0,160L40,176C80,192,160,224,240,213.3C320,203,400,149,480,149.3C560,149,640,203,720,202.7C800,203,880,149,960,112C1040,75,1120,53,1200,53.3C1280,53,1360,75,1400,85.3L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
           />
         </svg>
       </div>
 
-      <div id="contact" className="bg-[var(--darkest-blue)] w-full -mt-2 pb-6 transition ease-in-out">
+      <div id="contact" className="bg-[var(--darker-blue)] w-full -mt-2 pb-6 transition ease-in-out">
         <div className="mt-16">
           <div className="p-12">
             <span className={`${sigmar.className} font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl`}>

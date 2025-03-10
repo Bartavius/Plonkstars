@@ -15,7 +15,7 @@ input[type="range"] {
 }
   
 input[type="range"]:focus {
-    outline-color: var(--darkest-blue);
+    outline-color: var(--darker-blue);
 }
   
 input[type="range"]::-webkit-slider-thumb {
@@ -24,7 +24,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: var(--darkest-blue);
+    background-color: var(--darker-blue);
 }
 
 .game-footer {
