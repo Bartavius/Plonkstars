@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import api from "@/utils/api";
 import "../../game.css";
 import GamePanel from "@/components/game/GamePanel";
+import Loading from "@/components/loading";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -83,7 +84,7 @@ export default function Results() {
   }, []);
 
   if (!user || !correct) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const getUserMap = () => {

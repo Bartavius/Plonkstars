@@ -4,6 +4,7 @@ import api from "@/utils/api";
 import { useEffect, useState } from "react";
 import MapCard from "./MapCard";
 import "./MapSearch.css"
+import Loading from "@/components/loading";
 
 const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:string) => void,pageSize?:number, bodySize?:string}) => {
     const [loading, setLoading] = useState<boolean>();
@@ -70,9 +71,9 @@ const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:str
                     </button>
                 </div>
             </div>
-            <div className={`search-body ${bodySize? "search-body-height":""}`} style={{height: bodySize? bodySize: "100%"}}>
-                {(loading || loading == undefined) && <div className="mx-10">Loading results...</div>}
-                {loading == false && maps.length === 0 && page === 1 && (<div className="mx-10">No results found.</div>)}
+            <div className="search-body">
+                {loading && <Loading />}
+                {!loading && maps.length === 0 && page === 1 && (<div className="mx-10">No results found.</div>)}
                 {!loading && (
                     <div className="mx-10">
                         <ul className="results-grid">
