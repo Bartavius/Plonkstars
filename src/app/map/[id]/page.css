@@ -136,3 +136,21 @@
     position: relative;
     color:white;
 }
+
+.play-button {
+    margin-top: 1rem;
+    background-color: rgb(27, 202, 27);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 1rem;
+}
+
+.play-button:disabled{
+    background-color: grey;
+}
+.play-button:hover {
+    filter: brightness(90%);
+}
