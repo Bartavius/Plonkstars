@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import api from "../../../utils/api";
 import GamePanel from "@/components/game/GamePanel";
 import "../game.css";
+import Loading from "@/components/loading";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
   ssr: false,
@@ -86,9 +87,7 @@ export default function MatchPage() {
   }, [lat, lng]);
 
   if (loading) {
-    return (<div>
-        Loading...
-      </div>)
+    return (<Loading />)
   }
 
   return (
@@ -123,7 +122,7 @@ export default function MatchPage() {
   );
 }
 
-
+// these were old locations when we were only running from the client side
   // const locations: location[] = [
   //   { lat: 12.3460211, lng: 92.7708896 },
   //   { lat: 14.959757, lng: 101.830178 },

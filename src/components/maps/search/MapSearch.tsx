@@ -4,6 +4,7 @@ import api from "@/utils/api";
 import { useEffect, useState } from "react";
 import MapCard from "./MapCard";
 import "./MapSearch.css"
+import Loading from "@/components/loading";
 
 const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => void,pageSize:number}) => {
     const [loading, setLoading] = useState(false);
@@ -67,7 +68,7 @@ const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => v
                 </div>
             </div>
             <div className="search-body">
-                {loading && <div className="mx-10">Loading results...</div>}
+                {loading && <Loading />}
                 {!loading && maps.length === 0 && page === 1 && (<div className="mx-10">No results found.</div>)}
                 {!loading && (
                     <div className="mx-10">
