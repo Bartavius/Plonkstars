@@ -1,0 +1,138 @@
+.map-info-card-wrapper {
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.map-info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: var(--lighter-blue);
+    color: var(--darkest-blue);
+    border-radius: 1rem;
+    box-shadow: 1rem;
+    padding: 1rem;
+}
+
+.map-info-title {
+    font-size: 3rem;
+    font-weight: 600;
+    color: black;
+}
+
+.map-info-creator {
+    color: gray
+}
+
+.map-info-creator-name {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.map-stat-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+.map-stat-card {
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--lighter-blue);
+    border-radius: 1rem;
+    width:100%;
+}
+
+.map-stat-icon {
+    color: grey;
+    filter: brightness(75%);
+    padding-right: 1rem;
+    font-size: 3rem;
+}
+
+.map-stat-text {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    text-align: left;
+    justify-content: flex-start;
+    color: black;
+}
+.map-stat-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.typed-map-stat-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+.map-stat-header {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.typed-map-stat-box {
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--theme-blue);
+    width:100%;
+}
+
+.map-stat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.map-stat-box {
+    width:90%;
+    border-radius: 1rem;
+    flex-grow: 1;
+    background-color: var(--dark-blue);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-width: 4px;
+    border-color: white;
+}
+
+.map-info-header {
+    color:white;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.horizontal-alignment {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    width: 100%;
+}
+
+.map-info-back-button{
+    position: relative;
+    color:white;
+}

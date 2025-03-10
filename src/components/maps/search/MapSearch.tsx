@@ -6,13 +6,17 @@ import MapCard from "./MapCard";
 import "./MapSearch.css"
 import Loading from "@/components/loading";
 
-const MapSearch = ({mapSelect,pageSize}:{mapSelect: (id:string,name:string) => void,pageSize:number}) => {
-    const [loading, setLoading] = useState(false);
+const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:string) => void,pageSize?:number, bodySize?:string}) => {
+    const [loading, setLoading] = useState<boolean>();
     const [page, setPage] = useState(1);
     const [input, setInput] = useState("");
     const [mapName, setMapName] = useState("");
     const [hasNext, setHasNext] = useState(false);
     const [maps, setMaps] = useState([]);
+
+    if (!pageSize) {
+        pageSize = 24;
+    }
 
     const query = async () => {
         if (!loading) {
