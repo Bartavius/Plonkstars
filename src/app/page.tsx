@@ -19,7 +19,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-
       <div
         className="relative flex-grow z-10 flex flex-col items-center justify-center gap-8 px-4 text-center pt-24 sm:pt-28 md:pt-32"
         style={{ minHeight: "calc(100vh - 60px)" }}

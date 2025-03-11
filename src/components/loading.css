@@ -1,4 +1,4 @@
-/* From Uiverse.io by Novaxlo */
+/* From Uiverse.io by Novaxlo */ 
 .earth-loader {
   --watercolor: #3344c1;
   --landcolor: #7cc133;
@@ -8,20 +8,12 @@
   position: relative;
   overflow: hidden;
   border-radius: 50%;
-  box-shadow: inset 0em 0.5em rgba(255, 255, 255, 0.25),
-    inset 0em -0.5em rgba(0, 0, 0, 0.25);
+  box-shadow:
+    inset 0em 0.5em rgb(255, 255, 255, 0.25),
+    inset 0em -0.5em rgb(0, 0, 0, 0.25);
   border: solid 0.15em white;
-  animation: levitating 2s infinite ease-in-out;
-  animation-delay: 1s;
-}
-
-.earth-loader::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  animation: startround 1s linear;
+  animation: startround 1s, levitating 2s infinite ease-in-out 1s;
+  animation-iteration-count: startround 1;
 }
 
 .earth p {
