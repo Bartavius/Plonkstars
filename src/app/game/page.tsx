@@ -9,6 +9,7 @@ import MapSearch from "@/components/maps/search/MapSearch";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { setGameSettings } from "@/redux/gameSlice";
+import ProtectedRoutes from "../ProtectedRoutes";
 
 const MIN_ROUNDS = 5;
 const MAX_ROUNDS = 20;
@@ -99,6 +100,7 @@ export default function Game() {
   }, [lastSetting]);
 
   return (
+    <ProtectedRoutes>
     <div className="relative">
       <div className="flex items-center justify-center min-h-screen text-white p-6 w-full h-full">
         <div className="grid grid-cols-2 gap-4 w-full max-w-lg border-white border-4 shadow-lg rounded-2xl p-6 form-window">
@@ -204,5 +206,6 @@ export default function Game() {
         </Modal>
       </div>
     </div>
+    </ProtectedRoutes>
   );
 }

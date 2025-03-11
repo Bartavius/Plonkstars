@@ -5,24 +5,27 @@ import api from "@/utils/api";
 import { useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import ProtectedRoutes from "@/app/ProtectedRoutes";
 
-const BasicMapResult = dynamic(() => import("@/components/maps/BasicMapResult"),{ ssr: false });
+const BasicMapResult = dynamic(
+  () => import("@/components/maps/BasicMapResult"),
+  { ssr: false }
+);
 
-interface Location{
-  lat:number;
-  lng:number;
+interface Location {
+  lat: number;
+  lng: number;
 }
 
-interface Guess{
-  user:string;
-  score:number;
-  distance:number | null;
-  time:number | null;
-  lat:number | null;
-  lng:number | null;
+interface Guess {
+  user: string;
+  score: number;
+  distance: number | null;
+  time: number | null;
+  lat: number | null;
+  lng: number | null;
 }
 export default function Summary() {
-
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
   const previousGame = useSelector((state: any) => state.game);
   const [locations, setLocations] = useState<Location[]>([]);
@@ -35,9 +38,9 @@ export default function Summary() {
   const params = useParams();
   const router = useRouter();
 
-  const getUserMap = (top:Guess[],user:Guess) => {
-    if(!top || !user){
-      return [{ lat:0, lng: 0 }];
+  const getUserMap = (top: Guess[], user: Guess) => {
+    if (!top || !user) {
+      return [{ lat: 0, lng: 0 }];
     }
     let userIn = false;
     let copy = [...top];
@@ -51,13 +54,13 @@ export default function Summary() {
       copy.push(user);
     }
     return copy;
-  }
+  };
 
   const startNewGame = async () => {
     try {
       const response = await api.post("/game/create", {
-        "rounds": previousGame.rounds,
-        "time": previousGame.seconds,
+        rounds: previousGame.rounds,
+        time: previousGame.seconds,
         map: { id: previousGame.mapId },
       });
       const { id } = response.data;
@@ -67,8 +70,7 @@ export default function Summary() {
     } catch (err: any) {
       console.error(err);
     }
-    
-  }
+  };
 
   useEffect(() => {
     if (!params.id) {
@@ -76,13 +78,15 @@ export default function Summary() {
     }
     const fetchGuesses = async () => {
       try {
-        const res = await api.get(
-          `/game/summary?&session=${params.id}`
+        const res = await api.get(`/game/summary?&session=${params.id}`);
+        const location = res.data.rounds.map((guess: any) => guess.correct);
+        const topGuesses = res.data.rounds.map((guess: any) => guess.top);
+        const userGuesses = res.data.rounds.map(
+          (guess: any) => guess.this_user
         );
-        const location = res.data.rounds.map((guess:any) => guess.correct);
-        const topGuesses = res.data.rounds.map((guess:any) => guess.top);
-        const userGuesses = res.data.rounds.map((guess:any) => guess.this_user);
-        const allGuesses = topGuesses.map((top:Guess[],index:number) => getUserMap(top,userGuesses[index]));
+        const allGuesses = topGuesses.map((top: Guess[], index: number) =>
+          getUserMap(top, userGuesses[index])
+        );
         setLocations(location);
         setDisplayedLocation(location);
         setTopGuesses(topGuesses);
@@ -113,72 +117,76 @@ export default function Summary() {
   }, []);
 
   return (
-    <div className="summary-container">
-      <div id="map-summary" className="map-container absolute">
-        <BasicMapResult markers={
-          displayedLocation.map((location, index) => {
-            return {
-              correct: location,
-              users: displayedGuesses[index]
-            };
-          })
-        }
-        height={70} />
-      </div>
-      <div className="mx-auto p-6 bg-main-dark shadow-lg rounded-lg">
-        <div className="flex items-center justify-between mb-4">
-          <button
-            className="btn-selected"
-            onClick={() => {
-              setDisplayedGuesses(allGuesses);
-              setDisplayedLocation(locations);
-              router.push("#map-summary");
-            }}
-          >
-            Select All
-          </button>
-
-          <h2 className="text-3xl font-bold text-center text-dark flex-1">
-            Game Summary
-          </h2>
-          <button className="btn-primary" onClick={() => startNewGame()}>
-            Next Game
-          </button>
+    <ProtectedRoutes>
+      <div className="summary-container">
+        <div id="map-summary" className="map-container absolute">
+          <BasicMapResult
+            markers={displayedLocation.map((location, index) => {
+              return {
+                correct: location,
+                users: displayedGuesses[index],
+              };
+            })}
+            height={70}
+          />
         </div>
+        <div className="mx-auto p-6 bg-main-dark shadow-lg rounded-lg">
+          <div className="flex items-center justify-between mb-4">
+            <button
+              className="btn-selected"
+              onClick={() => {
+                setDisplayedGuesses(allGuesses);
+                setDisplayedLocation(locations);
+                router.push("#map-summary");
+              }}
+            >
+              Select All
+            </button>
 
-        <ul className="space-y-4 my-5">
-          {userGuesses.map((guess, index) => (
-            <li key={index}>
-              <a
-                href="#map-summary"
-                className="flex mx-20 justify-between items-center bg-accent1 p-4 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200"
-                onClick={() => {
+            <h2 className="text-3xl font-bold text-center text-dark flex-1">
+              Game Summary
+            </h2>
+            <button className="btn-primary" onClick={() => startNewGame()}>
+              Next Game
+            </button>
+          </div>
+
+          <ul className="space-y-4 my-5">
+            {userGuesses.map((guess, index) => (
+              <li key={index}>
+                <a
+                  href="#map-summary"
+                  className="flex mx-20 justify-between items-center bg-accent1 p-4 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200"
+                  onClick={() => {
                     setDisplayedGuesses([allGuesses[index]]);
                     setDisplayedLocation([locations[index]]);
-                  }
-                }
-              >
-                <div className="flex flex-col">
-                  <span className="text-lg font-semibold text-dark">
-                    Round {index + 1}
-                  </span>
-                  <span className="text-dark text-sm">
-                    ⏳ {guess.time ? `${guess.time}s` : "Timed Out"}
-                  </span>
-                </div>
-                <div className="text-right">
-                  <span className="block text-lg font-bold text-red">
-                    {guess.score} pts
-                  </span>
-                  <span className="text-dark text-sm">
-                    {guess.distance && `📍 ${parseFloat(guess.distance.toString()).toFixed(2)} km away`}
-                  </span>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
+                  }}
+                >
+                  <div className="flex flex-col">
+                    <span className="text-lg font-semibold text-dark">
+                      Round {index + 1}
+                    </span>
+                    <span className="text-dark text-sm">
+                      ⏳ {guess.time ? `${guess.time}s` : "Timed Out"}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="block text-lg font-bold text-red">
+                      {guess.score} pts
+                    </span>
+                    <span className="text-dark text-sm">
+                      {guess.distance &&
+                        `📍 ${parseFloat(guess.distance.toString()).toFixed(
+                          2
+                        )} km away`}
+                    </span>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
+    </ProtectedRoutes>
   );
 }
