@@ -1,144 +1,162 @@
-/* From Uiverse.io by Novaxlo */ 
+/* From Uiverse.io by Novaxlo */
 .earth-loader {
-    --watercolor: #3344c1;
-    --landcolor: #7cc133;
-    width: 7.5em;
-    height: 7.5em;
-    background-color: var(--watercolor);
-    position: relative;
-    overflow: hidden;
-    border-radius: 50%;
-    box-shadow:
-      inset 0em 0.5em rgb(255, 255, 255, 0.25),
+  --watercolor: #3344c1;
+  --landcolor: #7cc133;
+  width: 7.5em;
+  height: 7.5em;
+  background-color: var(--watercolor);
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: inset 0em 0.5em rgba(255, 255, 255, 0.25),
+    inset 0em -0.5em rgba(0, 0, 0, 0.25);
+  border: solid 0.15em white;
+  animation: levitating 2s infinite ease-in-out;
+  animation-delay: 1s;
+}
+
+.earth-loader::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation: startround 1s linear;
+}
+
+.earth p {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0.25em;
+  font-size: 1.25em;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.earth-loader svg:nth-child(1) {
+  position: absolute;
+  bottom: -2em;
+  width: 7em;
+  height: auto;
+  animation: round1 5s infinite linear 0.75s;
+}
+
+.earth-loader svg:nth-child(2) {
+  position: absolute;
+  top: -3em;
+  width: 7em;
+  height: auto;
+  animation: round1 5s infinite linear;
+}
+.earth-loader svg:nth-child(3) {
+  position: absolute;
+  top: -2.5em;
+  width: 7em;
+  height: auto;
+  animation: round2 5s infinite linear;
+}
+.earth-loader svg:nth-child(4) {
+  position: absolute;
+  bottom: -2.2em;
+  width: 7em;
+  height: auto;
+  animation: round2 5s infinite linear 0.75s;
+}
+
+@keyframes levitating {
+  0% {
+    transform: translateY(0em);
+  }
+  50% {
+    transform: translateY(-1em);
+  }
+  100% {
+    transform: translateY(0em);
+  }
+}
+
+@keyframes startround {
+  0% {
+    filter: brightness(500%);
+    opacity: 0%;
+    box-shadow: none;
+  }
+  75% {
+    filter: brightness(500%);
+    opacity: 0%;
+    box-shadow: none;
+  }
+  100% {
+    filter: brightness(100%);
+    opacity: 100%;
+    box-shadow: inset 0em 0.5em rgb(255, 255, 255, 0.25),
       inset 0em -0.5em rgb(0, 0, 0, 0.25);
-    border: solid 0.15em white;
-    animation: startround 1s;
-    animation-iteration-count: 1;
   }
-  
-  .earth p {
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 0.25em;
-    font-size: 1.25em;
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+@keyframes round1 {
+  0% {
+    left: -2em;
+    opacity: 100%;
+    transform: skewX(0deg) rotate(0deg);
   }
-  
-  .earth-loader svg:nth-child(1) {
-    position: absolute;
-    bottom: -2em;
-    width: 7em;
-    height: auto;
-    animation: round1 5s infinite linear 0.75s;
+  30% {
+    left: -6em;
+    opacity: 100%;
+    transform: skewX(-25deg) rotate(25deg);
   }
-  
-  .earth-loader svg:nth-child(2) {
-    position: absolute;
-    top: -3em;
-    width: 7em;
-    height: auto;
-    animation: round1 5s infinite linear;
+  31% {
+    left: -6em;
+    opacity: 0%;
+    transform: skewX(-25deg) rotate(25deg);
   }
-  .earth-loader svg:nth-child(3) {
-    position: absolute;
-    top: -2.5em;
-    width: 7em;
-    height: auto;
-    animation: round2 5s infinite linear;
+  35% {
+    left: 7em;
+    opacity: 0%;
+    transform: skewX(25deg) rotate(-25deg);
   }
-  .earth-loader svg:nth-child(4) {
-    position: absolute;
-    bottom: -2.2em;
-    width: 7em;
-    height: auto;
-    animation: round2 5s infinite linear 0.75s;
+  45% {
+    left: 7em;
+    opacity: 100%;
+    transform: skewX(25deg) rotate(-25deg);
   }
-  
-  @keyframes startround {
-    0% {
-      filter: brightness(500%);
-      opacity: 0%;
-      box-shadow: none;
-    }
-    75% {
-      filter: brightness(500%);
-      opacity: 0%;
-      box-shadow: none;
-    }
-    100% {
-      filter: brightness(100%);
-      opacity: 100%;
-      box-shadow:
-        inset 0em 0.5em rgb(255, 255, 255, 0.25),
-        inset 0em -0.5em rgb(0, 0, 0, 0.25);
-    }
+  100% {
+    left: -2em;
+    opacity: 100%;
+    transform: skewX(0deg) rotate(0deg);
   }
-  
-  @keyframes round1 {
-    0% {
-      left: -2em;
-      opacity: 100%;
-      transform: skewX(0deg) rotate(0deg);
-    }
-    30% {
-      left: -6em;
-      opacity: 100%;
-      transform: skewX(-25deg) rotate(25deg);
-    }
-    31% {
-      left: -6em;
-      opacity: 0%;
-      transform: skewX(-25deg) rotate(25deg);
-    }
-    35% {
-      left: 7em;
-      opacity: 0%;
-      transform: skewX(25deg) rotate(-25deg);
-    }
-    45% {
-      left: 7em;
-      opacity: 100%;
-      transform: skewX(25deg) rotate(-25deg);
-    }
-    100% {
-      left: -2em;
-      opacity: 100%;
-      transform: skewX(0deg) rotate(0deg);
-    }
+}
+
+@keyframes round2 {
+  0% {
+    left: 5em;
+    opacity: 100%;
+    transform: skewX(0deg) rotate(0deg);
   }
-  
-  @keyframes round2 {
-    0% {
-      left: 5em;
-      opacity: 100%;
-      transform: skewX(0deg) rotate(0deg);
-    }
-    75% {
-      left: -7em;
-      opacity: 100%;
-      transform: skewX(-25deg) rotate(25deg);
-    }
-    76% {
-      left: -7em;
-      opacity: 0%;
-      transform: skewX(-25deg) rotate(25deg);
-    }
-    77% {
-      left: 8em;
-      opacity: 0%;
-      transform: skewX(25deg) rotate(-25deg);
-    }
-    80% {
-      left: 8em;
-      opacity: 100%;
-      transform: skewX(25deg) rotate(-25deg);
-    }
-    100% {
-      left: 5em;
-      opacity: 100%;
-      transform: skewX(0deg) rotate(0deg);
-    }
+  75% {
+    left: -7em;
+    opacity: 100%;
+    transform: skewX(-25deg) rotate(25deg);
   }
-  
+  76% {
+    left: -7em;
+    opacity: 0%;
+    transform: skewX(-25deg) rotate(25deg);
+  }
+  77% {
+    left: 8em;
+    opacity: 0%;
+    transform: skewX(25deg) rotate(-25deg);
+  }
+  80% {
+    left: 8em;
+    opacity: 100%;
+    transform: skewX(25deg) rotate(-25deg);
+  }
+  100% {
+    left: 5em;
+    opacity: 100%;
+    transform: skewX(0deg) rotate(0deg);
+  }
+}
