@@ -1,6 +1,6 @@
 "use client";
 import { useParams,useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 
 import { PiMapPin } from "react-icons/pi";
@@ -9,8 +9,10 @@ import { FaClock,FaGlobeAmericas } from "react-icons/fa";
 import { GiNetworkBars } from "react-icons/gi";
 import { PiMapPinAreaBold } from "react-icons/pi";
 
+import { setGameMap } from "@/redux/gameSlice";
 import api from "@/utils/api";
 import "./page.css"
+import { useDispatch } from "react-redux";
 
 interface Location {
     lat:number,
@@ -33,6 +35,8 @@ interface MapInfo{
 export default function MapInfoPage(){
     const params = useParams();
     const router = useRouter();
+    const dispatch = useDispatch();
+    const [loading,setLoading] = useState(false);
     const [data,setData] = useState<MapInfo>();
 
     const mapID = params.id;
@@ -46,6 +50,15 @@ export default function MapInfoPage(){
             router.push("/map");
         }
     }
+
+    const playMap = () => {
+        if(data && mapID){
+            setLoading(true)
+            dispatch(setGameMap({mapName:data.name,mapId:mapID}));
+            router.push("/game");
+        }
+        setLoading(false);
+    } 
 
     const distanceString = (distance:number) => {
         const m = Math.round(distance * 1000);
@@ -101,6 +114,7 @@ export default function MapInfoPage(){
                 <div className="map-info-card">
                     <div className="map-info-title">{data.name}</div>
                     <div className="map-info-creator">Made by: <span className="map-info-creator-name">{data.creator.username}</span></div>
+                    <button disabled={loading} className="play-button" onClick={playMap}>Play</button>
                 </div>
             </motion.div>
             <div className="map-stat-container">

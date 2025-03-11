@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess, loginFailure } from '@/redux/authSlice';
 import api from '@/utils/api'; 
-import { RootState } from '@/redux/store';
 import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
 import { useRouter } from "next/navigation";
@@ -16,7 +15,7 @@ const formTitle = `${sigmar.className} text-white text-4xl`
 const Login: React.FC = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const { isAuthenticated } = useSelector((state: any) => state.auth);
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

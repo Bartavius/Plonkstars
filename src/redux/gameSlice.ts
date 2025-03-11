@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 
 type GameState = {
   mapName: string;
@@ -24,29 +23,14 @@ const gameSlice = createSlice({
       state.mapId = mapId;
       state.seconds = seconds;
       state.rounds = rounds;
-      Cookies.set("mapName", mapName);
-      Cookies.set("mapId", mapId);
-      Cookies.set("seconds", seconds);
-      Cookies.set("rounds", rounds);
     },
-    initializeSettings(state) {
-      const mapName = Cookies.get("mapName") || state.mapName;
-      const mapId = Cookies.get("mapId") || state.mapId;
-      const seconds = Cookies.get("seconds")
-        ? parseInt(Cookies.get("seconds")!)
-        : state.seconds;
-      const rounds = Cookies.get("rounds")
-        ? parseInt(Cookies.get("rounds")!)
-        : state.rounds;
-
+    setGameMap(state, { payload: { mapName, mapId } }) {
       state.mapName = mapName;
       state.mapId = mapId;
-      state.seconds = seconds;
-      state.rounds = rounds;
-    },
+    }
   },
 });
 
-export const { setGameSettings, initializeSettings } = gameSlice.actions;
+export const { setGameSettings,setGameMap } = gameSlice.actions;
 
 export default gameSlice.reducer;

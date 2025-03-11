@@ -5,7 +5,7 @@
 }
   
 .game-setup-btn:hover {
-    filter: brightness(90%)
+    filter: brightness(90%);
 }
   
 input[type="range"] {
