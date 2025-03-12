@@ -71,8 +71,8 @@ const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:str
                     </button>
                 </div>
             </div>
+            {loading && <div className="center-loading" style={ bodySize?{}:{height: "50vh"}}><Loading/></div>}
             <div className={`search-body ${bodySize? "search-body-height":""}`} style={{height: bodySize? bodySize: "100%"}}>
-                {loading && <Loading />}
                 {!loading && maps.length === 0 && page === 1 && (<div className="mx-10">No results found.</div>)}
                 {!loading && (
                     <div className="mx-10">
