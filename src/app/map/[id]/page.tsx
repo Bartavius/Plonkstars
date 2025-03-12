@@ -13,6 +13,7 @@ import { setGameMap } from "@/redux/gameSlice";
 import api from "@/utils/api";
 import "./page.css"
 import { useDispatch } from "react-redux";
+import MapPreview from "@/components/maps/MapPreview";
 
 interface Location {
     lat:number,
@@ -182,6 +183,7 @@ export default function MapInfoPage(){
                     </div>
                 </div>
             </div>
+            <MapPreview bounds={data.bounds}/>
         </div>
     );
 }
