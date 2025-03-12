@@ -13,6 +13,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import osm from "../../utils/leaflet";
 import "./map.css";
+import MapIcon from "./mapIcon";
 
 interface GuessPair {
   users: { lat: number | null; lng: number | null }[];
@@ -86,17 +87,9 @@ const BasicMapResult = ({
         {boundedMarkers.map((markerObj, index) => (
           <div key={index}>
             {markerObj && 
-              <Marker
-                position={markerObj.correct}
-                icon={correctIcon}
-                eventHandlers={{
-                  click: () => {
-                    window.open(
-                      `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${markerObj.correct.lat},${markerObj.correct.lng}`,
-                      "_blank"
-                    );
-                  },
-                }}
+              <MapIcon
+                pos={markerObj.correct}
+                clickable={true}
               />
             }
             {markerObj.users.map((user, userIndex) => (
