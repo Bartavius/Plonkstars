@@ -22,6 +22,7 @@ export default function NavBar() {
     registeredTabs = [
       { tab: "home", link: "/" },
       { tab: "game", link: "/game" },
+      { tab: "maps", link: "/map" },
       { tab: "logout", link: "/account/logout" },
     ];
     unregisteredTabs = [

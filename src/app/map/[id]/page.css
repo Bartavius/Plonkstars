@@ -98,16 +98,17 @@
     width:100%;
 }
 
-.map-stat-container {
+.map-info-container {
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
-.map-stat-box {
+.map-info-box {
     width:90%;
     border-radius: 1rem;
     flex-grow: 1;
@@ -118,9 +119,11 @@
     display: flex;
     border-width: 4px;
     border-color: white;
+    overflow: hidden;
 }
 
 .map-info-header {
+    padding-top: 1rem;
     color:white;
     font-size: 2rem;
     font-weight: 700;
@@ -153,4 +156,13 @@
 }
 .play-button:hover {
     filter: brightness(90%);
+}
+
+.map-preview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 2rem;
+    z-index: 0;
 }

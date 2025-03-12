@@ -71,7 +71,7 @@ export default function MapInfoPage(){
 
     const timeString = (time:number) => {
         const minutes = Math.floor(time / 60);
-        const seconds = Math.round(time % 60);
+        const seconds = Math.round(time % 60 * 10)/10;
         return minutes > 0? {stat:`${minutes}:${seconds}`} : {stat:`${seconds}`,unit:"s"};
     }
 
@@ -118,8 +118,8 @@ export default function MapInfoPage(){
                     <button disabled={loading} className="play-button" onClick={playMap}>Play</button>
                 </div>
             </motion.div>
-            <div className="map-stat-container">
-                <div className="map-stat-box">
+            <div className="map-info-container">
+                <div className="map-info-box">
                     <div className="map-info-header">Statistics</div>
                     <div className="horizontal-alignment">
                         <div className="typed-map-stat-container">
@@ -183,7 +183,14 @@ export default function MapInfoPage(){
                     </div>
                 </div>
             </div>
-            <MapPreview bounds={data.bounds}/>
+            <div className="map-info-container">
+                <div className="map-info-box">
+                    <div className="map-info-header">Map Preview</div> 
+                    <div className="map-preview-container">
+                        <MapPreview bounds={data.bounds}/>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
