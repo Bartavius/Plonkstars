@@ -6,6 +6,11 @@ import { useEffect, useState } from "react";
 
 import CreateMap from "@/components/maps/CreateMap";
 import { useParams, useRouter } from "next/navigation";
+import { Rectangle, useMapEvent } from "react-leaflet";
+import { LeafletMouseEvent } from "leaflet";
+import MapPreview from "@/components/maps/MapPreview";
+import MapIcon from "@/components/maps/mapIcon";
+import Loading from "@/components/loading";
 
 interface Location {
     lat:number,
@@ -41,26 +46,39 @@ export default function CreateMapPage() {
     const [selectedLocation,setSelectedLocation] = useState<Location>();
     const [selectedBound,setSelectedBound] = useState<Bounds>();
 
-    function getSelectedLocation() {
-        return selectedLocation;
-    }
+    const MapEvent = () => {
+        useMapEvent("click", (event: LeafletMouseEvent) => {
+            if(-90 <= event.latlng.lat && event.latlng.lat <= 90 && -180 <= event.latlng.lng && event.latlng.lng <= 180){
+                setSelectedLocation(event.latlng);
+            }
+            else{
+                setSelectedLocation(undefined);
+                setSelectedBound(undefined);
+            }
+        });
+        return null;
+    };
 
-    function getSelectedBound() {
-        return selectedBound;
-    }
-
-    function onClick(location?:Location) {
-        if(!location){
-            setSelectedLocation(undefined);
-            setSelectedBound(undefined);
-            return;
-        }
-        setSelectedLocation(location);
-    }    
-
+    if(!bounds) return <Loading/>;
+    
     return (
         <div className="map-result-container min-h-[90vh] min-w-full">
-            {bounds && <CreateMap bounds={bounds} getSelectedBound={getSelectedBound} getSelectedLocation={getSelectedLocation} onClick={onClick}/>}
+            <MapPreview bounds={bounds}>
+                <MapEvent/>
+                <Rectangle
+                    bounds={[[-90,-1000],[90,-180]]}
+                    color="red"
+                    opacity={1}
+                    weight={0}
+                />
+                <Rectangle
+                    bounds={[[-90,180],[90,1000]]}
+                    color="red"
+                    opacity={1}
+                    weight={0}
+                />
+                {selectedLocation && <MapIcon pos={selectedLocation} clickable={true} iconUrl={"/PlonkStarsMarker.png"}/>}
+            </MapPreview>
         </div>
     );
 }
