@@ -1,11 +1,11 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import { MapContainer, Marker, useMapEvents } from "react-leaflet";
 import L, { LatLngLiteral } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import osm from "../../utils/leaflet";
 import "./map.css";
+import getTileLayer from "@/utils/leaflet";
 
 const MapCreationMap = ({
   setLat,
@@ -67,13 +67,7 @@ const MapCreationMap = ({
         ref={mapRef}
         className="leaflet-map"
       >
-        <TileLayer
-          url={osm.map.url}
-          attribution={osm.map.attribution}
-          tileSize={256}
-          detectRetina={true}
-          className="leaflet-control-attribution"
-        />
+       {getTileLayer()}
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
           <Marker position={markerPosition} icon={customIcon} />

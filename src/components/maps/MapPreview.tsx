@@ -3,16 +3,14 @@
 import { useEffect } from "react";
 import {
     MapContainer,
-    Marker,
-    TileLayer,
     Rectangle,
     useMap,
 } from "react-leaflet";
 import L, { map, marker } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import osm from "../../utils/leaflet";
 import MapIcon from "./mapIcon";
 import "./map.css";
+import getTileLayer from "../../utils/leaflet";
 
 interface Location {
     lat:number,
@@ -64,10 +62,7 @@ const MapPreview = ({
             center={CENTER}
             zoom={2}
         >
-            <TileLayer
-                url={osm.map.url}
-                attribution={osm.map.attribution}
-            />
+            {getTileLayer()}
             <div>
                 {points.map((point,index) => (
                     <MapIcon key={index} pos={point} clickable={true} />

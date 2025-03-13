@@ -4,16 +4,14 @@ import { useEffect } from "react";
 import {
   MapContainer,
   Marker,
-  TileLayer,
   Polyline,
   useMap,
-  Popup,
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import osm from "../../utils/leaflet";
 import "./map.css";
 import MapIcon from "./mapIcon";
+import getTileLayer from "@/utils/leaflet";
 
 interface GuessPair {
   users: { lat: number | null; lng: number | null }[];
@@ -80,10 +78,7 @@ const BasicMapResult = ({
         center={CENTER}
         zoom={7}
       >
-        <TileLayer
-          url={osm.map.url}
-          attribution={osm.map.attribution}
-        />
+        {getTileLayer()}
         {boundedMarkers.map((markerObj, index) => (
           <div key={index}>
             {markerObj && 
