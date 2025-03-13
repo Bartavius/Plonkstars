@@ -52,12 +52,7 @@ const BasicMapResult = ({
     iconSize: [25, 40],
     iconAnchor: [12.5, 40],
   });
-  const correctIcon = L.icon({
-    iconUrl: "/PlonkStarsMarker.png",
-    iconSize: [25, 40],
-    iconAnchor: [12.5, 40],
-  });
-
+  
   const dottedLine = {
     color: "black",
     weight: 7,

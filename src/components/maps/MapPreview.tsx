@@ -6,7 +6,7 @@ import {
     Rectangle,
     useMap,
 } from "react-leaflet";
-import L, { map, marker } from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import MapIcon from "./mapIcon";
 import "./map.css";
