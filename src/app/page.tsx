@@ -21,9 +21,9 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <div
         className="relative flex-grow z-10 flex flex-col items-center justify-center gap-8 px-4 text-center pt-24 sm:pt-28 md:pt-32"
-        style={{ minHeight: "calc(100vh - 60px)" }}
+        style={{ minHeight: "calc(100vh - 325px)" }}
       >
-        {/* Logo goes here */}
+        <img src="logo.png" alt="Map of Temperate Climate" className="logoImage" />
 
         <h1 className={`${sigmar.className} font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl`}>
           <span className="text-[var(--plonk-stars-red)]">Plonk</span>
@@ -36,10 +36,12 @@ export default function Home() {
           Get Started
         </button>
       </div>
-      <img src="palm-tree-clipart-xl.png" alt="palm tree" className="tree" />
-      <img src="palm-tree-clipart-xl.png" alt="palm tree" className="tree2" />
+      <img src="PlonkStarsMaps/map1.png" alt="Map of Temperate Climate" className="mapImage mapImageTemprate" />
+      <img src="PlonkStarsMaps/map2.png" alt="Map of Red Sand Desert" className="mapImage mapImageCanyon" />
+      <img src="PlonkStarsMaps/map3.png" alt="Map of Temperate Climate" className="mapImage mapImageCity" />
+      <img src="PlonkStarsMaps/map4.png" alt="Map of Red Sand Desert" className="mapImage mapImageArchipelago" />
 
-      <div className="relative w-full">
+      <div className="relative w-full pt-48 sm:pt-56 md:pt-72">
         <svg
           className="absolute bottom-0 left-0 w-full h-auto min-h-[20vh] md:min-h-[25vh]"
           xmlns="http://www.w3.org/2000/svg"

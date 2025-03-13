@@ -26,77 +26,59 @@
     padding-top: 5dvh;
 }
 
-.tree {
-    display: flex;
-    position: absolute;
-    z-index: -10;
-    max-width: 500px;
-    height: auto;
-    rotate: 20deg;
-    left: -10%;
-    bottom: 10%;
-    transition: transform 3s ease-in-out;
-    animation: tree-sway1 3s linear infinite;
-    transform-origin: center bottom;
-}
-  
-.tree2 {
-    display: flex;
-    position: absolute;
-    z-index: -10;
-    max-width: 550px;
-    height: auto;
-    rotate: 20deg;
-    right: 0;
-    bottom: 10%;
-    transition: transform 3s ease-in-out;
-    animation: tree-sway2 3s linear infinite;
-    transform-origin: center bottom;
+.logoImage {
+  image-rendering: pixelated;
+  width: 100%;
+  max-width: 20rem;
 }
 
-@media (max-width: 720px) {
-    .tree {
-      overflow: hidden !important;
-      width: 0pxm !important;
-      height: 0px !important;
-    }
+.mapImage {
+  image-rendering: pixelated;
+  display: flex;
+  position: absolute;
+  z-index: -10;
+  height: auto;
+  transform-origin: center bottom;
+}
+
+.mapImageTemprate {
+    width: 100%;
+    max-width: 500px;
+    rotate: 6deg;
+    left: calc(-36rem + 30vw);
+    bottom: 48%;
+}
   
-    .tree2 {
+.mapImageCanyon {
+    width: 100%;
+    max-width: 500px;
+    rotate: -7deg;
+    right: calc(-38rem + 30vw);
+    bottom: 60%;
+}
+
+.mapImageCity {
+    width: 100%;
+    max-width: 500px;
+    rotate: -4deg;
+    left: calc(-34rem + 25vw);
+    bottom: 12%;
+}
+
+.mapImageArchipelago {
+    width: 100%;
+    max-width: 500px;
+    rotate: 5deg;
+    right: calc(-36rem + 27vw);
+    bottom: 10%;
+}
+
+@media (max-width: 1000px) {
+
+    .auxillaryMapImage {
       overflow: hidden !important;
       width: 0px !important;
       height: 0px !important;
     }
-}
-
-@keyframes tree-sway1 {
-    0% {
-      transform: rotate(0deg);
-    }
-    33% {
-      transform: rotate(5deg);
-    }
-    66% {
-      transform: rotate(-5deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-}
-  
-@keyframes tree-sway2 {
-    0% {
-      transform: rotate(-10deg);
-    }
-    25% {
-      transform: rotate(-20deg);
-    }
-    50% {
-      transform: rotate(-25deg);
-    }
-    75% {
-      transform: rotate(-20deg);
-    }
-    100% {
-      transform: rotate(-10deg);
-    }
+    
 }
