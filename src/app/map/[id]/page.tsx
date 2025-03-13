@@ -187,7 +187,7 @@ export default function MapInfoPage(){
                 <div className="map-info-box">
                     <div className="map-info-header">Map Preview</div> 
                     <div className="map-preview-container">
-                        <MapPreview bounds={data.bounds}/>
+                        <MapPreview bounds={data.bounds} iconClick={true}/>
                     </div>
                 </div>
             </div>
