@@ -46,12 +46,6 @@ const BasicMapResult = ({
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;
   const CENTER = { lat: 0, lng: 0 };
-
-  const userIcon = L.icon({
-    iconUrl: "/PlonkStarsAvatar.png",
-    iconSize: [25, 40],
-    iconAnchor: [12.5, 40],
-  });
   
   const dottedLine = {
     color: "black",
@@ -80,22 +74,20 @@ const BasicMapResult = ({
               <MapIcon
                 pos={markerObj.correct}
                 clickable={true}
+                iconUrl="/PlonkStarsMarker.png"
               />
             }
             {markerObj.users.map((user, userIndex) => (
               <div key={userIndex}>
                 {user && user.lat && user.lng && (
                   <>
-                    <Marker
-                      key={index}
-                      position={{
-                        lat: user.lat,
-                        lng: user.lng,
-                      }}
-                      icon={userIcon}
+                    <MapIcon
+                      pos={{lat:user.lat, lng:user.lng}}
+                      iconUrl="/PlonkStarsAvatar.png"
                     />
                     <div>
                       <Polyline
+                        interactive={false}
                         positions={[
                           [user.lat, user.lng],
                           [markerObj.correct.lat, markerObj.correct.lng],

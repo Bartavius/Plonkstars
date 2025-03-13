@@ -6,6 +6,7 @@ import L, { LatLngLiteral } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import getTileLayer from "@/utils/leaflet";
+import MapIcon from "./mapIcon";
 
 
 const BasicMapWithMarker = ({
@@ -21,14 +22,8 @@ const BasicMapWithMarker = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const [center] = useState({ lat: 20, lng: 0 });
-  const ZOOM_LEVEL = 0.5;
+  const ZOOM_LEVEL = 0;
   const mapRef = useRef(null);
-
-  const customIcon = L.icon({
-    iconUrl: "/PlonkStarsAvatar.png",
-    iconSize: [15, 25],
-    iconAnchor: [9, 30],
-  });
 
   interface LocationMarkerProps {
     setMarkerPosition: (pos: LatLngLiteral) => void;
@@ -71,7 +66,7 @@ const BasicMapWithMarker = ({
         {getTileLayer()}
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
-          <Marker position={markerPosition} icon={customIcon} />
+          <MapIcon pos={markerPosition} iconUrl="/PlonkStarsAvatar.png" iconPercent={.5}/>
         )}
       </MapContainer>
     </div>

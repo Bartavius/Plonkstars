@@ -1,4 +1,5 @@
-import L from "leaflet";
+import L, { icon } from "leaflet";
+import { useState } from "react";
 import { Marker } from "react-leaflet";
 
 interface Location {
@@ -8,16 +9,29 @@ interface Location {
 export default function MapIcon({
     pos,
     clickable,
-    onClick
+    onClick,
+    iconUrl,
+    iconSize,
+    iconPercent
   }: {
     pos: Location,
     clickable?: boolean,
     onClick?: () => void;
+    iconUrl: string;
+    iconSize?: [number, number];
+    iconPercent?: number;
   }) {
+    const [newIconSize, setNewIconSize] = useState<[number,number]>([0,0]);
+    const img = new Image();
+    img.src = iconUrl;
+    img.onload = () => {
+        setNewIconSize(iconSize? iconSize: (iconPercent? [img.width * iconPercent, img.height * iconPercent]: [img.width, img.height]));
+    };
+
     const correctIcon = L.icon({
-        iconUrl: "/PlonkStarsMarker.png",
-        iconSize: [25, 40],
-        iconAnchor: [12.5, 40],
+        iconUrl: iconUrl,
+        iconSize: newIconSize,
+        iconAnchor: [newIconSize[0] / 2, newIconSize[1]]
     });
     clickable = clickable || false;
 
@@ -36,6 +50,7 @@ export default function MapIcon({
                     })} 
                     : {}
             }
+            interactive={clickable}
         />
     );
 }
