@@ -4,13 +4,14 @@ import api from "@/utils/api";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
-import CreateMap from "@/components/maps/CreateMap";
 import { useParams, useRouter } from "next/navigation";
 import { Rectangle, useMapEvent } from "react-leaflet";
 import { LeafletMouseEvent } from "leaflet";
 import MapPreview from "@/components/maps/MapPreview";
 import MapIcon from "@/components/maps/mapIcon";
 import Loading from "@/components/loading";
+import StreetView from "@/components/maps/Streetview";
+import "./page.css";
 
 interface Location {
     lat:number,
@@ -60,7 +61,7 @@ export default function CreateMapPage() {
     };
 
     if(!bounds) return <Loading/>;
-    
+
     return (
         <div className="map-result-container min-h-[90vh] min-w-full">
             <MapPreview bounds={bounds}>
@@ -79,6 +80,11 @@ export default function CreateMapPage() {
                 />
                 {selectedLocation && <MapIcon pos={selectedLocation} clickable={true} iconUrl={"/PlonkStarsMarker.png"}/>}
             </MapPreview>
+            <div className="corner-street-view">
+                {selectedLocation && selectedLocation.lat && selectedLocation.lng &&
+                    <StreetView lat={selectedLocation.lat} lng={selectedLocation.lng}/>
+                }
+            </div>
         </div>
     );
 }

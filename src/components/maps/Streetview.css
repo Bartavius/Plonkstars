@@ -1,15 +1,23 @@
 .street-view-box {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: black;
+    
+}
+
+.street-view-iframe {
+    flex-grow: 1;
+}
+
+.street-view-container{
+    display: flex;
     height: 90vh;
     width: 100%;
     overflow: hidden;
     position: relative;
-    
-}
-
-.street-view-box .street-view-embed iframe {
-    position: relative;
-    height: 90vh;
-    width: 100%;
+    background-color: white;
 }
 
 .bg-accent1 {
