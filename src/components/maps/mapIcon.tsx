@@ -1,4 +1,3 @@
-import { link } from "fs";
 import L from "leaflet";
 import { Marker } from "react-leaflet";
 
