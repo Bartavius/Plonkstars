@@ -50,7 +50,7 @@ const MapPreview = ({
     return (
         <div
             className="leaflet-container-result-wrapper"
-            style={height ? { height: `${height}dvh` } : undefined}
+            style={height ? { height: `${height}vh` } : undefined}
         >
             <MapContainer
                 maxBounds={maxBounds}

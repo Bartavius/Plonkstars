@@ -137,10 +137,10 @@ export default function EditMapPage() {
     if(!bounds) return <Loading/>;
 
     return (
-        <div>
+        <div className="overflow-hidden h-full w-full">
             <div className="navbar-buffer"/>
-            <div className="map-result-container min-h-[90vh] min-w-full">
-                <MapPreview bounds={bounds}>
+            <div className="h-[80vh] w-full">
+                <MapPreview bounds={bounds} height={80}>
                     <MapEvent/>
                     <Rectangle
                         bounds={[[-90,-1000],[90,-180]]}
