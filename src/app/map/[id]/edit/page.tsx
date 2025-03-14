@@ -23,8 +23,8 @@ interface Bounds {
     end: Location
 }
 
-export default function CreateMapPage() {
-    const [bounds,setLocations] = useState<Bounds[]>();
+export default function EditMapPage() {
+    const [bounds,setBounds] = useState<Bounds[]>([]);
     const [selectedLocation,setSelectedLocation] = useState<Location>();
     const [selectedBound,setSelectedBound] = useState<Bounds>();
     const [buttonDisabled,setButtonDisabled] = useState<boolean>(false);
@@ -36,7 +36,7 @@ export default function CreateMapPage() {
             const response = await api.get(`/map/info?id=${MAPID}`);
             const bounds = response.data.bounds;
             console.log(bounds);
-            setLocations(response.data.bounds);
+            setBounds(response.data.bounds);
         } catch (error) {
             router.push("/map");
             console.log(error);
@@ -118,6 +118,22 @@ export default function CreateMapPage() {
         return null;
     };
 
+    async function buttonClick(){
+        if((selectedLocation === undefined && selectedBound === undefined) || buttonDisabled) return;
+        console.log(selectedLocation,selectedBound);
+        const bound = selectedBound ?? {start:selectedLocation!,end:selectedLocation!};
+        try{
+            const res = await api.post(`/map/bound/add`,{...bound,id:MAPID});
+            const retbound = res.data.bound;
+            setBounds([...bounds,retbound]);
+            setSelectedLocation(undefined);
+            setSelectedBound(undefined);
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
+
     if(!bounds) return <Loading/>;
 
     return (
@@ -158,7 +174,7 @@ export default function CreateMapPage() {
                 )}
             </div>
             <div className="game-footer page-footer">
-                <button disabled={(selectedLocation === undefined && selectedBound === undefined) || buttonDisabled} className="game-button">Add Bound</button>
+                <button onClick={buttonClick} disabled={(selectedLocation === undefined && selectedBound === undefined) || buttonDisabled} className="game-button">Add Bound</button>
             </div>
         </div>
     );
