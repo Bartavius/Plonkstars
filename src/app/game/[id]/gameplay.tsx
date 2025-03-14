@@ -3,9 +3,9 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import api from "../../../utils/api";
+import api from "@/utils/api";
 import GamePanel from "@/components/game/GamePanel";
-import "../game.css";
+import "@/app/game.css";
 import Loading from "@/components/loading";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {

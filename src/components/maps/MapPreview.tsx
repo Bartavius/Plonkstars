@@ -42,7 +42,6 @@ const MapPreview = ({
         return !(marker.start.lat === marker.end.lat && marker.start.lng === marker.end.lng);
     });
 
-    const mapRef = useRef(null);
     const ZOOM_DELTA = 2;
     const PX_PER_ZOOM_LEVEL = 2;
     const CENTER = { lat: 0, lng: 0 };
@@ -62,7 +61,6 @@ const MapPreview = ({
                 className="leaflet-result-map"
                 center={CENTER}
                 zoom={2}
-                ref={mapRef}
             >
                 {getTileLayer()}
                 {children}

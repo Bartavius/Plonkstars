@@ -4,7 +4,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "@/utils/api";
-import "../../game.css";
+import "@/app/game.css";
 import GamePanel from "@/components/game/GamePanel";
 import Loading from "@/components/loading";
 

@@ -2,15 +2,15 @@
 
 import api from "@/utils/api";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
-import { Rectangle, useMapEvent } from "react-leaflet";
-import { LeafletMouseEvent } from "leaflet";
+import { Rectangle, useMap, useMapEvent } from "react-leaflet";
 import MapPreview from "@/components/maps/MapPreview";
 import MapIcon from "@/components/maps/mapIcon";
 import Loading from "@/components/loading";
 import StreetView from "@/components/maps/Streetview";
+import "@/app/game.css";
 import "./page.css";
 
 interface Location {
@@ -25,6 +25,9 @@ interface Bounds {
 
 export default function CreateMapPage() {
     const [bounds,setLocations] = useState<Bounds[]>();
+    const [selectedLocation,setSelectedLocation] = useState<Location>();
+    const [selectedBound,setSelectedBound] = useState<Bounds>();
+    const [buttonDisabled,setButtonDisabled] = useState<boolean>(false);
     const MAPID = useParams().id;
     const router = useRouter();
 
@@ -44,17 +47,72 @@ export default function CreateMapPage() {
         getLocations();
     }, []);
 
-    const [selectedLocation,setSelectedLocation] = useState<Location>();
-    const [selectedBound,setSelectedBound] = useState<Bounds>();
+    function normalizeBound(bound:Bounds):Bounds{
+        bound.start.lat = Math.max(-90,Math.min(90,bound.start.lat));
+        bound.start.lng = Math.max(-180,Math.min(180,bound.start.lng));
+        bound.end.lat = Math.max(-90,Math.min(90,bound.end.lat));
+        bound.end.lng = Math.max(-180,Math.min(180,bound.end.lng));
 
+        const lower_lat = Math.min(bound.start.lat,bound.end.lat);
+        const lower_lng = Math.min(bound.start.lng,bound.end.lng);
+        const upper_lat = Math.max(bound.start.lat,bound.end.lat);
+        const upper_lng = Math.max(bound.start.lng,bound.end.lng);
+        return {start:{lat:lower_lat,lng:lower_lng},end:{lat:upper_lat,lng:upper_lng}};
+    }
+
+    const ctrlDragLatLngRef = useRef<Location | undefined>(undefined);
+    const isDraggingRef = useRef(false);
     const MapEvent = () => {
-        useMapEvent("click", (event: LeafletMouseEvent) => {
+        const map = useMap();
+        useMapEvent("click", (event) => {
+            if(isDraggingRef.current) return;
+            if(ctrlDragLatLngRef.current){
+                setSelectedBound(normalizeBound({start:ctrlDragLatLngRef.current,end:event.latlng}));  
+                ctrlDragLatLngRef.current = undefined;
+                return;
+            }
             if(-90 <= event.latlng.lat && event.latlng.lat <= 90 && -180 <= event.latlng.lng && event.latlng.lng <= 180){
                 setSelectedLocation(event.latlng);
             }
             else{
                 setSelectedLocation(undefined);
-                setSelectedBound(undefined);
+            }
+            setSelectedBound(undefined);
+        });
+
+        useMapEvent('mousedown', (event) => {
+            if (event.originalEvent.ctrlKey && !ctrlDragLatLngRef.current) {
+                setButtonDisabled(true);
+                ctrlDragLatLngRef.current  = event.latlng;
+                setSelectedLocation(undefined);
+            }
+            isDraggingRef.current = false;
+        });
+
+        useMapEvent('mousemove', (event) => {
+            if (ctrlDragLatLngRef.current) {
+                setSelectedBound(normalizeBound({start:ctrlDragLatLngRef.current,end:event.latlng}));
+            }
+            isDraggingRef.current = true;
+        });
+
+        useMapEvent('mouseup', (event) => {
+            if (ctrlDragLatLngRef.current) {
+                setSelectedBound(normalizeBound({start:ctrlDragLatLngRef.current,end:event.latlng}));  
+            }
+        });
+
+        useMapEvent("keydown", (event) => {
+            if (event.originalEvent.ctrlKey) {
+                map.dragging.disable();
+            }
+        });
+
+        useMapEvent("keyup", (event) => {
+            if (!event.originalEvent.ctrlKey) {
+                ctrlDragLatLngRef.current = undefined;
+                setButtonDisabled(false);
+                map.dragging.enable();
             }
         });
         return null;
@@ -63,27 +121,44 @@ export default function CreateMapPage() {
     if(!bounds) return <Loading/>;
 
     return (
-        <div className="map-result-container min-h-[90vh] min-w-full">
-            <MapPreview bounds={bounds}>
-                <MapEvent/>
-                <Rectangle
-                    bounds={[[-90,-1000],[90,-180]]}
-                    color="red"
-                    opacity={1}
-                    weight={0}
-                />
-                <Rectangle
-                    bounds={[[-90,180],[90,1000]]}
-                    color="red"
-                    opacity={1}
-                    weight={0}
-                />
-                {selectedLocation && <MapIcon pos={selectedLocation} clickable={true} iconUrl={"/PlonkStarsMarker.png"}/>}
-            </MapPreview>
-            <div className="corner-street-view">
-                {selectedLocation && selectedLocation.lat && selectedLocation.lng &&
-                    <StreetView lat={selectedLocation.lat} lng={selectedLocation.lng}/>
-                }
+        <div>
+            <div className="map-result-container min-h-[90vh] min-w-full">
+                <MapPreview bounds={bounds}>
+                    <MapEvent/>
+                    <Rectangle
+                        bounds={[[-90,-1000],[90,-180]]}
+                        color="red"
+                        opacity={1}
+                        weight={0}
+                        interactive={false}
+                    />
+                    <Rectangle
+                        bounds={[[-90,180],[90,1000]]}
+                        color="red"
+                        opacity={1}
+                        weight={0}
+                        interactive={false}
+                    />
+                    {selectedLocation && <MapIcon pos={selectedLocation} iconUrl={"/PlonkStarsAvatar.png"}/>}
+                    {selectedBound && (
+                        <Rectangle
+                            bounds = {[[selectedBound.start.lat,selectedBound.start.lng],[selectedBound.end.lat,selectedBound.end.lng]]}
+                            color="blue"
+                            weight={0}
+                            opacity={1}
+                        />
+                    )}
+                </MapPreview>
+                {selectedLocation &&(
+                    <div 
+                        className={`corner-street-view`}
+                    >
+                        <StreetView lat={selectedLocation.lat} lng={selectedLocation.lng}/>
+                    </div>
+                )}
+            </div>
+            <div className="game-footer page-footer">
+                <button disabled={(selectedLocation === undefined && selectedBound === undefined) || buttonDisabled} className="game-button">Add Bound</button>
             </div>
         </div>
     );

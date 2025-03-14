@@ -3,6 +3,17 @@
   top: 60vh;
   right: 0;
   z-index: 1000;
-  height: 30%;
+  height: 29vh;
+  width:25%;
   overflow: hidden;
+}
+
+.corner-street-view:hover{
+  top:30vh;
+  height: 59vh;
+  width: 50%;
+}
+
+.page-footer {
+  justify-content: right;
 }

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import api from "../../utils/api";
 import { useEffect, useState } from "react";
-import "./game.css";
+import "@/app/game.css";
 import Modal from "@/components/Modal";
 import MapSearch from "@/components/maps/search/MapSearch";
 import { FaMagnifyingGlass } from "react-icons/fa6";
