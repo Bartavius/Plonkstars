@@ -138,6 +138,7 @@ export default function EditMapPage() {
 
     return (
         <div>
+            <div className="navbar-buffer"/>
             <div className="map-result-container min-h-[90vh] min-w-full">
                 <MapPreview bounds={bounds}>
                     <MapEvent/>
