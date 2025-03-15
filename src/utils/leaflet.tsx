@@ -26,7 +26,8 @@ export default function getTileLayer(){
         <TileLayer 
             url={url} 
             attribution={attribution} 
-            tileSize={256}
+            tileSize={512}
+            zoomOffset={-1}
             detectRetina={true}
             className="leaflet-control-attribution"
         />
