@@ -55,7 +55,7 @@ export default function Game() {
         });
         const { id } = response.data;
         await api.post("/game/play", { id });
-        dispatch(setGameSettings({mapName: mapName, mapId: mapId, seconds: time, rounds: rounds}));
+        dispatch(setGameSettings({mapName: mapName, mapId: mapId, seconds: checkInfTime, rounds: checkInfRounds}));
         const gameUrl = `/game/${id}`;
         router.push(gameUrl);
       } catch (err: any) {
