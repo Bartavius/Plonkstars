@@ -20,7 +20,6 @@ const BasicMapWithMarker = ({
     null
   );
   const [isHovered, setIsHovered] = useState(false);
-
   const [center] = useState({ lat: 20, lng: 0 });
   const ZOOM_LEVEL = 0;
   const mapRef = useRef(null);

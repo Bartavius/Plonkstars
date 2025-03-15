@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAP_API;
 
-export default function getTileLayer(){
+export default function getTileLayer(size?: number, offset?: number){
     const mapNumber = useSelector((state: any) => state.settings.mapNumber);
     const maps = [
         {
@@ -26,8 +26,8 @@ export default function getTileLayer(){
         <TileLayer 
             url={url} 
             attribution={attribution} 
-            tileSize={512}
-            zoomOffset={-1}
+            tileSize={size ?? 256}
+            zoomOffset={offset ?? 0}
             detectRetina={true}
             className="leaflet-control-attribution"
         />

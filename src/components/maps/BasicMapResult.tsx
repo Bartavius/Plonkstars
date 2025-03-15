@@ -1,12 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import {
-  MapContainer,
-  Marker,
-  Polyline,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, Polyline, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
@@ -27,18 +22,20 @@ const BasicMapResult = ({
 }) => {
   const boundedMarkers = markers.map((marker: GuessPair) => {
     console.log(marker);
-    const newUsers = marker.users.map((user: { lat: number | null; lng: number | null }) => {
-      let newLng = user.lng;
-      if (user.lng !== null) {
-        if (user.lng - marker.correct.lng > 180) {
-          newLng = user.lng - 360;
-        } else if (user.lng - marker.correct.lng < -180) {
-          newLng = user.lng + 360;
+    const newUsers = marker.users.map(
+      (user: { lat: number | null; lng: number | null }) => {
+        let newLng = user.lng;
+        if (user.lng !== null) {
+          if (user.lng - marker.correct.lng > 180) {
+            newLng = user.lng - 360;
+          } else if (user.lng - marker.correct.lng < -180) {
+            newLng = user.lng + 360;
+          }
         }
+        return { lat: user.lat, lng: newLng };
       }
-      return { lat: user.lat, lng: newLng };
-    })
-    return {...marker,users:newUsers};
+    );
+    return { ...marker, users: newUsers };
   });
 
   console.log(boundedMarkers);
@@ -46,7 +43,7 @@ const BasicMapResult = ({
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;
   const CENTER = { lat: 0, lng: 0 };
-  
+
   const dottedLine = {
     color: "black",
     weight: 7,
@@ -67,22 +64,22 @@ const BasicMapResult = ({
         center={CENTER}
         zoom={7}
       >
-        {getTileLayer()}
+        {getTileLayer(512, -1)}
         {boundedMarkers.map((markerObj, index) => (
           <div key={index}>
-            {markerObj && 
+            {markerObj && (
               <MapIcon
                 pos={markerObj.correct}
                 clickable={true}
                 iconUrl="/PlonkStarsMarker.png"
               />
-            }
+            )}
             {markerObj.users.map((user, userIndex) => (
               <div key={userIndex}>
                 {user && user.lat && user.lng && (
                   <>
                     <MapIcon
-                      pos={{lat:user.lat, lng:user.lng}}
+                      pos={{ lat: user.lat, lng: user.lng }}
                       iconUrl="/PlonkStarsAvatar.png"
                     />
                     <div>
@@ -99,11 +96,9 @@ const BasicMapResult = ({
                 )}
               </div>
             ))}
-        </div>
-      ))}
-        <FitBounds
-          markers={boundedMarkers}
-        />
+          </div>
+        ))}
+        <FitBounds markers={boundedMarkers} />
       </MapContainer>
     </div>
   );
@@ -121,40 +116,18 @@ const FitBounds = ({ markers }: { markers: GuessPair[] }) => {
 
   for (let i = 0; i < markers.length; i++) {
     for (let j = 0; j < markers[i].users.length; j++) {
-      
-      topLeftLat = Math.min(
-        topLeftLat,
-        markers[i].users[j].lat ?? 90
-      );
-      topLeftLng = Math.min(
-        topLeftLng,
-        markers[i].users[j].lng ?? 180
-      );
-      bottomRightLat = Math.max(
-        bottomRightLat,
-        markers[i].users[j].lat ?? -90
-      );
+      topLeftLat = Math.min(topLeftLat, markers[i].users[j].lat ?? 90);
+      topLeftLng = Math.min(topLeftLng, markers[i].users[j].lng ?? 180);
+      bottomRightLat = Math.max(bottomRightLat, markers[i].users[j].lat ?? -90);
       bottomRightLng = Math.max(
         bottomRightLng,
         markers[i].users[j].lng ?? -180
       );
     }
-    topLeftLat = Math.min(
-      topLeftLat,
-      markers[i].correct.lat
-    );
-    topLeftLng = Math.min(
-      topLeftLng,
-      markers[i].correct.lng
-    );
-    bottomRightLat = Math.max(
-      bottomRightLat,
-      markers[i].correct.lat
-    );
-    bottomRightLng = Math.max(
-      bottomRightLng,
-      markers[i].correct.lng
-    );
+    topLeftLat = Math.min(topLeftLat, markers[i].correct.lat);
+    topLeftLng = Math.min(topLeftLng, markers[i].correct.lng);
+    bottomRightLat = Math.max(bottomRightLat, markers[i].correct.lat);
+    bottomRightLng = Math.max(bottomRightLng, markers[i].correct.lng);
   }
 
   useEffect(() => {
