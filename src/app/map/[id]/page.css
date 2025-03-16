@@ -166,3 +166,7 @@
     padding: 2rem;
     z-index: 0;
 }
+
+.mouse-pointer:hover {
+    cursor:pointer;
+}

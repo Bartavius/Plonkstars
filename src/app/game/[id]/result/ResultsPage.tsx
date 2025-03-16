@@ -106,7 +106,7 @@ export default function Results() {
   }
 
   const distanceString = (distance:number|null) => {
-    const m = distance === null ? -1 : distance * 1000;
+    const m = distance === null ? -1 : Math.round(distance * 1000);
     const km = Math.round(m / 10) / 100;
     const userDistance = km > 1 ? km : m;
     const units = km > 1 ? "km" : "m";

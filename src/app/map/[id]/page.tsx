@@ -14,6 +14,8 @@ import api from "@/utils/api";
 import "./page.css"
 import { useDispatch } from "react-redux";
 import MapPreview from "@/components/maps/MapPreview";
+import StatBox from "./statBox";
+import { link } from "fs";
 
 interface Location {
     lat:number,
@@ -24,12 +26,29 @@ interface MapInfo{
     name:string,
     id:string, 
     creator:{username:string},
-    average_generation_time: number,
-    average_score: number,
-    average_distance: number,
-    average_time: number,
-    total_guesses: number,
-    max_distance: number
+    map_stats:{
+        average_generation_time: number,
+        average_score: number,
+        average_distance: number,
+        average_time: number,
+        total_guesses: number,
+        max_distance: number
+    },
+    user_stats?:{
+        average:{
+            score:number,
+            distance:number,
+            time:number,
+            guesses:number,
+        }
+        high?:{
+            score:number,
+            distance:number,
+            time:number,
+            rounds:number,
+            session: string
+        }
+    }
     bounds:{start:Location,end:Location}[],
 }
 
@@ -62,14 +81,16 @@ export default function MapInfoPage(){
     } 
 
     const distanceString = (distance:number) => {
+        if(distance < 0) return {stat: "N/A"};
         const m = Math.round(distance * 1000);
         const km = Math.round(m / 10) / 100;
         const num = km > 1 ? km : m;
-        const units = km > 1 ? "km" : "m";
-        return {num,units};
+        const unit = km > 1 ? "km" : "m";
+        return {stat:num,unit};
     }
 
     const timeString = (time:number) => {
+        if(time < 0) return {stat:"N/A"};
         const minutes = Math.floor(time / 60);
         const seconds = Math.round(time % 60 * 10)/10;
         return minutes > 0? {stat:`${minutes}:${seconds}`} : {stat:`${seconds}`,unit:"s"};
@@ -84,25 +105,59 @@ export default function MapInfoPage(){
         return <div>Loading...</div>;
     }
 
+    const mapStats = data.map_stats
+    const displayMapStats = {
+        name: "Overall Stats",
+        cols:[
+            {
+                name: "Map Statistics",
+                items:[
+                    { icon: <FaGlobeAmericas/>, title: "Total Guesses", stat: mapStats.total_guesses },
+                    { icon: <FaClock/>, title: "Average Generation Time", ...timeString(mapStats.average_generation_time) },
+                    { icon: <PiMapPinAreaBold />, title: "Max Distance", ...distanceString(mapStats.max_distance) },
+                ]
+            },
+            {
+                name: "Guess Statistics",
+                items:[
+                    { icon: <GiNetworkBars/>, title: "Average Score", stat: Math.round(mapStats.average_score * 100)/100},
+                    { icon: <PiMapPin/>, title: "Average Distance", ...distanceString(mapStats.average_distance) },
+                    { icon: <IoTimerOutline/>, title: "Average Time", ...timeString(mapStats.average_time)}
+                ]
+            }
+        ]
+    }
 
-    console.log(data);
 
-    const genTime = timeString(data.average_generation_time);
-    const averageTime = timeString(data.average_time);
-    const maxDistance = distanceString(data.max_distance)
-    const averageDistance = distanceString(data.average_distance)
+    const userStats = data.user_stats;
+    const average = userStats ? userStats.average : {score:"N/A",distance:-1,time:-1,guesses:0};
+    const high = userStats && userStats.high ? userStats.high : {score:"N/A",distance:-1,time:-1,rounds:"N/A",session:undefined};
 
-    const mapStats = [
-        { icon: <FaGlobeAmericas/>, title: "Total Guesses", stat: data.total_guesses },
-        { icon: <FaClock/>, title: "Average Generation Time", stat: genTime.stat, unit: genTime.unit? genTime.unit : undefined },
-        { icon: <PiMapPinAreaBold />, title: "Max Distance", stat: maxDistance.num, unit: maxDistance.units },
-    ]
-
-    const guessStats = [
-        { icon: <GiNetworkBars/>, title: "Average Score", stat: Math.round(data.average_score * 100)/100},
-        { icon: <PiMapPin/>, title: "Average Distance", stat: averageDistance.num, unit: averageDistance.units },
-        { icon: <IoTimerOutline/>, title: "Average Time", stat: averageTime.stat, unit:averageTime.unit? averageTime.unit : undefined }
-    ]
+    const displayUserStats = {
+        name: "Your Stats",
+        cols: [
+            {
+                name: "Average Performance",
+                items: [
+                    { icon: <FaGlobeAmericas/>, title: "Guesses", stat: average.guesses },
+                    { icon: <GiNetworkBars/>, title: "Average Score", stat: average.score },
+                    { icon: <PiMapPin/>, title: "Average Distance", ...distanceString(average.distance) },
+                    { icon: <IoTimerOutline/>, title: "Average Time", ...timeString(average.time) },
+                ]
+            },
+            {
+                name: "Best Performance",
+                link: high && high.session ? `/game/${high.session}/summary` : undefined,
+                items: [
+                    { icon: <GiNetworkBars/>, title: "Average Score", stat:high.score },
+                    { icon: <PiMapPin/>, title: "Average Distance", ...distanceString(high.distance) },
+                    { icon: <IoTimerOutline/>, title: "Average Time", ...timeString(high.time) },
+                    { icon: <FaGlobeAmericas/>, title: "Rounds", stat: high.rounds }
+                ]
+            }
+        ]
+    }
+    
     return (
         <div>
             <div className="navbar-buffer"/>
@@ -118,71 +173,8 @@ export default function MapInfoPage(){
                     <button disabled={loading} className="play-button" onClick={playMap}>Play</button>
                 </div>
             </motion.div>
-            <div className="map-info-container">
-                <div className="map-info-box">
-                    <div className="map-info-header">Statistics</div>
-                    <div className="horizontal-alignment">
-                        <div className="typed-map-stat-container">
-                            <div className="typed-map-stat-box">
-                                <motion.div 
-                                    initial={{ opacity: 0}}
-                                    animate={{ opacity: 1}}
-                                    transition={{ duration: 1.6 }}
-                                    className="map-stat-header"
-                                >
-                                    Map Statistics
-                                </motion.div>
-                                <div className="map-stat-grid">
-                                    {mapStats.map((stat, index) => (
-                                        <motion.div
-                                            key={index}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 1 + 0.2*index }}
-                                            className="map-stat-card"
-                                        >
-                                            <div className="map-stat-icon">{stat.icon}</div>
-                                            <div className="map-stat-text">
-                                                <div className="map-stat-title">{stat.title}</div>
-                                                <div className="map-stat-stat">{stat.stat}{stat.unit && <span className="map-stat-unit">{stat.unit}</span>}</div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="typed-map-stat-container">
-                            <div className="typed-map-stat-box">
-                                <motion.div 
-                                    initial={{ opacity: 0}}
-                                    animate={{ opacity: 1}}
-                                    transition={{ duration: 1.6 }}
-                                    className="map-stat-header"
-                                >
-                                    Guess Statistics
-                                </motion.div>
-                                <div className="map-stat-grid">
-                                    {guessStats.map((stat, index) => (
-                                        <motion.div
-                                            key={index}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 1 + 0.2*index }}
-                                            className="map-stat-card"
-                                        >
-                                            <div className="map-stat-icon">{stat.icon}</div>
-                                            <div className="map-stat-text">
-                                                <div className="map-stat-title">{stat.title}</div>
-                                                <div className="map-stat-stat">{stat.stat}{stat.unit && <span className="map-stat-unit">{stat.unit}</span>}</div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <StatBox mapStats={displayMapStats}/>
+            <StatBox mapStats={displayUserStats}/>
             <div className="map-info-container">
                 <div className="map-info-box">
                     <div className="map-info-header">Map Preview</div> 
