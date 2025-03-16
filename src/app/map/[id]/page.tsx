@@ -149,15 +149,15 @@ export default function MapInfoPage(){
                 name: "Best Performance",
                 link: high && high.session ? `/game/${high.session}/summary` : undefined,
                 items: [
+                    { icon: <FaGlobeAmericas/>, title: "Rounds", stat: high.rounds },
                     { icon: <GiNetworkBars/>, title: "Average Score", stat:high.score },
                     { icon: <PiMapPin/>, title: "Average Distance", ...distanceString(high.distance) },
                     { icon: <IoTimerOutline/>, title: "Average Time", ...timeString(high.time) },
-                    { icon: <FaGlobeAmericas/>, title: "Rounds", stat: high.rounds }
                 ]
             }
         ]
     }
-    
+
     return (
         <div>
             <div className="navbar-buffer"/>
