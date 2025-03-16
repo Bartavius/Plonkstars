@@ -28,17 +28,18 @@ export default function Game() {
   // loading past game settings
   const lastSetting = useSelector((state: any) => state.game);
 
+  console.log(lastSetting.seconds === -1);
   // page for starting NEW game, also render all the settings and options here.
   const [maps, setMaps] = useState<string[]>([]);
   const [mapName, setMapName] = useState<string>(lastSetting.mapName);
   const [mapId, setMapId] = useState<string>(lastSetting.mapId);
-  const [rounds, setRounds] = useState<number>(lastSetting.rounds == -1 ? MAX_ROUNDS + 1 : lastSetting.rounds);
-  const [time, setTime] = useState<number>(lastSetting.seconds == -1 ? MAX_TIME + 1 : lastSetting.seconds);
+  const [rounds, setRounds] = useState<number>(lastSetting.rounds);
+  const [time, setTime] = useState<number>(lastSetting.seconds);
   const [replay, setReplay] = useState<string>(REPLAY_GAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
+  
   const startGame = async (event: React.FormEvent) => {
     event.preventDefault();
     {
@@ -123,7 +124,7 @@ export default function Game() {
             </div>
             <div className="mb-4">
               <label className="block mb-2 text-white" htmlFor="round-range">
-                No. of Rounds: {rounds >= MAX_ROUNDS + 1 ? "Infinite" : rounds}
+                No. of Rounds: {rounds >= MAX_ROUNDS + 1 || rounds == -1 ? "Infinite" : rounds}
               </label>
               <input
                 className="focus:outline-none input-field"
@@ -135,13 +136,13 @@ export default function Game() {
                 }
                 max={MAX_ROUNDS + 1}
                 step="1"
-                value={rounds}
+                value={rounds == -1? MAX_ROUNDS + 1 : rounds}
                 onChange={(e) => setRounds(Number(e.target.value))}
               />
             </div>
             <div className="mb-6">
               <label className="block mb-2 text-white" htmlFor="time-range">
-                Time Limit: {time >= MAX_TIME + 1 ? "Infinite" : `${time}s`}
+                Time Limit: {time >= MAX_TIME + 1 || time == -1 ? "Infinite" : `${time}s`}
               </label>
               <input
                 className="text-dark focus:outline-none  input-field"
@@ -151,7 +152,7 @@ export default function Game() {
                 min={MIN_TIME}
                 max={MAX_TIME + 1}
                 step="1"
-                value={time}
+                value={time == -1 ? MAX_TIME + 1 : time}
                 onChange={(e) => setTime(Number(e.target.value))}
               />
             </div>

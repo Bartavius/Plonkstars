@@ -153,7 +153,7 @@ export default function Summary() {
               Game Summary
             </h2>
             <div className= "flex justify-end">
-              <button className="btn-selected" onClick={() => startNewGame()}>
+              <button className="btn-selected" onClick={gameMenu}>
                 Main Menu
               </button>
               <button className="ml-1 btn-primary" onClick={() => startNewGame()}>
