@@ -49,7 +49,7 @@ const MapPreview = ({
         
     return (
         <div
-            className="leaflet-container-result-wrapper"
+            className="leaflet-container-result-wrapper map-result-container"
             style={height ? { height: `${height}vh` } : undefined}
         >
             <MapContainer
