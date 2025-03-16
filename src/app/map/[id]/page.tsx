@@ -96,6 +96,13 @@ export default function MapInfoPage(){
         return minutes > 0? {stat:`${minutes}:${seconds}`} : {stat:`${seconds}`,unit:"s"};
     }
 
+    const roundNumber = (number:number|string,placements:number) => {
+        if(typeof number === "number"){
+            return Math.round(number * Math.pow(10,placements)) / Math.pow(10,placements);
+        }
+        return number;
+    }
+
     useEffect(() => {
         getMapInfo();
     }, []);
@@ -120,7 +127,7 @@ export default function MapInfoPage(){
             {
                 name: "Guess Statistics",
                 items:[
-                    { icon: <GiNetworkBars/>, title: "Average Score", stat: Math.round(mapStats.average_score * 100)/100},
+                    { icon: <GiNetworkBars/>, title: "Average Score", stat: roundNumber(mapStats.average_score,2)},
                     { icon: <PiMapPin/>, title: "Average Distance", ...distanceString(mapStats.average_distance) },
                     { icon: <IoTimerOutline/>, title: "Average Time", ...timeString(mapStats.average_time)}
                 ]
@@ -140,7 +147,7 @@ export default function MapInfoPage(){
                 name: "Average Performance",
                 items: [
                     { icon: <FaGlobeAmericas/>, title: "Guesses", stat: average.guesses },
-                    { icon: <GiNetworkBars/>, title: "Average Score", stat: average.score },
+                    { icon: <GiNetworkBars/>, title: "Average Score", stat: roundNumber(average.score,2) },
                     { icon: <PiMapPin/>, title: "Average Distance", ...distanceString(average.distance) },
                     { icon: <IoTimerOutline/>, title: "Average Time", ...timeString(average.time) },
                 ]
@@ -150,7 +157,7 @@ export default function MapInfoPage(){
                 link: high && high.session ? `/game/${high.session}/summary` : undefined,
                 items: [
                     { icon: <FaGlobeAmericas/>, title: "Rounds", stat: high.rounds },
-                    { icon: <GiNetworkBars/>, title: "Average Score", stat:high.score },
+                    { icon: <GiNetworkBars/>, title: "Average Score", stat:roundNumber(high.score,2) },
                     { icon: <PiMapPin/>, title: "Average Distance", ...distanceString(high.distance) },
                     { icon: <IoTimerOutline/>, title: "Average Time", ...timeString(high.time) },
                 ]
