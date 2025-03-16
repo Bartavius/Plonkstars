@@ -32,8 +32,8 @@ export default function Game() {
   const [maps, setMaps] = useState<string[]>([]);
   const [mapName, setMapName] = useState<string>(lastSetting.mapName);
   const [mapId, setMapId] = useState<string>(lastSetting.mapId);
-  const [rounds, setRounds] = useState<number>(lastSetting.rounds);
-  const [time, setTime] = useState<number>(lastSetting.seconds); // -1 is inf time
+  const [rounds, setRounds] = useState<number>(lastSetting.rounds == -1 ? MAX_ROUNDS + 1 : lastSetting.rounds);
+  const [time, setTime] = useState<number>(lastSetting.seconds == -1 ? MAX_TIME + 1 : lastSetting.seconds);
   const [replay, setReplay] = useState<string>(REPLAY_GAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
