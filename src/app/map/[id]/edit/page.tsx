@@ -175,7 +175,9 @@ export default function EditMapPage() {
                 )}
             </div>
             <div className="game-footer page-footer">
-                <button onClick={buttonClick} disabled={(selectedLocation === undefined && selectedBound === undefined) || buttonDisabled} className="game-button">Add Bound</button>
+                <div className="w-1/4 h-full flex justify-center items-center">
+                    <button onClick={buttonClick} disabled={(selectedLocation === undefined && selectedBound === undefined) || buttonDisabled} className="game-button">Add Bound</button>
+                </div>
             </div>
         </div>
     );

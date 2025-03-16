@@ -137,10 +137,10 @@ export default function Results() {
           />
         </div>
       </div>
-      <div className="game-footer justify-center">
-        <div className="game-footer-element">
-          <div>
-            <div className="text-center inline">
+      <div className="game-footer w-full">
+        <div className="grid grid-cols-3 gap-4 w-full">
+          <div className="flex justify-end items-center">
+            <div className="text-center">
               <div>
                 <b className="text-2xl">{user.score}</b>
               </div>
@@ -149,7 +149,7 @@ export default function Results() {
               </div>
             </div>
           </div>
-          <div className="game-footer-element px-6">
+          <div className="game-footer-element w-full">
             <button
               onClick={nextGame}
               style={{ zIndex: 10000 }}
@@ -158,20 +158,22 @@ export default function Results() {
               <b>Next Round</b>
             </button>
           </div>
-          <div className="results-score">
+          <div className="flex justify-left items-center">
             {user.distance !== undefined && (
               <div>
                 <div className="text-center inline">
                   <div>
-                    <b className="text-2xl">{userDistance.userDistance}</b>
+                    <b className="text-2xl">{userDistance.userDistance} {userDistance.units}</b>
                   </div>
                   <div className="text-red font-bold">
-                    <b>{userDistance.units}</b>
+                    <b>DISTANCE</b>
                   </div>
                 </div>
               </div>
             )}
-            {user.distance === undefined && <b className="text-2xl">Timed Out</b>}
+            {user.distance === undefined && (
+              <b className="text-2xl">Timed Out</b>
+            )}
           </div>
         </div>
       </div>

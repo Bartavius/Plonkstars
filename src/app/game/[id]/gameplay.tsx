@@ -42,6 +42,9 @@ export default function MatchPage() {
         setLoading(false);
         setTotalScore(total);
       } catch (err: any) {
+        if (err.response?.status == 404) {
+          router.push("/game");
+        }
         if (err.response?.data?.error == "No more rounds are available") {
           router.push(`/game/${id}/summary`);
         }
@@ -108,7 +111,7 @@ export default function MatchPage() {
         />
       </div>
       <div className="game-footer justify-end">
-        <div className="game-footer-element pr-8">
+        <div className="game-footer-element w-1/3">
           <button
             onClick={submitGuess}
             disabled={

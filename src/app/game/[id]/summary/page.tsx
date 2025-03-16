@@ -72,6 +72,10 @@ export default function Summary() {
     }
   };
 
+  const gameMenu = () => {
+    router.push("/game");
+  }
+
   useEffect(() => {
     if (!params.id) {
       return;
@@ -131,24 +135,31 @@ export default function Summary() {
           />
         </div>
         <div className="mx-auto p-6 bg-main-dark shadow-lg rounded-lg">
-          <div className="flex items-center justify-between mb-4">
-            <button
-              className="btn-selected"
-              onClick={() => {
-                setDisplayedGuesses(allGuesses);
-                setDisplayedLocation(locations);
-                router.push("#map-summary");
-              }}
-            >
-              Select All
-            </button>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="flex justify-right">
+              <button
+                className="btn-selected"
+                onClick={() => {
+                  setDisplayedGuesses(allGuesses);
+                  setDisplayedLocation(locations);
+                  router.push("#map-summary");
+                }}
+              >
+                Select All
+              </button>
+            </div>
 
             <h2 className="text-3xl font-bold text-center text-dark flex-1">
               Game Summary
             </h2>
-            <button className="btn-primary" onClick={() => startNewGame()}>
-              Next Game
-            </button>
+            <div className= "flex justify-end">
+              <button className="btn-selected" onClick={() => startNewGame()}>
+                Main Menu
+              </button>
+              <button className="ml-1 btn-primary" onClick={() => startNewGame()}>
+                Next Game
+              </button>
+            </div>
           </div>
 
           <ul className="space-y-4 my-5">

@@ -44,8 +44,7 @@ input[type="range"]::-webkit-slider-thumb {
   
 .game-button {
     height: 70%;
-    padding-left: 7rem;
-    padding-right: 7rem;
+    width: 100%;
     background-color: var(--plonk-stars-red);
     justify-content: center;
     align-items: center;
