@@ -1,5 +1,5 @@
 "use client";
-import { useParams,redirect,useRouter } from "next/navigation";
+import { useParams,useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 
@@ -16,6 +16,7 @@ import "./page.css"
 import { useDispatch } from "react-redux";
 import MapPreview from "@/components/maps/MapPreview";
 import StatBox from "./StatBox";
+import Loading from "@/components/loading";
 
 interface Location {
     lat:number,
@@ -109,7 +110,7 @@ export default function MapInfoPage(){
 
 
     if (!data) {
-        return <div>Loading...</div>;
+        return <Loading/>;
     }
 
     const mapStats = data.map_stats
