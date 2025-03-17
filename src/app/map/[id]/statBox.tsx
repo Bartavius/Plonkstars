@@ -23,14 +23,19 @@ interface statColumn {
 export default function StatBox({mapStats}: 
     {mapStats: statColumn}) {
     const router = useRouter();
+    const pushRouter = (link: string|undefined) => {
+        if(link){
+            router.push(link);
+        }
+    }
     return (
     <div className="map-info-container">
-        <div className={`map-info-box ${mapStats.link? "mouse-pointer" : ""}`} onClick={() => mapStats.link ? router.push(mapStats.link) : undefined}>
+        <div className={`map-info-box ${mapStats.link? "mouse-pointer" : ""}`} onClick={() => pushRouter(mapStats.link)}>
             <div className="map-info-header">{mapStats.name}</div>
             <div className="horizontal-alignment">
                 {mapStats.cols.map((col, index) => (
                 <div className="typed-map-stat-container" key={index}>
-                    <div className={`typed-map-stat-box ${col.link? "mouse-pointer" : ""}`} onClick={() => col.link ? router.push(col.link) : undefined}>
+                    <div className={`typed-map-stat-box ${col.link? "mouse-pointer" : ""}`} onClick={() => pushRouter(col.link)}>
                         <motion.div 
                             initial={{ opacity: 0}}
                             animate={{ opacity: 1}}
@@ -47,7 +52,7 @@ export default function StatBox({mapStats}:
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 1 + 0.2*index }}
                                     className={`map-stat-card  ${stat.link? "mouse-pointer" : ""}`}
-                                    onClick={() => stat.link ? router.push(stat.link) : undefined}
+                                    onClick={() => pushRouter(stat.link)}
                                 >
                                     <div className="map-stat-icon">{stat.icon}</div>
                                     <div className="map-stat-text">
