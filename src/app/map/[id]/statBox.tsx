@@ -1,3 +1,4 @@
+'use client';
 import { motion } from "framer-motion";
 import "./page.css"
 import { JSX } from "react";

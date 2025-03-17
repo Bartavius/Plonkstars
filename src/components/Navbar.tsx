@@ -1,3 +1,4 @@
+'use client';
 import { Sigmar } from "next/font/google";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
