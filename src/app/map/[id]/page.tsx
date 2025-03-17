@@ -15,7 +15,7 @@ import api from "@/utils/api";
 import "./page.css"
 import { useDispatch } from "react-redux";
 import MapPreview from "@/components/maps/MapPreview";
-import StatBox from "./atBox";
+import StatBox from "./StatBox";
 
 interface Location {
     lat:number,
