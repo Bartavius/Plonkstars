@@ -81,6 +81,10 @@ export default function MapInfoPage(){
         setLoading(false);
     } 
 
+    const goBack = () => {
+        router.push("/map");
+    }
+
     const distanceString = (distance:number) => {
         if(distance < 0) return {stat: "N/A"};
         const m = Math.round(distance * 1000);
@@ -169,7 +173,7 @@ export default function MapInfoPage(){
     return (
         <div className="relative">
             <div className="navbar-buffer"/>
-            {/* <IoMdArrowRoundBack className="map-search-back mouse-pointer" onClick={()=>{router.push("/map")}}/> */}
+            <IoMdArrowRoundBack className="map-search-back mouse-pointer" onClick={goBack}/>
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
