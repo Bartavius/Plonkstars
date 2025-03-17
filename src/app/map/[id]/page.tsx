@@ -168,7 +168,7 @@ export default function MapInfoPage(){
     return (
         <div className="relative">
             <div className="navbar-buffer"/>
-            <IoMdArrowRoundBack className="map-search-back mouse-pointer" onClick={()=>{window.location.href="/map"}}/>
+            <IoMdArrowRoundBack className="map-search-back mouse-pointer" onClick={()=>{router.push("/map")}}/>
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
