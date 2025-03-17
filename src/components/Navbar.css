@@ -16,7 +16,7 @@
 }
 
 .navbar {
-  z-index: 1000;
+  z-index: 100;
 }
 .nav-logo:hover {
     text-decoration: none;

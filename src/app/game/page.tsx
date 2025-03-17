@@ -203,6 +203,8 @@ export default function Game() {
       </div>
       <div className="fixed">
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h2 className="text-xl font-semibold text-center">Select Map</h2>
+          <div className="text-center">For more info about the maps: <a href="/map" className="link">Click here</a></div>
           <MapSearch mapSelect={addMap} pageSize={12} bodySize="60vh"/>
         </Modal>
       </div>
