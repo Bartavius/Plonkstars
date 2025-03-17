@@ -8,6 +8,7 @@ import { IoTimerOutline } from "react-icons/io5";
 import { FaClock,FaGlobeAmericas } from "react-icons/fa";
 import { GiNetworkBars } from "react-icons/gi";
 import { PiMapPinAreaBold } from "react-icons/pi";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 import { setGameMap } from "@/redux/gameSlice";
 import api from "@/utils/api";
@@ -166,8 +167,9 @@ export default function MapInfoPage(){
     }
 
     return (
-        <div>
+        <div className="relative">
             <div className="navbar-buffer"/>
+            <IoMdArrowRoundBack className="map-search-back mouse-pointer" onClick={()=>router.push("/map")}/>
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}

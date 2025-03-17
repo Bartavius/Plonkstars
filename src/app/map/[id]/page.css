@@ -170,3 +170,11 @@
 .mouse-pointer:hover {
     cursor:pointer;
 }
+
+.map-search-back {
+    color: white;
+    position: absolute;
+    margin: 3rem;
+    margin-top: 2rem;
+    font-size: 3rem;
+}
