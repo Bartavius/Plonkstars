@@ -15,8 +15,7 @@ import api from "@/utils/api";
 import "./page.css"
 import { useDispatch } from "react-redux";
 import MapPreview from "@/components/maps/MapPreview";
-import StatBox from "./statBox";
-import { link } from "fs";
+import StatBox from "./StatBox";
 
 interface Location {
     lat:number,
@@ -169,7 +168,7 @@ export default function MapInfoPage(){
     return (
         <div className="relative">
             <div className="navbar-buffer"/>
-            <IoMdArrowRoundBack className="map-search-back mouse-pointer" onClick={()=>router.push("/map")}/>
+            <IoMdArrowRoundBack className="map-search-back mouse-pointer" onClick={()=>{window.location.href="/map"}}/>
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
