@@ -172,10 +172,13 @@
     filter: brightness(90%);
 }
 
+.map-search-back-button{
+    position: absolute;
+    margin-left: 3rem;
+    margin-top: 2rem;
+    font-size: 3rem;
+}
 .map-search-back {
     color: white;
-    position: absolute;
-    margin: 3rem;
-    margin-top: 2rem;
     font-size: 3rem;
 }
