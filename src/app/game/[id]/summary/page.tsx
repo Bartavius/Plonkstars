@@ -82,7 +82,7 @@ export default function Summary() {
     }
     const fetchGuesses = async () => {
       try {
-        const res = await api.get(`/game/summary?&session=${params.id}`);
+        const res = await api.get(`/game/summary?session=${params.id}`);
         const location = res.data.rounds.map((guess: any) => guess.correct);
         const topGuesses = res.data.rounds.map((guess: any) => guess.top);
         const userGuesses = res.data.rounds.map(
