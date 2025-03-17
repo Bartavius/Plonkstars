@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import "./page.css"
 import { JSX } from "react";
+import exp from "node:constants";
 
 interface statColumn {
     name: string;
@@ -19,8 +20,8 @@ interface statColumn {
     }[];
 }
 
-export default function StatBox({mapStats}: 
-    {mapStats: statColumn}) {
+const StatBox = ({mapStats}: 
+    {mapStats: statColumn}) => {
     const pushRouter = (link: string|undefined) => {
         if(link){
             window.location.href = link;
@@ -67,3 +68,5 @@ export default function StatBox({mapStats}:
         </div>
     </div>
 );}
+
+export default StatBox;
