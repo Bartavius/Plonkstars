@@ -169,6 +169,7 @@
 
 .mouse-pointer:hover {
     cursor:pointer;
+    filter: brightness(90%);
 }
 
 .map-search-back {
