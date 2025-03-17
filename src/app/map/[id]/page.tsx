@@ -1,5 +1,5 @@
 "use client";
-import { useParams,useRouter } from "next/navigation";
+import { useParams,redirect,useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 
@@ -168,7 +168,7 @@ export default function MapInfoPage(){
     return (
         <div className="relative">
             <div className="navbar-buffer"/>
-            <IoMdArrowRoundBack className="map-search-back mouse-pointer" onClick={()=>{router.push("/map")}}/>
+            <IoMdArrowRoundBack className="map-search-back mouse-pointer" onClick={()=>{redirect("/map")}}/>
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
