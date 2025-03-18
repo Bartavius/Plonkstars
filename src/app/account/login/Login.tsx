@@ -32,7 +32,7 @@ const Login: React.FC = () => {
         if (isAuthenticated) {
             router.push('/');
         }
-    },[isAuthenticated,router])
+    },[isAuthenticated])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

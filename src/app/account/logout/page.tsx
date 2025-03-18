@@ -19,7 +19,7 @@ export default function Logout() {
             dispatch(setError(error))
         }
         redirectLink? router.push(redirectLink): router.push("/");
-    }, [dispatch,router])
+    }, [dispatch])
 
     return (
         <div className="flex items-center justify-center min-h-screen text-white">
