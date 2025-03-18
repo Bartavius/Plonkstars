@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
+import Loading from "@/components/loading";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -34,7 +35,7 @@ export default function Summary() {
   const [userGuesses, setUserGuesses] = useState<Guess[]>([]);
   const [allGuesses, setAllGuesses] = useState<Guess[][]>([]);
   const [displayedGuesses, setDisplayedGuesses] = useState<Guess[][]>([]);
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<any>();
   const params = useParams();
   const router = useRouter();
 
@@ -120,6 +121,11 @@ export default function Summary() {
     };
   }, []);
 
+  if (!data) {
+    return <Loading/>;
+  }
+
+  const overallStats = data.stats.this_user;
   return (
     <ProtectedRoutes>
       <div className="summary-container">
@@ -137,15 +143,8 @@ export default function Summary() {
         <div className="mx-auto p-6 bg-main-dark shadow-lg rounded-lg">
           <div className="grid grid-cols-3 gap-4">
             <div className="flex justify-right">
-              <button
-                className="btn-selected"
-                onClick={() => {
-                  setDisplayedGuesses(allGuesses);
-                  setDisplayedLocation(locations);
-                  router.push("#map-summary");
-                }}
-              >
-                Select All
+              <button className="btn-selected" onClick={gameMenu}>
+                Main Menu
               </button>
             </div>
 
@@ -153,15 +152,41 @@ export default function Summary() {
               Game Summary
             </h2>
             <div className= "flex justify-end">
-              <button className="btn-selected" onClick={gameMenu}>
-                Main Menu
-              </button>
               <button className="ml-1 btn-primary" onClick={() => startNewGame()}>
                 Next Game
               </button>
             </div>
           </div>
-
+          <div className="mt-5">
+            <a
+              href="#map-summary"
+              className="flex mx-20 justify-between items-center bg-accent1 p-4 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200"
+              onClick={() => {
+                setDisplayedGuesses(allGuesses);
+                setDisplayedLocation(locations);
+              }}
+            >
+              <div className="flex flex-col">
+                <span className="text-lg font-semibold text-dark">
+                  Overall Stats
+                </span>
+                <span className="text-dark text-sm">
+                  ⏳ {`${overallStats.time}s`}
+                </span>
+              </div>
+              <div className="text-right">
+                <span className="block text-lg font-bold text-red">
+                  {overallStats.score} pts
+                </span>
+                <span className="text-dark text-sm">
+                  {overallStats.distance && Math.round(overallStats.distance) >= 1 &&
+                    `📍 ${Math.round(overallStats.distance * 100)/100} km away`}
+                  {overallStats.distance && overallStats.distance < 1 &&
+                    `📍 ${Math.round(overallStats.distance * 1000)} m away`}
+                </span>
+              </div>
+            </a>
+          </div>
           <ul className="space-y-4 my-5">
             {userGuesses.map((guess, index) => (
               <li key={index}>
