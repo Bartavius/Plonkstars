@@ -186,10 +186,10 @@ export default function Summary() {
                       {guess.score} pts
                     </span>
                     <span className="text-dark text-sm">
-                      {guess.distance &&
-                        `📍 ${parseFloat(guess.distance.toString()).toFixed(
-                          2
-                        )} km away`}
+                      {guess.distance && Math.round(guess.distance) >= 1 &&
+                        `📍 ${Math.round(guess.distance * 100)/100} km away`}
+                      {guess.distance && guess.distance < 1 &&
+                        `📍 ${Math.round(guess.distance * 1000)} m away`}
                     </span>
                   </div>
                 </a>
