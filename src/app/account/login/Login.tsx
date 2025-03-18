@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess, loginFailure } from '@/redux/authSlice';
 import api from '@/utils/api'; 
@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
 import { useRouter } from "next/navigation";
 import { Sigmar } from "next/font/google";
+import { clearError } from '@/redux/errorSlice';
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 const formTitle = `${sigmar.className} text-white text-4xl`
@@ -16,12 +17,22 @@ const Login: React.FC = () => {
     const dispatch = useDispatch();
     const router = useRouter();
     const { isAuthenticated } = useSelector((state: any) => state.auth);
+    const reduxError = useSelector((state:any) => state.error).error;
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [buttonEnabled,setButtonEnabled] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(reduxError);
     
+    useEffect(() => {
+        dispatch(clearError());
+    },[dispatch])
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.push('/');
+        }
+    },[isAuthenticated,router])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -51,10 +62,6 @@ const Login: React.FC = () => {
             setButtonEnabled(true);
         }
     };
-
-    if (isAuthenticated) {
-        return <div>Welcome, you are logged in!</div>;
-    }
 
     return (
         <div className="min-h-screen flex items-center justify-center">

@@ -31,7 +31,7 @@ api.interceptors.response.use(
   (error) => {
     // Check for 403 status
     if (error.response?.status === 403 && error.response?.data?.error === "login required") {
-      redirect("/account/logout");
+      redirect("/account/logout?error=Session%20expired&redirect=/account/login");
     }
 
     return Promise.reject(error);
