@@ -17,7 +17,7 @@ api.interceptors.request.use((config) => {
   }
   return config;
 }, (error) => {
-  console.log(error);
+  (error);
   if(error.response?.status == 403 && error.response?.data?.error == "login required") {
       logout();
   }
@@ -29,13 +29,8 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response, // Pass successful responses through
   (error) => {
-    console.error("API Error:", error);
-
     // Check for 403 status
-    console.log(error.response?.status)
-    console.log(error.response?.data?.error);
     if (error.response?.status === 403 && error.response?.data?.error === "login required") {
-      console.warn("403 Forbidden: Logging out user.");
       redirect("/account/logout");
     }
 

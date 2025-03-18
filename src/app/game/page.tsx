@@ -10,6 +10,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { setGameSettings } from "@/redux/gameSlice";
 import ProtectedRoutes from "../ProtectedRoutes";
+import { clearError } from "@/redux/errorSlice";
 
 const MIN_ROUNDS = 5;
 const MAX_ROUNDS = 20;
@@ -27,8 +28,7 @@ export default function Game() {
 
   // loading past game settings
   const lastSetting = useSelector((state: any) => state.game);
-
-  console.log(lastSetting.seconds === -1);
+  const errorState = useSelector((state: any) => state.error).error;
   // page for starting NEW game, also render all the settings and options here.
   const [maps, setMaps] = useState<string[]>([]);
   const [mapName, setMapName] = useState<string>(lastSetting.mapName);
@@ -38,7 +38,12 @@ export default function Game() {
   const [replay, setReplay] = useState<string>(REPLAY_GAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(errorState);
+  
+
+  useEffect(() => {
+    dispatch(clearError()); 
+  },[dispatch])
   
   const startGame = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -54,11 +59,9 @@ export default function Game() {
           "time": checkInfTime,
           map: { id: mapId },
         });
-        const { id } = response.data;
-        await api.post("/game/play", { id });
         dispatch(setGameSettings({mapName: mapName, mapId: mapId, seconds: checkInfTime, rounds: checkInfRounds}));
-        const gameUrl = `/game/${id}`;
-        router.push(gameUrl);
+        const { id } = response.data;
+        router.push(`/game/${id}/join`);
       } catch (err: any) {
         setError(err.response?.data?.error || "Error starting game");
         setLoading(false);
@@ -69,22 +72,7 @@ export default function Game() {
   // make a handle change function
 
   const joinGame = async (e: React.FormEvent) => {
-    e.preventDefault();
-    {
-      !loading && setLoading(true);
-      try {
-        const res = await api.post("/game/play", {
-          id: replay,
-        });
-      } catch (err: any) {
-        if (err.response?.status === 404) {
-          setLoading(false);
-          setError(err.response?.data?.error || "Game not found");
-          return;
-        }
-      }
-      router.push(`/game/${replay}`);
-    }
+    router.push(`/game/${replay}/join`);
   };
 
   const addMap = (id: string, name: string) => {

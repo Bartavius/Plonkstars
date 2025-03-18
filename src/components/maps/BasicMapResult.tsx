@@ -21,7 +21,6 @@ const BasicMapResult = ({
   height?: number;
 }) => {
   const boundedMarkers = markers.map((marker: GuessPair) => {
-    console.log(marker);
     const newUsers = marker.users.map(
       (user: { lat: number | null; lng: number | null }) => {
         let newLng = user.lng;
@@ -38,7 +37,6 @@ const BasicMapResult = ({
     return { ...marker, users: newUsers };
   });
 
-  console.log(boundedMarkers);
 
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;

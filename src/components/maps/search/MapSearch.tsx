@@ -22,7 +22,6 @@ const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:str
         if (!loading) {
             setLoading(true);
             const res = await api.get(`/map/search?name=${mapName}&page=${page}&per_page=${pageSize}`);
-            console.log(res.data);
             setMaps(res.data.maps);
             setHasNext(res.data.pages > page);
             setLoading(false);

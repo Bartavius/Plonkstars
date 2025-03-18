@@ -35,11 +35,9 @@ export default function EditMapPage() {
         try{
             const response = await api.get(`/map/info?id=${MAPID}`);
             const bounds = response.data.bounds;
-            console.log(bounds);
             setBounds(response.data.bounds);
         } catch (error) {
             router.push("/map");
-            console.log(error);
         }
     }
 
@@ -120,7 +118,6 @@ export default function EditMapPage() {
 
     async function buttonClick(){
         if((selectedLocation === undefined && selectedBound === undefined) || buttonDisabled) return;
-        console.log(selectedLocation,selectedBound);
         const bound = selectedBound ?? {start:selectedLocation!,end:selectedLocation!};
         try{
             const res = await api.post(`/map/bound/add`,{...bound,id:MAPID});
@@ -129,7 +126,7 @@ export default function EditMapPage() {
             setSelectedLocation(undefined);
             setSelectedBound(undefined);
         } catch (error) {
-            console.log(error);
+
         }
         
     }
