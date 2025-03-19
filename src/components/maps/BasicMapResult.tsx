@@ -62,7 +62,7 @@ const BasicMapResult = ({
         center={CENTER}
         zoom={7}
       >
-        {getTileLayer(512, -1)}
+        {getTileLayer(512,-1)}
         {boundedMarkers.map((markerObj, index) => (
           <div key={index}>
             {markerObj && (

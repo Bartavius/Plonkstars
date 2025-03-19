@@ -67,7 +67,7 @@ text-decoration: underline;
 }
 
 .form-window {
-  background-color: var(--dark-blue);
+  background-color: var(--blue4);
 }
 
 .form-button-selected {
@@ -148,7 +148,7 @@ text-decoration: underline;
 }
 
 .text-accent2 {
-  color: var(--dark-blue);
+  color: var(--blue4);
 }
 
 .navbar-buffer{
