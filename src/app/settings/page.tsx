@@ -4,10 +4,8 @@ import maps from "@/utils/maps";
 import "./page.css"
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import getTileLayer from "@/utils/leaflet";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { m } from "framer-motion";
 import { setMapType } from "@/redux/settingsSlice";
 import { useRouter } from "next/navigation";
 import Popup from "./popup";
@@ -21,7 +19,8 @@ export default function Settings() {
     const router = useRouter();
 
     const saveChanges = () => {
-        dispatch(setMapType(currentMap));
+        console.log(currentMap);
+        dispatch(setMapType({mapNumber:currentMap}));
         showPopup("Changes saved!");
     }
 
