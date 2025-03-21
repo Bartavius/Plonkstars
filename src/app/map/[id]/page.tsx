@@ -60,6 +60,7 @@ export default function MapInfoPage(){
     const dispatch = useDispatch();
     const [loading,setLoading] = useState(false);
     const [data,setData] = useState<MapInfo>();
+    const [topScore, setTopScore] = useState<any>();
 
     const mapID = params.id;
 
@@ -70,6 +71,18 @@ export default function MapInfoPage(){
         } catch (error) {
             sessionStorage.setItem("error", String(error));
             router.push("/map");
+        }
+    }
+
+    const getTopScore = async () => {
+        try {
+            const response = await api.get(`/map/leaderboard?id=${mapID}&page=1&per_page=1`);
+            if (response.data.length !== 0) {
+                setTopScore(response.data[0]);
+            }
+        } catch (error) {
+            // sessionStorage.setItem("error", String(error));
+            // router.push("/map");
         }
     }
 
@@ -121,6 +134,7 @@ export default function MapInfoPage(){
 
     useEffect(() => {
         getMapInfo();
+        getTopScore();
     }, []);
 
 
@@ -181,6 +195,28 @@ export default function MapInfoPage(){
         ]
     }
 
+    const topUser = topScore ? {
+        user:topScore.user.username,
+        score:topScore.average_score,
+        distance:topScore.average_distance,
+        time:topScore.average_time,
+        rounds: topScore.rounds,
+    } : {user:"N/A",score:"N/A",distance:-1,time:-1,rounds:"N/A"};
+    const otherUserStats = {
+        name: "Other User Stats",
+        cols: [
+            {
+                name: "#1: " + topUser.user,
+                items: [
+                    { icon: <GiNetworkBars/>, title: "Average Score", stat:roundNumber(topUser.score,2) },
+                    { icon: <FaGlobeAmericas/>, title: "Rounds", stat: topUser.rounds},
+                    { icon: <IoTimerOutline/>, title: "Average Time", ...timeString(topUser.time) },
+                    { icon: <PiMapPin/>, title: "Average Distance", ...distanceString(topUser.distance) },
+                ]
+            },
+        ]
+    }
+
     return (
         <div className="relative">
             <div className="navbar-buffer"/>
@@ -211,6 +247,7 @@ export default function MapInfoPage(){
             </motion.div>
             <StatBox mapStats={displayMapStats}/>
             <StatBox mapStats={displayUserStats}/>
+            <StatBox mapStats={otherUserStats}/>
             <div className="map-info-container">
                 <div className="map-info-box">
                     <div className="map-info-header">Map Preview</div> 

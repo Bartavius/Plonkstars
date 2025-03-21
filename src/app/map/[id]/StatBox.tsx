@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import "./page.css"
 import { JSX } from "react";
-import exp from "node:constants";
 import { useRouter } from "next/navigation";
 
 interface statColumn {
@@ -15,7 +14,7 @@ interface statColumn {
             link?: string;
             icon: any;
             title: string;
-            stat: number|string;
+            stat: number|string|JSX.Element;
             unit?: string;
         }[];
     }[];
