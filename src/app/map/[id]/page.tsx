@@ -27,7 +27,6 @@ interface MapInfo{
     name:string,
     id:string, 
     creator:{username:string},
-    can_edit:boolean,
     map_stats:{
         average_generation_time: number,
         average_score: number,
@@ -51,52 +50,56 @@ interface MapInfo{
             session: string
         }
     }
-    bounds:{start:Location,end:Location}[],
+}
+
+interface Bounds {
+    start: Location,
+    end: Location,
 }
 
 export default function MapInfoPage(){
     const params = useParams();
     const router = useRouter();
     const dispatch = useDispatch();
+
     const [loading,setLoading] = useState(false);
-    const [data,setData] = useState<MapInfo>();
+    const [stats,setStats] = useState<MapInfo>();
+    const [bounds, setBounds] = useState<(Location|Bounds)[]>();
     const [topScore, setTopScore] = useState<any>();
+    const [canEdit, setCanEdit] = useState<boolean>();
 
     const mapID = params.id;
 
     const getMapInfo = async () => {
         try {
-            const response = await api.get(`/map/info?id=${mapID}`);
-            setData(response.data);
+            const stats = await api.get(`/map/stats?id=${mapID}`);
+            setStats(stats.data);
+            const bounds = await api.get(`/map/bounds?id=${mapID}`);
+            setBounds(bounds.data);
+            const can_edit = await api.get(`/map/edit?id=${mapID}`);
+            setCanEdit(can_edit.data.can_edit);
+
+            const response = await api.get(`/map/leaderboard?id=${mapID}&page=1&per_page=1`);
+            if (response.data.length !== 0) {
+                setTopScore(response.data[0]);
+            }
         } catch (error) {
             sessionStorage.setItem("error", String(error));
             router.push("/map");
         }
     }
 
-    const getTopScore = async () => {
-        try {
-            const response = await api.get(`/map/leaderboard?id=${mapID}&page=1&per_page=1`);
-            if (response.data.length !== 0) {
-                setTopScore(response.data[0]);
-            }
-        } catch (error) {
-            // sessionStorage.setItem("error", String(error));
-            // router.push("/map");
-        }
-    }
-
     const playMap = () => {
-        if(data && mapID){
+        if(stats && mapID){
             setLoading(true);
-            dispatch(setGameMap({mapName:data.name,mapId:mapID}));
+            dispatch(setGameMap({mapName:stats.name,mapId:mapID}));
             router.push("/game");
         }
         setLoading(false);
     } 
 
     const editMap = () => {
-        if(data && mapID){
+        if(stats && mapID){
             setLoading(true);
             router.push(`/map/${mapID}/edit`);
         }
@@ -134,15 +137,14 @@ export default function MapInfoPage(){
 
     useEffect(() => {
         getMapInfo();
-        getTopScore();
     }, []);
 
 
-    if (!data) {
+    if (!stats || !bounds || canEdit === undefined) {
         return <Loading/>;
     }
 
-    const mapStats = data.map_stats
+    const mapStats = stats.map_stats
     const displayMapStats = {
         name: "Overall Stats",
         cols:[
@@ -166,7 +168,7 @@ export default function MapInfoPage(){
     }
 
 
-    const userStats = data.user_stats;
+    const userStats = stats.user_stats;
     const average = userStats ? userStats.average : {score:"N/A",distance:-1,time:-1,guesses:0};
     const high = userStats && userStats.high ? userStats.high : {score:"N/A",distance:-1,time:-1,rounds:"N/A",session:undefined};
 
@@ -230,14 +232,14 @@ export default function MapInfoPage(){
                 className="map-info-card-wrapper"
             >
                 <div className="map-info-card">
-                    <div className="map-info-title">{data.name}</div>
-                    <div className="map-info-creator">Made by: <span className="map-info-creator-name">{data.creator.username}</span></div>
+                    <div className="map-info-title">{stats.name}</div>
+                    <div className="map-info-creator">Made by: <span className="map-info-creator-name">{stats.creator.username}</span></div>
                     <div className="map-info-button-div">
                         <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
                             <FaPlay className="map-info-button-icon"/>
                             Play
                             </button>
-                        {data.can_edit && 
+                        {canEdit && 
                             <button className="edit-button map-info-button gray-button" onClick={editMap}>
                                 <FaPencilAlt className="map-info-button-icon"/>
                                 Edit
@@ -252,7 +254,7 @@ export default function MapInfoPage(){
                 <div className="map-info-box">
                     <div className="map-info-header">Map Preview</div> 
                     <div className="map-preview-container">
-                        <MapPreview bounds={data.bounds} iconClick={true}/>
+                        <MapPreview bounds={bounds} iconClick={true}/>
                     </div>
                 </div>
             </div>

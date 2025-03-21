@@ -34,14 +34,13 @@ export default function EditMapPage() {
 
     const getLocations = async () => {
         try{
-            const response = await api.get(`/map/info?id=${MAPID}`);
-            setBounds(response.data.bounds);
-            if(!response.data.can_edit){
+            const canEdit = await api.get(`/map/edit?id=${MAPID}`);
+            if(!canEdit.data.can_edit){
                 router.push(`/map/${MAPID}`);
             }
-            else{
-                setLoading(false);
-            }
+            const response = await api.get(`/map/bounds?id=${MAPID}`);
+            setBounds(response.data);
+            setLoading(false);
         } catch (error) {
             router.push("/map");
         }
