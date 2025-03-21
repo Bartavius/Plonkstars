@@ -84,7 +84,6 @@ export default function MapInfoPage(){
                 setTopScore(response.data[0]);
             }
         } catch (error) {
-            sessionStorage.setItem("error", String(error));
             router.push("/map");
         }
     }
