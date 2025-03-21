@@ -139,9 +139,10 @@
     position: relative;
     color:white;
 }
-
-.play-button {
+.map-info-button-div{
     margin-top: 1rem;
+}
+.play-button {
     background-color: rgb(27, 202, 27);
     font-size: 1.5rem;
     font-weight: 700;
@@ -149,6 +150,7 @@
     padding-left: 2rem;
     padding-right: 2rem;
     border-radius: 1rem;
+    margin-right: 0.5rem;
 }
 
 button:disabled{
@@ -160,7 +162,6 @@ button:hover {
 }
 
 .edit-button {
-    margin-top: 1rem;
     background-color: rgb(226, 134, 14);
     font-size: 1.5rem;
     font-weight: 700;

@@ -196,7 +196,7 @@ export default function MapInfoPage(){
                 <div className="map-info-card">
                     <div className="map-info-title">{data.name}</div>
                     <div className="map-info-creator">Made by: <span className="map-info-creator-name">{data.creator.username}</span></div>
-                    <div>
+                    <div className="map-info-button-div">
                         <button disabled={loading} className="play-button" onClick={playMap}>Play</button>
                         {data.can_edit && <button className="edit-button" onClick={editMap}>Edit</button>}
                     </div>
