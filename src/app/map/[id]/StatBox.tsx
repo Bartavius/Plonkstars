@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import "./page.css"
 import { JSX } from "react";
 import exp from "node:constants";
+import { useRouter } from "next/navigation";
 
 interface statColumn {
     name: string;
@@ -22,9 +23,10 @@ interface statColumn {
 
 const StatBox = ({mapStats}: 
     {mapStats: statColumn}) => {
+    const router = useRouter();
     const pushRouter = (link: string|undefined) => {
         if(link){
-            window.location.href = link;
+            router.push(link);
         }
     }
     return (
