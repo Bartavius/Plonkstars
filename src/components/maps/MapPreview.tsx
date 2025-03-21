@@ -28,18 +28,18 @@ const MapPreview = ({
     iconClick,
     height,
 }: {
-    bounds: Bounds[];
+    bounds: (Bounds|Location)[];
     children?: React.ReactNode;
     onClick?: (event:LeafletMouseEvent) => void;
     iconClick?: boolean;
     height?: number;
 }) => {
-    const points = bounds.filter((marker:Bounds) => {
-        return marker.start.lat === marker.end.lat && marker.start.lng === marker.end.lng;
-    }).map(map => map.start);
+    const points = bounds.filter((marker) => {
+        return "lat" in marker && "lng" in marker;
+    });
 
-    const area = bounds.filter((marker:Bounds) => {
-        return !(marker.start.lat === marker.end.lat && marker.start.lng === marker.end.lng);
+    const area = bounds.filter((marker) => {
+        return "start" in marker && "end" in marker;
     });
 
     const ZOOM_DELTA = 2;
@@ -70,7 +70,7 @@ const MapPreview = ({
                     ))}
                 </div>
                 <div>
-                    {bounds.map((bound,index) => (
+                    {area.map((bound,index) => (
                             <Rectangle
                                 key={index}
                                 bounds={[[bound.start.lat,bound.start.lng],[bound.end.lat,bound.end.lng]]}
