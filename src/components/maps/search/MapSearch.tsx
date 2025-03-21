@@ -31,10 +31,6 @@ const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:str
     useEffect(() => {
         query();
     },[page,mapName]);
-
-    useEffect(() => {
-        query();
-    },[]);
     
     return (
         <div className="relative">

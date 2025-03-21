@@ -1,9 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { logout } from '@/redux/authSlice';
-import { log } from 'console';
-import { useDispatch } from 'react-redux';
 import { redirect } from 'next/navigation';
+import { setBlockedURL, setError } from '@/redux/errorSlice';
+import { store } from '@/redux/store';
 
 
 const api = axios.create({
@@ -31,7 +31,16 @@ api.interceptors.response.use(
   (error) => {
     // Check for 403 status
     if (error.response?.status === 403 && error.response?.data?.error === "login required") {
-      redirect("/account/logout?error=Session%20expired&redirect=/account/login");
+      const attemptedUrl = window.location.pathname;
+      if(store.getState().auth.isAuthenticated) {
+        store.dispatch(setError("Session expired."));
+      }
+      else{
+        store.dispatch(setError("Login required."));
+      }
+      store.dispatch(setBlockedURL(attemptedUrl)); 
+      store.dispatch(logout());
+      redirect("/account/login");
     }
 
     return Promise.reject(error);
