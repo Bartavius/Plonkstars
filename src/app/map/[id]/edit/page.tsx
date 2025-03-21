@@ -28,14 +28,20 @@ export default function EditMapPage() {
     const [selectedLocation,setSelectedLocation] = useState<Location>();
     const [selectedBound,setSelectedBound] = useState<Bounds>();
     const [buttonDisabled,setButtonDisabled] = useState<boolean>(false);
+    const [loading,setLoading] = useState<boolean>(true);
     const MAPID = useParams().id;
     const router = useRouter();
 
     const getLocations = async () => {
         try{
             const response = await api.get(`/map/info?id=${MAPID}`);
-            const bounds = response.data.bounds;
             setBounds(response.data.bounds);
+            if(!response.data.can_edit){
+                router.push(`/map/${MAPID}`);
+            }
+            else{
+                setLoading(false);
+            }
         } catch (error) {
             router.push("/map");
         }
@@ -131,7 +137,7 @@ export default function EditMapPage() {
         
     }
 
-    if(!bounds) return <Loading/>;
+    if(loading) return <Loading/>;
 
     return (
         <div className="overflow-hidden h-full w-full">

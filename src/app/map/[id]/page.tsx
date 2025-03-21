@@ -27,6 +27,7 @@ interface MapInfo{
     name:string,
     id:string, 
     creator:{username:string},
+    can_edit:boolean,
     map_stats:{
         average_generation_time: number,
         average_score: number,
@@ -74,16 +75,26 @@ export default function MapInfoPage(){
 
     const playMap = () => {
         if(data && mapID){
-            setLoading(true)
+            setLoading(true);
             dispatch(setGameMap({mapName:data.name,mapId:mapID}));
             router.push("/game");
         }
         setLoading(false);
     } 
 
+    const editMap = () => {
+        if(data && mapID){
+            setLoading(true);
+            router.push(`/map/${mapID}/edit`);
+        }
+        setLoading(false)
+    }
+
     const goBack = () => {
+        setLoading(true);
         router.push("/map");
     }
+    
 
     const distanceString = (distance:number) => {
         if(distance < 0) return {stat: "N/A"};
@@ -185,7 +196,10 @@ export default function MapInfoPage(){
                 <div className="map-info-card">
                     <div className="map-info-title">{data.name}</div>
                     <div className="map-info-creator">Made by: <span className="map-info-creator-name">{data.creator.username}</span></div>
-                    <button disabled={loading} className="play-button" onClick={playMap}>Play</button>
+                    <div>
+                        <button disabled={loading} className="play-button" onClick={playMap}>Play</button>
+                        {data.can_edit && <button className="edit-button" onClick={editMap}>Edit</button>}
+                    </div>
                 </div>
             </motion.div>
             <StatBox mapStats={displayMapStats}/>

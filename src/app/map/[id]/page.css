@@ -151,11 +151,23 @@
     border-radius: 1rem;
 }
 
-.play-button:disabled{
+button:disabled{
     background-color: grey;
 }
-.play-button:hover {
+
+button:hover {
     filter: brightness(90%);
+}
+
+.edit-button {
+    margin-top: 1rem;
+    background-color: rgb(226, 134, 14);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 1rem;
 }
 
 .map-preview-container {
