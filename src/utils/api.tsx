@@ -7,7 +7,7 @@ import { store } from '@/redux/store';
 
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND, // Replace with your backend URL
+  baseURL: process.env.NEXT_PUBLIC_BACKEND, 
 });
 
 api.interceptors.request.use((config) => {
@@ -18,16 +18,12 @@ api.interceptors.request.use((config) => {
   return config;
 }, (error) => {
   (error);
-  if(error.response?.status == 403 && error.response?.data?.error == "login required") {
-      logout();
-  }
-
   return Promise.reject(error);
 });
 
 
 api.interceptors.response.use(
-  (response) => response, // Pass successful responses through
+  (response) => response,
   (error) => {
     // Check for 403 status
     if (error.response?.status === 403 && error.response?.data?.error === "login required") {
