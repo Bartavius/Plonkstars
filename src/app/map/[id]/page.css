@@ -153,14 +153,6 @@
     margin-right: 0.5rem;
 }
 
-button:disabled{
-    background-color: grey;
-}
-
-button:hover {
-    filter: brightness(90%);
-}
-
 .edit-button {
     background-color: rgb(226, 134, 14);
     font-size: 1.5rem;
@@ -180,6 +172,14 @@ button:hover {
     z-index: 0;
 }
 
+.gray-button:disabled{
+    background-color: gray;
+}
+
+.gray-button:hover {
+    filter: brightness(90%);
+}
+
 .mouse-pointer:hover {
     cursor:pointer;
     filter: brightness(90%);
@@ -190,8 +190,15 @@ button:hover {
     margin-left: 3rem;
     margin-top: 2rem;
     font-size: 3rem;
-}
-.map-search-back {
     color: white;
     font-size: 3rem;
+}
+
+.map-search-back-button:hover {
+    cursor:pointer;
+    filter: brightness(90%);
+}
+
+.map-search-back-button:disabled {
+    color: gray;
 }
