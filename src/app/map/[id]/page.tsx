@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 import { PiMapPin } from "react-icons/pi";
 import { IoTimerOutline } from "react-icons/io5";
-import { FaClock,FaGlobeAmericas } from "react-icons/fa";
+import { FaClock,FaGlobeAmericas,FaPlay,FaPencilAlt } from "react-icons/fa";
 import { GiNetworkBars } from "react-icons/gi";
 import { PiMapPinAreaBold } from "react-icons/pi";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -197,8 +197,15 @@ export default function MapInfoPage(){
                     <div className="map-info-title">{data.name}</div>
                     <div className="map-info-creator">Made by: <span className="map-info-creator-name">{data.creator.username}</span></div>
                     <div className="map-info-button-div">
-                        <button disabled={loading} className="play-button gray-button" onClick={playMap}>Play</button>
-                        {data.can_edit && <button className="edit-button gray-button" onClick={editMap}>Edit</button>}
+                        <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
+                            <FaPlay className="map-info-button-icon"/>
+                            Play
+                            </button>
+                        {data.can_edit && 
+                            <button className="edit-button map-info-button gray-button" onClick={editMap}>
+                                <FaPencilAlt className="map-info-button-icon"/>
+                                Edit
+                            </button>}
                     </div>
                 </div>
             </motion.div>

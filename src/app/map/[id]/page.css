@@ -141,26 +141,35 @@
 }
 .map-info-button-div{
     margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
 }
 .play-button {
     background-color: rgb(27, 202, 27);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    border-radius: 1rem;
-    margin-right: 0.5rem;
 }
 
 .edit-button {
     background-color: rgb(226, 134, 14);
+}
+
+.map-info-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
     font-size: 1.5rem;
     font-weight: 700;
     color: white;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     border-radius: 1rem;
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
+}
+
+.map-info-button-icon {
+    font-size:1rem;
+    margin-right: 0.5rem;
 }
 
 .map-preview-container {
