@@ -109,7 +109,7 @@ export default function MapInfoPage(){
         if(time < 0) return {stat:"N/A"};
         const minutes = Math.floor(time / 60);
         const seconds = Math.round(time % 60 * 10)/10;
-        return minutes > 0? {stat:`${minutes}:${seconds}`} : {stat:`${seconds}`,unit:"s"};
+        return minutes > 0? {stat:`${minutes}:${seconds.toString().padStart(4,"0")}`} : {stat:`${seconds}`,unit:"s"};
     }
 
     const roundNumber = (number:number|string,placements:number) => {
