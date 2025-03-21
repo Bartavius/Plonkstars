@@ -131,10 +131,11 @@ export default function EditMapPage() {
             setBounds([...bounds,retbound]);
             setSelectedLocation(undefined);
             setSelectedBound(undefined);
-        } catch (error) {
+        } catch (error) {}
+    }
 
-        }
-        
+    function goBack(){
+        router.push(`/map/${MAPID}`);
     }
 
     if(loading) return <Loading/>;
@@ -177,9 +178,15 @@ export default function EditMapPage() {
                     </div>
                 )}
             </div>
-            <div className="game-footer page-footer">
-                <div className="w-1/4 h-full flex justify-center items-center">
-                    <button onClick={buttonClick} disabled={(selectedLocation === undefined && selectedBound === undefined) || buttonDisabled} className="game-button">Add Bound</button>
+            <div className="game-footer w-full">
+                <div className="edit-grid-footer">
+                    <div className="edit-grid-left-elements">
+                        <button onClick={goBack} className="edit-back-button">Back to Map Page</button>
+                    </div>
+                    <div></div>
+                    <div className="edit-grid-right-elements">
+                        <button onClick={buttonClick} disabled={(selectedLocation === undefined && selectedBound === undefined) || buttonDisabled} className="game-button edit-right-button">Add Bound</button>
+                    </div>
                 </div>
             </div>
         </div>
