@@ -113,7 +113,7 @@ export default function EditMapPage() {
         });
 
         useMapEvent("keyup", (event) => {
-            if (!event.originalEvent.ctrlKey && event.originalEvent.metaKey) {
+            if (!event.originalEvent.ctrlKey && !event.originalEvent.metaKey) {
                 ctrlDragLatLngRef.current = undefined;
                 setButtonDisabled(false);
                 map.dragging.enable();
