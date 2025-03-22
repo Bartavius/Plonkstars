@@ -106,13 +106,13 @@ export default function EditMapPage() {
         });
 
         useMapEvent("keydown", (event) => {
-            if (event.originalEvent.ctrlKey) {
+            if (event.originalEvent.ctrlKey || event.originalEvent.key === "b") {
                 map.dragging.disable();
             }
         });
 
         useMapEvent("keyup", (event) => {
-            if (!event.originalEvent.ctrlKey) {
+            if (!event.originalEvent.ctrlKey && event.originalEvent.key !== "b") {
                 ctrlDragLatLngRef.current = undefined;
                 setButtonDisabled(false);
                 map.dragging.enable();
