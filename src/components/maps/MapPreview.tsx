@@ -62,7 +62,7 @@ const MapPreview = ({
                 center={CENTER}
                 zoom={2}
             >
-                {getTileLayer()}
+                {getTileLayer(512, -1)}
                 {children}
                 <div>
                     {points.map((point,index) => (

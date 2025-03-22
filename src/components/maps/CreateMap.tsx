@@ -1,11 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import MapPreview from "./MapPreview";
-import { Rectangle, useMapEvent } from "react-leaflet";
-import { LeafletMouseEvent } from "leaflet";
-import { on } from "events";
-import MapIcon from "./mapIcon";
+import { Rectangle } from "react-leaflet";
 
 interface Location {
     lat:number,
