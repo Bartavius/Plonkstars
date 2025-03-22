@@ -84,7 +84,7 @@ export default function EditMapPage() {
         });
 
         useMapEvent('mousedown', (event) => {
-            if (event.originalEvent.ctrlKey && !ctrlDragLatLngRef.current) {
+            if (event.originalEvent.ctrlKey || event.originalEvent.metaKey && !ctrlDragLatLngRef.current) {
                 setButtonDisabled(true);
                 ctrlDragLatLngRef.current  = event.latlng;
                 setSelectedLocation(undefined);
@@ -106,13 +106,14 @@ export default function EditMapPage() {
         });
 
         useMapEvent("keydown", (event) => {
-            if (event.originalEvent.ctrlKey || event.originalEvent.key === "b") {
+            console.log(event.originalEvent.key);
+            if (event.originalEvent.ctrlKey || event.originalEvent.metaKey) {
                 map.dragging.disable();
             }
         });
 
         useMapEvent("keyup", (event) => {
-            if (!event.originalEvent.ctrlKey && event.originalEvent.key !== "b") {
+            if (!event.originalEvent.ctrlKey && event.originalEvent.metaKey) {
                 ctrlDragLatLngRef.current = undefined;
                 setButtonDisabled(false);
                 map.dragging.enable();
