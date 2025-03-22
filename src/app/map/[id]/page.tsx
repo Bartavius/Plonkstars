@@ -22,36 +22,6 @@ interface Location {
     lat:number,
     lng:number
 }
-
-interface MapInfo{
-    name:string,
-    id:string, 
-    creator:{username:string},
-    map_stats:{
-        average_generation_time: number,
-        average_score: number,
-        average_distance: number,
-        average_time: number,
-        total_guesses: number,
-        max_distance: number
-    },
-    user_stats?:{
-        average:{
-            score:number,
-            distance:number,
-            time:number,
-            guesses:number,
-        }
-        high?:{
-            score:number,
-            distance:number,
-            time:number,
-            rounds:number,
-            session: string
-        }
-    }
-}
-
 interface Bounds {
     start: Location,
     end: Location,
@@ -63,7 +33,7 @@ export default function MapInfoPage(){
     const dispatch = useDispatch();
 
     const [loading,setLoading] = useState(false);
-    const [stats,setStats] = useState<MapInfo>();
+    const [stats,setStats] = useState<any>();
     const [bounds, setBounds] = useState<(Location|Bounds)[]>();
     const [topScore, setTopScore] = useState<any>();
     const [canEdit, setCanEdit] = useState<boolean>();
@@ -203,9 +173,28 @@ export default function MapInfoPage(){
         time:topScore.average_time,
         rounds: topScore.rounds,
     } : {user:"N/A",score:"N/A",distance:-1,time:-1,rounds:"N/A"};
+
+    
+    const topGuesses = stats.other.top_guesses ?? {user:{username:"N/A"},stat:"N/A"};
+    const fastestPlonker = stats.other.fast_guesser ?? {user:{username:"N/A"},stat:-1};
+    const bestAverage = stats.other.best_average ?? {user:{username:"N/A"},stat:"N/A"};
+
+    if (typeof bestAverage.stat === "number") {
+        bestAverage.stat = roundNumber(bestAverage.stat,2);
+    }
+
     const otherUserStats = {
         name: "Other User Stats",
         cols: [
+            {
+                name: "Miscellaneous Stats",
+                items: [
+                    { icon: <FaGlobeAmericas/>, title: `Most Addicted: ${topGuesses.user.username}`, stat: topGuesses.stat + (stats.other.top_guesses ? " plonks" : "")},
+                    { icon: <FaClock/>, title: `Fastest Plonker: ${fastestPlonker.user.username}`, ...timeString(fastestPlonker.stat) },
+                    { icon: <IoTimerOutline/>, title: `Best Average: ${bestAverage.user.username}`, stat: bestAverage.stat },
+                    { icon: <PiMapPin/>, title: "Number of 5ks", stat:stats.other["5ks"]},
+                ]
+            },
             {
                 name: "#1: " + topUser.user,
                 items: [
