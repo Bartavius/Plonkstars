@@ -110,6 +110,10 @@ export default function EditMapPage() {
             if (event.originalEvent.ctrlKey || event.originalEvent.metaKey) {
                 map.dragging.disable();
             }
+
+            if (event.originalEvent.code === 'Space'){
+                buttonClick();
+            }
         });
 
         useMapEvent("keyup", (event) => {
