@@ -5,10 +5,12 @@ import { motion } from 'framer-motion';
 
 import { PiMapPin } from "react-icons/pi";
 import { IoTimerOutline } from "react-icons/io5";
-import { FaClock,FaGlobeAmericas,FaPlay,FaPencilAlt } from "react-icons/fa";
+import { FaClock,FaGlobeAmericas,FaPlay,FaPencilAlt, FaRunning } from "react-icons/fa";
+import { Md5K } from "react-icons/md";
 import { GiNetworkBars } from "react-icons/gi";
 import { PiMapPinAreaBold } from "react-icons/pi";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { CgRowFirst } from "react-icons/cg";
 
 import { setGameMap } from "@/redux/gameSlice";
 import api from "@/utils/api";
@@ -17,6 +19,7 @@ import { useDispatch } from "react-redux";
 import MapPreview from "@/components/maps/MapPreview";
 import StatBox from "./StatBox";
 import Loading from "@/components/loading";
+import { BsCapsule } from "react-icons/bs";
 
 interface Location {
     lat:number,
@@ -189,10 +192,10 @@ export default function MapInfoPage(){
             {
                 name: "Miscellaneous Stats",
                 items: [
-                    { icon: <FaGlobeAmericas/>, title: `Most Addicted: ${topGuesses.user.username}`, stat: topGuesses.stat + (stats.other.top_guesses ? " plonks" : "")},
-                    { icon: <FaClock/>, title: `Fastest Plonker: ${fastestPlonker.user.username}`, ...timeString(fastestPlonker.stat) },
-                    { icon: <IoTimerOutline/>, title: `Best Average: ${bestAverage.user.username}`, stat: bestAverage.stat },
-                    { icon: <PiMapPin/>, title: "Number of 5ks", stat:stats.other["5ks"]},
+                    { icon: <BsCapsule/>, title: `Most Addicted: ${topGuesses.user.username}`, stat: topGuesses.stat + (stats.other.top_guesses ? " plonks" : "")},
+                    { icon: <FaRunning/>, title: `Fastest Plonker: ${fastestPlonker.user.username}`, ...timeString(fastestPlonker.stat) },
+                    { icon: <CgRowFirst/>, title: `Best Average: ${bestAverage.user.username}`, stat: bestAverage.stat },
+                    { icon: <Md5K/>, title: "Number of 5ks", stat:stats.other["5ks"]},
                 ]
             },
             {
