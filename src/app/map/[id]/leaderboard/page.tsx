@@ -60,7 +60,7 @@ export default function MapLeaderboardPage(){
     }
 
     return (
-        <div>
+        <div className="relative">
             <div className="navbar-buffer"/>
             <button disabled={loading} className="map-search-back-button" onClick={goBack}>
                 <IoMdArrowRoundBack className="map-search-back mouse-pointer"/>
