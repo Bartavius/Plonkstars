@@ -16,6 +16,10 @@ export default function MapLeaderboard(
 ){
 
     const [leaderboard, setLeaderboard] = useState<any[]>();
+    const [page, setPage] = useState<number>(1);
+    const [hasNext, setHasNext] = useState<boolean>(false);
+    const resultsPerPage = 20;
+
     const router = useRouter();
 
     const distanceString = (distance:number) => {
@@ -36,14 +40,15 @@ export default function MapLeaderboard(
 
     const getLeaderboard = async () => {
         try {
-            const response = await api.get(`/map/leaderboard?id=${mapID}&per_page=100`);
-            setLeaderboard(response.data.map((row:any) => ({
+            const response = await api.get(`/map/leaderboard?id=${mapID}&per_page=20&page=${page}`);
+            setLeaderboard(response.data.data.map((row:any) => ({
                 user: {stat:row.user.username},
                 rounds: {stat:row.rounds},
                 average_score: {stat:row.average_score.toFixed(2)},
                 average_distance: {...distanceString(row.average_distance)},
                 average_time: {...timeString(row.average_time)},
             })));
+            setHasNext(page < response.data.pages);
         } catch (error) {
             router.push("/maps");
         }
@@ -51,7 +56,7 @@ export default function MapLeaderboard(
 
     useEffect(() => {
         getLeaderboard();
-    },[]);
+    },[page]);
 
     const headers = {
         user: "User",
@@ -66,6 +71,12 @@ export default function MapLeaderboard(
     }
 
     return (
-        <Table headers={headers} data={leaderboard}/>
+        <div>
+            <Table headers={headers} data={leaderboard} start={(resultsPerPage * (page - 1)) + 1}/>
+            <div className="flex justify-between">
+                {page != 1? <button onClick={() => setPage(page - 1)} className="btn next-button">Prev Page</button>: <div></div>}
+                {hasNext? <button onClick={() => setPage(page + 1)} className="btn next-button">Next Page</button>: <div></div>}
+            </div>
+        </div>
     )
 }
