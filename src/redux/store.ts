@@ -6,15 +6,16 @@ import authReducer from './authSlice';
 import gameReducer from './gameSlice';
 import settingsReducer from './settingsSlice';
 import errorReducer from './errorSlice';
+import sessionStorage from 'redux-persist/lib/storage/session';
 
 const gamePersistConfig = {
   key: 'game',
-  storage,
+  storage: sessionStorage,
 };
 
 const settingsPersistConfig = {
   key: 'settings',
-  storage,
+  storage: storage,
 };
 
 export const store = configureStore({
