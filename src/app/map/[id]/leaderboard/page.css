@@ -1,0 +1,27 @@
+.title-header {
+    padding-top: 1rem;
+    color:white;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.title-header-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.map-leaderboard-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-leaderboard-box{
+    width: 90%;
+    background-color: var(--dark-blue);
+    border-radius: 1rem;
+    padding: 1rem;
+}
