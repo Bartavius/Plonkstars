@@ -256,7 +256,7 @@ export default function MapInfoPage(){
                 <div className="map-info-box">
                     <div className="map-info-header">Map Preview</div> 
                     <div className="map-preview-container">
-                        {!bounds && <div className="h-[60vh]"><Loading/></div>}
+                        {!bounds && <div className="h-[60vh] relative"><Loading/></div>}
                         {bounds && <MapPreview bounds={bounds} iconClick={true}/>}
                     </div>
                 </div>
