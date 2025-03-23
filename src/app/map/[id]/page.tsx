@@ -5,9 +5,9 @@ import { motion } from 'framer-motion';
 
 import { PiMapPin } from "react-icons/pi";
 import { IoTimerOutline } from "react-icons/io5";
-import { FaClock,FaGlobeAmericas,FaPlay,FaPencilAlt, FaRunning } from "react-icons/fa";
+import { FaClock,FaGlobeAmericas,FaPlay,FaPencilAlt, FaRunning, FaMedal } from "react-icons/fa";
 import { Md5K } from "react-icons/md";
-import { GiNetworkBars } from "react-icons/gi";
+import { GiNetworkBars, GiPodium } from "react-icons/gi";
 import { PiMapPinAreaBold } from "react-icons/pi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { CgRowFirst } from "react-icons/cg";
@@ -81,6 +81,11 @@ export default function MapInfoPage(){
     const goBack = () => {
         setLoading(true);
         router.push("/map");
+    }
+
+    const mapLeaderboard = () => {
+        setLoading(true);
+        router.push(`/map/${mapID}/leaderboard`);
     }
     
 
@@ -229,12 +234,16 @@ export default function MapInfoPage(){
                         <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
                             <FaPlay className="map-info-button-icon"/>
                             Play
-                            </button>
+                        </button>
                         {canEdit && 
-                            <button className="edit-button map-info-button gray-button" onClick={editMap}>
+                            <button disabled={loading} className="edit-button map-info-button gray-button" onClick={editMap}>
                                 <FaPencilAlt className="map-info-button-icon"/>
                                 Edit
                             </button>}
+                        <button disabled={loading} className="leaderboard-button map-info-button gray-button" onClick={mapLeaderboard}>
+                            <FaMedal className="map-info-button-icon"/>
+                            Leaderboard
+                        </button>
                     </div>
                 </div>
             </motion.div>
