@@ -7,7 +7,7 @@ import { PiMapPin } from "react-icons/pi";
 import { IoTimerOutline } from "react-icons/io5";
 import { FaClock,FaGlobeAmericas,FaPlay,FaPencilAlt, FaRunning, FaMedal } from "react-icons/fa";
 import { Md5K } from "react-icons/md";
-import { GiNetworkBars, GiPodium } from "react-icons/gi";
+import { GiNetworkBars } from "react-icons/gi";
 import { PiMapPinAreaBold } from "react-icons/pi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { CgRowFirst } from "react-icons/cg";
@@ -47,8 +47,6 @@ export default function MapInfoPage(){
         try {
             const stats = await api.get(`/map/stats?id=${mapID}`);
             setStats(stats.data);
-            const bounds = await api.get(`/map/bounds?id=${mapID}`);
-            setBounds(bounds.data);
             const can_edit = await api.get(`/map/edit?id=${mapID}`);
             setCanEdit(can_edit.data.can_edit);
 
@@ -56,6 +54,9 @@ export default function MapInfoPage(){
             if (response.data.data.length !== 0) {
                 setTopScore(response.data.data[0]);
             }
+            const bounds = await api.get(`/map/bounds?id=${mapID}`);
+            setBounds(bounds.data);
+            
         } catch (error) {
             router.push("/map");
         }
@@ -117,7 +118,7 @@ export default function MapInfoPage(){
     }, []);
 
 
-    if (!stats || !bounds || canEdit === undefined) {
+    if (!stats || canEdit === undefined) {
         return <Loading/>;
     }
 
@@ -255,7 +256,7 @@ export default function MapInfoPage(){
                 <div className="map-info-box">
                     <div className="map-info-header">Map Preview</div> 
                     <div className="map-preview-container">
-                        <MapPreview bounds={bounds} iconClick={true}/>
+                        {bounds && <MapPreview bounds={bounds} iconClick={true}/>}
                     </div>
                 </div>
             </div>
