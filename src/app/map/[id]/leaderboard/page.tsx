@@ -95,7 +95,7 @@ export default function MapLeaderboardPage(){
                 <div className="title-header">Leaderboard</div>
             </div>
             <div className="map-leaderboard-wrapper">
-                <div className="map-leaderboard-box">
+                <div className="map-leaderboard-box relative">
                     <MapLeaderboard mapID={mapID.toString()}/>
                 </div>
             </div>
