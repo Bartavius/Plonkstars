@@ -205,6 +205,7 @@ export default function MapInfoPage(){
             },
             {
                 name: "#1: " + topUser.user,
+                link: `/map/${mapID}/leaderboard`,
                 items: [
                     { icon: <GiNetworkBars/>, title: "Average Score", stat:roundNumber(topUser.score,2) },
                     { icon: <FaGlobeAmericas/>, title: "Rounds", stat: topUser.rounds},
