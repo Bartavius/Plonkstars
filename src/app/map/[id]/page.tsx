@@ -12,7 +12,7 @@ import { PiMapPinAreaBold } from "react-icons/pi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { CgRowFirst } from "react-icons/cg";
 
-import { setGameMap } from "@/redux/gameSlice";
+import { setGameMap, setPrevRedirect } from "@/redux/gameSlice";
 import api from "@/utils/api";
 import "./page.css"
 import { useDispatch } from "react-redux";
@@ -113,6 +113,10 @@ export default function MapInfoPage(){
         return number;
     }
 
+    const redirectLeaderboard = () => {
+        router.push(`/map/${mapID}/leaderboard`);
+    }
+
     useEffect(() => {
         getMapInfo();
     }, []);
@@ -150,6 +154,13 @@ export default function MapInfoPage(){
     const average = userStats ? userStats.average : {score:"N/A",distance:-1,time:-1,guesses:0};
     const high = userStats && userStats.high ? userStats.high : {score:"N/A",distance:-1,time:-1,rounds:"N/A",session:undefined};
 
+    const redirectBestSession = () => {
+        if (high && high.session) {
+            dispatch(setPrevRedirect({prevRedirect: `/map/${mapID}`}));
+            router.push(`/game/${high.session}/summary`);
+        }
+    }
+
     const displayUserStats = {
         name: "Your Stats",
         cols: [
@@ -164,7 +175,7 @@ export default function MapInfoPage(){
             },
             {
                 name: "Best Performance",
-                link: high && high.session ? `/game/${high.session}/summary` : undefined,
+                onClick: redirectBestSession,
                 items: [
                     { icon: <FaGlobeAmericas/>, title: "Rounds", stat: high.rounds },
                     { icon: <GiNetworkBars/>, title: "Average Score", stat:roundNumber(high.score,2) },
@@ -206,7 +217,7 @@ export default function MapInfoPage(){
             },
             {
                 name: "#1: " + topUser.user,
-                link: `/map/${mapID}/leaderboard`,
+                onClick: redirectLeaderboard,
                 items: [
                     { icon: <GiNetworkBars/>, title: "Average Score", stat:roundNumber(topUser.score,2) },
                     { icon: <FaGlobeAmericas/>, title: "Rounds", stat: topUser.rounds},
@@ -216,6 +227,8 @@ export default function MapInfoPage(){
             },
         ]
     }
+
+    
 
     return (
         <div className="relative">

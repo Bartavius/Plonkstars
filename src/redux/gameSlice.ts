@@ -5,6 +5,7 @@ type GameState = {
   mapId: string;
   seconds: number; // in seconds
   rounds: number;
+  prevRedirect: string|undefined;
 };
 
 const initialState: GameState = {
@@ -12,6 +13,7 @@ const initialState: GameState = {
   mapId: "6de5dcca-72c2-4c5a-8984-bcff7f059ea0",
   seconds: 60, // in seconds
   rounds: 5,
+  prevRedirect: undefined,
 };
 
 const gameSlice = createSlice({
@@ -27,10 +29,12 @@ const gameSlice = createSlice({
     setGameMap(state, { payload: { mapName, mapId } }) {
       state.mapName = mapName;
       state.mapId = mapId;
-    }
-  },
-});
+    },
+    setPrevRedirect(state, { payload: { prevRedirect } }) {
+      state.prevRedirect = prevRedirect;
+    },
+}});
 
-export const { setGameSettings,setGameMap } = gameSlice.actions;
+export const { setGameSettings,setGameMap,setPrevRedirect } = gameSlice.actions;
 
 export default gameSlice.reducer;

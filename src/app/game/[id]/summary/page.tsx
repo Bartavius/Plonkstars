@@ -2,11 +2,12 @@
 import "./summary.css";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import Loading from "@/components/loading";
+import { setPrevRedirect } from "@/redux/gameSlice";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -27,6 +28,8 @@ interface Guess {
   lng: number | null;
 }
 export default function Summary() {
+  const prevRedirect = useSelector((state: any) => state.game.prevRedirect);
+
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
   const previousGame = useSelector((state: any) => state.game);
   const [locations, setLocations] = useState<Location[]>([]);
@@ -36,8 +39,17 @@ export default function Summary() {
   const [allGuesses, setAllGuesses] = useState<Guess[][]>([]);
   const [displayedGuesses, setDisplayedGuesses] = useState<Guess[][]>([]);
   const [data, setData] = useState<any>();
+  const [redirect, setRedirect] = useState<string|undefined>(prevRedirect);
+  
+  const dispatch = useDispatch();
   const params = useParams();
   const router = useRouter();
+
+  useEffect(() => {
+    return () => {
+      dispatch(setPrevRedirect({prevRedirect:undefined}));
+    };
+  }, [dispatch]);
 
   const getUserMap = (top: Guess[], user: Guess) => {
     if (!top || !user) {
@@ -75,6 +87,12 @@ export default function Summary() {
 
   const gameMenu = () => {
     router.push("/game");
+  }
+
+  const goBack = () => {
+    if (redirect){
+      router.push(redirect);
+    }
   }
 
   useEffect(() => {
@@ -143,9 +161,14 @@ export default function Summary() {
         <div className="mx-auto p-6 bg-main-dark shadow-lg rounded-lg">
           <div className="grid grid-cols-3 gap-4">
             <div className="flex justify-right">
+              {redirect ? 
+              <button className="btn-selected" onClick={goBack}>
+                Go Back
+              </button>:
               <button className="btn-selected" onClick={gameMenu}>
                 Main Menu
               </button>
+              }
             </div>
 
             <h2 className="text-3xl font-bold text-center text-dark flex-1">

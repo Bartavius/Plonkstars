@@ -28,6 +28,7 @@ export default function MatchPage() {
   const params = useParams();
   const matchId = Array.isArray(params.id) ? params.id[0] : params.id;
 
+
   useEffect(() => {
     const fetchLocation = async (id: string) => {
       setLoading(true);
