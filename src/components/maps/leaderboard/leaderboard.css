@@ -1,0 +1,44 @@
+.leaderboard-table{
+    width: 100%;
+    column-width: 10%;
+    color: white;
+}
+
+.leaderboard-table-cell-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.leaderboard-table-cell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightblue;
+    border-radius: 1rem;
+    width: 95%;
+    height: 90%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    color: black;
+}
+
+.leaderboard-table-position{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    font-size: 1.5rem;
+    padding-right: 0.5rem;
+}
+
+.leaderboard-table tbody tr th:nth-child(1), td:nth-child(1) {
+    width: 0%;
+}
+
+.leaderboard-table-header{
+    font-size: 1.5rem;
+}
