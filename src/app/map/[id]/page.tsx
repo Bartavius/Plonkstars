@@ -53,8 +53,8 @@ export default function MapInfoPage(){
             setCanEdit(can_edit.data.can_edit);
 
             const response = await api.get(`/map/leaderboard?id=${mapID}&page=1&per_page=1`);
-            if (response.data.length !== 0) {
-                setTopScore(response.data[0]);
+            if (response.data.data.length !== 0) {
+                setTopScore(response.data.data[0]);
             }
         } catch (error) {
             router.push("/map");
