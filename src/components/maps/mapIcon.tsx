@@ -22,11 +22,17 @@ export default function MapIcon({
     iconPercent?: number;
   }) {
     const [newIconSize, setNewIconSize] = useState<[number,number]>([0,0]);
-    const img = new Image();
-    img.src = iconUrl;
-    img.onload = () => {
-        setNewIconSize(iconSize? iconSize: (iconPercent? [img.width * iconPercent, img.height * iconPercent]: [img.width, img.height]));
-    };
+    
+    if(!iconSize){
+        const img = new Image();
+        img.src = iconUrl;
+        img.onload = () => {
+            setNewIconSize(iconSize? iconSize: (iconPercent? [img.width * iconPercent, img.height * iconPercent]: [img.width, img.height]));
+        };
+    }
+    else{
+        setNewIconSize(iconSize);
+    }
 
     const correctIcon = L.icon({
         iconUrl: iconUrl,
