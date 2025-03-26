@@ -23,11 +23,11 @@ export default function MatchPage() {
   const [totalScore, setTotalScore] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [reload, setReload] = useState<number>(0);
 
   const router = useRouter();
   const params = useParams();
   const matchId = Array.isArray(params.id) ? params.id[0] : params.id;
-
 
   useEffect(() => {
     const fetchLocation = async (id: string) => {
@@ -51,7 +51,6 @@ export default function MatchPage() {
         }
       }
     };
-
     if (matchId) {
       fetchLocation(matchId); //render loading screen later
     }
@@ -59,6 +58,7 @@ export default function MatchPage() {
 
   const sleep = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
+
   const submitGuess = async () => {
     if (lat !== undefined && lng !== undefined && !submitted) {
       setSubmitted(true);
@@ -81,6 +81,10 @@ export default function MatchPage() {
         event.preventDefault();
         submitGuess();
       }
+      if(event.code === "KeyR"){
+        console.log(reload);
+        setReload((prev) => prev + 1);
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -88,7 +92,7 @@ export default function MatchPage() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [lat, lng]);
+  }, [lat,lng]);
 
   if (loading) {
     return <Loading />;
@@ -109,6 +113,7 @@ export default function MatchPage() {
           setLng={setLng}
           lat={correctLat}
           lng={correctLng}
+          reload={reload}
         />
       </div>
       <div className="game-footer justify-end">
