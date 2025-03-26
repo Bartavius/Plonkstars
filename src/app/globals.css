@@ -162,3 +162,7 @@ text-decoration: underline;
   height: 100%;
   width: 100%;
 }
+
+.dark-hover-button:hover {
+  filter: brightness(90%);
+}

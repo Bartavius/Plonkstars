@@ -7,6 +7,7 @@ import api from "@/utils/api";
 import GamePanel from "@/components/game/GamePanel";
 import "@/app/game.css";
 import Loading from "@/components/loading";
+import "./gameplay.css";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
   ssr: false,
@@ -58,6 +59,10 @@ export default function MatchPage() {
 
   const sleep = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
+
+  const backToStart = () => {
+    setReload((prev) => prev + 1);
+  }
 
   const submitGuess = async () => {
     if (lat !== undefined && lng !== undefined && !submitted) {
@@ -116,19 +121,27 @@ export default function MatchPage() {
           reload={reload}
         />
       </div>
-      <div className="game-footer justify-end">
-        <div className="game-footer-element w-1/3">
-          <button
-            onClick={submitGuess}
-            disabled={
-              lat !== undefined && lng !== undefined && !submitted
-                ? false
-                : true
-            }
-            className="game-button"
-          >
-            <b>Submit</b>
-          </button>
+      <div className="game-footer">
+        <div className="footer-grid">
+          <div className="footer-grid-left-elements">
+            <button className="back-to-start-button dark-hover-button" onClick={backToStart}>
+              Back To Start
+            </button>
+          </div>
+          <div className="footer-grid-center-elements"></div>
+          <div className="footer-grid-right-elements">
+            <button
+              onClick={submitGuess}
+              disabled={
+                lat !== undefined && lng !== undefined && !submitted
+                  ? false
+                  : true
+              }
+              className="game-button"
+            >
+              <b>Submit</b>
+            </button>
+          </div>
         </div>
       </div>
     </div>
