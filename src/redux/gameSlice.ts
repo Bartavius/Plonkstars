@@ -5,7 +5,7 @@ type GameState = {
   mapId: string;
   seconds: number; // in seconds
   rounds: number;
-  // NMPZ: boolean;
+  NMPZ: boolean;
   prevRedirect: string|undefined;
 };
 
@@ -15,19 +15,19 @@ const initialState: GameState = {
   seconds: 60, // in seconds
   rounds: 5,
   prevRedirect: undefined,
-  // NMPZ: false,
+  NMPZ: false,
 };
 
 const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setGameSettings(state, { payload: { mapName, mapId, seconds, rounds } }) { //add nmpz
+    setGameSettings(state, { payload: { mapName, mapId, seconds, rounds, NMPZ } }) { 
       state.mapName = mapName;
       state.mapId = mapId;
       state.seconds = seconds;
       state.rounds = rounds;
-      // state.NMPZ = NMPZ;
+      state.NMPZ = NMPZ;
     },
     setGameMap(state, { payload: { mapName, mapId } }) {
       state.mapName = mapName;

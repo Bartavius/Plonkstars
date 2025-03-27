@@ -17,7 +17,7 @@ const MIN_ROUNDS = 5;
 const MAX_ROUNDS = 20;
 const MIN_TIME = 5;
 const MAX_TIME = 300;
-const DEFAULT_TIME = 60
+const DEFAULT_TIME = 60;
 const DEFAULT_MAP_NAME = "World";
 const DEFAULT_MAP_UUID = "6de5dcca-72c2-4c5a-8984-bcff7f059ea0";
 // all default values are initialized in the gameSlice redux
@@ -40,7 +40,7 @@ export default function Game() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(errorState);
-  const [NPMZ, setNPMZ] = useState<boolean>(false);
+  const [NMPZ, setNMPZ] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(clearError());
@@ -59,7 +59,7 @@ export default function Game() {
           rounds: checkInfRounds,
           time: checkInfTime,
           map: { id: mapId },
-          // NMPZ: NMPZ
+          NMPZ: NMPZ,
         });
         dispatch(
           setGameSettings({
@@ -67,7 +67,7 @@ export default function Game() {
             mapId: mapId,
             seconds: checkInfTime,
             rounds: checkInfRounds,
-            // NMPZ: NMPZ
+            NMPZ: NMPZ,
           })
         );
         const { id } = response.data;
@@ -96,7 +96,7 @@ export default function Game() {
     setMapId(lastSetting.mapId || DEFAULT_MAP_UUID);
     setRounds(lastSetting.rounds || MIN_ROUNDS);
     setTime(lastSetting.seconds || DEFAULT_TIME);
-    // setNPMZ(lastSetting.NMPZ || false);
+    setNMPZ(lastSetting.NMPZ || false);
   }, [lastSetting]);
 
   return (
@@ -161,15 +161,23 @@ export default function Game() {
                 />
               </div>
               <div className="mb-6">
-                <input type="checkbox" name="NMPZ-toggle" id="NMPZ-toggle" className="mr-2" onChange={(e) => setNPMZ(e.target.checked)}/>
+                <input
+                  type="checkbox"
+                  name="NMPZ-toggle"
+                  id="NMPZ-toggle"
+                  checked={NMPZ}
+                  className="mr-2"
+                  onChange={(e) => 
+                    setNMPZ(e.target.checked)
+                  }
+                />
                 <label
                   htmlFor="NMPZ-toggle"
                   title="No moving, No panning, No zooming"
                 >
                   <b>NMPZ</b>
-                  <FaQuestionCircle className="ml-2 inline"/>
+                  <FaQuestionCircle className="ml-2 inline" />
                 </label>
-                
               </div>
               <button
                 disabled={loading}
