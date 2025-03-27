@@ -13,21 +13,6 @@ const BasicMapResult = dynamic(
   { ssr: false }
 );
 
-interface Guess{
-  user:string;
-  score:number;
-  total_score:number;
-  distance:number | null;
-  time:number | null;
-  lat:number | null;
-  lng:number | null;
-}
-
-interface Location{
-  lat:number;
-  lng:number;
-}
-
 export default function Results() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -39,9 +24,7 @@ export default function Results() {
     return <div>Invalid round number</div>;
   }
 
-  const [top,setTop] = useState<Guess[]>([]);
-  const [user,setUser] = useState<Guess>();
-  const [correct,setCorrect] = useState<Location>();
+  const [data,setData] = useState<any>();
   const [error, setError] = useState<string | undefined>(undefined);
 
   const nextGame = () => {
@@ -54,14 +37,8 @@ export default function Results() {
         const response = await api.get(
           `/game/results?id=${matchId}&round=${roundNumber}`
         );
-        const {
-          this_user,
-          top,
-          correct
-        } = response.data;
-        setUser(this_user);
-        setTop(top);
-        setCorrect(correct);
+        console.log(response.data);
+        setData(response.data)
       } catch (err: any) {
         setError(err.response?.data?.error || "Error getting results");
       }
@@ -83,37 +60,20 @@ export default function Results() {
     };
   }, []);
 
-  if (!user || !correct) {
+  if (!data) {
     return <Loading />;
   }
+  const thisUser = data.users.find((user:any) => user.user.username === data.this_user.username);
 
-  const getUserMap = () => {
-    if(!top || !user){
-      return [{ lat:0, lng: 0 }];
-    }
-    let userIn = false;
-    let copy = [...top];
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].user === user.user) {
-        userIn = true;
-        break;
-      }
-    }
-    if (!userIn) {
-      copy.push(user);
-    }
-    return copy;
-  }
-
-  const distanceString = (distance:number|null) => {
-    const m = distance === null ? -1 : Math.round(distance * 1000);
+  const distanceString = (distance:number) => {
+    const m = distance === undefined ? -1 : Math.round(distance * 1000);
     const km = Math.round(m / 10) / 100;
     const userDistance = km > 1 ? km : m;
     const units = km > 1 ? "km" : "m";
     return {userDistance,units};
   }
 
-  const userDistance = distanceString(user.distance);
+  const userDistance = thisUser.guess.distance? distanceString(thisUser.guess.distance): undefined;
   if (error) {
     return <div>{error}</div>;
   }
@@ -124,15 +84,15 @@ export default function Results() {
         time={null}
         timeLimit={null}
         timeoutFunction={null}
-        totalScore={user.total_score}
+        totalScore={thisUser.total_score}
         roundNumber={roundNumber}
       />
       <div className="map-result-container min-h-[90vh] min-w-full">
         <div>
           <BasicMapResult
             markers={[{
-              users: getUserMap(),
-              correct: correct
+              users: data.users.map((user:any) => user.guess),
+              correct: data.correct
             }]}
           />
         </div>
@@ -142,7 +102,7 @@ export default function Results() {
           <div className="flex justify-end items-center">
             <div className="text-center">
               <div>
-                <b className="text-2xl">{user.score}</b>
+                <b className="text-2xl">{thisUser.guess.score}</b>
               </div>
               <div className="text-red font-bold">
                 <b>SCORE</b>
@@ -159,7 +119,7 @@ export default function Results() {
             </button>
           </div>
           <div className="flex justify-left items-center">
-            {user.distance !== undefined && (
+            {userDistance !== undefined && (
               <div>
                 <div className="text-center inline">
                   <div>
@@ -171,7 +131,7 @@ export default function Results() {
                 </div>
               </div>
             )}
-            {user.distance === undefined && (
+            {thisUser.guess.distance === undefined && (
               <b className="text-2xl">Timed Out</b>
             )}
           </div>
