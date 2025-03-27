@@ -127,9 +127,11 @@ export default function MatchPage() {
       <div className="game-footer">
         <div className="footer-grid">
           <div className="footer-grid-left-elements">
-            <button className="back-to-start-button dark-hover-button" onClick={backToStart}>
-              Back To Start
-            </button>
+            {!NMPZ &&
+              <button className="back-to-start-button dark-hover-button" onClick={backToStart}>
+                Back To Start
+              </button>
+            }
           </div>
           <div className="footer-grid-center-elements"></div>
           <div className="footer-grid-right-elements">
