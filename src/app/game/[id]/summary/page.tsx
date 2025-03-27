@@ -75,6 +75,7 @@ export default function Summary() {
         rounds: previousGame.rounds,
         time: previousGame.seconds,
         map: { id: previousGame.mapId },
+        NMPZ: previousGame.NMPZ,
       });
       const { id } = response.data;
       await api.post("/game/play", { id });
