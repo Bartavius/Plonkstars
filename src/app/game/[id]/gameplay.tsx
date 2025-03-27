@@ -25,6 +25,7 @@ export default function MatchPage() {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [reload, setReload] = useState<number>(0);
+  const [NMPZ, setNMPZ] = useState(false); // change to false upon prod
 
   const router = useRouter();
   const params = useParams();
@@ -43,6 +44,7 @@ export default function MatchPage() {
         setTimeLimit(time_limit);
         setLoading(false);
         setTotalScore(total);
+        // setNMPZ(NMPZ);
       } catch (err: any) {
         if (err.response?.status == 404) {
           router.push("/game");
@@ -119,6 +121,7 @@ export default function MatchPage() {
           lat={correctLat}
           lng={correctLng}
           reload={reload}
+          NMPZ={NMPZ}
         />
       </div>
       <div className="game-footer">
@@ -139,7 +142,7 @@ export default function MatchPage() {
               }
               className="game-button"
             >
-              <b>Submit</b>
+              <b className="block">Submit</b>
             </button>
           </div>
         </div>

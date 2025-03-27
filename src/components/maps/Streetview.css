@@ -19,6 +19,10 @@
     background-color: white;
 }
 
+.NMPZ {
+    pointer-events: none;
+}
+
 .bg-accent1 {
     background: linear-gradient(to right, var(--theme-blue), var(--lighter-blue));
 }

@@ -25,6 +25,7 @@ export default function JoinGame() {
                     dispatch(setError(err.response?.data?.error || "Game not found"));
                     router.push("/game"); 
                 }
+                router.push(`/game/${sessionID}`);
             }
         };
         joinGame();
