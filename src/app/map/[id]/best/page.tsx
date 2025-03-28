@@ -26,7 +26,12 @@ export default function SummaryPage() {
   const MAPID = params.id;
 
   const goBack = () => {
-    router.push(`/map/${MAPID}/leaderboard`);
+    if(searchParams.get("user")){
+      router.push(`/map/${MAPID}/leaderboard`);
+    }
+    else{
+      router.push(`/map/${MAPID}`);
+    }
   }
 
   useEffect(() => {
