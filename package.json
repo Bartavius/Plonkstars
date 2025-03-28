@@ -15,7 +15,7 @@
     "framer-motion": "^12.4.7",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
-    "next": "15.1.7",
+    "next": "15.2.4",
     "plonkstars": "file:",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
