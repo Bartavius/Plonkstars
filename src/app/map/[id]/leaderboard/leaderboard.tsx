@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Table from "@/components/maps/leaderboard/table";
+import Table from "@/components/maps/table/table";
 import Loading from "@/components/loading";
 import api from "@/utils/api";
 import { FaArrowRight } from "react-icons/fa";
@@ -12,6 +12,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
   const [page, setPage] = useState<number>(1);
   const [hasNext, setHasNext] = useState<boolean>(false);
   const [NMPZ, setNMPZ] = useState(false);
+  const [data, setData] = useState<any>();
   const resultsPerPage = 20;
 
   const router = useRouter();
@@ -54,10 +55,18 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
         }))
       );
       setHasNext(page < response.data.pages);
+      setData(response.data);
     } catch (error) {
       router.push("/maps");
     }
   };
+
+  const topGame = (rank: number) => {
+    if (!data) return;
+    console.log(data);
+    const row = data.data.find((row: any) => row.rank === rank);
+    router.push(`/map/${mapID}/best?user=${row.user.username}&nmpz=${NMPZ}`);
+  }
 
   useEffect(() => {
     getLeaderboard();
@@ -75,6 +84,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
     return <Loading />;
   }
 
+
   return (
     <div>
       <button
@@ -90,6 +100,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
         headers={headers}
         data={leaderboard}
         start={resultsPerPage * (page - 1) + 1}
+        onClickRow={topGame}
       />
       <div className="flex justify-between">
         {page != 1 ? (

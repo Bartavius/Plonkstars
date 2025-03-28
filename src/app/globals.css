@@ -164,5 +164,6 @@ text-decoration: underline;
 }
 
 .dark-hover-button:hover {
+  cursor: pointer;
   filter: brightness(90%);
 }

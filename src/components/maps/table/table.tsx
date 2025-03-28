@@ -1,4 +1,4 @@
-import "./leaderboard.css"
+import "./table.css"
 export default function Table(
     {
         headers,
@@ -32,8 +32,8 @@ export default function Table(
                 </tr>
             </thead>
             <tbody>
-                {data.map((row,index) => (
-                    <tr key={row.rank} onClick = {() => onClickRow && onClickRow(row.rank)}>
+                {data.map((row) => (
+                    <tr key={row.rank} onClick = {() => onClickRow && onClickRow(row.rank)} className={onClickRow && "dark-hover-button"}>
                         <th><div className="leaderboard-table-position">#{row.rank}</div></th>
                         {keys.map((key,colNum) => (
                             <td key={colNum}>

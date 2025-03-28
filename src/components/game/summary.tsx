@@ -1,12 +1,7 @@
 "use client";
 import "./summary.css";
-import { useEffect, useState } from "react";
-import api from "@/utils/api";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import dynamic from "next/dynamic";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import Loading from "@/components/loading";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
