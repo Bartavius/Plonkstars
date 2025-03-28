@@ -103,7 +103,23 @@ export default function SummaryPage() {
   return (
     <ProtectedRoutes>
       <div className="summary-container">
-        <Summary locations={locations} guesses={guesses} scores={scores} user={user}></Summary>
+        <Summary locations={locations} guesses={guesses} scores={scores} user={user}>
+          <div className="grid grid-cols-3 gap-4 w-full">
+             <div className="flex justify-right">
+                <button className="btn-selected" onClick={gameMenu}>
+                  Main Menu
+                </button>
+              </div>
+              <h2 className="text-3xl font-bold text-center text-dark flex-1">
+                Game Summary
+              </h2>
+              <div className= "flex justify-end">
+                <button className="ml-1 btn-primary" onClick={() => startNewGame()}>
+                  Next Game
+                </button>
+              </div>
+            </div>
+        </Summary>
       </div>
     </ProtectedRoutes>
   );

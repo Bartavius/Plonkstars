@@ -44,8 +44,7 @@ export default function Summary(
     const overallStats = scores.find((score) => score.user.username === user.username);
     console.log(userStats,overallStats);
     return (
-    
-      <div className="summary-container">
+      <div>
         <div id="map-summary" className="map-container absolute">
           <BasicMapResult
             markers={displayedLocation.map((location, index) => {
@@ -125,5 +124,5 @@ export default function Summary(
           </ul>
         </div>
       </div>
-    );
+  );
 }
