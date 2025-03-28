@@ -129,7 +129,7 @@ export default function EditMapPage() {
         if((selectedLocation === undefined && selectedBound === undefined) || buttonDisabled) return;
         const bound = selectedBound ?? {start:selectedLocation!,end:selectedLocation!};
         try{
-            const res = await api.post(`/map/bound/add`,{...bound,id:MAPID});
+            const res = await api.post(`/map/edit/bound/add`,{...bound,id:MAPID});
             const retbound = res.data.bound;
             setBounds([...bounds,retbound]);
             setSelectedLocation(undefined);
