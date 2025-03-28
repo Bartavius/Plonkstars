@@ -37,7 +37,6 @@ export default function Results() {
         const response = await api.get(
           `/game/results?id=${matchId}&round=${roundNumber}`
         );
-        console.log(response.data);
         setData(response.data)
       } catch (err: any) {
         setError(err.response?.data?.error || "Error getting results");
