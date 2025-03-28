@@ -156,7 +156,7 @@ export default function MapInfoPage(){
 
     const redirectBestSession = () => {
         if (high && high.session) {
-            router.push(`/map/${mapID}/best?user=${high.session.user}&NMPZ=${high.session.NMPZ}`);
+            router.push(`/map/${mapID}/best`);
         }
     }
 
