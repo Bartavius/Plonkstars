@@ -1,6 +1,6 @@
 "use client";
 import { useParams,useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 
 import { PiMapPin } from "react-icons/pi";
@@ -12,7 +12,7 @@ import { PiMapPinAreaBold } from "react-icons/pi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { CgRowFirst } from "react-icons/cg";
 
-import { setGameMap, setPrevRedirect } from "@/redux/gameSlice";
+import { setGameMap } from "@/redux/gameSlice";
 import api from "@/utils/api";
 import "./page.css"
 import { useDispatch } from "react-redux";
@@ -156,7 +156,6 @@ export default function MapInfoPage(){
 
     const redirectBestSession = () => {
         if (high && high.session) {
-            dispatch(setPrevRedirect({prevRedirect: `/map/${mapID}`}));
             router.push(`/game/${high.session}/summary`);
         }
     }
