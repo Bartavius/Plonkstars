@@ -50,6 +50,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
           average_score: { stat: row.average_score.toFixed(2) },
           average_distance: { ...distanceString(row.average_distance) },
           average_time: { ...timeString(row.average_time) },
+          rank: row.rank,
         }))
       );
       setHasNext(page < response.data.pages);
