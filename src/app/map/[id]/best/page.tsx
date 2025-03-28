@@ -35,7 +35,7 @@ export default function SummaryPage() {
     }
     const fetchGuesses = async () => {
       try {
-        const res = await api.get(`/map/leaderboard/game?id=${MAPID}${searchParams.get("user")? `&user=${searchParams.get("user")}`:""} ${searchParams.get("nmpz") ? `&nmpz=${searchParams.get("nmpz")}` : ""}`);
+        const res = await api.get(`/map/leaderboard/game?id=${MAPID}${searchParams.get("user")? `&user=${searchParams.get("user")}`:""}${searchParams.get("nmpz") ? `&nmpz=${searchParams.get("nmpz")}` : ""}`);
         const scores = {
           score:res.data.score,
           user:res.data.user,
