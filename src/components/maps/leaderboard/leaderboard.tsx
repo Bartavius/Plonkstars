@@ -41,7 +41,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
   const getLeaderboard = async () => {
     try {
       const response = await api.get(
-        `/map/leaderboard?id=${mapID}&per_page=20&page=${page}&NMPZ=${NMPZ}`
+        `/map/leaderboard?id=${mapID}&per_page=20&page=${page}&nmpz=${NMPZ}`
       );
       setLeaderboard(
         response.data.data.map((row: any) => ({
@@ -83,7 +83,6 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
         onClick={() => {
           setNMPZ(!NMPZ);
           setPage(1);
-          console.log(NMPZ)
         }}
       >{NMPZ ? "Normal" : "NMPZ"} <FaArrowRight className="inline"/> </button>
       <Table

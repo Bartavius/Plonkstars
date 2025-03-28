@@ -42,7 +42,6 @@ export default function Summary(
       return round.find((guess:any) => guess.user.username === user.username);
     });
     const overallStats = scores.find((score) => score.user.username === user.username);
-    console.log(userStats,overallStats);
     return (
       <div>
         <div id="map-summary" className="map-container absolute">

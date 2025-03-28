@@ -106,7 +106,6 @@ export default function EditMapPage() {
         });
 
         useMapEvent("keydown", (event) => {
-            console.log(event.originalEvent.key);
             if (event.originalEvent.ctrlKey || event.originalEvent.metaKey) {
                 map.dragging.disable();
             }

@@ -8,19 +8,12 @@ import ProtectedRoutes from "@/app/ProtectedRoutes";
 import Loading from "@/components/loading";
 import Summary from "@/components/game/summary";
 
-const BasicMapResult = dynamic(
-  () => import("@/components/maps/BasicMapResult"),
-  { ssr: false }
-);
-
 interface Location {
   lat: number;
   lng: number;
 }
 
 export default function SummaryPage() {
-  const prevRedirect = useSelector((state: any) => state.game.prevRedirect);
-
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
   const previousGame = useSelector((state: any) => state.game);
   const [locations, setLocations] = useState<Location[]>([]);
@@ -39,7 +32,7 @@ export default function SummaryPage() {
         rounds: previousGame.rounds,
         time: previousGame.seconds,
         map: { id: previousGame.mapId },
-        NMPZ: previousGame.NMPZ,
+        nmpz: previousGame.NMPZ,
       });
       const { id } = response.data;
       await api.post("/game/play", { id });
@@ -60,7 +53,7 @@ export default function SummaryPage() {
     }
     const fetchGuesses = async () => {
       try {
-        const res = await api.get(`/game/summary?session=${params.id}`);
+        const res = await api.get(`/map/summary?session=${params.id}`);
         const guesses = [...Array(res.data.rounds.length).keys()].map((index) => {
           return res.data.users.map((user:any) => {
             return {...user.rounds[index],user:user.user};
@@ -105,20 +98,20 @@ export default function SummaryPage() {
       <div className="summary-container">
         <Summary locations={locations} guesses={guesses} scores={scores} user={user}>
           <div className="grid grid-cols-3 gap-4 w-full">
-             <div className="flex justify-right">
-                <button className="btn-selected" onClick={gameMenu}>
-                  Main Menu
-                </button>
-              </div>
-              <h2 className="text-3xl font-bold text-center text-dark flex-1">
-                Game Summary
-              </h2>
-              <div className= "flex justify-end">
-                <button className="ml-1 btn-primary" onClick={() => startNewGame()}>
-                  Next Game
-                </button>
-              </div>
+            <div className="flex justify-right">
+              <button className="btn-selected" onClick={gameMenu}>
+                Main Menu
+              </button>
             </div>
+            <h2 className="text-3xl font-bold text-center text-dark flex-1">
+              Game Summary
+            </h2>
+            <div className= "flex justify-end">
+              <button className="ml-1 btn-primary" onClick={startNewGame}>
+                Next Game
+              </button>
+            </div>
+          </div>
         </Summary>
       </div>
     </ProtectedRoutes>

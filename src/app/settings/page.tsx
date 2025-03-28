@@ -19,7 +19,6 @@ export default function Settings() {
     const router = useRouter();
 
     const saveChanges = () => {
-        console.log(currentMap);
         dispatch(setMapType({mapNumber:currentMap}));
         showPopup("Changes saved!");
     }

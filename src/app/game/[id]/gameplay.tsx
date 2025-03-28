@@ -89,7 +89,6 @@ export default function MatchPage() {
         submitGuess();
       }
       if(event.code === "KeyR"){
-        console.log(reload);
         setReload((prev) => prev + 1);
       }
     };

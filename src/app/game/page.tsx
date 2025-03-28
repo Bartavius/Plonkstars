@@ -59,7 +59,7 @@ export default function Game() {
           rounds: checkInfRounds,
           time: checkInfTime,
           map: { id: mapId },
-          NMPZ: NMPZ,
+          nmpz: NMPZ,
         });
         dispatch(
           setGameSettings({
