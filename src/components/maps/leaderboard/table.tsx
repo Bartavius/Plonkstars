@@ -4,10 +4,12 @@ export default function Table(
         headers,
         data,
         start = 1,
+        onClickRow,
     }:{
         headers: any,
         data: any[],
         start?: number,
+        onClickRow?: (row:number) => void;
     }
 ){
     const keys = Object.keys(headers)
@@ -31,8 +33,8 @@ export default function Table(
             </thead>
             <tbody>
                 {data.map((row,index) => (
-                    <tr key={start + index}>
-                        <th><div className="leaderboard-table-position">#{start + index}</div></th>
+                    <tr key={row.rank} onClick = {() => onClickRow && onClickRow(row.rank)}>
+                        <th><div className="leaderboard-table-position">#{row.rank}</div></th>
                         {keys.map((key,colNum) => (
                             <td key={colNum}>
                                 <div className="leaderboard-table-cell-wrapper">
