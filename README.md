@@ -14,5 +14,5 @@ Select the minimap to place your guess after looking around on the streetview em
 Frontend - React.js, TailwindCSS, Next.js<br>
 Backend - Flask, PostgreSQL
 
-Server-side is hosted on Render<br>
+Server-side is hosted on Heroku<br>
 Client-side is hosted on Vercel
