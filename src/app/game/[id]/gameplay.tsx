@@ -36,7 +36,7 @@ export default function MatchPage() {
       setLoading(true);
       try {
         const response = await api.get(`/game/round?id=${id}`);
-        const { lat, lng, round, time, time_limit, total, NMPZ } = response.data;
+        const { lat, lng, round, time, time_limit, total, nmpz } = response.data;
         setRoundNumber(round);
         setCorrectLat(lat);
         setCorrectLng(lng);
@@ -44,7 +44,7 @@ export default function MatchPage() {
         setTimeLimit(time_limit);
         setLoading(false);
         setTotalScore(total);
-        setNMPZ(NMPZ);
+        setNMPZ(nmpz);
       } catch (err: any) {
         if (err.response?.status == 404) {
           router.push("/game");
