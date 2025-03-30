@@ -174,7 +174,7 @@ export default function MapInfoPage(){
             },
             {
                 name: "Best Performance",
-                onClick: redirectBestSession,
+                onClick: high && high.session && redirectBestSession,
                 items: [
                     { icon: <FaGlobeAmericas/>, title: "Rounds", stat: high.rounds },
                     { icon: <GiNetworkBars/>, title: "Average Score", stat:roundNumber(high.score,2) },
@@ -216,7 +216,7 @@ export default function MapInfoPage(){
             },
             {
                 name: "#1: " + topUser.user,
-                onClick: redirectLeaderboard,
+                onClick: topScore && redirectLeaderboard,
                 items: [
                     { icon: <GiNetworkBars/>, title: "Average Score", stat:roundNumber(topUser.score,2) },
                     { icon: <FaGlobeAmericas/>, title: "Rounds", stat: topUser.rounds},
