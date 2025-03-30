@@ -32,7 +32,7 @@
 }
 
 .search-body-height {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .map-stat {

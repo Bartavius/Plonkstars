@@ -12,6 +12,7 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    max-width: 60%;
     background-color: var(--lighter-blue);
     color: var(--darkest-blue);
     border-radius: 1rem;
@@ -218,4 +219,21 @@
 
 .map-search-back-button:disabled {
     color: gray;
+}
+
+.map-info-description-button {
+    background-color: var(--dark-blue);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 1rem;
+    overflow-x: auto;
+}
+
+.map-info-description-text {
+    font-size: 1.2rem;
+    color: white;
 }

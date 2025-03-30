@@ -244,20 +244,27 @@ export default function MapInfoPage(){
                 <div className="map-info-card">
                     <div className="map-info-title">{stats.name}</div>
                     <div className="map-info-creator">Made by: <span className="map-info-creator-name">{stats.creator.username}</span></div>
-                    <div className="map-info-button-div">
-                        <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
-                            <FaPlay className="map-info-button-icon"/>
-                            Play
-                        </button>
-                        {canEdit && 
-                            <button disabled={loading} className="edit-button map-info-button gray-button" onClick={editMap}>
-                                <FaPencilAlt className="map-info-button-icon"/>
-                                Edit
-                            </button>}
-                        <button disabled={loading} className="leaderboard-button map-info-button gray-button" onClick={mapLeaderboard}>
-                            <FaMedal className="map-info-button-icon"/>
-                            Leaderboard
-                        </button>
+                    <div className="map-info-description-button">
+                        {stats.description && 
+                            <div className="map-info-description">
+                                <div className="map-info-description-text">{stats.description}</div>
+                            </div>
+                        }
+                        <div className="map-info-button-div">
+                            <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
+                                <FaPlay className="map-info-button-icon"/>
+                                Play
+                            </button>
+                            {canEdit && 
+                                <button disabled={loading} className="edit-button map-info-button gray-button" onClick={editMap}>
+                                    <FaPencilAlt className="map-info-button-icon"/>
+                                    Edit
+                                </button>}
+                            <button disabled={loading} className="leaderboard-button map-info-button gray-button" onClick={mapLeaderboard}>
+                                <FaMedal className="map-info-button-icon"/>
+                                Leaderboard
+                            </button>
+                        </div>
                     </div>
                 </div>
             </motion.div>
