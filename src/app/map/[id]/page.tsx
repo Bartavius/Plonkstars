@@ -42,7 +42,7 @@ export default function MapInfoPage(){
     const [bounds, setBounds] = useState<(Location|Bounds)[]>();
     const [topScore, setTopScore] = useState<any>();
     const [canEdit, setCanEdit] = useState<boolean>();
-    const [editing, setEditing] = useState(false);
+    const [editing, setEditing] = useState(true);
     const [description, setDescription] = useState<string>();
 
     const mapID = params.id;
@@ -113,6 +113,11 @@ export default function MapInfoPage(){
             setDescription(stats.description);
         }
         setEditing(false);
+    }
+
+    const descriptionCancel = () => {
+        setEditing(false);
+        setDescription(stats.description);
     }
 
     const distanceString = (distance:number) => {
@@ -279,7 +284,10 @@ export default function MapInfoPage(){
                             <div className="map-info-description-editing">
                                 <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength}/>                 
                                 <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
-                                <button onClick={editDescription} className="game-button map-description-save" disabled={loading}>Save</button>
+                                <div className="map-description-editing-footer">
+                                    <button onClick={descriptionCancel} className="dark-hover-button map-description-cancel" disabled={loading}>Cancel</button>
+                                    <button onClick={editDescription} className="map-description-save dark-hover-button" disabled={loading}><div>Save</div></button>
+                                </div>
                             </div>
                         }
                         {!description && !editing && canEdit &&
