@@ -42,7 +42,7 @@ export default function MapInfoPage(){
     const [bounds, setBounds] = useState<(Location|Bounds)[]>();
     const [topScore, setTopScore] = useState<any>();
     const [canEdit, setCanEdit] = useState<boolean>();
-    const [editing, setEditing] = useState(true);
+    const [editing, setEditing] = useState(false);
     const [description, setDescription] = useState<string>();
 
     const mapID = params.id;
