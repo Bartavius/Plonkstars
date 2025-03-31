@@ -237,3 +237,10 @@
     font-size: 1.2rem;
     color: white;
 }
+
+.map-info-description-editing{
+    width:100%;
+}
+.map-info-description-textbox{
+    width:100%;
+}

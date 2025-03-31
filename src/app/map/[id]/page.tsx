@@ -40,6 +40,8 @@ export default function MapInfoPage(){
     const [bounds, setBounds] = useState<(Location|Bounds)[]>();
     const [topScore, setTopScore] = useState<any>();
     const [canEdit, setCanEdit] = useState<boolean>();
+    const [editing, setEditing] = useState(false);
+    const [description, setDescription] = useState<string>();
 
     const mapID = params.id;
 
@@ -47,6 +49,7 @@ export default function MapInfoPage(){
         try {
             const stats = await api.get(`/map/stats?id=${mapID}`);
             setStats(stats.data);
+            setDescription(stats.data.description);
             const can_edit = await api.get(`/map/edit?id=${mapID}`);
             setCanEdit(can_edit.data.can_edit);
 
@@ -89,6 +92,16 @@ export default function MapInfoPage(){
         router.push(`/map/${mapID}/leaderboard`);
     }
     
+    const editDescription = async () => {
+        const res = await api.post(`/map/edit/description`,{description,id:mapID});
+        if(res.status === 200){
+            setDescription(description);
+        }
+        else{
+            setDescription(stats.description);
+        }
+        setEditing(false);
+    }
 
     const distanceString = (distance:number) => {
         if(distance < 0) return {stat: "N/A"};
@@ -227,7 +240,7 @@ export default function MapInfoPage(){
         ]
     }
 
-    
+    console.log(editing);
 
     return (
         <div className="relative">
@@ -245,9 +258,15 @@ export default function MapInfoPage(){
                     <div className="map-info-title">{stats.name}</div>
                     <div className="map-info-creator">Made by: <span className="map-info-creator-name">{stats.creator.username}</span></div>
                     <div className="map-info-description-button">
-                        {stats.description && 
+                        {description && !editing &&
                             <div className="map-info-description">
-                                <div className="map-info-description-text">{stats.description}</div>
+                                <div className="map-info-description-text">{description}</div>
+                            </div>
+                        }
+                        {editing && 
+                            <div className="map-info-description-editing">
+                                <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={(e) => setDescription(e.target.value)}/>
+                                <button onClick={editDescription}>Save</button>
                             </div>
                         }
                         <div className="map-info-button-div">
