@@ -15,6 +15,7 @@ import { CgRowFirst } from "react-icons/cg";
 import { setGameMap } from "@/redux/gameSlice";
 import api from "@/utils/api";
 import "./page.css"
+import "@/app/game.css"
 import { useDispatch } from "react-redux";
 import MapPreview from "@/components/maps/MapPreview";
 import StatBox from "./StatBox";
@@ -44,6 +45,7 @@ export default function MapInfoPage(){
     const [description, setDescription] = useState<string>();
 
     const mapID = params.id;
+    const maxDescriptionLength = 512;
 
     const getMapInfo = async () => {
         try {
@@ -90,6 +92,15 @@ export default function MapInfoPage(){
     const mapLeaderboard = () => {
         setLoading(true);
         router.push(`/map/${mapID}/leaderboard`);
+    }
+
+    const changeDescription = (e:any) => {
+        if (e.target.value.length === 0){
+            setDescription(undefined);
+        }
+        else{
+            setDescription(e.target.value);
+        }
     }
     
     const editDescription = async () => {
@@ -265,8 +276,9 @@ export default function MapInfoPage(){
                         }
                         {editing && 
                             <div className="map-info-description-editing">
-                                <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={(e) => setDescription(e.target.value)}/>
-                                <button onClick={editDescription}>Save</button>
+                                <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength}/>                 
+                                <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
+                                <button onClick={editDescription} className="game-button map-description-save">Save</button>
                             </div>
                         }
                         <div className="map-info-button-div">

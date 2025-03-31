@@ -244,3 +244,21 @@
 .map-info-description-textbox{
     width:100%;
 }
+
+.map-description-editing-footer{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    height: 100%;
+}
+
+.map-description-char-counter{
+    font-size: 0.5rem;
+    text-align: right;
+}
+
+.map-description-save{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 700;
+}
