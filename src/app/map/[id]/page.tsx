@@ -279,11 +279,11 @@ export default function MapInfoPage(){
                             <div className="map-info-description-editing">
                                 <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength}/>                 
                                 <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
-                                <button onClick={editDescription} className="game-button map-description-save">Save</button>
+                                <button onClick={editDescription} className="game-button map-description-save" disabled={loading}>Save</button>
                             </div>
                         }
                         {!description && !editing && canEdit &&
-                            <button className="game-button map-add-description" onClick={() => setEditing(true)}>Add Description</button>
+                            <button className="game-button map-add-description" onClick={() => setEditing(true)} disabled={loading}>Add Description</button>
                         }
                         <div className="map-info-button-div">
                             <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
