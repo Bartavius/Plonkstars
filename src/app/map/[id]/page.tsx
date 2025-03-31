@@ -5,23 +5,21 @@ import { motion } from 'framer-motion';
 
 import { PiMapPin } from "react-icons/pi";
 import { IoTimerOutline } from "react-icons/io5";
-import { FaClock,FaGlobeAmericas,FaPlay,FaPencilAlt, FaRunning, FaMedal } from "react-icons/fa";
+import { FaClock, FaGlobeAmericas, FaRunning, FaMedal } from "react-icons/fa";
 import { Md5K } from "react-icons/md";
 import { GiNetworkBars } from "react-icons/gi";
 import { PiMapPinAreaBold } from "react-icons/pi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { CgRowFirst } from "react-icons/cg";
 
-import { setGameMap } from "@/redux/gameSlice";
 import api from "@/utils/api";
 import "./page.css"
-import "@/app/game.css"
 import { useDispatch } from "react-redux";
 import MapPreview from "@/components/maps/MapPreview";
 import StatBox from "./StatBox";
 import Loading from "@/components/loading";
 import { BsCapsule } from "react-icons/bs";
-import { desc } from "framer-motion/client";
+import MapInfoCard from "./MapInfoCard";
 
 interface Location {
     lat:number,
@@ -35,24 +33,19 @@ interface Bounds {
 export default function MapInfoPage(){
     const params = useParams();
     const router = useRouter();
-    const dispatch = useDispatch();
 
     const [loading,setLoading] = useState(false);
     const [stats,setStats] = useState<any>();
     const [bounds, setBounds] = useState<(Location|Bounds)[]>();
     const [topScore, setTopScore] = useState<any>();
     const [canEdit, setCanEdit] = useState<boolean>();
-    const [editing, setEditing] = useState(false);
-    const [description, setDescription] = useState<string>();
 
     const mapID = params.id;
-    const maxDescriptionLength = 512;
 
     const getMapInfo = async () => {
         try {
             const stats = await api.get(`/map/stats?id=${mapID}`);
             setStats(stats.data);
-            setDescription(stats.data.description);
             const can_edit = await api.get(`/map/edit?id=${mapID}`);
             setCanEdit(can_edit.data.can_edit);
 
@@ -68,57 +61,14 @@ export default function MapInfoPage(){
         }
     }
 
-    const playMap = () => {
-        if(stats && mapID){
-            setLoading(true);
-            dispatch(setGameMap({mapName:stats.name,mapId:mapID}));
-            router.push("/game");
-        }
-        setLoading(false);
-    } 
-
-    const editMap = () => {
-        if(stats && mapID){
-            setLoading(true);
-            router.push(`/map/${mapID}/edit`);
-        }
-        setLoading(false)
-    }
-
-    const goBack = () => {
-        setLoading(true);
-        router.push("/map");
-    }
-
     const mapLeaderboard = () => {
         setLoading(true);
         router.push(`/map/${mapID}/leaderboard`);
     }
 
-    const changeDescription = (e:any) => {
-        if (e.target.value.length === 0){
-            setDescription(undefined);
-        }
-        else{
-            setDescription(e.target.value);
-        }
-    }
-    
-    const editDescription = async () => {
-        const res = await api.post(`/map/edit/description`,{description,id:mapID});
-        if(res.status === 200){
-            setDescription(description);
-            stats.description = description;
-        }
-        else{
-            setDescription(stats.description);
-        }
-        setEditing(false);
-    }
-
-    const descriptionCancel = () => {
-        setEditing(false);
-        setDescription(stats.description);
+    const goBack = () => {
+        setLoading(true);
+        router.push("/map");
     }
 
     const distanceString = (distance:number) => {
@@ -270,49 +220,12 @@ export default function MapInfoPage(){
                 transition={{ duration: 1 }}
                 className="map-info-card-wrapper"
             >
-                <div className="map-info-card">
-                    <div className="map-info-title">{stats.name}</div>
-                    <div className="map-info-creator">Made by: <span className="map-info-creator-name">{stats.creator.username}</span></div>
-                    <div className="map-info-description-button">
-                        {description && !editing &&
-                            <div className="map-info-description">
-                                <div className="map-info-description-text">{description}
-                                    {canEdit &&
-                                        <FaPencilAlt className="description-edit-pencil mouse-pointer" onClick={() => setEditing(true)}/>
-                                    }
-                                </div>
-                            </div>
-                        }
-                        {editing && canEdit &&
-                            <div className="map-info-description-editing">
-                                <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength}/>                 
-                                <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
-                                <div className="map-description-editing-footer">
-                                    <button onClick={descriptionCancel} className="dark-hover-button map-description-cancel" disabled={loading}>Cancel</button>
-                                    <button onClick={editDescription} className="map-description-save dark-hover-button" disabled={loading}><div>Save</div></button>
-                                </div>
-                            </div>
-                        }
-                        {!description && !editing && canEdit &&
-                            <button className="game-button map-add-description" onClick={() => setEditing(true)} disabled={loading}>Add Description</button>
-                        }
-                        <div className="map-info-button-div">
-                            <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
-                                <FaPlay className="map-info-button-icon"/>
-                                Play
-                            </button>
-                            {canEdit && 
-                                <button disabled={loading} className="edit-button map-info-button gray-button" onClick={editMap}>
-                                    <FaPencilAlt className="map-info-button-icon"/>
-                                    Edit
-                                </button>}
-                            <button disabled={loading} className="leaderboard-button map-info-button gray-button" onClick={mapLeaderboard}>
-                                <FaMedal className="map-info-button-icon"/>
-                                Leaderboard
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <MapInfoCard stats={stats} canEdit={canEdit} loading={loading} setLoading={setLoading}>
+                    <button disabled={loading} className="leaderboard-button map-info-button gray-button" onClick={mapLeaderboard}>
+                        <FaMedal className="map-info-button-icon"/>
+                        Leaderboard
+                    </button>
+                </MapInfoCard>
             </motion.div>
             <StatBox mapStats={displayMapStats}/>
             <StatBox mapStats={displayUserStats}/>
