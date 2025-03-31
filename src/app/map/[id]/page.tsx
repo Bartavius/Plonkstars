@@ -21,6 +21,7 @@ import MapPreview from "@/components/maps/MapPreview";
 import StatBox from "./StatBox";
 import Loading from "@/components/loading";
 import { BsCapsule } from "react-icons/bs";
+import { desc } from "framer-motion/client";
 
 interface Location {
     lat:number,
@@ -280,6 +281,9 @@ export default function MapInfoPage(){
                                 <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
                                 <button onClick={editDescription} className="game-button map-description-save">Save</button>
                             </div>
+                        }
+                        {!description && !editing && canEdit &&
+                            <button className="game-button map-add-description" onClick={() => setEditing(true)}>Add Description</button>
                         }
                         <div className="map-info-button-div">
                             <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
