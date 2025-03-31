@@ -108,6 +108,7 @@ export default function MapInfoPage(){
         const res = await api.post(`/map/edit/description`,{description,id:mapID});
         if(res.status === 200){
             setDescription(description);
+            stats.description = description;
         }
         else{
             setDescription(stats.description);
