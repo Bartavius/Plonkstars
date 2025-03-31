@@ -288,3 +288,7 @@
     padding-bottom: 0.5rem;
     font-weight: 700;
 }
+.description-edit-pencil{
+    display: inline;
+    margin-left: 1rem
+}

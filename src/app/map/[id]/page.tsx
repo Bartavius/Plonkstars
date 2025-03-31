@@ -257,8 +257,6 @@ export default function MapInfoPage(){
         ]
     }
 
-    console.log(editing);
-
     return (
         <div className="relative">
             <div className="navbar-buffer"/>
@@ -277,10 +275,14 @@ export default function MapInfoPage(){
                     <div className="map-info-description-button">
                         {description && !editing &&
                             <div className="map-info-description">
-                                <div className="map-info-description-text">{description}</div>
+                                <div className="map-info-description-text">{description}
+                                    {canEdit &&
+                                        <FaPencilAlt className="description-edit-pencil mouse-pointer" onClick={() => setEditing(true)}/>
+                                    }
+                                </div>
                             </div>
                         }
-                        {editing && 
+                        {editing && canEdit &&
                             <div className="map-info-description-editing">
                                 <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength}/>                 
                                 <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
