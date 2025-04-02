@@ -25,10 +25,18 @@ export default function MapInfoCard({
     const [editingDescription, setEditingDescription] = useState(false);
     const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
 
+    const [name, setName] = useState<string>(stats.name);
+    const [editingName, setEditingName] = useState(false);
+    const nameRef = useRef<HTMLInputElement | null>(null);
+
     const maxDescriptionLength = 512;
     const router = useRouter();
     const dispatch = useDispatch();
     const mapID = stats.id;
+
+
+    const cleanName = (text: string): string => text.replace(/[^\S ]+/g, "");
+
 
     useEffect(() => {
         if (editingDescription) {
@@ -37,6 +45,15 @@ export default function MapInfoCard({
             descriptionRef.current?.setSelectionRange(length ?? 0, length ?? 0);
         }
     },[editingDescription])
+
+    useEffect(() => {
+        if (editingName) {
+            nameRef.current?.focus();
+            const length = nameRef.current?.value.length;
+            nameRef.current?.setSelectionRange(length ?? 0, length ?? 0);
+        }
+    },[editingName])
+
 
     const changeDescription = (e:any) => {
         if (e.target.value.length === 0){
@@ -84,12 +101,49 @@ export default function MapInfoCard({
         else if (event.key === "Enter" && !event.shiftKey) {
             editDescription();
         }
-      };
+    };
+
+    const editName = async () => {
+        const newName = cleanName(name)?.trim();
+        const res = await api.post(`/map/edit/name`,{name:newName,id:mapID});
+        if(res.status === 200){
+            setName(newName);
+            stats.name = newName;
+        }
+        else{
+            setName(stats.name);
+        }
+        setEditingName(false);
+    }
+
+    const cancelName = () => {
+        setEditingName(false);
+        setName(stats.name);
+    }
+
+    const nameKeyListener = (event:any) => {
+        if (event.key === "Escape") {
+            cancelName();
+        }
+        else if (event.key === "Enter") {
+            editName();
+        }
+    }
 
 
     return(
     <div className="map-info-card">
-        <div className="map-info-title">{stats.name}</div>
+        <div className="map-info-title">
+            {canEdit && !editingName &&
+                <>
+                    {stats.name}
+                    <FaPencilAlt className="map-name-edit-pencil mouse-pointer" onClick={() => setEditingName(true)}/>
+                </>
+            }
+            {editingName && canEdit &&
+                <input className="map-name-edit-textbox" defaultValue={name} onChange={(e) => setName(e.target.value)} maxLength={maxDescriptionLength} ref={nameRef} onKeyDown={nameKeyListener}/>   
+            }
+        </div>
         <div className="map-info-creator">Made by: <span className="map-info-creator-name">{stats.creator.username}</span></div>
         <div className="map-info-description-button">
             {description && !editingDescription &&
