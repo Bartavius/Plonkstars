@@ -236,6 +236,7 @@
 .map-info-description-text {
     font-size: 1.2rem;
     color: white;
+    white-space: pre-line;
 }
 
 .map-info-description-editing{
@@ -291,4 +292,14 @@
 .description-edit-pencil{
     display: inline;
     margin-left: 1rem
+}
+
+.map-name-edit-pencil{
+    display: inline;
+    font-size: 1.5rem;
+    margin-left: 0.5rem
+}
+
+.map-name-edit-textbox{
+    text-align: center;
 }

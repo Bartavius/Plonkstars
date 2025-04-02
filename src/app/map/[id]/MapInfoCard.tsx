@@ -1,6 +1,6 @@
 import api from "@/utils/api";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaMedal, FaPencilAlt, FaPlay } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
@@ -22,12 +22,21 @@ export default function MapInfoCard({
     children?: React.ReactNode,
 }) {
     const [description, setDescription] = useState<string|undefined>(stats.description);
-    const [editing, setEditing] = useState(false);
+    const [editingDescription, setEditingDescription] = useState(false);
+    const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
 
     const maxDescriptionLength = 512;
     const router = useRouter();
     const dispatch = useDispatch();
     const mapID = stats.id;
+
+    useEffect(() => {
+        if (editingDescription) {
+            descriptionRef.current?.focus();
+            const length = descriptionRef.current?.textLength;
+            descriptionRef.current?.setSelectionRange(length ?? 0, length ?? 0);
+        }
+    },[editingDescription])
 
     const changeDescription = (e:any) => {
         if (e.target.value.length === 0){
@@ -37,21 +46,23 @@ export default function MapInfoCard({
             setDescription(e.target.value);
         }
     }
+
     
     const editDescription = async () => {
-        const res = await api.post(`/map/edit/description`,{description,id:mapID});
+        const newDescription = description?.trim();
+        const res = await api.post(`/map/edit/description`,{description:newDescription,id:mapID});
         if(res.status === 200){
-            setDescription(description);
+            setDescription(newDescription);
             stats.description = description;
         }
         else{
             setDescription(stats.description);
         }
-        setEditing(false);
+        setEditingDescription(false);
     }
 
     const descriptionCancel = () => {
-        setEditing(false);
+        setEditingDescription(false);
         setDescription(stats.description);
     }
 
@@ -66,24 +77,33 @@ export default function MapInfoCard({
         router.push(`/map/${mapID}/edit`);
     }
 
+    const descriptionKeyListener = (event:any) => {
+        if (event.key === "Escape") {
+            descriptionCancel();
+        }
+        else if (event.key === "Enter" && !event.shiftKey) {
+            editDescription();
+        }
+      };
+
 
     return(
     <div className="map-info-card">
         <div className="map-info-title">{stats.name}</div>
         <div className="map-info-creator">Made by: <span className="map-info-creator-name">{stats.creator.username}</span></div>
         <div className="map-info-description-button">
-            {description && !editing &&
+            {description && !editingDescription &&
                 <div className="map-info-description">
                     <div className="map-info-description-text">{description}
                         {canEdit &&
-                            <FaPencilAlt className="description-edit-pencil mouse-pointer" onClick={() => setEditing(true)}/>
+                            <FaPencilAlt className="description-edit-pencil mouse-pointer" onClick={() => setEditingDescription(true)}/>
                         }
                     </div>
                 </div>
             }
-            {editing && canEdit &&
+            {editingDescription && canEdit &&
                 <div className="map-info-description-editing">
-                    <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength}/>                 
+                    <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength} ref={descriptionRef} onKeyDown={descriptionKeyListener}/>                 
                     <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
                     <div className="map-description-editing-footer">
                         <button onClick={descriptionCancel} className="dark-hover-button map-description-cancel" disabled={loading}>Cancel</button>
@@ -91,8 +111,8 @@ export default function MapInfoCard({
                     </div>
                 </div>
             }
-            {!description && !editing && canEdit &&
-                <button className="game-button map-add-description" onClick={() => setEditing(true)} disabled={loading}>Add Description</button>
+            {!description && !editingDescription && canEdit &&
+                <button className="game-button map-add-description" onClick={() => setEditingDescription(true)} disabled={loading}>Add Description</button>
             }
             <div className="map-info-button-div">
                 <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
