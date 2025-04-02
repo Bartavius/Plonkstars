@@ -237,6 +237,8 @@
     font-size: 1.2rem;
     color: white;
     white-space: pre-line;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .map-info-description-editing{
