@@ -58,7 +58,7 @@ export default function Game() {
         const response = await api.post("/game/create", {
           rounds: checkInfRounds,
           time: checkInfTime,
-          map: { id: mapId },
+          map_id: mapId,
           nmpz: NMPZ,
         });
         dispatch(

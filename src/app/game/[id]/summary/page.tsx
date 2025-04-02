@@ -31,7 +31,7 @@ export default function SummaryPage() {
       const response = await api.post("/game/create", {
         rounds: previousGame.rounds,
         time: previousGame.seconds,
-        map: { id: previousGame.mapId },
+        map_id: previousGame.mapId,
         nmpz: previousGame.NMPZ,
       });
       const { id } = response.data;
