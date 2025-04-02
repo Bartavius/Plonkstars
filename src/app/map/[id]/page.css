@@ -305,3 +305,15 @@
 .map-name-edit-textbox{
     text-align: center;
 }
+
+.map-name-editing-footer{
+    color: gray;
+    font-size: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.map-name-edit-instruction{
+    font-size: 0.5rem;
+    text-align: center;
+}

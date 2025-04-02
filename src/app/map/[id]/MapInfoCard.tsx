@@ -30,6 +30,7 @@ export default function MapInfoCard({
     const nameRef = useRef<HTMLInputElement | null>(null);
 
     const maxDescriptionLength = 512;
+    const maxNameLength = 50;
     const router = useRouter();
     const dispatch = useDispatch();
     const mapID = stats.id;
@@ -141,7 +142,13 @@ export default function MapInfoCard({
                 </>
             }
             {editingName && canEdit &&
-                <input className="map-name-edit-textbox" defaultValue={name} onChange={(e) => setName(e.target.value)} maxLength={maxDescriptionLength} ref={nameRef} onKeyDown={nameKeyListener}/>   
+                <div className="map-name-editing">
+                    <input className="map-name-edit-textbox" defaultValue={name} onChange={(e) => setName(e.target.value)} maxLength={maxNameLength} ref={nameRef} onKeyDown={nameKeyListener}/>
+                    <div className="map-name-editing-footer">
+                        <div className="map-name-edit-instruction">Press "Enter" to save or "Esc" to cancel</div>
+                        <div className="map-name-char-count">{name.length}/{maxNameLength} characters</div>
+                    </div>   
+                </div>
             }
         </div>
         <div className="map-info-creator">Made by: <span className="map-info-creator-name">{stats.creator.username}</span></div>
