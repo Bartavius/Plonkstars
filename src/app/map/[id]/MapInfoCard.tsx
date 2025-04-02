@@ -106,8 +106,8 @@ export default function MapInfoCard({
                     <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength} ref={descriptionRef} onKeyDown={descriptionKeyListener}/>                 
                     <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
                     <div className="map-description-editing-footer">
-                        <button onClick={descriptionCancel} className="dark-hover-button map-description-cancel" disabled={loading}>Cancel</button>
-                        <button onClick={editDescription} className="map-description-save dark-hover-button" disabled={loading}><div>Save</div></button>
+                        <button onClick={descriptionCancel} className="map-description-cancel gray-button" disabled={loading}>Cancel</button>
+                        <button onClick={editDescription} className="map-description-save gray-button" disabled={loading}><div>Save</div></button>
                     </div>
                 </div>
             }
