@@ -135,11 +135,11 @@ export default function MapInfoCard({
     return(
     <div className="map-info-card">
         <div className="map-info-title">
+            {!editingName && 
+                <>{stats.name}</>
+            }
             {canEdit && !editingName &&
-                <>
-                    {stats.name}
-                    <FaPencilAlt className="map-name-edit-pencil mouse-pointer" onClick={() => setEditingName(true)}/>
-                </>
+                <FaPencilAlt className="map-name-edit-pencil mouse-pointer" onClick={() => setEditingName(true)}/>
             }
             {editingName && canEdit &&
                 <div className="map-name-editing">
