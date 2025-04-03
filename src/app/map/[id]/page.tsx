@@ -55,7 +55,6 @@ export default function MapInfoPage(){
             }
             const bounds = await api.get(`/map/bounds?id=${mapID}`);
             setBounds(bounds.data);
-
         } catch (error) {
             router.push("/map");
         }

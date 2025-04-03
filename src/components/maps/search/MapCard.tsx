@@ -53,7 +53,7 @@ const MapCard = ({map}:{map:MapInfo}) => {
         </div>
 
         <div className="map-stat">
-            <FaClock title="Average Generation Time" className="map-icon" style={{color: getColor(map.average_generation_time,1,5,true)}}/>
+            <FaClock title="Average Generation Time" className="map-icon" style={{color: getColor(map.average_generation_time,1,3,true)}}/>
             <div className="map-stat-stat">
                 {Math.round(map.average_generation_time * 10)/10}s
             </div>
