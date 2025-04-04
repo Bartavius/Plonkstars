@@ -156,6 +156,7 @@ export default function EditMapPage() {
                 setBounds([...bounds,res.data]);
             }
             setSelectedBound(undefined);
+            setExistingBound(false);
         } catch (error) {}
     }
 
