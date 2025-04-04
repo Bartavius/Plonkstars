@@ -14,7 +14,6 @@ import { CgRowFirst } from "react-icons/cg";
 
 import api from "@/utils/api";
 import "./page.css"
-import { useDispatch } from "react-redux";
 import MapPreview from "@/components/maps/MapPreview";
 import StatBox from "./StatBox";
 import Loading from "@/components/loading";

@@ -1,7 +1,6 @@
 "use client";
 
 import api from "@/utils/api";
-import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";

@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import "./page.css";
 
 interface PopupProps {

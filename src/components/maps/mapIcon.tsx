@@ -1,4 +1,4 @@
-import L, { icon } from "leaflet";
+import L from "leaflet";
 import { useState } from "react";
 import { Marker } from "react-leaflet";
 

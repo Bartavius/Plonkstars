@@ -5,7 +5,7 @@ import MapSearch from "@/components/maps/search/MapSearch"
 
 export default function MapMainPage() {
     const router = useRouter();
-    const mapSelect = (id: string,name: string) => {
+    const mapSelect = (id: string) => {
         router.push(`/map/${id}`); 
     }
 

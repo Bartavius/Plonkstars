@@ -1,7 +1,7 @@
 import api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { FaMedal, FaPencilAlt, FaPlay } from "react-icons/fa";
+import { FaPencilAlt, FaPlay } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
 import "./page.css";

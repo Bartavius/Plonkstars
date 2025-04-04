@@ -6,7 +6,6 @@ import "../page.css";
 import "./page.css";
 import { IoIosStats, IoMdArrowRoundBack } from "react-icons/io";
 import { motion } from "framer-motion";
-import { FaPencilAlt, FaPlay } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
 import Loading from "@/components/loading";

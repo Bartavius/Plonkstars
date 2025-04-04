@@ -1,10 +1,9 @@
 "use client";
-
 import {
     MapContainer,
     Rectangle,
 } from "react-leaflet";
-import L, { LeafletMouseEvent } from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import MapIcon from "./mapIcon";
 import "./map.css";
@@ -30,7 +29,6 @@ const MapPreview = ({
 }: {
     bounds: (Bounds|Location)[];
     children?: React.ReactNode;
-    onClick?: (event:LeafletMouseEvent) => void;
     iconClick?: boolean;
     height?: number;
     onSelect?: (location: Location|Bounds|undefined,isRect:boolean) => void;
