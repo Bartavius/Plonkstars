@@ -34,7 +34,7 @@ const MapPreview = ({
     onClick?: (event:LeafletMouseEvent) => void;
     iconClick?: boolean;
     height?: number;
-    onSelect?: (location: Location|Bounds) => void;
+    onSelect?: (location: Bounds|undefined,isRect:boolean) => void;
 }) => {
     const [selected,setSelected] = useState<Bounds|Location>();
     const points = bounds.filter((marker) => {
@@ -50,10 +50,18 @@ const MapPreview = ({
     const CENTER = { lat: 0, lng: 0 };
     const maxBounds = L.latLngBounds({lat:-85, lng:-240},{lat:85, lng:240})
     
-    const select = (location: Location|Bounds|undefined) => {
+    const select = (location: Location|Bounds|undefined,isRect:boolean) => {
         setSelected(location);
+        if (location && isRect && onSelect && "lat" in location && "lng" in location) {
+            onSelect({start:location,end:location},isRect);
+        }
+        else if (location && 'start' in location && 'end' in location && onSelect) {
+            onSelect(location,isRect);
+        }  
+        else {
+            onSelect && onSelect(undefined,isRect);
+        } 
     }
-
 
     return (
         <div
@@ -76,10 +84,10 @@ const MapPreview = ({
                     {points.map((point,index) => (
                         <div key={index}>
                         {point !== selected && 
-                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsMarker.png" onClick={onSelect ? () => select(point) : undefined}/>
+                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsMarker.png" onClick={onSelect ? () => select(point,false) : undefined}/>
                         }
                         {point == selected && 
-                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.png" onClick={onSelect ? () => select(undefined) : undefined}/>
+                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.png" onClick={onSelect ? () => select(undefined,false) : undefined}/>
                         }
                         </div>
                     ))}
@@ -90,7 +98,7 @@ const MapPreview = ({
                         {bound !== selected && 
                             <Rectangle
                                 interactive = {onSelect !== undefined}
-                                eventHandlers={onSelect ? { click: () => select(bound) } : undefined}
+                                eventHandlers={onSelect ? { click: () => select(bound,true) } : undefined}
                                 bounds={[[bound.start.lat,bound.start.lng],[bound.end.lat,bound.end.lng]]}
                                 color="yellow"
                                 opacity={1}
@@ -100,7 +108,7 @@ const MapPreview = ({
                         {bound === selected && 
                             <Rectangle
                                 interactive = {onSelect !== undefined}
-                                eventHandlers={onSelect ? { click: () => select(undefined) } : undefined}
+                                eventHandlers={onSelect ? { click: () => select(undefined,true) } : undefined}
                                 bounds={[[bound.start.lat,bound.start.lng],[bound.end.lat,bound.end.lng]]}
                                 color="blue"
                                 opacity={1}

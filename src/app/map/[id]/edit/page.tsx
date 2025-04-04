@@ -29,8 +29,10 @@ export default function EditMapPage() {
     const [selectedBound,setSelectedBound] = useState<Bounds>();
     const [buttonDisabled,setButtonDisabled] = useState<boolean>(false);
     const [loading,setLoading] = useState<boolean>(true);
+    const rectangleClickedRef = useRef(false);
     const MAPID = useParams().id;
     const router = useRouter();
+
 
     const getLocations = async () => {
         try{
@@ -50,6 +52,14 @@ export default function EditMapPage() {
         getLocations();
     }, []);
 
+    const onSelect = (location: Bounds|undefined,rectSelected:boolean) => {
+        if(rectSelected){
+            rectangleClickedRef.current = true;
+        }
+        setSelectedLocation(undefined);
+        setSelectedBound(undefined);
+    }
+
     function normalizeBound(bound:Bounds):Bounds{
         bound.start.lat = Math.max(-90,Math.min(90,bound.start.lat));
         bound.start.lng = Math.max(-180,Math.min(180,bound.start.lng));
@@ -68,6 +78,10 @@ export default function EditMapPage() {
     const MapEvent = () => {
         const map = useMap();
         useMapEvent("click", (event) => {
+            if (rectangleClickedRef.current) {
+                rectangleClickedRef.current = false;
+                return;
+            }
             if(isDraggingRef.current) return;
             if(ctrlDragLatLngRef.current){
                 setSelectedBound(normalizeBound({start:ctrlDragLatLngRef.current,end:event.latlng}));  
@@ -84,6 +98,9 @@ export default function EditMapPage() {
         });
 
         useMapEvent('mousedown', (event) => {
+            if (rectangleClickedRef.current) {
+                return;
+            }
             if (event.originalEvent.ctrlKey || event.originalEvent.metaKey && !ctrlDragLatLngRef.current) {
                 setButtonDisabled(true);
                 ctrlDragLatLngRef.current  = event.latlng;
@@ -147,7 +164,7 @@ export default function EditMapPage() {
         <div className="overflow-hidden h-full w-full">
             <div className="navbar-buffer"/>
             <div className="h-[80vh] w-full">
-                <MapPreview bounds={bounds} height={80}>
+                <MapPreview bounds={bounds} height={80} onSelect={onSelect}>
                     <MapEvent/>
                     <Rectangle
                         bounds={[[-90,-1000],[90,-180]]}
