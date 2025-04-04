@@ -14,17 +14,19 @@ import "@/app/game.css";
 import "./page.css";
 
 interface Location {
+    id?:number,
     lat:number,
-    lng:number
+    lng:number,
 }
 
 interface Bounds {
+    id?:number,
     start: Location,
     end: Location
 }
 
 export default function EditMapPage() {
-    const [bounds,setBounds] = useState<Bounds[]>([]);
+    const [bounds,setBounds] = useState<(Bounds|Location)[]>([]);
     const [selectedBound,setSelectedBound] = useState<Bounds|Location>();
     const [buttonDisabled,setButtonDisabled] = useState<boolean>(false);
     const [loading,setLoading] = useState<boolean>(true);
@@ -145,9 +147,14 @@ export default function EditMapPage() {
     async function buttonClick(){
         if(selectedBound === undefined || buttonDisabled) return;
         try{
-            const res = await api.post(`/map/edit/bound/add`,{...selectedBound,id:MAPID});
-            const retbound = res.data.bound;
-            setBounds([...bounds,retbound]);
+            if(existingBound){
+                const res = await api.delete("/map/edit/bound/remove",{data:{...selectedBound,id:MAPID}});
+                setBounds(bounds.filter((bound) => bound.id != res.data.id));
+            }
+            else{
+                const res = await api.post("/map/edit/bound/add",{...selectedBound,id:MAPID});
+                setBounds([...bounds,res.data]);
+            }
             setSelectedBound(undefined);
         } catch (error) {}
     }
