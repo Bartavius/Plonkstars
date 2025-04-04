@@ -25,10 +25,10 @@ interface Bounds {
 
 export default function EditMapPage() {
     const [bounds,setBounds] = useState<Bounds[]>([]);
-    const [selectedLocation,setSelectedLocation] = useState<Location>();
-    const [selectedBound,setSelectedBound] = useState<Bounds>();
+    const [selectedBound,setSelectedBound] = useState<Bounds|Location>();
     const [buttonDisabled,setButtonDisabled] = useState<boolean>(false);
     const [loading,setLoading] = useState<boolean>(true);
+    const [existingBound,setExistingBound] = useState<boolean>(false);
     const rectangleClickedRef = useRef(false);
     const MAPID = useParams().id;
     const router = useRouter();
@@ -52,12 +52,12 @@ export default function EditMapPage() {
         getLocations();
     }, []);
 
-    const onSelect = (location: Bounds|undefined,rectSelected:boolean) => {
+    const onSelect = (location: Location|Bounds|undefined,rectSelected:boolean) => {
         if(rectSelected){
             rectangleClickedRef.current = true;
         }
-        setSelectedLocation(undefined);
-        setSelectedBound(undefined);
+        setSelectedBound(location);
+        setExistingBound(location !== undefined);
     }
 
     function normalizeBound(bound:Bounds):Bounds{
@@ -82,6 +82,7 @@ export default function EditMapPage() {
                 rectangleClickedRef.current = false;
                 return;
             }
+            setExistingBound(false);
             if(isDraggingRef.current) return;
             if(ctrlDragLatLngRef.current){
                 setSelectedBound(normalizeBound({start:ctrlDragLatLngRef.current,end:event.latlng}));  
@@ -89,12 +90,11 @@ export default function EditMapPage() {
                 return;
             }
             if(-90 <= event.latlng.lat && event.latlng.lat <= 90 && -180 <= event.latlng.lng && event.latlng.lng <= 180){
-                setSelectedLocation(event.latlng);
+                setSelectedBound(event.latlng);
             }
             else{
-                setSelectedLocation(undefined);
+                setSelectedBound(undefined);
             }
-            setSelectedBound(undefined);
         });
 
         useMapEvent('mousedown', (event) => {
@@ -104,7 +104,7 @@ export default function EditMapPage() {
             if (event.originalEvent.ctrlKey || event.originalEvent.metaKey && !ctrlDragLatLngRef.current) {
                 setButtonDisabled(true);
                 ctrlDragLatLngRef.current  = event.latlng;
-                setSelectedLocation(undefined);
+                setSelectedBound(undefined);
             }
             isDraggingRef.current = false;
         });
@@ -143,13 +143,11 @@ export default function EditMapPage() {
     };
 
     async function buttonClick(){
-        if((selectedLocation === undefined && selectedBound === undefined) || buttonDisabled) return;
-        const bound = selectedBound ?? {start:selectedLocation!,end:selectedLocation!};
+        if(selectedBound === undefined || buttonDisabled) return;
         try{
-            const res = await api.post(`/map/edit/bound/add`,{...bound,id:MAPID});
+            const res = await api.post(`/map/edit/bound/add`,{...selectedBound,id:MAPID});
             const retbound = res.data.bound;
             setBounds([...bounds,retbound]);
-            setSelectedLocation(undefined);
             setSelectedBound(undefined);
         } catch (error) {}
     }
@@ -164,7 +162,7 @@ export default function EditMapPage() {
         <div className="overflow-hidden h-full w-full">
             <div className="navbar-buffer"/>
             <div className="h-[80vh] w-full">
-                <MapPreview bounds={bounds} height={80} onSelect={onSelect}>
+                <MapPreview bounds={bounds} height={80} onSelect={onSelect} selected={selectedBound}>
                     <MapEvent/>
                     <Rectangle
                         bounds={[[-90,-1000],[90,-180]]}
@@ -180,21 +178,21 @@ export default function EditMapPage() {
                         weight={0}
                         interactive={false}
                     />
-                    {selectedLocation && <MapIcon pos={selectedLocation} iconUrl={"/PlonkStarsAvatar.png"}/>}
-                    {selectedBound && (
+                    {selectedBound && "lat" in selectedBound && "lng" in selectedBound && <MapIcon pos={selectedBound} iconUrl={"/PlonkStarsAvatar.png"}/>}
+                    {selectedBound && "start" in selectedBound && "end" in selectedBound &&
                         <Rectangle
                             bounds = {[[selectedBound.start.lat,selectedBound.start.lng],[selectedBound.end.lat,selectedBound.end.lng]]}
                             color="blue"
                             weight={0}
                             opacity={1}
                         />
-                    )}
+                    }
                 </MapPreview>
-                {selectedLocation &&(
+                {selectedBound && "lat" in selectedBound && "lng" in selectedBound &&(
                     <div 
                         className={`corner-street-view`}
                     >
-                        <StreetView lat={selectedLocation.lat} lng={selectedLocation.lng}/>
+                        <StreetView lat={selectedBound.lat} lng={selectedBound.lng}/>
                     </div>
                 )}
             </div>
@@ -205,7 +203,9 @@ export default function EditMapPage() {
                     </div>
                     <div></div>
                     <div className="edit-grid-right-elements">
-                        <button onClick={buttonClick} disabled={(selectedLocation === undefined && selectedBound === undefined) || buttonDisabled} className="game-button edit-right-button">Add Bound</button>
+                        <button onClick={buttonClick} disabled={(selectedBound === undefined) || buttonDisabled} className="game-button edit-right-button">
+                            {existingBound? "Remove": "Add"} {selectedBound && "lat" in selectedBound && "lng" in selectedBound ? "Point": "Bound"}
+                        </button>
                     </div>
                 </div>
             </div>

@@ -3,14 +3,12 @@
 import {
     MapContainer,
     Rectangle,
-    useMap,
 } from "react-leaflet";
 import L, { LeafletMouseEvent } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import MapIcon from "./mapIcon";
 import "./map.css";
 import getTileLayer from "../../utils/leaflet";
-import { useState } from "react";
 
 interface Location {
     lat:number,
@@ -27,16 +25,17 @@ const MapPreview = ({
     children,
     iconClick,
     height,
-    onSelect
+    onSelect,
+    selected
 }: {
     bounds: (Bounds|Location)[];
     children?: React.ReactNode;
     onClick?: (event:LeafletMouseEvent) => void;
     iconClick?: boolean;
     height?: number;
-    onSelect?: (location: Bounds|undefined,isRect:boolean) => void;
+    onSelect?: (location: Location|Bounds|undefined,isRect:boolean) => void;
+    selected?: Location|Bounds|undefined;
 }) => {
-    const [selected,setSelected] = useState<Bounds|Location>();
     const points = bounds.filter((marker) => {
         return "lat" in marker && "lng" in marker;
     });
@@ -49,19 +48,6 @@ const MapPreview = ({
     const PX_PER_ZOOM_LEVEL = 2;
     const CENTER = { lat: 0, lng: 0 };
     const maxBounds = L.latLngBounds({lat:-85, lng:-240},{lat:85, lng:240})
-    
-    const select = (location: Location|Bounds|undefined,isRect:boolean) => {
-        setSelected(location);
-        if (location && isRect && onSelect && "lat" in location && "lng" in location) {
-            onSelect({start:location,end:location},isRect);
-        }
-        else if (location && 'start' in location && 'end' in location && onSelect) {
-            onSelect(location,isRect);
-        }  
-        else {
-            onSelect && onSelect(undefined,isRect);
-        } 
-    }
 
     return (
         <div
@@ -84,10 +70,10 @@ const MapPreview = ({
                     {points.map((point,index) => (
                         <div key={index}>
                         {point !== selected && 
-                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsMarker.png" onClick={onSelect ? () => select(point,false) : undefined}/>
+                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsMarker.png" onClick={onSelect ? () => onSelect(point,false) : undefined}/>
                         }
                         {point == selected && 
-                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.png" onClick={onSelect ? () => select(undefined,false) : undefined}/>
+                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.png" onClick={onSelect ? () => onSelect(undefined,false) : undefined}/>
                         }
                         </div>
                     ))}
@@ -98,7 +84,7 @@ const MapPreview = ({
                         {bound !== selected && 
                             <Rectangle
                                 interactive = {onSelect !== undefined}
-                                eventHandlers={onSelect ? { click: () => select(bound,true) } : undefined}
+                                eventHandlers={onSelect ? { click: () => onSelect(bound,true) } : undefined}
                                 bounds={[[bound.start.lat,bound.start.lng],[bound.end.lat,bound.end.lng]]}
                                 color="yellow"
                                 opacity={1}
@@ -108,7 +94,7 @@ const MapPreview = ({
                         {bound === selected && 
                             <Rectangle
                                 interactive = {onSelect !== undefined}
-                                eventHandlers={onSelect ? { click: () => select(undefined,true) } : undefined}
+                                eventHandlers={onSelect ? { click: () => onSelect(undefined,true) } : undefined}
                                 bounds={[[bound.start.lat,bound.start.lng],[bound.end.lat,bound.end.lng]]}
                                 color="blue"
                                 opacity={1}
