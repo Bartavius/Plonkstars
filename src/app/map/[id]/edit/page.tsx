@@ -14,13 +14,13 @@ import "./page.css";
 
 interface Location {
     id?:number,
-    w?:number,
+    weight?:number,
     lat:number,
     lng:number,
 }
 
 interface Bounds {
-    w?:number,
+    weight?:number,
     id?:number,
     start: Location,
     end: Location
@@ -154,11 +154,11 @@ export default function EditMapPage() {
                 setBounds(bounds.filter((bound) => bound.id != res.data.id));
             }
             else{
-                const res = await api.post("/map/edit/bound/add",{...selectedBound,id:MAPID});
+                const res = await api.post("/map/edit/bound/add",{...selectedBound,id:MAPID,weight:weight});
                 setBounds([...bounds,res.data]);
             }
-            setSelectedBound(undefined);
             setExistingBound(false);
+            setSelectedBound(undefined);
         } catch (error) {}
     }
 
@@ -216,7 +216,7 @@ export default function EditMapPage() {
                         <div className="bound-weight-display">
                             <label className="weight-input-wrapper">
                                 <div className="weight-title">Weight</div>
-                                <input type="number" className="weight-input-box" value={selectedBound? selectedBound.w: weight??""} disabled={existingBound} onChange={(e) => setWeight(e.target.value===""?undefined:parseInt(e.target.value))}/>
+                                <input type="number" className="weight-input-box" value={existingBound? selectedBound && selectedBound.weight: weight??""} disabled={existingBound} onChange={(e) => !existingBound && setWeight(e.target.value===""?undefined:parseInt(e.target.value))}/>
                             </label>
                         </div>
                         <button onClick={buttonClick} disabled={(selectedBound === undefined) || buttonDisabled} className="game-button edit-right-button">
