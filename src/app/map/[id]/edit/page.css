@@ -47,3 +47,18 @@
 .edit-right-button {
   width:80%;
 }
+
+.weight-input-box {
+  color: black;
+
+}
+
+.bound-weight-display {
+  padding-right: 0.5rem;
+}
+
+.weight-title {
+  width: 100%;
+  justify-items: center;
+  text-align: center;
+}

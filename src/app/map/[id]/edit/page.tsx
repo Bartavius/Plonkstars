@@ -14,11 +14,13 @@ import "./page.css";
 
 interface Location {
     id?:number,
+    w?:number,
     lat:number,
     lng:number,
 }
 
 interface Bounds {
+    w?:number,
     id?:number,
     start: Location,
     end: Location
@@ -30,6 +32,7 @@ export default function EditMapPage() {
     const [buttonDisabled,setButtonDisabled] = useState<boolean>(false);
     const [loading,setLoading] = useState<boolean>(true);
     const [existingBound,setExistingBound] = useState<boolean>(false);
+    const [weight, setWeight] = useState<number>();
     const rectangleClickedRef = useRef(false);
     const MAPID = useParams().id;
     const router = useRouter();
@@ -210,6 +213,12 @@ export default function EditMapPage() {
                     </div>
                     <div></div>
                     <div className="edit-grid-right-elements">
+                        <div className="bound-weight-display">
+                            <label className="weight-input-wrapper">
+                                <div className="weight-title">Weight</div>
+                                <input type="number" className="weight-input-box" value={selectedBound? selectedBound.w: weight??""} disabled={existingBound} onChange={(e) => setWeight(e.target.value===""?undefined:parseInt(e.target.value))}/>
+                            </label>
+                        </div>
                         <button onClick={buttonClick} disabled={(selectedBound === undefined) || buttonDisabled} className="game-button edit-right-button">
                             {existingBound? "Remove": "Add"} {selectedBound && "lat" in selectedBound && "lng" in selectedBound ? "Point": "Bound"}
                         </button>
