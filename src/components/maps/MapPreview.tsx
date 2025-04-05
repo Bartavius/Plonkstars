@@ -8,6 +8,7 @@ import "leaflet/dist/leaflet.css";
 import MapIcon from "./mapIcon";
 import "./map.css";
 import getTileLayer from "../../utils/leaflet";
+import FitBounds from "./FitBounds";
 
 interface Location {
     lat:number,
@@ -19,7 +20,7 @@ interface Bounds {
     end: Location;
 }
 
-const MapPreview = ({
+export default function MapPreview({
     bounds,
     children,
     iconClick,
@@ -33,7 +34,7 @@ const MapPreview = ({
     height?: number;
     onSelect?: (location: Location|Bounds|undefined,isRect:boolean) => void;
     selected?: Location|Bounds|undefined;
-}) => {
+}){
     const points = bounds.filter((marker) => {
         return "lat" in marker && "lng" in marker;
     });
@@ -41,6 +42,7 @@ const MapPreview = ({
     const area = bounds.filter((marker) => {
         return "start" in marker && "end" in marker;
     });
+    const locations = [...points, ...area.map((bound) => [bound.start, bound.end])].flat();
 
     const ZOOM_DELTA = 2;
     const PX_PER_ZOOM_LEVEL = 2;
@@ -102,9 +104,8 @@ const MapPreview = ({
                         </div>
                     ))}
                 </div>
+                <FitBounds locations={locations}/>
             </MapContainer>
         </div>
     );
-    };
-
-    export default MapPreview;
+};
