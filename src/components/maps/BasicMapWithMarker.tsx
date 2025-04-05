@@ -2,20 +2,23 @@
 
 import { useRef, useState } from "react";
 import { MapContainer, useMapEvents } from "react-leaflet";
-import L, { LatLngLiteral } from "leaflet";
+import L, { LatLngLiteral, map } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import getTileLayer from "@/utils/leaflet";
 import MapIcon from "./mapIcon";
+import FitBounds from "./FitBounds";
 
 
-const BasicMapWithMarker = ({
+export default function BasicMapWithMarker({
   setLat,
   setLng,
+  mapBounds,
 }: {
   setLat: (n: number) => void;
   setLng: (n: number) => void;
-}) => {
+  mapBounds: any;
+}){
   const [markerPosition, setMarkerPosition] = useState<LatLngLiteral | null>(
     null
   );
@@ -67,9 +70,8 @@ const BasicMapWithMarker = ({
         {markerPosition && (
           <MapIcon pos={markerPosition} iconUrl="/PlonkStarsAvatar.png" iconPercent={.5}/>
         )}
+        <FitBounds locations={[mapBounds.start,mapBounds.end]}/>
       </MapContainer>
     </div>
   );
 };
-
-export default BasicMapWithMarker;

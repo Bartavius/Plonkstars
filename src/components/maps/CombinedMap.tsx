@@ -9,6 +9,7 @@ export default function CombinedMap({
   lng,
   reload,
   NMPZ,
+  mapBounds,
 }: {
   setLat: (n: number) => void;
   setLng: (n: number) => void;
@@ -16,6 +17,7 @@ export default function CombinedMap({
   lng: number;
   reload: number;
   NMPZ: boolean;
+  mapBounds:any;
 }) {
   return (
     <div className="relative">
@@ -23,7 +25,7 @@ export default function CombinedMap({
         <StreetView lat={lat} lng={lng}/>
       </div>
       <div style={{ position: "absolute", bottom: "1.5%", right: "0.8%" }}>
-        <BasicMapWithMarker setLat={setLat} setLng={setLng} />
+        <BasicMapWithMarker setLat={setLat} setLng={setLng} mapBounds={mapBounds}/>
       </div>
     </div>
   );

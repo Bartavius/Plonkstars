@@ -1,35 +1,32 @@
 "use client";
 
-import { useEffect } from "react";
-import { MapContainer, Polyline, useMap } from "react-leaflet";
-import L from "leaflet";
+import { MapContainer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import MapIcon from "./mapIcon";
 import getTileLayer from "@/utils/leaflet";
+import FitBounds from "./FitBounds";
 
 interface GuessPair {
-  users: { lat: number | null; lng: number | null }[];
+  users: { lat: number; lng: number }[];
   correct: { lat: number; lng: number };
 }
 
-const BasicMapResult = ({
+export default function BasicMapResult({
   markers,
   height,
 }: {
   markers: GuessPair[];
   height?: number;
-}) => {
-  const boundedMarkers = markers.map((marker: GuessPair) => {
+}){
+  const boundedMarkers = markers.map((marker) => {
     const newUsers = marker.users.map(
-      (user: { lat: number | null; lng: number | null }) => {
+      (user) => {
         let newLng = user.lng;
-        if (user.lng !== null) {
-          if (user.lng - marker.correct.lng > 180) {
-            newLng = user.lng - 360;
-          } else if (user.lng - marker.correct.lng < -180) {
-            newLng = user.lng + 360;
-          }
+        if (user.lng - marker.correct.lng > 180) {
+          newLng = user.lng - 360;
+        } else if (user.lng - marker.correct.lng < -180) {
+          newLng = user.lng + 360;
         }
         return { lat: user.lat, lng: newLng };
       }
@@ -37,6 +34,7 @@ const BasicMapResult = ({
     return { ...marker, users: newUsers };
   });
 
+  const locations = markers.map((marker) => [marker.correct, ...marker.users]).flat();
 
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;
@@ -96,50 +94,8 @@ const BasicMapResult = ({
             ))}
           </div>
         ))}
-        <FitBounds markers={boundedMarkers} />
+        <FitBounds locations={locations} options={{paddingTopLeft: [10, 50],paddingBottomRight: [10, 20]}}/>
       </MapContainer>
     </div>
   );
-};
-
-export default BasicMapResult;
-
-const FitBounds = ({ markers }: { markers: GuessPair[] }) => {
-  const map = useMap();
-
-  let topLeftLat = 90;
-  let topLeftLng = 180;
-  let bottomRightLat = -90;
-  let bottomRightLng = -180;
-
-  for (let i = 0; i < markers.length; i++) {
-    for (let j = 0; j < markers[i].users.length; j++) {
-      topLeftLat = Math.min(topLeftLat, markers[i].users[j].lat ?? 90);
-      topLeftLng = Math.min(topLeftLng, markers[i].users[j].lng ?? 180);
-      bottomRightLat = Math.max(bottomRightLat, markers[i].users[j].lat ?? -90);
-      bottomRightLng = Math.max(
-        bottomRightLng,
-        markers[i].users[j].lng ?? -180
-      );
-    }
-    topLeftLat = Math.min(topLeftLat, markers[i].correct.lat);
-    topLeftLng = Math.min(topLeftLng, markers[i].correct.lng);
-    bottomRightLat = Math.max(bottomRightLat, markers[i].correct.lat);
-    bottomRightLng = Math.max(bottomRightLng, markers[i].correct.lng);
-  }
-
-  useEffect(() => {
-    if (map && markers.length > 0) {
-      const bounds: L.LatLngBoundsExpression = [
-        [topLeftLat, topLeftLng],
-        [bottomRightLat, bottomRightLng],
-      ];
-      map.fitBounds(bounds, {
-        paddingTopLeft: [10, 50],
-        paddingBottomRight: [10, 20],
-      });
-    }
-  }, [map, markers]);
-
-  return null;
 };

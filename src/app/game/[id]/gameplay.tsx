@@ -26,6 +26,7 @@ export default function MatchPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [reload, setReload] = useState<number>(0);
   const [NMPZ, setNMPZ] = useState(false);
+  const [mapBounds, setMapBounds] = useState<any>(null);
 
   const router = useRouter();
   const params = useParams();
@@ -36,15 +37,17 @@ export default function MatchPage() {
       setLoading(true);
       try {
         const response = await api.get(`/game/round?id=${id}`);
-        const { lat, lng, round, time, time_limit, total, nmpz } = response.data;
+        const { lat, lng, round, time, time_limit, total, nmpz, map_bounds } = response.data;
+        console.log(response.data);
         setRoundNumber(round);
         setCorrectLat(lat);
         setCorrectLng(lng);
         setTime(new Date(time));
         setTimeLimit(time_limit);
-        setLoading(false);
         setTotalScore(total);
         setNMPZ(nmpz);
+        setMapBounds(map_bounds);
+        setLoading(false);
       } catch (err: any) {
         if (err.response?.status == 404) {
           router.push("/game");
@@ -121,6 +124,7 @@ export default function MatchPage() {
           lng={correctLng}
           reload={reload}
           NMPZ={NMPZ}
+          mapBounds={mapBounds}
         />
       </div>
       <div className="game-footer">
