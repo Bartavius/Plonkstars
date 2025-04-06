@@ -70,7 +70,7 @@ export default function BasicMapWithMarker({
         {markerPosition && (
           <MapIcon pos={markerPosition} iconUrl="/PlonkStarsAvatar.png" iconPercent={.5}/>
         )}
-        <FitBounds locations={[mapBounds.start,mapBounds.end]}/>
+        <FitBounds locations={[mapBounds.start,mapBounds.end]} summary={false}/>
       </MapContainer>
     </div>
   );

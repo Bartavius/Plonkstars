@@ -94,7 +94,7 @@ export default function BasicMapResult({
             ))}
           </div>
         ))}
-        <FitBounds locations={locations} options={{paddingTopLeft: [10, 50],paddingBottomRight: [10, 20]}}/>
+        <FitBounds locations={locations} options={{paddingTopLeft: [10, 50],paddingBottomRight: [10, 20]}} summary={true}/>
       </MapContainer>
     </div>
   );

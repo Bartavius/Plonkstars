@@ -5,7 +5,7 @@ interface Location {
     lat: number;
     lng: number;
 }
-export default function FitBounds({ locations,options }: { locations: Location[], options?: any }) {
+export default function FitBounds({ locations, options, summary}: { locations: Location[], options?: any, summary?: boolean }) {
   const map = useMap();
 
   let topLeftLat = 90;
@@ -21,6 +21,7 @@ export default function FitBounds({ locations,options }: { locations: Location[]
   }
 
   console.log(locations, topLeftLat, topLeftLng, bottomRightLat, bottomRightLng);
+  const dependencies = summary ? [] : [locations];
 
   useEffect(() => {
     if (map && locations.length > 0) {
@@ -30,7 +31,7 @@ export default function FitBounds({ locations,options }: { locations: Location[]
       ];
       map.fitBounds(bounds, options);
     }
-  }, [locations]);
+  }, dependencies);
 
   return null;
 };
