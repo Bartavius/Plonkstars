@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Table from "@/components/maps/leaderboard/table";
+import Table from "@/components/maps/table/table";
 import Loading from "@/components/loading";
 import api from "@/utils/api";
 import { FaArrowRight } from "react-icons/fa";
