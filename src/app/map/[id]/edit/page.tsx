@@ -172,7 +172,7 @@ export default function EditMapPage() {
         <div className="overflow-hidden h-full w-full">
             <div className="navbar-buffer"/>
             <div className="h-[80vh] w-full">
-                <MapPreview bounds={bounds} height={80} onSelect={onSelect} selected={selectedBound} fitBounds={false}>
+                <MapPreview bounds={bounds} height={80} onSelect={onSelect} selected={selectedBound}>
                     <MapEvent/>
                     <Rectangle
                         bounds={[[-90,-1000],[90,-180]]}

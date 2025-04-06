@@ -27,7 +27,6 @@ export default function MapPreview({
     height,
     onSelect,
     selected,
-    fitBounds = true,
 }: {
     bounds: (Bounds|Location)[];
     children?: React.ReactNode;
@@ -35,7 +34,6 @@ export default function MapPreview({
     height?: number;
     onSelect?: (location: Location|Bounds|undefined,isRect:boolean) => void;
     selected?: Location|Bounds|undefined;
-    fitBounds?: boolean;
 }){
     const points = bounds.filter((marker) => {
         return "lat" in marker && "lng" in marker;
@@ -106,7 +104,7 @@ export default function MapPreview({
                         </div>
                     ))}
                 </div>
-                {fitBounds && <FitBounds locations={locations}/>}
+                <FitBounds locations={locations} summary={false}/>
             </MapContainer>
         </div>
     );
