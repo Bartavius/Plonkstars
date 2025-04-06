@@ -21,7 +21,7 @@ export default function FitBounds({ locations, options, summary}: { locations: L
   }
 
   console.log(locations, topLeftLat, topLeftLng, bottomRightLat, bottomRightLng);
-  const dependencies = summary ? [] : [locations];
+  const dependencies = summary ? [locations] : [];
 
   useEffect(() => {
     if (map && locations.length > 0) {
