@@ -30,7 +30,7 @@ export default function FitBounds({ locations,options }: { locations: Location[]
       ];
       map.fitBounds(bounds, options);
     }
-  }, []);
+  }, [locations]);
 
   return null;
 };
