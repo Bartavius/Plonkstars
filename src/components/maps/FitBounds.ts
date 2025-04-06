@@ -14,6 +14,9 @@ export default function FitBounds({ locations, options, summary}: { locations: L
   let bottomRightLng = -180;
 
   for (let i = 0; i < locations.length; i++) {
+    if (locations[i].lat === undefined || locations[i].lng === undefined) {
+      continue;
+    }
     topLeftLat = Math.min(topLeftLat, locations[i].lat);
     topLeftLng = Math.min(topLeftLng, locations[i].lng);
     bottomRightLat = Math.max(bottomRightLat, locations[i].lat);
