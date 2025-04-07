@@ -1,6 +1,6 @@
 "use client";
 
-import MapLeaderboard from "@/app/map/[id]/leaderboard/leaderboard";
+import MapLeaderboard from "./leaderboard";
 import { useParams, useRouter } from "next/navigation";
 import "../page.css";
 import "./page.css";

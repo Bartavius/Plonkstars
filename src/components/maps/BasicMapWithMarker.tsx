@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { MapContainer, useMapEvents } from "react-leaflet";
-import L, { LatLngLiteral, map } from "leaflet";
+import { LatLngLiteral } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import getTileLayer from "@/utils/leaflet";
