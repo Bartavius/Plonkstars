@@ -8,7 +8,7 @@ import getTileLayer from "@/utils/leaflet";
 import FitBounds from "./FitBounds";
 
 interface GuessPair {
-  users: { lat: number; lng: number }[];
+  users: { lat: number|undefined; lng: number|undefined }[];
   correct: { lat: number; lng: number };
 }
 
@@ -22,6 +22,10 @@ export default function BasicMapResult({
   const boundedMarkers = markers.map((marker) => {
     const newUsers = marker.users.map(
       (user) => {
+        if (user.lat === undefined || user.lng === undefined) {
+          return;
+        }
+
         let newLng = user.lng;
         if (user.lng - marker.correct.lng > 180) {
           newLng = user.lng - 360;
@@ -30,11 +34,11 @@ export default function BasicMapResult({
         }
         return { lat: user.lat, lng: newLng };
       }
-    );
+    ).filter((user) => user !== undefined) as { lat: number; lng: number }[];
     return { ...marker, users: newUsers };
   });
 
-  const locations = markers.map((marker) => [marker.correct, ...marker.users]).flat();
+  const locations = boundedMarkers.map((marker) => [marker.correct, ...marker.users]).flat();
 
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;
