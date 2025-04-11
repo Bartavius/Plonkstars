@@ -150,7 +150,7 @@ export default function EditMapPage() {
         if(selectedBound === undefined || buttonDisabled) return;
         try{
             if(existingBound){
-                const res = await api.delete("/map/edit/bound/remove",{data:{...selectedBound,id:MAPID}});
+                const res = await api.delete("/map/edit/bound/remove",{data:{b_id:selectedBound.id,id:MAPID}});
                 setBounds(bounds.filter((bound) => bound.id != res.data.id));
             }
             else{
