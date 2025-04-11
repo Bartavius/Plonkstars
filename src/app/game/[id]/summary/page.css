@@ -2,3 +2,19 @@
   width: 100dvw;
   height: 100dvh;
 }
+.link-button {
+  background-color: var(--dark-blue);
+  border-radius: 1rem;
+  padding: 1rem;
+  color: white;
+  transition: 0.2s ease-in-out;
+}
+.link-button:hover {
+  background-color: var(--darker-blue);
+  transform: scale(1.02);
+  box-shadow: 0px 3px 10px rgba(  0,  25,  51, 0.3);
+}
+
+.link-button:active {
+  transform: scale(0.97);
+}

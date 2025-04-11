@@ -1,44 +1,33 @@
 "use client";
 
 import maps from "@/utils/maps";
-import "./page.css"
+import "./page.css";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMapType } from "@/redux/settingsSlice";
 import { useRouter } from "next/navigation";
-import Popup from "./popup";
+import Popup from "@/components/Popup";
 
 export default function Settings() {
     const mapNumber = useSelector((state: any) => state.settings.mapNumber);
     const [currentMap, setCurrentMap] = useState<number>(mapNumber);
     const [message, setMessage] = useState<string>();
-    const [popupFade, setPopupFade] = useState<boolean>(false);
+    const [update, setUpdate] = useState<number>(0);
     const dispatch = useDispatch();
     const router = useRouter();
 
     const saveChanges = () => {
         dispatch(setMapType({mapNumber:currentMap}));
-        showPopup("Changes saved!");
+        setMessage("Changes saved!");
+        setUpdate(update + 1);
     }
-
-
-    const showPopup = (message: string) => {
-        setPopupFade(false);
-        setMessage(message);
-    
-        setTimeout(() => {
-            setPopupFade(true);
-            setTimeout(() => {
-            setMessage(undefined);
-            }, 1000);
-        }, 2000);
-    };
 
     return (
         <div>
             <div className="navbar-buffer"/>
+            <Popup message={message} update={update}/>
             <div className="settings-wrapper">
                 <div id="top" className="settings-header">Settings</div>
                 <div className="settings-box">
@@ -66,11 +55,6 @@ export default function Settings() {
                     </div>
                     <button className="form-button-selected mt-2" onClick={saveChanges}>Save Changes</button>
                 </div>
-            </div>
-            <div className="popup-wrapper">
-                { message &&
-                    <Popup message={message} fadeOut={popupFade}/>
-                }
             </div>
         </div>
     )

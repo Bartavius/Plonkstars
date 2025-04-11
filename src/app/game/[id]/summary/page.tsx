@@ -6,6 +6,8 @@ import { useParams, useRouter } from "next/navigation";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import Loading from "@/components/loading";
 import Summary from "@/components/game/summary";
+import { ImLink } from "react-icons/im";
+import "./page.css";
 
 interface Location {
   lat: number;
@@ -20,6 +22,7 @@ export default function SummaryPage() {
   const [guesses, setGuesses] = useState<any[]>([]);
   const [scores, setScores] = useState<any[]>([]);
   const [data, setData] = useState<any>();
+  const [showText, setShowText] = useState(false);
   
   const params = useParams();
   const router = useRouter();
@@ -40,6 +43,10 @@ export default function SummaryPage() {
     } catch (err: any) {
       console.error(err);
     }
+  };
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/game/${params.id}/challenge`);
   };
 
   const gameMenu = () => {
@@ -106,6 +113,9 @@ export default function SummaryPage() {
               Game Summary
             </h2>
             <div className= "flex justify-end">
+              <button className="link-button" onClick={copyLink} title="Challenge Link">
+                <ImLink/>
+              </button>
               <button className="ml-1 btn-primary" onClick={startNewGame}>
                 Next Game
               </button>
