@@ -16,6 +16,7 @@
 .map-title {
     display: inline;
     width: 40%;
+    text-align: left;
 }
 
 .results-grid {

@@ -1,5 +1,6 @@
 import { FaClock,FaGlobeAmericas } from "react-icons/fa";
 import { GiNetworkBars } from "react-icons/gi";
+import "./MapSearch.css";
 interface MapInfo{
     name:String,
     creator:{username:String}
