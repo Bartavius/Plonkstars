@@ -20,7 +20,7 @@ export default function Popup({
   const [show, setShow] = useState<boolean>(false);
 
   function showPopup() {
-      if (show) return;
+      if (show || !message) return;
       setShow(true);
       setPopupFade(false);
 
@@ -38,7 +38,7 @@ export default function Popup({
 
   return (
     <>
-    {show && 
+    {show && message && 
     <div className="popup-wrapper">
       <div className={`settings-popup ${popupFade ? "opacity-0" : "opacity-100"}`} style={{color,background}}>
           {message}

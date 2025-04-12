@@ -8,6 +8,7 @@ import Loading from "@/components/loading";
 import Summary from "@/components/game/summary";
 import { ImLink } from "react-icons/im";
 import "./page.css";
+import Popup from "@/components/Popup";
 
 interface Location {
   lat: number;
@@ -22,7 +23,8 @@ export default function SummaryPage() {
   const [guesses, setGuesses] = useState<any[]>([]);
   const [scores, setScores] = useState<any[]>([]);
   const [data, setData] = useState<any>();
-  const [showText, setShowText] = useState(false);
+  const [showLink, setShowLink] = useState(false);
+  const [update, setUpdate] = useState(0);
   
   const params = useParams();
   const router = useRouter();
@@ -47,6 +49,7 @@ export default function SummaryPage() {
 
   const copyLink = () => {
     navigator.clipboard.writeText(`${window.location.origin}/game/${params.id}/challenge`);
+    setUpdate(update + 1);
   };
 
   const gameMenu = () => {
@@ -101,6 +104,7 @@ export default function SummaryPage() {
 
   return (
     <ProtectedRoutes>
+      <Popup update={update} message={update=== 0? undefined: "Link Copied"}/>
       <div className="summary-container">
         <Summary locations={locations} guesses={guesses} scores={scores} user={user}>
           <div className="grid grid-cols-3 gap-4 w-full">
