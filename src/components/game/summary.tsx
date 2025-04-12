@@ -108,7 +108,7 @@ export default function Summary(
                     <span className="text-dark text-sm">
                       {guess.distance && Math.round(guess.distance * 100)/100 >= 1 &&
                         `📍 ${Math.round(guess.distance * 100)/100} km away`}
-                      {guess.distance && guess.distance < 1 &&
+                      {guess.distance && Math.round(guess.distance * 100)/100 < 1 &&
                         `📍 ${Math.round(guess.distance * 1000)} m away`}
                     </span>
                   </div>
