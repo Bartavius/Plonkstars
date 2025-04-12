@@ -20,6 +20,10 @@ export default function challengePage() {
     async function getData(){
         try{
             const res = await api.get(`/session/info?id=${sessionID}`)
+            if (res.data.finished) {
+                router.push(`/game/${sessionID}/summary`);
+                return;
+            }
             setData(res.data);
         }catch (error) {
             dispatch(setError("Session not found"));
@@ -50,7 +54,7 @@ export default function challengePage() {
                 <div className="challenge-text">Time: {rules.time} seconds</div>
                 <div className="challenge-text">NMPZ: {rules.NMPZ ? "Yes" : "No"}</div>
                 <div className="button-wrapper">
-                    <button onClick={()=>{setLoading(true); router.push(`/game/${sessionID}/join`)}} className="game-button" disabled={loading}>Play</button>
+                    <button onClick={()=>{setLoading(true); router.push(`/game/${sessionID}/join`)}} className="game-button" disabled={loading}>{data.playing?"Continue":"Play"}</button>
                 </div>
             </div>
         </div>
