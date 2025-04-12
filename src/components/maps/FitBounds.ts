@@ -25,8 +25,8 @@ export default function FitBounds({ locations, options, summary}: { locations: L
 
   console.log(locations, topLeftLat, topLeftLng, bottomRightLat, bottomRightLng);
   const dependencies = summary ? locations : [];
-  const hash = dependencies.map((loc) => `${loc.lat},${loc.lng}`).join(",");
-  
+  const string = dependencies.map((loc) => `${loc.lat},${loc.lng}`).join(",");
+
   useEffect(() => {
     if (map && locations.length > 0) {
       const bounds: L.LatLngBoundsExpression = [
@@ -35,7 +35,7 @@ export default function FitBounds({ locations, options, summary}: { locations: L
       ];
       map.fitBounds(bounds, options);
     }
-  }, [hash]);
+  }, [string]);
 
   return null;
 };

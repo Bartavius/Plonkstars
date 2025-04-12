@@ -8,7 +8,17 @@
   padding: 1rem;
   color: white;
   transition: 0.2s ease-in-out;
+  z-index: 2;
 }
+
+.copy-link-button {
+  background-color: var(--darkest-blue);
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-left-radius: 0rem;
+  border-bottom-left-radius: 0rem;
+}
+
 .link-button:hover {
   background-color: var(--darker-blue);
   transform: scale(1.02);
@@ -17,4 +27,30 @@
 
 .link-button:active {
   transform: scale(0.97);
+}
+
+.link-text {
+  opacity: 0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  white-space: nowrap;
+  visibility: hidden;
+  transform: translateX(40px);
+  transition: all 0.5s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  max-width: 50%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  background-color: var(--dark-blue);
+  color: var(--lightest-blue);
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.link-text.visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(0);
 }
