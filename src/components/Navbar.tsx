@@ -21,16 +21,18 @@ export default function NavBar() {
 
   if (auth !== null) {
     registeredTabs = [
-      { tab: "home", link: "/" },
-      { tab: "game", link: "/game" },
-      { tab: "maps", link: "/map" },
+      { tab: "Home", link: "/" },
+      { tab: "Game", link: "/game" },
+      { tab: "Maps", link: "/map" },
+      { tab: "Contacts", link: "/#contact" },
       { tab: "settings", link: "/settings" },
-      { tab: "logout", link: "/account/logout" },
+      { tab: "Logout", link: "/account/logout" },
     ];
     unregisteredTabs = [
-      { tab: "home", link: "/" },
-      { tab: "login", link: "/account/login" },
-      { tab: "register", link: "/account/register" },
+      { tab: "Home", link: "/" },
+      { tab: "Login", link: "/account/login" },
+      { tab: "Register", link: "/account/register" },
+      { tab: "Contacts", link: "/#contact" },
     ];
   }
 
