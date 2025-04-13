@@ -27,9 +27,10 @@ export default function MapIcon({
     const [icon, setIcon] = useState<L.Icon | null>(null);
 
     useEffect(() => {
-        if (iconCache[iconUrl]) {
-        setIcon(iconCache[iconUrl]);
-        return;
+        const cacheKey = JSON.stringify({ iconUrl, iconSize, iconPercent });
+        if (iconCache[cacheKey]) {
+            setIcon(iconCache[cacheKey]);
+            return;
         }
 
         const img = new Image();
@@ -47,7 +48,7 @@ export default function MapIcon({
                 iconSize: calculatedSize,
                 iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]]
             });
-
+            iconCache[cacheKey] = newIcon;
             iconCache[iconUrl] = newIcon;
             setIcon(newIcon);
         };
