@@ -60,7 +60,7 @@ export default function DeletePage(){
                     <div className="delete-box">
                         <div className="delete-map-title"> Are you sure you want to delete {data.name}?</div>
                         <div className="delete-map-text">
-                            All games, score, and bounds associated with the map will be deleted. This action cannot be undone.
+                            All games, scores, sessions, and bounds associated with the map will be deleted. This action cannot be undone.
                         </div>
                         <div className="delete-map-text">To confirm, type "{data.name}":</div>
                         <div className="delete-map-input-wrapper">
