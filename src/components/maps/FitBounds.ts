@@ -23,7 +23,6 @@ export default function FitBounds({ locations, options, summary}: { locations: L
     bottomRightLng = Math.max(bottomRightLng, locations[i].lng);
   }
 
-  console.log(locations, topLeftLat, topLeftLng, bottomRightLat, bottomRightLng);
   const dependencies = summary ? locations : [];
   const string = dependencies.map((loc) => `${loc.lat},${loc.lng}`).join(",");
 
