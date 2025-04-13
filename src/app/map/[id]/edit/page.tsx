@@ -211,7 +211,10 @@ export default function EditMapPage() {
                     <div className="edit-grid-left-elements">
                         <button onClick={goBack} className="edit-back-button">Back to Map Page</button>
                     </div>
-                    <div></div>
+                    <div className="edit-grid-middle-elements">
+                        <div>Ctrl/Cmd + Drag: Create bound</div>
+                        <div>Click: Select point</div>
+                    </div>
                     <div className="edit-grid-right-elements">
                         <div className="bound-weight-display">
                             <label className="weight-input-wrapper">
