@@ -1,14 +1,17 @@
 import L from "leaflet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Marker } from "react-leaflet";
 
 interface Location {
     lat:number,
     lng:number
 }
+
+const iconCache: { [key: string]: L.Icon } = {};
+
 export default function MapIcon({
     pos,
-    clickable,
+    clickable=false,
     onClick,
     iconUrl,
     iconSize,
@@ -21,29 +24,39 @@ export default function MapIcon({
     iconSize?: [number, number];
     iconPercent?: number;
   }) {
-    const [newIconSize, setNewIconSize] = useState<[number,number]>([0,0]);
-    
-    if(!iconSize){
+    const [icon, setIcon] = useState<L.Icon | null>(null);
+
+    useEffect(() => {
+        if (iconCache[iconUrl]) {
+        setIcon(iconCache[iconUrl]);
+        return;
+        }
+
         const img = new Image();
         img.src = iconUrl;
+
         img.onload = () => {
-            setNewIconSize(iconSize? iconSize: (iconPercent? [img.width * iconPercent, img.height * iconPercent]: [img.width, img.height]));
+            const calculatedSize: [number, number] = iconSize
+                ? iconSize
+                : iconPercent
+                ? [img.width * iconPercent, img.height * iconPercent]
+                : [img.width, img.height];
+
+            const newIcon = L.icon({
+                iconUrl: iconUrl,
+                iconSize: calculatedSize,
+                iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]]
+            });
+
+            iconCache[iconUrl] = newIcon;
+            setIcon(newIcon);
         };
-    }
-    else{
-        setNewIconSize(iconSize);
-    }
+    }, [iconUrl, iconSize, iconPercent]);
 
-    const correctIcon = L.icon({
-        iconUrl: iconUrl,
-        iconSize: newIconSize,
-        iconAnchor: [newIconSize[0] / 2, newIconSize[1]]
-    });
-    clickable = clickable || false;
-
+  if (!icon) return null;
     return (
         <Marker 
-            icon={correctIcon} 
+            icon={icon} 
             position={pos} 
             eventHandlers={
                 clickable ? {click: onClick?
