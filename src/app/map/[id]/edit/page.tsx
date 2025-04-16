@@ -34,6 +34,7 @@ export default function EditMapPage() {
     const [loading,setLoading] = useState<boolean>(true);
     const [existingBound,setExistingBound] = useState<boolean>(false);
     const [weight, setWeight] = useState<number>();
+    const [connected,setConnected] = useState<boolean>(false);
     const rectangleClickedRef = useRef(false);
     const MAPID = useParams().id;
     const router = useRouter();
@@ -45,7 +46,7 @@ export default function EditMapPage() {
           add: (data) => setBounds(prevBounds => [...prevBounds, ...data.bounds]),
           remove: (data) => setBounds(bounds.filter((bound) => data.bounds.includes(bound.id))),
           reweight: (data) => console.log('Reweight:', data),
-          message: (msg) => console.log('Message:', msg),
+          message: (msg) => setConnected(true),
         },
     });
 
@@ -68,10 +69,11 @@ export default function EditMapPage() {
         try{
             if(existingBound){
                 const res = await api.delete("/map/edit/bound/remove",{data:{b_id:selectedBound.id,id:MAPID}});
-                setBounds(bounds.filter((bound) => bound.id != res.data.id));
+                !connected && setBounds(bounds.filter((bound) => bound.id != res.data.id));
             }
             else{
-                await api.post("/map/edit/bound/add",{...selectedBound,id:MAPID,weight:weight});
+                const res = await api.post("/map/edit/bound/add",{...selectedBound,id:MAPID,weight:weight});
+                !connected && setBounds(prevBounds => [...prevBounds, res.data]);
             }
             setExistingBound(false);
             setSelectedBound(undefined);
