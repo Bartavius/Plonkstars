@@ -11,6 +11,7 @@ import Loading from "@/components/loading";
 import StreetView from "@/components/maps/Streetview";
 import "@/app/game.css";
 import "./page.css";
+import useSocket from "@/utils/socket";
 
 interface Location {
     id?:number,
@@ -36,7 +37,17 @@ export default function EditMapPage() {
     const rectangleClickedRef = useRef(false);
     const MAPID = useParams().id;
     const router = useRouter();
-
+    
+    const socket = useSocket({
+        namespace: "/map/edit",
+        room: MAPID?.toString(),
+        functions: {
+          add: (data) => setBounds(prevBounds => [...prevBounds, ...data.bounds]),
+          remove: (data) => setBounds(bounds.filter((bound) => data.bounds.includes(bound.id))),
+          reweight: (data) => console.log('Reweight:', data),
+          message: (msg) => console.log('Message:', msg),
+        },
+    });
 
     const getLocations = async () => {
         try{
@@ -50,6 +61,21 @@ export default function EditMapPage() {
         } catch (error) {
             router.push("/map");
         }
+    }
+
+    async function buttonClick(){
+        if(selectedBound === undefined || buttonDisabled) return;
+        try{
+            if(existingBound){
+                const res = await api.delete("/map/edit/bound/remove",{data:{b_id:selectedBound.id,id:MAPID}});
+                setBounds(bounds.filter((bound) => bound.id != res.data.id));
+            }
+            else{
+                await api.post("/map/edit/bound/add",{...selectedBound,id:MAPID,weight:weight});
+            }
+            setExistingBound(false);
+            setSelectedBound(undefined);
+        } catch (error) {}
     }
 
     useEffect(() => {
@@ -145,22 +171,6 @@ export default function EditMapPage() {
         });
         return null;
     };
-
-    async function buttonClick(){
-        if(selectedBound === undefined || buttonDisabled) return;
-        try{
-            if(existingBound){
-                const res = await api.delete("/map/edit/bound/remove",{data:{b_id:selectedBound.id,id:MAPID}});
-                setBounds(bounds.filter((bound) => bound.id != res.data.id));
-            }
-            else{
-                const res = await api.post("/map/edit/bound/add",{...selectedBound,id:MAPID,weight:weight});
-                setBounds([...bounds,res.data]);
-            }
-            setExistingBound(false);
-            setSelectedBound(undefined);
-        } catch (error) {}
-    }
 
     function goBack(){
         router.push(`/map/${MAPID}`);
