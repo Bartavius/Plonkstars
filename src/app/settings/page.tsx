@@ -7,7 +7,6 @@ import "leaflet/dist/leaflet.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMapType } from "@/redux/settingsSlice";
-import { useRouter } from "next/navigation";
 import Popup from "@/components/Popup";
 
 export default function Settings() {
@@ -16,7 +15,6 @@ export default function Settings() {
     const [message, setMessage] = useState<string>();
     const [update, setUpdate] = useState<number>(0);
     const dispatch = useDispatch();
-    const router = useRouter();
 
     const saveChanges = () => {
         dispatch(setMapType({mapNumber:currentMap}));
