@@ -43,20 +43,52 @@ export default function Summary({
   });
   
   const overallStats = data.find((score:any) => score.user.username === user.username);
+  function distanceString(distance: number){
+    if (distance < 0) return "N/A";
+    const m = Math.round(distance * 1000);
+    const km = Math.round(m / 10) / 100;
+    const num = km > 1 ? km : m;
+    const unit = km > 1 ? "km" : "m";
+    return `${num}${unit}`;
+  };
 
-  const keys: Record<string, any> = {user: "User",total: "Total"};
+  function timeString(time: number){
+    if (time < 0) return "N/A";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.round((time % 60) * 10) / 10;
+    return minutes > 0
+      ? `${minutes.toString().padStart(2, "0")}:${seconds
+            .toFixed(1)
+            .padStart(4, "0")}`: `${seconds}s`;
+  };
+
+  function formatGuess(data:any){
+    return (
+      <div className="summary-score-box">
+        <div className="summary-score-text">{data.score}</div>
+        <div className="summary-other-stats">{distanceString(data.distance)}</div>
+        <div className="summary-other-stats">{timeString(data.time)}</div>
+      </div>
+    );
+  }
+  const keys: Record<string, any> = {total: "Total"};
   const leaderboardHTML = data.map((scores:any, index:number) => {
     const map = scores.guesses.reduce((acc: any,guess: any,index: number) => {
-      acc[`Round ${index + 1}`] = guess.score;
+      acc[`Round ${index + 1}`] = formatGuess(guess);
       keys[`Round ${index + 1}`] = `Round ${index + 1}`;
       return acc;
     }, {} as Record<string, any>);
-    map.rank = scores.rank? scores.rank : index + 1;
-    map.total = scores.score;
-    map.user = scores.user.username;
+    const rank = scores.rank? scores.rank : index + 1;
+    map.total = formatGuess(scores);
+    map.heading = (
+      <div className="rank-box">
+        <div className="rank-number-text">#{rank}</div>
+        <div className="user-name-text">{scores.user.username}</div>
+      </div>
+    );
     return map;
   });
-  
+
   return (
     <div>
       <div id="map-summary" className="map-container absolute">
@@ -73,7 +105,7 @@ export default function Summary({
       <div className="mx-auto p-6 bg-main-dark shadow-lg rounded-lg">
         {children}
         {leaderboard ? 
-          <Table data={leaderboardHTML} headers={keys}/>
+          <Table data={leaderboardHTML} headers={keys} rowHeader="heading" className="table-leaderboard-style"/>
           :
           <div>
             <div className="mt-5">

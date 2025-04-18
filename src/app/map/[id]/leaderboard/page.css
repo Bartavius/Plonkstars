@@ -25,3 +25,26 @@
     border-radius: 1rem;
     padding: 1rem;
 }
+
+.rank-number-text{
+    color:white;
+    font-size: 1.5rem;
+}
+
+.user-name-text{
+    color:var(--lightest-blue);
+    font-size: 1rem;
+    height: 100%;
+}
+
+.rank-box{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap:2px;
+}
+.leaderboard-table{
+    width: 100%;
+    column-width: 10%;
+    color: white;
+}

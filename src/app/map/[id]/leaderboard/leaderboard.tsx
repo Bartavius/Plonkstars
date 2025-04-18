@@ -18,7 +18,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
   const router = useRouter();
 
   const distanceString = (distance: number) => {
-    if (distance < 0) return { stat: "N/A" };
+    if (distance < 0) return "N/A";
     const m = Math.round(distance * 1000);
     const km = Math.round(m / 10) / 100;
     const num = km > 1 ? km : m;
@@ -27,7 +27,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
   };
 
   const timeString = (time: number) => {
-    if (time < 0) return { stat: "N/A" };
+    if (time < 0) return "N/A";
     const minutes = Math.floor(time / 60);
     const seconds = Math.round((time % 60) * 10) / 10;
     return minutes > 0
@@ -43,12 +43,15 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
       );
       setLeaderboard(
         response.data.data.map((row: any) => ({
-          user: row.user.username,
+          heading: 
+          <div className="rank-box">
+            <div className="rank-number-text">#{row.rank}</div>
+            <div className="user-name-text">{row.user.username}</div>
+          </div>,
           rounds: row.rounds,
           average_score: row.average_score.toFixed(2),
           average_distance: distanceString(row.average_distance),
-          average_time: timeString(row.average_time),
-          rank: row.rank,
+          average_time: timeString(row.average_time)
         }))
       );
       setHasNext(page < response.data.pages);
@@ -58,9 +61,9 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
     }
   };
 
-  const topGame = (rank: number) => {
+  const topGame = (rowNumber: number) => {
     if (!data) return;
-    const row = data.data.find((row: any) => row.rank === rank);
+    const row = data.data[rowNumber];
     router.push(`/map/${mapID}/best?user=${row.user.username}&nmpz=${NMPZ}`);
   }
 
@@ -69,7 +72,6 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
   }, [page, NMPZ]);
 
   const headers = {
-    user: "User",
     average_score: "Avg. Score",
     rounds: "Rounds",
     average_time: "Avg. Time",
@@ -93,6 +95,8 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
         }}
       >{NMPZ ? "Normal" : "NMPZ"} <FaArrowRight className="inline"/> </button>
       <Table
+        rowHeader="heading"
+        className="leaderboard-table"
         headers={headers}
         data={leaderboard}
         onClickRow={topGame}
