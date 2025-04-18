@@ -44,7 +44,7 @@ export default function Summary({
   
   const overallStats = data.find((score:any) => score.user.username === user.username);
   function distanceString(distance: number){
-    if (distance < 0) return "N/A";
+    if (distance === undefined) return "N/A";
     const m = Math.round(distance * 1000);
     const km = Math.round(m / 10) / 100;
     const num = km > 1 ? km : m;
@@ -53,7 +53,7 @@ export default function Summary({
   };
 
   function timeString(time: number){
-    if (time < 0) return "N/A";
+    if (time === undefined) return "Timed Out";
     const minutes = Math.floor(time / 60);
     const seconds = Math.round((time % 60) * 10) / 10;
     return minutes > 0
@@ -176,7 +176,7 @@ export default function Summary({
                         Round {index + 1}
                       </span>
                       <span className="text-dark text-sm">
-                        ⏳ {guess.time ? `${guess.time}s` : "Timed Out"}
+                        ⏳ {guess.time ? timeString(guess.time) : "Timed Out"}
                       </span>
                     </div>
                     <div className="text-right">
@@ -184,10 +184,8 @@ export default function Summary({
                         {guess.score} pts
                       </span>
                       <span className="text-dark text-sm">
-                        {guess.distance && Math.round(guess.distance * 1000) >= 1000 &&
-                          `📍 ${Math.round(guess.distance * 100)/100} km away`}
-                        {guess.distance && Math.round(guess.distance * 1000) < 1000 &&
-                          `📍 ${Math.round(guess.distance * 1000)} m away`}
+                        {guess.distance &&
+                          `📍 ${distanceString(guess.distance)} away`}
                       </span>
                     </div>
                   </a>
