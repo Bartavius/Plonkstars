@@ -1,6 +1,6 @@
 "use client";
 import "./summary.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Table from "../table/table";
 
@@ -100,6 +100,11 @@ export default function Summary({
       setDisplayedLocation([locations[round]]);
     }
   }
+
+  useEffect(() => {
+    setDisplayedGuesses(guesses);
+    setDisplayedLocation(locations);
+  },[leaderboard])
   return (
     <div>
       <div id="map-summary" className="map-container absolute">
