@@ -144,7 +144,7 @@ export default function Summary({
                     Overall Stats
                   </span>
                   <span className="text-dark text-sm">
-                    ⏳ {`${overallStats.time}s`}
+                    ⏳ {timeString(overallStats.time)}
                   </span>
                 </div>
                 <div className="text-right">
@@ -152,10 +152,7 @@ export default function Summary({
                     {overallStats.score} pts
                   </span>
                   <span className="text-dark text-sm">
-                    {overallStats.distance && Math.round(overallStats.distance) >= 1 &&
-                      `📍 ${Math.round(overallStats.distance * 100)/100} km away`}
-                    {overallStats.distance && overallStats.distance < 1 &&
-                      `📍 ${Math.round(overallStats.distance * 1000)} m away`}
+                    {overallStats.distance && `📍 ${distanceString(overallStats.distance)} away`}
                   </span>
                 </div>
               </a>
@@ -184,8 +181,7 @@ export default function Summary({
                         {guess.score} pts
                       </span>
                       <span className="text-dark text-sm">
-                        {guess.distance &&
-                          `📍 ${distanceString(guess.distance)} away`}
+                        {guess.distance && `📍 ${distanceString(guess.distance)} away`}
                       </span>
                     </div>
                   </a>
