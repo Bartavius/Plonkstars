@@ -23,7 +23,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
     const km = Math.round(m / 10) / 100;
     const num = km > 1 ? km : m;
     const unit = km > 1 ? "km" : "m";
-    return { stat: num, unit };
+    return `${num}${unit}`;
   };
 
   const timeString = (time: number) => {
@@ -31,12 +31,9 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
     const minutes = Math.floor(time / 60);
     const seconds = Math.round((time % 60) * 10) / 10;
     return minutes > 0
-      ? {
-          stat: `${minutes.toString().padStart(2, "0")}:${seconds
+      ? `${minutes.toString().padStart(2, "0")}:${seconds
             .toFixed(1)
-            .padStart(4, "0")}`,
-        }
-      : { stat: `${seconds}`, unit: "s" };
+            .padStart(4, "0")}`: `${seconds}s`;
   };
 
   const getLeaderboard = async () => {
@@ -46,11 +43,11 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
       );
       setLeaderboard(
         response.data.data.map((row: any) => ({
-          user: { stat: row.user.username },
-          rounds: { stat: row.rounds },
-          average_score: { stat: row.average_score.toFixed(2) },
-          average_distance: { ...distanceString(row.average_distance) },
-          average_time: { ...timeString(row.average_time) },
+          user: row.user.username,
+          rounds: row.rounds,
+          average_score: row.average_score.toFixed(2),
+          average_distance: distanceString(row.average_distance),
+          average_time: timeString(row.average_time),
           rank: row.rank,
         }))
       );
@@ -63,7 +60,6 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
 
   const topGame = (rank: number) => {
     if (!data) return;
-    console.log(data);
     const row = data.data.find((row: any) => row.rank === rank);
     router.push(`/map/${mapID}/best?user=${row.user.username}&nmpz=${NMPZ}`);
   }
@@ -99,7 +95,6 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
       <Table
         headers={headers}
         data={leaderboard}
-        start={resultsPerPage * (page - 1) + 1}
         onClickRow={topGame}
       />
       <div className="flex justify-between">

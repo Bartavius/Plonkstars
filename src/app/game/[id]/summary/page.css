@@ -54,3 +54,25 @@
   opacity: 1;
   transform: translateX(0);
 }
+
+.button-icon {
+  font-size:1rem;
+  margin-right: 0.5rem;
+}
+
+.leaderboard-button{
+  background-color: rgb(220, 207, 24);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border-radius: 1rem;
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+  
+}

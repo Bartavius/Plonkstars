@@ -38,7 +38,7 @@ export default function MatchPage() {
       try {
         const response = await api.get(`/game/round?id=${id}`);
         const { lat, lng, round, time, time_limit, total, nmpz, map_bounds } = response.data;
-        console.log(response.data);
+        
         setRoundNumber(round);
         setCorrectLat(lat);
         setCorrectLng(lng);

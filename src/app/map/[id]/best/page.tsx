@@ -14,8 +14,6 @@ interface Location {
 export default function SummaryPage() {
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
   const [locations, setLocations] = useState<Location[]>([]);
-  const [guesses, setGuesses] = useState<any[]>([]);
-  const [score, setScore] = useState<any>([]);
   const [data, setData] = useState<any>();
   const [user, setUser] = useState<any>();
   
@@ -40,19 +38,7 @@ export default function SummaryPage() {
     const fetchGuesses = async () => {
       try {
         const res = await api.get(`/map/leaderboard/game?id=${MAPID}${searchParams.get("user")? `&user=${searchParams.get("user")}`:""}${searchParams.get("nmpz") ? `&nmpz=${searchParams.get("nmpz")}` : ""}`);
-        const scores = {
-          score:res.data.score,
-          user:res.data.user,
-          distance:res.data.distance,
-          time:res.data.time
-        };
-
-        const guesses = res.data.guesses.map((round:any) => {
-          return [{...round, user:res.data.user}];
-        });
-
-        setGuesses(guesses);
-        setScore(scores);
+  
         setLocations(res.data.rounds);
         setUser(res.data.user);
         setData(res.data);
@@ -70,7 +56,7 @@ export default function SummaryPage() {
   return (
     <ProtectedRoutes>
       <div className="summary-container">
-        <Summary locations={locations} guesses={guesses} scores={[score]} user={user}>
+        <Summary locations={locations} data={[data]} user={user}>
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
               <button className="btn-selected" onClick={goBack}>

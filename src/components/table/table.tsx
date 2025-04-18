@@ -3,12 +3,10 @@ export default function Table(
     {
         headers,
         data,
-        start = 1,
         onClickRow,
     }:{
         headers: any,
         data: any[],
-        start?: number,
         onClickRow?: (row:number) => void;
     }
 ){
@@ -39,7 +37,7 @@ export default function Table(
                             <td key={colNum}>
                                 <div className="leaderboard-table-cell-wrapper">
                                     <div className="leaderboard-table-cell">
-                                        {row[key].stat}{row[key].unit && <span>{row[key].unit}</span>}
+                                        {row[key]}
                                     </div>
                                 </div>
                             </td>
