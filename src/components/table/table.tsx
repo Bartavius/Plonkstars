@@ -5,11 +5,13 @@ export default function Table(
         rowHeader,
         data,
         onClickRow,
+        onClickHeader,
         className,
     }:{
         headers: any,
         data: any[],
         onClickRow?: (row:number) => void;
+        onClickHeader?: (col:number) => void;
         rowHeader?: string;
         className?: string;
     }
@@ -20,12 +22,12 @@ export default function Table(
         return <div>No data</div>
     }
     return (
-        <table className={`leaderboard-table ${className}`}>
+        <table className={className}>
             <thead>
                 <tr>
                     {rowHeader && <th></th>}
                     {keys.map((key,index) => (
-                        <th key={index}>
+                        <th key={index} onClick={() => onClickHeader && onClickHeader(index)} className={onClickHeader && "dark-hover-button"}>
                             <div className="leaderboard-table-header">
                                 {headers[key]}
                             </div>

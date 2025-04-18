@@ -89,6 +89,17 @@ export default function Summary({
     return map;
   });
 
+  function clickHeader(column: number){
+    const round = column - 1;
+    if(round < 0){
+      setDisplayedGuesses(guesses);
+      setDisplayedLocation(locations);
+    }
+    else{
+      setDisplayedGuesses([guesses[round]]);
+      setDisplayedLocation([locations[round]]);
+    }
+  }
   return (
     <div>
       <div id="map-summary" className="map-container absolute">
@@ -105,7 +116,13 @@ export default function Summary({
       <div className="mx-auto p-6 bg-main-dark shadow-lg rounded-lg">
         {children}
         {leaderboard ? 
-          <Table data={leaderboardHTML} headers={keys} rowHeader="heading" className="table-leaderboard-style"/>
+          <Table 
+            data={leaderboardHTML} 
+            onClickHeader={clickHeader}
+            headers={keys} 
+            rowHeader="heading"
+            className="table-leaderboard-style"
+          />
           :
           <div>
             <div className="mt-5">
