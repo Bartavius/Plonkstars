@@ -4,10 +4,11 @@ import maps from "@/utils/maps";
 import "./page.css";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMapType } from "@/redux/settingsSlice";
 import Popup from "@/components/Popup";
+import api from "@/utils/api";
 
 interface UserIcon {
   hue: number;
@@ -77,6 +78,34 @@ export default function Settings() {
     setMessage("Changes saved!");
     setUpdate(update + 1);
   };
+
+  const saveAvatarChanges = async () => {
+    await api.put("/account/profile/avatar-customize", userIcon);
+    setMessage("Avatar changes saved!");
+  }
+
+  useEffect(() => {
+    const fetchCosmetics = async () => {
+        try {
+            const response = await api.get("/account/profile");
+            const profile = response.data;
+            const data = profile.user_cosmetics
+            setUserIconDefault({
+                hue: data.hue,
+                saturation: data.saturation,
+                brightness: data.brightness,
+            });
+            setUserIcon({
+                hue: data.hue,
+                saturation: data.saturation,
+                brightness: data.brightness,
+            });
+        } catch (error) {
+            console.error("Error fetching user cosmetics:", error);
+        }
+    }
+    fetchCosmetics();
+  }, []);
 
   return (
     <div>
@@ -184,14 +213,7 @@ export default function Settings() {
             </button>
             <button
               className="form-button-selected"
-              onClick={() =>
-                // send the fetch call
-                setUserIcon({
-                  hue: userIconDefault.hue,
-                  saturation: userIconDefault.saturation,
-                  brightness: userIconDefault.brightness,
-                })
-              }
+              onClick={() => saveAvatarChanges()}
             >
               Save Changes
             </button>
