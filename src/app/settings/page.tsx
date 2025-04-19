@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMapType } from "@/redux/settingsSlice";
 import Popup from "@/components/Popup";
 import api from "@/utils/api";
+import AvatarCustom from "./avatar";
 
 interface UserIcon {
   hue: number;
@@ -39,73 +40,13 @@ export default function Settings() {
   const [currentMap, setCurrentMap] = useState<number>(mapNumber);
   const [message, setMessage] = useState<string>();
   const [update, setUpdate] = useState<number>(0);
-  const [userIconDefault, setUserIconDefault] = useState<UserIcon>({
-    // will have to fetch eventually
-    hue: 0,
-    saturation: 150,
-    brightness: 100,
-  });
-  const [userIcon, setUserIcon] = useState<UserIcon>({
-    hue: userIconDefault.hue,
-    saturation: userIconDefault.saturation,
-    brightness: userIconDefault.brightness,
-  });
   const dispatch = useDispatch();
-
-  const handleSliderChange = (property: string, value: number) => {
-    setUserIcon((prev) => ({
-      ...prev,
-      [property]: value,
-    }));
-  };
-
-  const handlePresetClick = (preset: UserIcon) => {
-    setUserIcon({
-      hue: preset.hue,
-      saturation: preset.saturation,
-      brightness: preset.brightness,
-    });
-  };
-
-  const getFilterStyle = () => {
-    return `hue-rotate(${userIcon.hue}deg) 
-            saturate(${userIcon.saturation}%) 
-            brightness(${userIcon.brightness}%)`;
-  };
 
   const saveChanges = () => {
     dispatch(setMapType({ mapNumber: currentMap }));
     setMessage("Changes saved!");
     setUpdate(update + 1);
   };
-
-  const saveAvatarChanges = async () => {
-    await api.put("/account/profile/avatar-customize", userIcon);
-    setMessage("Avatar changes saved!");
-  }
-
-  useEffect(() => {
-    const fetchCosmetics = async () => {
-        try {
-            const response = await api.get("/account/profile");
-            const profile = response.data;
-            const data = profile.user_cosmetics
-            setUserIconDefault({
-                hue: data.hue,
-                saturation: data.saturation,
-                brightness: data.brightness,
-            });
-            setUserIcon({
-                hue: data.hue,
-                saturation: data.saturation,
-                brightness: data.brightness,
-            });
-        } catch (error) {
-            console.error("Error fetching user cosmetics:", error);
-        }
-    }
-    fetchCosmetics();
-  }, []);
 
   return (
     <div>
@@ -115,110 +56,9 @@ export default function Settings() {
         <div id="top" className="settings-header">
           Settings
         </div>
-        <div className="settings-box">
-          <div className="settings-label">Avatar Customization</div>
-          <div className="avatar-customizer-container">
-            <div className="avatar-preview">
-              <img
-                src="/PlonkStarsAvatar.png"
-                alt="avatar-icon-preview"
-                className="avatar-icon"
-                style={{ filter: getFilterStyle() }}
-              />
-            </div>
 
-            {/* Right side: Color adjustment controls */}
-            <div className="color-controls">
-              <div className="text-center">
-                <span className="">Set Colors</span>
-                <div className="text-center justify-center flex">
-                  <div className="color-presets">
-                    {colorPresets.map((preset) => (
-                      <div className="flex-column align-center justify-center">
-                        <label htmlFor={preset.name}>{preset.name}</label>
-                        <div
-                          id={preset.name}
-                          key={preset.name}
-                          className="color-preset justify-center flex"
-                          style={{ backgroundColor: preset.color }}
-                          onClick={() => handlePresetClick(preset)}
-                          title={preset.name}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              {/* Hue adjustment */}
-              <div className="control-group">
-                <label>Hue</label>
-                <input
-                  type="range"
-                  min="0"
-                  max={`${MAX_HUE}`}
-                  value={userIcon.hue}
-                  className="slider hue-slider"
-                  onChange={(e) =>
-                    handleSliderChange("hue", parseInt(e.target.value))
-                  }
-                />
-                <span className="value-display">{userIcon.hue}°</span>
-              </div>
-
-              {/* Saturation adjustment */}
-              <div className="control-group">
-                <label>Saturation</label>
-                <input
-                  type="range"
-                  min="0"
-                  max={`${MAX_SATURATION}`}
-                  value={userIcon.saturation}
-                  className="slider saturation-slider"
-                  onChange={(e) =>
-                    handleSliderChange("saturation", parseInt(e.target.value))
-                  }
-                />
-                <span className="value-display">{userIcon.saturation}%</span>
-              </div>
-
-              {/* Brightness adjustment */}
-              <div className="control-group">
-                <label>Brightness</label>
-                <input
-                  type="range"
-                  min="0"
-                  max={`${MAX_BRIGHTNESS}`}
-                  value={userIcon.brightness}
-                  className="slider brightness-slider"
-                  onChange={(e) =>
-                    handleSliderChange("brightness", parseInt(e.target.value))
-                  }
-                />
-                <span className="value-display">{userIcon.brightness}%</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <button
-              className="form-button-general mr-3"
-              onClick={() =>
-                setUserIcon({
-                  hue: userIconDefault.hue,
-                  saturation: userIconDefault.saturation,
-                  brightness: userIconDefault.brightness,
-                })
-              }
-            >
-              Reset
-            </button>
-            <button
-              className="form-button-selected"
-              onClick={() => saveAvatarChanges()}
-            >
-              Save Changes
-            </button>
-          </div>
-        </div>
+        <AvatarCustom setMessage={setMessage} />
+        
         <div className="settings-box">
           <div className="settings-label">Map Type</div>
           <div className="settings-dropdown">
