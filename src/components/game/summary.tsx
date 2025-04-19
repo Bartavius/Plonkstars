@@ -38,6 +38,7 @@ export default function Summary({
 
   const [displayedLocation, setDisplayedLocation] = useState<Location[]>(locations);
   const [displayedGuesses, setDisplayedGuesses] = useState(guesses);
+  const [highlighted, setHighlighted] = useState<number>(0);
   const router = useRouter();
 
   const userStats = guesses.map((round) => {
@@ -73,11 +74,12 @@ export default function Summary({
       </div>
     );
   }
-  const keys: Record<string, any> = {total: "Total"};
+
+  const keys: Record<string, any> = {total: <div className={highlighted === 0?"text-white":""}>Total</div>};
   const leaderboardHTML = leaderboard && data.map((scores:any, index:number) => {
     const map = scores.guesses.reduce((acc: any,guess: any,index: number) => {
       acc[`Round ${index + 1}`] = formatGuess(guess);
-      keys[`Round ${index + 1}`] = `Round ${index + 1}`;
+      keys[`Round ${index + 1}`] = <div className={highlighted === index + 1?"text-white":""}>Round {index + 1}</div>;
       return acc;
     }, {} as Record<string, any>);
     const rank = scores.rank? scores.rank : index + 1;
@@ -95,6 +97,7 @@ export default function Summary({
   });
 
   function clickHeader(column: number){
+    setHighlighted(column);
     const round = column - 1;
     router.push("#map-summary");
     if(round < 0){
