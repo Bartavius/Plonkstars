@@ -85,7 +85,7 @@ export default function BasicMapWithMarker({
         {getTileLayer()}
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
-          <MapIcon pos={markerPosition} customAvatar={userIcon} iconUrl="/PlonkStarsAvatar.png" iconPercent={.30}/>
+          <MapIcon pos={markerPosition} customAvatar={userIcon} iconUrl="/PlonkStarsAvatar.svg" iconPercent={0.1}/>
         )}
         <FitBounds locations={[mapBounds.start,mapBounds.end]} summary={false}/>
       </MapContainer>
