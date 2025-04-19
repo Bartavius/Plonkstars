@@ -62,6 +62,13 @@
     height: auto !important;
     padding: 2px!important;
 }
+
+.transparent-icon {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
 @media (max-width: 720px) {
     .map-result-container {
         top: -5vh;
