@@ -90,7 +90,7 @@ export default function Summary({
     map.total = formatGuess(scores);
     map.heading = (
       <div className="rank-box">
-        <div className="rank-number-text">#{rank}</div>
+        <div className="rank-number-text">#{rank}<img src="/PlonkStarsAvatar.svg" style={{filter: `hue-rotate(${scores.user.user_cosmetics.hue}deg) saturate(${scores.user.user_cosmetics.saturation}%) brightness(${scores.user.user_cosmetics.brightness}%)`}} alt="" /></div>
         <div className="user-name-text">{scores.user.username}</div>
       </div>
     );

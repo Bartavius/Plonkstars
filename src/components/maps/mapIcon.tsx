@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { cache, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Marker } from "react-leaflet";
 
 interface Location {
