@@ -88,7 +88,7 @@ const Login: React.FC = () => {
                     {error}
                 </motion.div>
             )}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 flex flex-col justify-center">
                 <div>
                     <label htmlFor="username" className={`block ${sigmar.className} text-white`}></label>
                     <input
@@ -113,7 +113,7 @@ const Login: React.FC = () => {
                 </div>
                 <div className={`${sigmar.className} text-white`}>
                     To create an account: <a href="/account/register" className='link'>Register here</a>
-                </div>
+                </div>       
                 <button
                     type="submit"
                     disabled={!buttonEnabled}

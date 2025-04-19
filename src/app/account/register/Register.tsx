@@ -58,7 +58,7 @@ const Register = () => {
                         {error}
                     </motion.div>
                 )}
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 flex flex-col justify-center">
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium text-gray-700"></label>
                         <input
