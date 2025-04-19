@@ -6,37 +6,196 @@
   height: 100%;
 }
 
+.settings-label {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
 .settings-header {
-    font-size: 2rem;
-    font-weight: 700;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 .settings-box {
-    margin: 1rem;
-    width: 80%;
-    padding: 1rem;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--dark-blue);
-    border-color: white;
-    border-width: 2px;
+  margin: 1rem;
+  width: 80%;
+  padding: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dark-blue);
+  border-color: white;
+  border-width: 2px;
 }
 
 .settings-dropdown {
-    width: 100%;
-    color: var(--darkest-blue);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  color: var(--darkest-blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .leaflet-map {
-    z-index: 0;
-    margin-top: 1rem;
+  z-index: 0;
+  margin-top: 1rem;
+  width: 100%;
+  height: 50vh;
+}
+
+.avatar-customizer-container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+  width: 100%;
+}
+
+/* Left side - Avatar preview */
+.avatar-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  width: 50%;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: 1;
+}
+
+/* Avatar image */
+.avatar-icon {
+  max-width: 100%;
+  width: 50%;
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+/* Right side - Controls */
+.color-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.control-group label {
+  width: 80px;
+  font-weight: 500;
+  color: #555;
+}
+
+.slider {
+  flex-grow: 1;
+  height: 40px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd;
+  outline: none;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Custom styling for each slider */
+.hue-slider {
+  background: linear-gradient(
+    to right,
+    #dd8600,
+    #00bc43,
+    #339cff,
+    #ff5fd6,
+    #dd8600
+  );
+}
+
+.saturation-slider {
+  background: linear-gradient(to right, gray, #0099ff);
+}
+
+.brightness-slider {
+  background: linear-gradient(to right, black, white);
+}
+
+/* Slider thumb styles */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 50px;
+  border-radius: 20px;
+  background: white;
+  border: 2px solid #0099ff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: white;
+  border: 2px solid #0099ff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+}
+
+.value-display {
+  min-width: 40px;
+  text-align: right;
+  color: #666;
+  font-size: 14px;
+}
+
+.reset-button {
+  margin-top: 16px;
+  align-self: flex-start;
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #555;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-button:hover {
+  background-color: #e0e0e0;
+}
+
+@media (max-width: 600px) {
+  .avatar-customizer-container {
+    flex-direction: column;
+  }
+
+  .avatar-icon {
     width: 100%;
-    height: 50vh;
+    height: auto;
+  }
+
+  .avatar-preview {
+    margin-bottom: 50px;
+    margin-top: 70px;
+  }
 }

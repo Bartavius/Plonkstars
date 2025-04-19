@@ -53,10 +53,10 @@ export default function BasicMapResult({
     dashArray: "5, 15",
   };
   
-  const createColorIcon = (rotation?: number, saturation?: number, brightness?: number) => {
+  const createColorIcon = (hue?: number, saturation?: number, brightness?: number) => {
     return L.divIcon({
       className: "transparent-icon",
-      html: `<img src="/PlonkStarsAvatar.svg" style="filter: hue-rotate(${rotation ?? 0}deg) saturate(${saturation ?? 100}%) brightness(${brightness ?? 100}%) ;" alt="" />`,
+      html: `<img src="/PlonkStarsAvatar.svg" style="filter: hue-rotate(${hue ?? 0}deg) saturate(${saturation ?? 100}%) brightness(${brightness ?? 100}%) ;" alt="" />`,
       iconSize: [32, 32],
       iconAnchor: [16, 32],
     });
