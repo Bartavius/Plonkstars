@@ -3,6 +3,7 @@ import "./summary.css";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Table from "../table/table";
+import {useRouter} from "next/navigation";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -37,6 +38,7 @@ export default function Summary({
 
   const [displayedLocation, setDisplayedLocation] = useState<Location[]>(locations);
   const [displayedGuesses, setDisplayedGuesses] = useState(guesses);
+  const router = useRouter();
 
   const userStats = guesses.map((round) => {
     return round.find((guess:any) => guess.user.username === user.username);
@@ -72,7 +74,7 @@ export default function Summary({
     );
   }
   const keys: Record<string, any> = {total: "Total"};
-  const leaderboardHTML = data.map((scores:any, index:number) => {
+  const leaderboardHTML = leaderboard && data.map((scores:any, index:number) => {
     const map = scores.guesses.reduce((acc: any,guess: any,index: number) => {
       acc[`Round ${index + 1}`] = formatGuess(guess);
       keys[`Round ${index + 1}`] = `Round ${index + 1}`;
@@ -91,6 +93,7 @@ export default function Summary({
 
   function clickHeader(column: number){
     const round = column - 1;
+    router.push("#map-summary");
     if(round < 0){
       setDisplayedGuesses(guesses);
       setDisplayedLocation(locations);
