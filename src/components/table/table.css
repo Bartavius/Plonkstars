@@ -22,7 +22,7 @@
 
 .leaderboard-table-position{
     display: flex;
-    justify-content: right;
+    justify-content: left;
     align-items: center;
     font-size: 1.5rem;
     padding-right: 0.5rem;
@@ -34,41 +34,4 @@
 
 .leaderboard-table-header{
     font-size: 1.5rem;
-}
-
-.nmpz-toggle-btn {
-    padding: 5px 15px;
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--plonk-stars-white);
-    background-color: var(--darker-blue);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    float: right;
-}
-
-.nmpz-toggle-btn:hover {
-    background-color: var(--darkest-blue);
-}
-
-.nmpz-toggle-btn:active {
-    background-color: var(--pastel-dark-blue);
-    transform: scale(0.95);
-}
-
-.nmpz-toggle-btn.toggled {
-    color: var(--darker-blue);
-    background-color: var(--plonk-stars-white);
-}
-
-.nmpz-toggle-btn.toggled:hover {
-    filter: brightness(90%);
-}
-
-.nmpz-toggle-btn.toggled:active {
-    filter: brightness(80%);
-    transform: scale(0.95);
 }
