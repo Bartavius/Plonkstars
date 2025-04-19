@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Table from "../table/table";
 import {useRouter} from "next/navigation";
+import { u } from "framer-motion/client";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -42,6 +43,9 @@ export default function Summary({
   const router = useRouter();
 
   const userStats = guesses.map((round) => {
+    return round.find((guess:any) => guess.user.username === user.username);
+  });
+  const userDisplay = displayedGuesses.map((round) => {
     return round.find((guess:any) => guess.user.username === user.username);
   });
   
@@ -121,7 +125,7 @@ export default function Summary({
           markers={displayedLocation.map((location, index) => {
             return {
               correct: location,
-              users: leaderboard? displayedGuesses[index]: [userStats[index]],
+              users: leaderboard? displayedGuesses[index]: [userDisplay[index]],
             };
           })}
           height={mapHeight}
