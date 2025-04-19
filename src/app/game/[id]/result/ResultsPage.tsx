@@ -90,7 +90,7 @@ export default function Results() {
         <div>
           <BasicMapResult
             markers={[{
-              users: data.users.map((user:any) => user.guess),
+              users: data.users.map((user: any) => ({ ...user.guess, user: user.user })),
               correct: data.correct
             }]}
           />
