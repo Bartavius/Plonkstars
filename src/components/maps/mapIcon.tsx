@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { useEffect, useState } from "react";
+import { cache, useEffect, useState } from "react";
 import { Marker } from "react-leaflet";
 
 interface Location {
@@ -7,7 +7,7 @@ interface Location {
   lng: number;
 }
 
-const iconCache: { [key: string]: L.Icon } = {};
+const iconCache: { [key: string]: L.Icon | L.DivIcon } = {};
 
 export default function MapIcon({
   pos,
@@ -24,16 +24,22 @@ export default function MapIcon({
   iconUrl: string;
   iconSize?: [number, number];
   iconPercent?: number;
-  customAvatar?: { hue?: number; saturation?: number; brightness?: number };
+  customAvatar?: { hue: number; saturation: number; brightness: number };
 }) {
-  const [icon, setIcon] = useState<L.Icon | null>(null);
-
+  const [icon, setIcon] = useState<L.Icon | L.DivIcon | null>(null);
   useEffect(() => {
-    const cacheKey = JSON.stringify({ iconUrl, iconSize, iconPercent });
+    const cacheKey = JSON.stringify({
+      iconUrl,
+      size: iconSize?.join("x") ?? iconPercent ?? "default",
+      hue: customAvatar?.hue ?? 0,
+      sat: customAvatar?.saturation ?? 100,
+      bright: customAvatar?.brightness ?? 100,
+    });
     if (iconCache[cacheKey]) {
       setIcon(iconCache[cacheKey]);
       return;
     }
+    console.log(cacheKey);
 
     const img = new Image();
     img.src = iconUrl;
@@ -45,48 +51,44 @@ export default function MapIcon({
         ? [img.width * iconPercent, img.height * iconPercent]
         : [img.width, img.height];
 
-      const newIcon = L.icon({
-        iconUrl: iconUrl,
-        iconSize: calculatedSize,
-        iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
-      });
-      iconCache[cacheKey] = newIcon;
-      iconCache[iconUrl] = newIcon;
-      setIcon(newIcon);
+      if(!customAvatar){
+        const newIcon = L.icon({
+          iconUrl: iconUrl,
+          iconSize: calculatedSize,
+          iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
+        });
+        iconCache[cacheKey] = newIcon;
+        iconCache[iconUrl] = newIcon;
+        setIcon(newIcon);
+      }else{
+        const newIcon = createColorIcon(
+          calculatedSize,
+          customAvatar.hue,
+          customAvatar.saturation,
+          customAvatar.brightness,
+        );
+        iconCache[cacheKey] = newIcon;
+        iconCache[iconUrl] = newIcon;
+        setIcon(newIcon);
+      };
     };
-  }, [iconUrl, iconSize, iconPercent]);
+  }, [iconUrl, iconSize, iconPercent, customAvatar]);
 
   const createColorIcon = (
-    hue?: number,
-    saturation?: number,
-    brightness?: number
+    calculatedSize: [number, number],
+    hue: number,
+    saturation: number,
+    brightness: number
   ) => {
     return L.divIcon({
       className: "transparent-icon",
-      html: `<img src="/PlonkStarsAvatar.svg" style="filter: hue-rotate(${
-        hue ?? 0
-      }deg) saturate(${saturation ?? 150}%) brightness(${
-        brightness ?? 100
-      }%) ;" alt="" />`,
-      iconSize: [32 * (iconPercent ?? 1), 32 * (iconPercent ?? 1)],
-      iconAnchor: [17 * (iconPercent ?? 1), 45 * (iconPercent ?? 1)],
+      html: `<img src=${iconUrl} style="filter: hue-rotate(${hue}deg) saturate(${saturation}%) brightness(${brightness}%) ;" alt="" />`,
+      iconSize: calculatedSize,
+      iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
     });
   };
 
   if (!icon) return null;
-  if (
-    customAvatar?.hue &&
-    customAvatar?.saturation &&
-    customAvatar?.brightness
-  ) {
-    const { hue, saturation, brightness } = customAvatar;
-    return (
-      <Marker
-        position={pos}
-        icon={createColorIcon(hue, saturation, brightness)}
-      />
-    );
-  }
   return (
     <Marker
       icon={icon}
