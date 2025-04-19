@@ -36,7 +36,7 @@ export default function MatchPage() {
     const fetchLocation = async (id: string) => {
       setLoading(true);
       try {
-        const response = await api.get(`/game/round?id=${id}`);
+        const response = await api.post(`/game/round?`,{id});
         const { lat, lng, round, time, time_limit, total, nmpz, map_bounds } = response.data;
         
         setRoundNumber(round);
