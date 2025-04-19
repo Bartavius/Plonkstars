@@ -7,6 +7,8 @@ import Loading from "@/components/loading";
 import api from "@/utils/api";
 import { FaArrowRight } from "react-icons/fa";
 
+import "./page.css";
+
 export default function MapLeaderboard({ mapID }: { mapID: string }) {
   const [leaderboard, setLeaderboard] = useState<any[]>();
   const [page, setPage] = useState<number>(1);
@@ -38,8 +40,10 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
 
   const getLeaderboard = async () => {
     try {
+      const user = await api.get("/account/profile");
+
       const response = await api.get(
-        `/map/leaderboard?id=${mapID}&per_page=20&page=${page}&nmpz=${NMPZ}`
+        `/map/leaderboard?id=${mapID}&per_page=${resultsPerPage}&page=${page}&nmpz=${NMPZ}`
       );
       setLeaderboard(
         response.data.data.map((row: any) => ({
@@ -51,13 +55,14 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
           rounds: row.rounds,
           average_score: row.average_score.toFixed(2),
           average_distance: distanceString(row.average_distance),
-          average_time: timeString(row.average_time)
+          average_time: timeString(row.average_time),
+          style: row.user.username === user.data.username ? "highlight-self-row" : "",
         }))
       );
       setHasNext(page < response.data.pages);
       setData(response.data);
     } catch (error) {
-      router.push("/maps");
+      router.push("/map");
     }
   };
 
@@ -71,6 +76,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
     getLeaderboard();
   }, [page, NMPZ]);
 
+  console.log(leaderboard);
   const headers = {
     average_score: "Avg. Score",
     rounds: "Rounds",

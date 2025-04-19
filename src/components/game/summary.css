@@ -69,3 +69,7 @@ body {
   font-size: 0.75rem;
   color: gray;
 }
+
+.highlight-self-row{
+  background-color: var(--dark-blue);
+}

@@ -37,7 +37,7 @@ export default function Table(
             </thead>
             <tbody>
                 {data.map((row,rowNum) => (
-                    <tr key={rowNum} onClick = {() => onClickRow && onClickRow(rowNum)} className={onClickRow && "dark-hover-button"}>
+                    <tr key={rowNum} onClick = {() => onClickRow && onClickRow(rowNum)} className={`${onClickRow && "dark-hover-button"} ${row.style}`}>
                         {rowHeader && <th><div className="leaderboard-table-position">{row[rowHeader]}</div></th>}
                         {keys.map((key,colNum) => (
                             <td key={colNum}>

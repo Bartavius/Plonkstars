@@ -48,3 +48,7 @@
     column-width: 10%;
     color: white;
 }
+
+.highlight-self-row{
+    background-color: var(--theme-blue);
+}

@@ -88,6 +88,9 @@ export default function Summary({
         <div className="user-name-text">{scores.user.username}</div>
       </div>
     );
+    if (scores.user.username === user.username){
+      map.style = "highlight-self-row";
+    }
     return map;
   });
 
