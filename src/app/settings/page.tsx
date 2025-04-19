@@ -102,7 +102,7 @@ export default function Settings() {
             <div className="color-controls">
               <div className="text-center">
                 <span className="">Set Colors</span>
-                <div className="border border-4 text-center justify-center flex">
+                <div className="text-center justify-center flex">
                   <div className="color-presets">
                     {colorPresets.map((preset) => (
                       <div className="flex-column align-center justify-center">
