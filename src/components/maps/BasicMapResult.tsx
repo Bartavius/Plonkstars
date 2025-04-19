@@ -1,11 +1,13 @@
 "use client";
 
-import { MapContainer, Polyline } from "react-leaflet";
+import { MapContainer, Marker, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import MapIcon from "./mapIcon";
 import getTileLayer from "@/utils/leaflet";
 import FitBounds from "./FitBounds";
+import L from "leaflet";
+import { filter } from "framer-motion/client";
 
 interface GuessPair {
   users: { lat: number|undefined; lng: number|undefined }[];
@@ -50,6 +52,15 @@ export default function BasicMapResult({
     opacity: 1,
     dashArray: "5, 15",
   };
+  
+  const createColorIcon = (rotation?: number, saturation?: number, brightness?: number) => {
+    return L.divIcon({
+      className: "transparent-icon",
+      html: `<img src="/PlonkStarsAvatar.svg" style="filter: hue-rotate(${rotation ?? 0}deg) saturate(${saturation ?? 100}%) brightness(${brightness ?? 100}%) ;" alt="" />`,
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+    });
+  }
 
   return (
     <div
@@ -78,10 +89,10 @@ export default function BasicMapResult({
               <div key={userIndex}>
                 {user && user.lat && user.lng && (
                   <>
-                    <MapIcon
-                      pos={{ lat: user.lat, lng: user.lng }}
-                      iconUrl="/PlonkStarsAvatar.png"
-                    />
+                    <Marker
+                      position={{ lat: user.lat, lng: user.lng }}
+                      icon={createColorIcon(0, 100, 100)}
+                      />
                     <div>
                       <Polyline
                         interactive={false}
