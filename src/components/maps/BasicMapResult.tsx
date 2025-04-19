@@ -7,11 +7,18 @@ import MapIcon from "./mapIcon";
 import getTileLayer from "@/utils/leaflet";
 import FitBounds from "./FitBounds";
 import L from "leaflet";
-import { filter } from "framer-motion/client";
+import { useEffect, useState } from "react";
+import api from "@/utils/api";
 
 interface GuessPair {
   users: { lat: number|undefined; lng: number|undefined }[];
   correct: { lat: number; lng: number };
+}
+
+interface UserIcon {
+  hue: number;
+  saturation: number;
+  brightness: number;
 }
 
 export default function BasicMapResult({
@@ -41,6 +48,7 @@ export default function BasicMapResult({
   });
 
   const locations = boundedMarkers.map((marker) => [marker.correct, ...marker.users]).flat();
+  
 
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;
@@ -53,14 +61,16 @@ export default function BasicMapResult({
     dashArray: "5, 15",
   };
   
-  const createColorIcon = (hue?: number, saturation?: number, brightness?: number) => {
-    return L.divIcon({
-      className: "transparent-icon",
-      html: `<img src="/PlonkStarsAvatar.svg" style="filter: hue-rotate(${hue ?? 0}deg) saturate(${saturation ?? 100}%) brightness(${brightness ?? 100}%) ;" alt="" />`,
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
-    });
-  }
+  const [userIcon, setUserIcon] = useState<UserIcon>({hue: 0, saturation: 150, brightness: 100});
+
+  useEffect(() => {
+      const fetchAvatar = async () => {
+        const response = await api.get("/account/profile");
+        const cosmetics = response.data.user_cosmetics;
+        setUserIcon(cosmetics);
+      }
+      fetchAvatar();
+  }, [])
 
   return (
     <div
@@ -89,9 +99,10 @@ export default function BasicMapResult({
               <div key={userIndex}>
                 {user && user.lat && user.lng && (
                   <>
-                    <Marker
-                      position={{ lat: user.lat, lng: user.lng }}
-                      icon={createColorIcon(0, 100, 100)}
+                    <MapIcon
+                      pos={{ lat: user.lat, lng: user.lng }}
+                      customAvatar={userIcon}
+                      iconUrl="/PlonkStarsAvatar.png"
                       />
                     <div>
                       <Polyline

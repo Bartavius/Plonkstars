@@ -1,13 +1,20 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapContainer, useMapEvents } from "react-leaflet";
-import { LatLngLiteral } from "leaflet";
+import L, { LatLngLiteral } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import getTileLayer from "@/utils/leaflet";
 import MapIcon from "./mapIcon";
 import FitBounds from "./FitBounds";
+import api from "@/utils/api";
+
+interface UserIcon {
+  hue: number;
+  saturation: number;
+  brightness: number;
+}
 
 
 export default function BasicMapWithMarker({
@@ -53,6 +60,16 @@ export default function BasicMapWithMarker({
     }, 1000);
   };
 
+  const [userIcon, setUserIcon] = useState<UserIcon>({hue: 0, saturation: 150, brightness: 100});
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      const response = await api.get("/account/profile");
+      const cosmetics = response.data.user_cosmetics;
+      setUserIcon(cosmetics);
+    }
+    fetchAvatar();
+}, [])
+
   return (
     <div
       className={`leaflet-container-wrapper ${isHovered ? "hovered" : ""}`}
@@ -68,7 +85,7 @@ export default function BasicMapWithMarker({
         {getTileLayer()}
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
-          <MapIcon pos={markerPosition} iconUrl="/PlonkStarsAvatar.png" iconPercent={.5}/>
+          <MapIcon pos={markerPosition} customAvatar={userIcon} iconUrl="/PlonkStarsAvatar.png" iconPercent={.30}/>
         )}
         <FitBounds locations={[mapBounds.start,mapBounds.end]} summary={false}/>
       </MapContainer>
