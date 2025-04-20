@@ -7,6 +7,8 @@ import api from "@/utils/api";
 import "@/app/game.css";
 import GamePanel from "@/components/game/GamePanel";
 import Loading from "@/components/loading";
+import ScoreAccordion from "./ScoreAccordian";
+import { FaMedal } from "react-icons/fa";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -26,6 +28,7 @@ export default function Results() {
 
   const [data,setData] = useState<any>();
   const [error, setError] = useState<string | undefined>(undefined);
+  const [open, setOpen] = useState(false);
 
   const nextGame = () => {
     router.push(`/game/${matchId}`);
@@ -83,7 +86,7 @@ export default function Results() {
         time={null}
         timeLimit={null}
         timeoutFunction={null}
-        totalScore={thisUser.total_score}
+        totalScore={thisUser.score}
         roundNumber={roundNumber}
       />
       <div className="map-result-container min-h-[90vh] min-w-full">
@@ -99,7 +102,11 @@ export default function Results() {
       </div>
       <div className="game-footer w-full">
         <div className="grid grid-cols-3 gap-4 w-full">
-          <div className="flex justify-end items-center">
+          <div className="flex justify-between items-center">
+            <ScoreAccordion open={open} guesses={data.users} className="absolute" user={data.this_user}/>
+            <button className="accordion-toggle" onClick={() => setOpen(!open)}>
+              <FaMedal/>{open ? 'Hide' : 'Show'} Scores
+            </button>
             <div className="text-center">
               <div>
                 <b className="text-2xl">{thisUser.guess.score}</b>

@@ -43,7 +43,6 @@ export default function MapIcon({
       setIcon(iconCache[cacheKey]);
       return;
     }
-    console.log(cacheKey);
 
     const img = new Image();
     img.src = iconUrl;

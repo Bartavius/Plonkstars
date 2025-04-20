@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Table from "../table/table";
 import {useRouter} from "next/navigation";
-import { u } from "framer-motion/client";
+import ScoreBox from "./ScoreBox";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -69,25 +69,15 @@ export default function Summary({
             .padStart(4, "0")}`: `${seconds}s`;
   };
 
-  function formatGuess(data:any){
-    return (
-      <div className="summary-score-box">
-        <div className="summary-score-text">{data.score}</div>
-        <div className="summary-other-stats">{distanceString(data.distance)}</div>
-        <div className="summary-other-stats">{timeString(data.time)}</div>
-      </div>
-    );
-  }
-
   const keys: Record<string, any> = {total: <div className={highlighted === 0?"text-white":""}>Total</div>};
   const leaderboardHTML = leaderboard && data.map((scores:any, index:number) => {
     const map = scores.guesses.reduce((acc: any,guess: any,index: number) => {
-      acc[`Round ${index + 1}`] = formatGuess(guess);
+      acc[`Round ${index + 1}`] = <ScoreBox data={guess}/>;
       keys[`Round ${index + 1}`] = <div className={highlighted === index + 1?"text-white":""}>Round {index + 1}</div>;
       return acc;
     }, {} as Record<string, any>);
     const rank = scores.rank? scores.rank : index + 1;
-    map.total = formatGuess(scores);
+    map.total = <ScoreBox data={scores}/>;
     map.heading = (
       <div className="rank-box">
         <div className="rank-number-text">#{rank}<img src="/PlonkStarsAvatar.svg" style={{filter: `hue-rotate(${scores.user.user_cosmetics.hue}deg) saturate(${scores.user.user_cosmetics.saturation}%) brightness(${scores.user.user_cosmetics.brightness}%)`}} alt="" /></div>
