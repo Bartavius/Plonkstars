@@ -39,7 +39,7 @@ export default function challengePage() {
     if (!data){
         return <Loading/>
     }
-    const host = data.user;
+    const host = data.host;
     const rules = data.rules;
     const map = data.map;
 
