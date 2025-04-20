@@ -2,15 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MapContainer, useMapEvents } from "react-leaflet";
-import L, { LatLngLiteral } from "leaflet";
+import { LatLngLiteral } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import getTileLayer from "@/utils/leaflet";
 import MapIcon from "./mapIcon";
 import FitBounds from "./FitBounds";
 import api from "@/utils/api";
-import { Underdog } from "next/font/google";
-import { s } from "framer-motion/client";
 
 export default function BasicMapWithMarker({
   setLat,

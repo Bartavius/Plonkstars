@@ -93,6 +93,7 @@ export default function Results() {
               users: data.users.map((user: any) => ({ ...user.guess, user: user.user })),
               correct: data.correct
             }]}
+            user={data.this_user}
           />
         </div>
       </div>

@@ -19,9 +19,11 @@ interface UserIcon {
 export default function BasicMapResult({
   markers,
   height,
+  user,
 }: {
   markers: any;
   height?: number;
+  user?:any;
 }){
   const boundedMarkers = markers.map((marker:any) => {
     const newUsers = marker.users.map(
@@ -42,7 +44,7 @@ export default function BasicMapResult({
     return { ...marker, users: newUsers };
   });
 
-  const locations = boundedMarkers.map((marker:any) => [marker.correct, ...marker.users]).flat();
+  const locations = boundedMarkers.map((marker:any) => [marker.correct, ...marker.users.filter((guess:any)=> (!user || guess.user.username === user.username))]).flat();
 
   const ZOOM_DELTA = 2;
   const PX_PER_ZOOM_LEVEL = 2;
