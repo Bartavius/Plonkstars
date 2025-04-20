@@ -2,6 +2,8 @@ import L from "leaflet";
 import { useEffect, useState } from "react";
 import { Marker } from "react-leaflet";
 
+import "./mapIcon.css";
+
 interface Location {
   lat: number;
   lng: number;
@@ -16,7 +18,8 @@ export default function MapIcon({
   iconUrl,
   iconSize,
   iconPercent,
-  customAvatar,
+  recolor,
+  children,
 }: {
   pos: Location;
   clickable?: boolean;
@@ -24,16 +27,17 @@ export default function MapIcon({
   iconUrl: string;
   iconSize?: [number, number];
   iconPercent?: number;
-  customAvatar?: { hue: number; saturation: number; brightness: number };
+  recolor?: { hue: number; saturation: number; brightness: number };
+  children?: React.ReactNode;
 }) {
   const [icon, setIcon] = useState<L.Icon | L.DivIcon | null>(null);
   useEffect(() => {
     const cacheKey = JSON.stringify({
       iconUrl,
       size: iconSize?.join("x") ?? iconPercent ?? "default",
-      hue: customAvatar?.hue ?? 0,
-      sat: customAvatar?.saturation ?? 100,
-      bright: customAvatar?.brightness ?? 100,
+      hue: recolor?.hue ?? 0,
+      sat: recolor?.saturation ?? 100,
+      bright: recolor?.brightness ?? 100,
     });
     if (iconCache[cacheKey]) {
       setIcon(iconCache[cacheKey]);
@@ -51,8 +55,9 @@ export default function MapIcon({
         ? [img.width * iconPercent, img.height * iconPercent]
         : [img.width, img.height];
 
-      if(!customAvatar){
+      if(!recolor){
         const newIcon = L.icon({
+          className: clickable ? "clickable-icon":"non-clickable-icon",
           iconUrl: iconUrl,
           iconSize: calculatedSize,
           iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
@@ -63,16 +68,16 @@ export default function MapIcon({
       }else{
         const newIcon = createColorIcon(
           calculatedSize,
-          customAvatar.hue,
-          customAvatar.saturation,
-          customAvatar.brightness,
+          recolor.hue,
+          recolor.saturation,
+          recolor.brightness,
         );
         iconCache[cacheKey] = newIcon;
         iconCache[iconUrl] = newIcon;
         setIcon(newIcon);
       };
     };
-  }, [iconUrl, iconSize, iconPercent, customAvatar]);
+  }, [iconUrl, iconSize, iconPercent, recolor]);
 
   const createColorIcon = (
     calculatedSize: [number, number],
@@ -81,7 +86,7 @@ export default function MapIcon({
     brightness: number
   ) => {
     return L.divIcon({
-      className: "transparent-icon",
+      className: clickable ? "clickable-icon":"non-clickable-icon",
       html: `<img src=${iconUrl} style="filter: hue-rotate(${hue}deg) saturate(${saturation}%) brightness(${brightness}%) ;" alt="" />`,
       iconSize: calculatedSize,
       iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
@@ -106,9 +111,9 @@ export default function MapIcon({
                   },
             }
           : {}
-      }
-      interactive={clickable}
-    />
+        }
+    >
+      {children}
+    </Marker>
   );
 }
-

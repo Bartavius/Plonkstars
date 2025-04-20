@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, Marker, Polyline } from "react-leaflet";
+import { MapContainer, Marker, Polyline, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import MapIcon from "./mapIcon";
@@ -84,10 +84,14 @@ export default function BasicMapResult({
                   <>
                     <MapIcon
                       pos={{ lat: user.lat, lng: user.lng }}
-                      customAvatar={user.user.user_cosmetics}
+                      recolor={user.user.user_cosmetics}
                       iconUrl="/PlonkStarsAvatar.svg"
                       iconPercent={0.2}
-                      />
+                    >
+                      <Tooltip direction="top" offset={[0, -30]}>
+                        {user.user.username}
+                      </Tooltip>
+                    </MapIcon>
                     <div>
                       <Polyline
                         interactive={false}

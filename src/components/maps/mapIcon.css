@@ -1,0 +1,7 @@
+.clickable-icon {
+  cursor: pointer;
+}
+
+.non-clickable-icon {
+  cursor: default;
+}
