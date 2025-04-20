@@ -25,7 +25,7 @@ export default function NavBar() {
       { tab: "Game", link: "/game" },
       { tab: "Maps", link: "/map" },
       { tab: "Contacts", link: "/#contact" },
-      { tab: "settings", link: "/settings" },
+      { tab: "Customizations", link: "/customize" },
       { tab: "Logout", link: "/account/logout" },
     ];
     unregisteredTabs = [
