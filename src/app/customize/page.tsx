@@ -29,7 +29,7 @@ export default function Settings() {
       <Popup message={message} update={update} />
       <div className="settings-wrapper">
         <div id="top" className="settings-header">
-          Settings
+          Customizations
         </div>
 
         <AvatarCustom setMessage={setMessage} />
