@@ -70,6 +70,6 @@ body {
   color: gray;
 }
 
-.highlight-self-row{
+.summary-highlight-self-row{
   background-color: var(--dark-blue);
 }

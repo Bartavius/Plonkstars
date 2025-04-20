@@ -26,12 +26,12 @@ export default function ScoreAccordion({
             total: <ScoreBox data={guess}/>,
             guess: <ScoreBox data={guess.guess}/>,
             heading: (
-                <div className="rank-box">
-                  <div className="rank-number-text">#{guess.rank}<img src="/PlonkStarsAvatar.svg" style={{filter: `hue-rotate(${guess.user.user_cosmetics.hue}deg) saturate(${guess.user.user_cosmetics.saturation}%) brightness(${guess.user.user_cosmetics.brightness}%)`}} alt="" /></div>
-                  <div className="user-name-text">{guess.user.username}</div>
+                <div className="round-rank-box">
+                  <div className="round-rank-number-text">#{guess.rank}<img src="/PlonkStarsAvatar.svg" style={{filter: `hue-rotate(${guess.user.user_cosmetics.hue}deg) saturate(${guess.user.user_cosmetics.saturation}%) brightness(${guess.user.user_cosmetics.brightness}%)`}} alt="" /></div>
+                  <div className="round-user-name-text">{guess.user.username}</div>
                 </div>
             ),
-            style: user && guess.user.username === user.username && "highlight-self-row",
+            style: user && guess.user.username === user.username && "round-highlight-self-row",
         };
     });
     return (

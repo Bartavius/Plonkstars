@@ -85,7 +85,7 @@ export default function Summary({
       </div>
     );
     if (scores.user.username === user.username){
-      map.style = "highlight-self-row";
+      map.style = "summary-highlight-self-row";
     }
     return map;
   });

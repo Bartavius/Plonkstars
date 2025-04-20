@@ -56,7 +56,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
           average_score: row.average_score.toFixed(2),
           average_distance: distanceString(row.average_distance),
           average_time: timeString(row.average_time),
-          style: row.user.username === user.data.username ? "highlight-self-row" : "",
+          style: row.user.username === user.data.username ? "leaderboard-highlight-self-row" : "",
         }))
       );
       setHasNext(page < response.data.pages);

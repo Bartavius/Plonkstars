@@ -43,13 +43,14 @@
     align-items: center;
     gap:2px;
 }
+
 .leaderboard-table{
     width: 100%;
     column-width: 10%;
     color: white;
 }
 
-.highlight-self-row{
+.leaderboard-highlight-self-row{
     background-color: var(--theme-blue);
 }
 
