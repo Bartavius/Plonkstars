@@ -124,16 +124,16 @@ export default function AvatarCustom({
           </div>
           {/* Hue adjustment */}
           <div className="control-group">
-            <label>Hue</label>
+            <label htmlFor="hue-slider">Hue</label>
             <div className="slider-wrapper">
               <div
                 className="hue-slider-background"
                 style={{
-                  filter: `saturate(${userIcon.saturation}%) 
-                brightness(${userIcon.brightness}%)`,
+                  filter: `saturate(${userIcon.saturation}%) brightness(${userIcon.brightness}%)`,
                 }}
               />
               <input
+                id="hue-slider"
                 type="range"
                 min="0"
                 max={`${MAX_HUE}`}
@@ -149,13 +149,14 @@ export default function AvatarCustom({
 
           {/* Saturation adjustment */}
           <div className="control-group">
-            <label>Saturation</label>
+            <label htmlFor="saturation-slider">Saturation</label>
             <div className="slider-wrapper">
               <div
-                className="saturation-slider-background"
-                style={{ filter: `hue-rotate(${userIcon.hue}deg) `}}
+                className="saturation-slider-background slider"
+                style={{ filter: `hue-rotate(${userIcon.hue}deg) ` }}
               />
               <input
+                id="saturation-slider"
                 type="range"
                 min="0"
                 max={`${MAX_SATURATION}`}
@@ -171,13 +172,16 @@ export default function AvatarCustom({
 
           {/* Brightness adjustment */}
           <div className="control-group">
-            <label>Brightness</label>
+            <label htmlFor="brightness-slider">Brightness</label>
             <div className="slider-wrapper">
               <div
                 className="brightness-slider-background"
-                style={{ filter: `hue-rotate(${userIcon.hue}deg) saturate(${userIcon.saturation}%)` }}
+                style={{
+                  filter: `hue-rotate(${userIcon.hue}deg) saturate(${userIcon.saturation}%)`,
+                }}
               />
               <input
+                id="brightness-slider"
                 type="range"
                 min="0"
                 max={`${MAX_BRIGHTNESS}`}
