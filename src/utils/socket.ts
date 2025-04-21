@@ -20,6 +20,7 @@ export default function useSocket({
     const token = useSelector((state: any) => state.auth.token); 
     const socketRef = useRef<Socket | null>(null);
 
+    const memoizedFunctions = Object.keys(functions).toString();
     useEffect(() => { 
         const socket = io(`${process.env.NEXT_PUBLIC_BACKEND}/socket${namespace}`, {
             transports: ['websocket', 'polling'],
@@ -41,7 +42,7 @@ export default function useSocket({
             socket.disconnect();
             socketRef.current = null;
         };
-    }, [room, namespace, token]);
+    }, [room, namespace, token, memoizedFunctions]);
     
       return socketRef.current;
 }
