@@ -10,7 +10,7 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .nav {
     background-color: black;
   }
