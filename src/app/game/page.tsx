@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import api from "../../utils/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@/app/game.css";
 import Modal from "@/components/Modal";
 import MapSearch from "@/components/maps/search/MapSearch";
@@ -20,11 +20,6 @@ const MIN_ROUNDS = 5;
 const MAX_ROUNDS = 20;
 const MIN_TIME = 5;
 const MAX_TIME = 300;
-const DEFAULT_TIME = 60;
-const DEFAULT_MAP_NAME = "World";
-const DEFAULT_MAP_UUID = "6de5dcca-72c2-4c5a-8984-bcff7f059ea0";
-// all default values are initialized in the gameSlice redux
-const REPLAY_GAME = "d5afbc6c-58e2-4330-bfb2-bb39feb34e94";
 
 export default function Game() {
   const router = useRouter();
@@ -33,22 +28,29 @@ export default function Game() {
   // loading past game settings
   const lastSetting = useSelector((state: any) => state.game);
   const errorState = useSelector((state: any) => state.error).error;
+
   // page for starting NEW game, also render all the settings and options here.
-  const [maps, setMaps] = useState<string[]>([]);
   const [mapName, setMapName] = useState<string>(lastSetting.mapName);
   const [mapId, setMapId] = useState<string>(lastSetting.mapId);
   const [rounds, setRounds] = useState<number>(lastSetting.rounds);
   const [time, setTime] = useState<number>(lastSetting.seconds);
-  const [replay, setReplay] = useState<string>(REPLAY_GAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(errorState);
-  const [NMPZ, setNMPZ] = useState<boolean>(false);
+  const [NMPZ, setNMPZ] = useState<boolean>(lastSetting.NMPZ);
   const [daily, setDaily] = useState<any>()
 
   useEffect(() => {
     dispatch(clearError());
   }, [dispatch]);
+
+  useEffect(() => {
+    setMapName(lastSetting.mapName);
+    setMapId(lastSetting.mapId);
+    setRounds(lastSetting.rounds);
+    setTime(lastSetting.seconds);
+    setNMPZ(lastSetting.NMPZ);
+  }, [lastSetting]);
 
   async function fetchDaily() {
     const daily = await api.get(`/session/daily`);
@@ -105,14 +107,6 @@ export default function Game() {
     setMapId(id);
     setMapName(name);
   };
-
-  useEffect(() => {
-    setMapName(lastSetting.mapName || DEFAULT_MAP_NAME);
-    setMapId(lastSetting.mapId || DEFAULT_MAP_UUID);
-    setRounds(lastSetting.rounds || MIN_ROUNDS);
-    setTime(lastSetting.seconds || DEFAULT_TIME);
-    setNMPZ(lastSetting.NMPZ || false);
-  }, [lastSetting]);
 
   return (
     <ProtectedRoutes>

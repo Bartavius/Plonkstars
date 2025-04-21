@@ -1,19 +1,35 @@
+import api from "@/utils/api";
 import { createSlice } from "@reduxjs/toolkit";
+import { unstable_HistoryRouter } from "react-router-dom";
 
 type GameState = {
-  mapName: string;
-  mapId: string;
-  seconds: number; // in seconds
-  rounds: number;
-  NMPZ: boolean;
+  mapName: string|undefined;
+  mapId: string|undefined;
+  seconds: number|undefined; // in seconds
+  rounds: number|undefined;
+  NMPZ: boolean|undefined;
 };
 
 const initialState: GameState = {
-  mapName: "World",
-  mapId: "6de5dcca-72c2-4c5a-8984-bcff7f059ea0",
-  seconds: 60, // in seconds
-  rounds: 5,
-  NMPZ: false,
+  mapName: undefined,
+  mapId: undefined,
+  seconds: undefined,
+  rounds: undefined,
+  NMPZ: undefined,
+};
+
+// Fetch initial state asynchronously and dispatch to update the state
+export const fetchInitialState = async (dispatch: any) => {
+  const res = await api.get("/session/default");
+  dispatch(
+    setGameSettings({
+      mapName: res.data.mapName,
+      mapId: res.data.mapId,
+      seconds: res.data.seconds,
+      rounds: res.data.rounds,
+      NMPZ: res.data.NMPZ,
+    })
+  );
 };
 
 const gameSlice = createSlice({
