@@ -33,6 +33,7 @@ export default function useSocket({
             socketRef.current = socket;
             socket.on("connect", () => {
                 socket.emit("join", {id:room,token});
+                console.log("Connected");
             });
             Object.keys(functions).forEach((event: string) => {socket.on(event, functions[event]);});
         }
