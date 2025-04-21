@@ -153,12 +153,8 @@
     background-color: rgb(226, 134, 14);
 }
 
-.leaderboard-button{
-    background-color: rgb(220, 207, 24);
-}
-
-.stats-button {
-    background-color: rgb(220, 207, 24);
+.map-leaderboard-button{
+    background-color: var(--leaderboard-yellow);
 }
 
 .map-info-button {

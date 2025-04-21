@@ -13,6 +13,7 @@
   --pastel-dark-blue  : rgba( 57, 110, 214, 1);
 
   --color-accent-gold : rgba(255, 215,   0, 1);
+  --leaderboard-yellow: rgba(220, 207,  24, 1);
 
   --plonk-stars-red   : rgba(220,  80,  75, 1);
   --plonk-stars-white : rgba(235, 235, 235, 1);
@@ -133,6 +134,10 @@ text-decoration: underline;
 
 .bg-accent2 {
   background-color: var(--accent2);
+}
+
+.bg-yellow {
+  background-color: var(--leaderboard-yellow);
 }
 
 .text-dark {

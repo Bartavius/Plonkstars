@@ -23,7 +23,7 @@ const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [buttonEnabled,setButtonEnabled] = useState(true);
-    const [error, setError] = useState<string | null>(reduxError.error);
+    const [error, setError] = useState<string | undefined>(reduxError.error);
     const [blockedURL, setBlockedURL] = useState<string>(reduxError.loginRequiredUrl??"/");
 
     useEffect(() => {

@@ -60,8 +60,8 @@
   margin-right: 0.5rem;
 }
 
-.leaderboard-button{
-  background-color: rgb(220, 207, 24);
+.summary-leaderboard-button{
+  background-color: var(--leaderboard-yellow);
   display: flex;
   align-items: center;
   justify-content: center;

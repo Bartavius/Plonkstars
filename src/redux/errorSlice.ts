@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ErrorState {
-    error: string | null;
-    loginRequiredUrl: string|null;
+    error: string | undefined ;
+    loginRequiredUrl: string|undefined;
 }
 
 const initialState: ErrorState = {
-    error: null,
-    loginRequiredUrl: null,
+    error: undefined,
+    loginRequiredUrl: undefined,
 }
 
 const errorSlice = createSlice({
@@ -18,13 +18,13 @@ const errorSlice = createSlice({
             state.error = action.payload;
         },
         clearError(state) {
-            state.error = null;
+            state.error = undefined;
         },
         setBlockedURL(state, action: PayloadAction<string>) {
             state.loginRequiredUrl = action.payload;
         },
         clearBlockedURL(state) {
-            state.loginRequiredUrl = null;
+            state.loginRequiredUrl = undefined;
         },
     }
 })

@@ -12,6 +12,9 @@ import { setGameSettings } from "@/redux/gameSlice";
 import ProtectedRoutes from "../ProtectedRoutes";
 import { clearError } from "@/redux/errorSlice";
 import { FaQuestionCircle } from "react-icons/fa";
+import Popup from "@/components/Popup";
+import Loading from "@/components/loading";
+import DailyTimer from "./DailyTimer";
 
 const MIN_ROUNDS = 5;
 const MAX_ROUNDS = 20;
@@ -39,12 +42,27 @@ export default function Game() {
   const [replay, setReplay] = useState<string>(REPLAY_GAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(errorState);
+  const [error, setError] = useState<string | undefined>(errorState);
   const [NMPZ, setNMPZ] = useState<boolean>(false);
+  const [daily, setDaily] = useState<any>()
 
   useEffect(() => {
     dispatch(clearError());
   }, [dispatch]);
+
+  async function fetchDaily() {
+    const daily = await api.get(`/session/daily`);
+    setDaily(daily.data);
+  }
+
+  useEffect(() => {
+    fetchDaily();
+  },[]);
+
+  async function playDaily() {
+    if (!daily) return;
+    router.push(`/game/${daily.id}/join`);
+  }
 
   const startGame = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -71,6 +89,7 @@ export default function Game() {
           })
         );
         const { id } = response.data;
+
         router.push(`/game/${id}/join`);
       } catch (err: any) {
         setError(err.response?.data?.error || "Error starting game");
@@ -79,11 +98,7 @@ export default function Game() {
     }
   };
 
-  // make a handle change function
-
-  const joinGame = async (e: React.FormEvent) => {
-    router.push(`/game/${replay}/join`);
-  };
+  console.log(daily);
 
   const addMap = (id: string, name: string) => {
     setIsModalOpen(false);
@@ -103,8 +118,8 @@ export default function Game() {
     <ProtectedRoutes>
       <div className="relative">
         <div className="flex items-center justify-center min-h-screen text-white p-6 w-full h-full">
-          <div className="grid grid-cols-2 gap-4 w-full max-w-lg border-white border-4 shadow-lg rounded-2xl p-6 form-window">
-            <div>
+          <div className="flex flex-row w-full max-w-lg border-white border-4 shadow-lg rounded-2xl py-6 form-window divide-x divide-x-2">
+            <div className="w-full px-4">
               <h2 className="text-xl font-semibold mb-4 text-center">
                 Game Setup
               </h2>
@@ -132,7 +147,7 @@ export default function Game() {
                   No. of Rounds: {rounds}
                 </label>
                 <input
-                  className="focus:outline-none input-field"
+                  className="focus:outline-none input-field cursor-pointer"
                   style={{ padding: "0px" }}
                   type="range"
                   id="round-range"
@@ -149,7 +164,7 @@ export default function Game() {
                   {time >= MAX_TIME + 1 || time == -1 ? "Infinite" : `${time}s`}
                 </label>
                 <input
-                  className="text-dark focus:outline-none  input-field"
+                  className="text-dark focus:outline-none input-field cursor-pointer"
                   style={{ padding: "0px" }}
                   type="range"
                   id="time-range"
@@ -166,7 +181,7 @@ export default function Game() {
                   name="NMPZ-toggle"
                   id="NMPZ-toggle"
                   checked={NMPZ}
-                  className="mr-2"
+                  className="mr-2 cursor-pointer"
                   onChange={(e) => 
                     setNMPZ(e.target.checked)
                   }
@@ -189,43 +204,57 @@ export default function Game() {
                 Start Game
               </button>
             </div>
-            <div>
-              <h2 className="text-xl font-semibold mb-4 text-center">
-                Join Game
+            <div className="w-full px-4">
+              <h2 className="text-xl font-semibold mb-2 text-center">
+                Daily Challenge
               </h2>
-              <div className="mb-6">
-                <label className="block mb-2 text-white" htmlFor="session-id">
-                  Session ID
+              { daily ? 
+              <>
+                <div className="text-center mb-2 text-lg font-semibold text-white"><DailyTimer time={daily.next} onFinish={fetchDaily}/></div>
+                <label
+                  className="block mb-2 text-white"
+                  htmlFor="map-search-bar"
+                >
+                  Map Name
                 </label>
-                <input
-                  id="session-id"
-                  type="text"
-                  defaultValue={replay}
-                  onChange={(e) => setReplay(e.target.value)}
-                  className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field text-dark"
-                  placeholder="Enter Game ID to join..."
-                />
-              </div>
-              <button
-                disabled={loading}
-                className={`w-full bg-dark py-2 rounded-lg font-semibold game-setup-btn ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-                onClick={joinGame}
-              >
-                Join
-              </button>
-
-              {error && (
-                <div className="mt-4">
-                  <div className="text-center text-red-500 bg-red-100 p-2 rounded-lg border border-red-400">
-                    {error}
-                  </div>
+                <button
+                  className={`bg-dark w-full py-2 rounded-lg font-semibold mb-4 ${
+                    loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  disabled={loading}
+                  onClick={() => router.push(`/map/${daily.map.id}`)}
+                >
+                  {daily.map.name}
+                </button>
+              
+                <div className="block mb-6 text-white font-semibold">
+                  No. of Rounds: {daily.rules.rounds}
                 </div>
-              )}
+                <div className="block mb-6 text-white font-semibold">
+                  Time Limit:{" "}
+                  {daily.rules.time == -1 ? "Infinite" : `${daily.rules.time}s`}
+                </div>          
+                <div
+                  className="mb-4"
+                  title="No moving, No panning, No zooming"
+                >
+                  <b>NMPZ: {daily.rules.NMPZ ? "Yes": "No"}</b>
+                </div>
+                <button
+                  disabled={loading}
+                  className={`${daily.finished ? "bg-yellow":"game-setup-btn"} w-full py-2 rounded-lg font-semibold ${
+                    loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  onClick={playDaily}
+                >
+                  {daily.finished?"Leaderboard":daily.playing?"Continue":"Play"}
+                </button>
+              </>:<Loading/>
+              }
             </div>
           </div>
         </div>
+        <Popup message={error} type="error"/>
         <div className="fixed">
           <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
             <h2 className="text-xl font-semibold text-center">Select Map</h2>

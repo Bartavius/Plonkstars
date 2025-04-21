@@ -106,7 +106,7 @@ export default function SummaryPage() {
               <button className="btn-selected" onClick={gameMenu}>
                 Main Menu
               </button>
-              <button className="leaderboard-button" onClick={()=>setLeaderboard(!leaderboard)}>
+              <button className="summary-leaderboard-button" onClick={()=>setLeaderboard(!leaderboard)}>
                 {leaderboard? 
                   <>
                     <IoIosStats className="button-icon"/>
