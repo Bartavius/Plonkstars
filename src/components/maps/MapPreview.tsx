@@ -27,6 +27,7 @@ export default function MapPreview({
     height,
     onSelect,
     selected,
+    user_cosmetics,
 }: {
     bounds: (Bounds|Location)[];
     children?: React.ReactNode;
@@ -34,6 +35,7 @@ export default function MapPreview({
     height?: number;
     onSelect?: (location: Location|Bounds|undefined,isRect:boolean) => void;
     selected?: Location|Bounds|undefined;
+    user_cosmetics?: {hue: number, saturation: number, brightness: number};
 }){
     const points = bounds.filter((marker) => {
         return "lat" in marker && "lng" in marker;
@@ -73,7 +75,7 @@ export default function MapPreview({
                             <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsMarker.png" onClick={onSelect ? () => onSelect(point,false) : undefined}/>
                         }
                         {point == selected && 
-                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.png" onClick={onSelect ? () => onSelect(undefined,false) : undefined}/>
+                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.svg" onClick={onSelect ? () => onSelect(undefined,false) : undefined} iconPercent={0.2} recolor={user_cosmetics}/>
                         }
                         </div>
                     ))}

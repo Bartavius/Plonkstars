@@ -90,7 +90,7 @@ export default function AvatarCustom({
       <div className="avatar-customizer-container">
         <div className="avatar-preview">
           <img
-            src="/PlonkStarsAvatar.png"
+            src="/PlonkStarsAvatar.scg"
             alt="avatar-icon-preview"
             className="avatar-icon"
             style={{ filter: getFilterStyle() }}
