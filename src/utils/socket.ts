@@ -20,30 +20,28 @@ export default function useSocket({
     const token = useSelector((state: any) => state.auth.token); 
     const socketRef = useRef<Socket | null>(null);
 
-    const memorizedFunctions = Object.keys(functions).toString();
-    useEffect(() => {
-        if (!socketRef.current) {
-            const socket = io(`${process.env.NEXT_PUBLIC_BACKEND}/socket${namespace}`, {
-                transports: ['websocket', 'polling'],
-                reconnection: true,
-                auth:{
-                    token: token,
-                }
-            });
-            socketRef.current = socket;
-            socket.on("connect", () => {
-                socket.emit("join", {id:room,token});
-                console.log("Connected");
-            });
-            Object.keys(functions).forEach((event: string) => {socket.on(event, functions[event]);});
-        }
-        return () => {
-            if (socketRef.current) {
-              socketRef.current.disconnect();
-              socketRef.current = null;
+    useEffect(() => { 
+        const socket = io(`${process.env.NEXT_PUBLIC_BACKEND}/socket${namespace}`, {
+            transports: ['websocket', 'polling'],
+            reconnection: true,
+            auth:{
+                token: token,
             }
+        });
+
+        socketRef.current = socket;
+
+        socket.on("connect", () => {
+            socket.emit("join", {id:room,token});
+            console.log("Connected");
+        });
+        Object.keys(functions).forEach((event: string) => {socket.on(event, functions[event]);});
+        
+        return () => {
+            socket.disconnect();
+            socketRef.current = null;
         };
-    }, [room, namespace, memorizedFunctions]);
+    }, [room, namespace, token]);
     
       return socketRef.current;
 }
