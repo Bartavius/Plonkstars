@@ -35,6 +35,7 @@ export default function EditMapPage() {
     const [existingBound,setExistingBound] = useState<boolean>(false);
     const [weight, setWeight] = useState<number>();
     const [connected,setConnected] = useState<boolean>(false);
+    const [user,setUser] = useState<any>();
     const rectangleClickedRef = useRef(false);
     const MAPID = useParams().id;
     const router = useRouter();
@@ -59,6 +60,9 @@ export default function EditMapPage() {
             const response = await api.get(`/map/bounds?id=${MAPID}`);
             setBounds(response.data);
             setLoading(false);
+
+            const user = await api.get("/account/profile");
+            setUser(user.data);
         } catch (error) {
             router.push("/map");
         }
@@ -200,7 +204,7 @@ export default function EditMapPage() {
                         weight={0}
                         interactive={false}
                     />
-                    {selectedBound && "lat" in selectedBound && "lng" in selectedBound && <MapIcon pos={selectedBound} iconUrl={"/PlonkStarsAvatar.png"}/>}
+                    {selectedBound && "lat" in selectedBound && "lng" in selectedBound && <MapIcon pos={selectedBound} iconUrl={"/PlonkStarsAvatar.svg"} recolor={user?.user_cosmetics} iconPercent={0.2}/>}
                     {selectedBound && "start" in selectedBound && "end" in selectedBound &&
                         <Rectangle
                             bounds = {[[selectedBound.start.lat,selectedBound.start.lng],[selectedBound.end.lat,selectedBound.end.lng]]}
