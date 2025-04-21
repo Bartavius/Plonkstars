@@ -105,6 +105,7 @@ export default function Summary({
   }
 
   useEffect(() => {
+    setHighlighted(0);
     setDisplayedGuesses(guesses);
     setDisplayedLocation(locations);
   },[leaderboard])
