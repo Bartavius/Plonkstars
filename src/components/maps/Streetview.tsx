@@ -10,6 +10,7 @@ export default function StreetView({ lat, lng }: { lat: number; lng: number }) {
         style={{border: 0 }}
         className="street-view-iframe"
         referrerPolicy="no-referrer-when-downgrade"
+        allow="accelerometer; gyroscope"
         src={`https://www.google.com/maps/embed/v1/streetview?key=${API_KEY}&fov=100
   &location=${lat},${lng}
   `}
