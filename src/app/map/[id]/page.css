@@ -11,6 +11,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
     height: 100%;
     max-width: 60%;
     background-color: var(--lighter-blue);
@@ -312,4 +313,17 @@
 .map-name-edit-instruction{
     font-size: 0.5rem;
     text-align: center;
+}
+
+.map-delete-trash-button {
+    color: white;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+}
+
+.map-delete-trash-button:hover {
+    color: var(--plonk-stars-red);
+    cursor: pointer;
 }

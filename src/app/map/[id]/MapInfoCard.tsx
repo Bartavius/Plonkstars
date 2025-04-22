@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import "./page.css";
 import "@/app/game.css";
 import { setGameMap } from "@/redux/gameSlice";
+import { TbTrash } from "react-icons/tb";
 
 export default function MapInfoCard({ 
     stats,
@@ -134,6 +135,7 @@ export default function MapInfoCard({
 
     return(
     <div className="map-info-card">
+        {canEdit && <TbTrash className="map-delete-trash-button" onClick={()=>router.push(`/map/${mapID}/delete`)}/>}
         <div className="map-info-title">
             {!editingName && 
                 <>{stats.name}</>

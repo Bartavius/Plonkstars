@@ -63,10 +63,8 @@ export default function DeletePage(){
                             All games, scores, sessions, and bounds associated with the map will be deleted. This action cannot be undone.
                         </div>
                         <div className="delete-map-text">To confirm, type "{data.name}":</div>
-                        <div className="delete-map-input-wrapper">
-                            <input placeholder={data.name} className="delete-map-input" onChange={(e)=>setInput(e.target.value)}/>
-                            {data.name === input && <button className="delete-map-button" onClick={deleteMap} disabled={loading}>Delete Map</button>}
-                        </div>
+                        <input placeholder={data.name} className="input-field" onChange={(e)=>setInput(e.target.value)}/>
+                        {data.name === input && <button className="delete-map-button" onClick={deleteMap} disabled={loading}>Delete Map</button>}
                     </div>
                 </div>
         </div>
