@@ -37,11 +37,12 @@
     height: 100%;
 }
 
-.rank-box{
+.leaderboard-rank-box{
     display: flex;
     justify-content: left;
     align-items: center;
-    gap:2px;
+    gap:4px;
+    white-space: nowrap;
 }
 
 .leaderboard-table{

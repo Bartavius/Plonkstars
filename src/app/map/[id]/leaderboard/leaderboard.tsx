@@ -48,7 +48,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
       setLeaderboard(
         response.data.data.map((row: any) => ({
           heading: 
-          <div className="rank-box">
+          <div className="leaderboard-rank-box">
             <div className="rank-number-text">#{row.rank}</div>
             <div className="user-name-text">{row.user.username}</div>
           </div>,

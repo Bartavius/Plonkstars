@@ -38,12 +38,13 @@ body {
   height: 100%;
 }
 
-.rank-box{
+.summary-rank-box{
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
 }
 
 .table-leaderboard-style{
