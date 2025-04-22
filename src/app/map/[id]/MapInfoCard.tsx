@@ -11,13 +11,13 @@ import { TbTrash } from "react-icons/tb";
 
 export default function MapInfoCard({ 
     stats,
-    canEdit,
+    permission,
     loading,
     setLoading,
     children
 }: { 
     stats: any,
-    canEdit: boolean,
+    permission: number,
     loading: boolean,
     setLoading: (loading: boolean) => void,
     children?: React.ReactNode,
@@ -135,15 +135,15 @@ export default function MapInfoCard({
 
     return(
     <div className="map-info-card">
-        {canEdit && <TbTrash className="map-delete-trash-button" onClick={()=>router.push(`/map/${mapID}/delete`)}/>}
+        {3 <= permission && <TbTrash className="map-delete-trash-button" onClick={()=>router.push(`/map/${mapID}/delete`)}/>}
         <div className="map-info-title">
             {!editingName && 
                 <>{stats.name}</>
             }
-            {canEdit && !editingName &&
+            {2 <= permission && !editingName &&
                 <FaPencilAlt className="map-name-edit-pencil mouse-pointer" onClick={() => setEditingName(true)}/>
             }
-            {editingName && canEdit &&
+            {editingName && 2 <= permission &&
                 <div className="map-name-editing">
                     <input className="map-name-edit-textbox" defaultValue={name} onChange={(e) => setName(e.target.value)} maxLength={maxNameLength} ref={nameRef} onKeyDown={nameKeyListener}/>
                     <div className="map-name-editing-footer">
@@ -158,13 +158,13 @@ export default function MapInfoCard({
             {description && !editingDescription &&
                 <div className="map-info-description">
                     <div className="map-info-description-text">{description}
-                        {canEdit &&
+                        {2 <= permission &&
                             <FaPencilAlt className="description-edit-pencil mouse-pointer" onClick={() => setEditingDescription(true)}/>
                         }
                     </div>
                 </div>
             }
-            {editingDescription && canEdit &&
+            {editingDescription && 2 <= permission &&
                 <div className="map-info-description-editing">
                     <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength} ref={descriptionRef} onKeyDown={descriptionKeyListener}/>                 
                     <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
@@ -174,7 +174,7 @@ export default function MapInfoCard({
                     </div>
                 </div>
             }
-            {!description && !editingDescription && canEdit &&
+            {!description && !editingDescription &&  2 <= permission &&
                 <button className="game-button map-add-description" onClick={() => setEditingDescription(true)} disabled={loading}>Add Description</button>
             }
             <div className="map-info-button-div">
@@ -182,7 +182,7 @@ export default function MapInfoCard({
                     <FaPlay className="map-info-button-icon"/>
                     Play
                 </button>
-                {canEdit && 
+                {1 <= permission && 
                     <button disabled={loading} className="edit-button map-info-button gray-button" onClick={editMap}>
                         <FaPencilAlt className="map-info-button-icon"/>
                         Edit

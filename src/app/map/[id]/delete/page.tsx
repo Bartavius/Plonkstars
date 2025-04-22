@@ -22,8 +22,8 @@ export default function DeletePage(){
 
     async function getData(){
         try {
-            const canEdit = await api.get(`/map/edit?id=${params.id}`);
-            if(!canEdit.data.can_edit){
+            const permission = await api.get(`/map/edit?id=${params.id}`);
+            if(permission.data.permission < 3){
                 router.push(`/map/${params.id}`);
                 return;
             }

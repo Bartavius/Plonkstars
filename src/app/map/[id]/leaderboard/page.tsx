@@ -14,7 +14,7 @@ import MapInfoCard from "../MapInfoCard";
 export default function MapLeaderboardPage(){
     const [stats, setStats] = useState<any>();
     const [loading, setLoading] = useState<boolean>();
-    const [canEdit, setCanEdit] = useState(false);
+    const [permission, setPermission] = useState<number>(0);
     const mapID = useParams().id ?? "";
     const router = useRouter();
 
@@ -32,8 +32,8 @@ export default function MapLeaderboardPage(){
         try {
             const stats = await api.get(`/map/stats?id=${mapID}`);
             setStats(stats.data);
-            const can_edit = await api.get(`/map/edit?id=${mapID}`);
-            setCanEdit(can_edit.data.can_edit);
+            const permission = await api.get(`/map/edit?id=${mapID}`);
+            setPermission(permission.data.permission);
             setLoading(false);
         } catch (error) {
             router.push("/map");
@@ -45,7 +45,7 @@ export default function MapLeaderboardPage(){
     }, []);
 
 
-    if (!stats || canEdit === undefined || loading === undefined) {
+    if (!stats || loading === undefined) {
         return <Loading/>;
     }
 
@@ -61,7 +61,7 @@ export default function MapLeaderboardPage(){
                 transition={{ duration: 1 }}
                 className="map-info-card-wrapper"
             >
-                <MapInfoCard stats={stats} canEdit={canEdit} loading={loading} setLoading={setLoading}>
+                <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
                     <button disabled={loading} className="map-leaderboard-button map-info-button gray-button" onClick={mapStats}>
                         <IoIosStats className="map-info-button-icon"/>
                         Stats

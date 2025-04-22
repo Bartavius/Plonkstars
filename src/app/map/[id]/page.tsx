@@ -37,7 +37,7 @@ export default function MapInfoPage(){
     const [stats,setStats] = useState<any>();
     const [bounds, setBounds] = useState<(Location|Bounds)[]>();
     const [topScore, setTopScore] = useState<any>();
-    const [canEdit, setCanEdit] = useState<boolean>();
+    const [permission, setPermission] = useState<number>(0);
 
     const mapID = params.id;
 
@@ -45,8 +45,8 @@ export default function MapInfoPage(){
         try {
             const stats = await api.get(`/map/stats?id=${mapID}`);
             setStats(stats.data);
-            const can_edit = await api.get(`/map/edit?id=${mapID}`);
-            setCanEdit(can_edit.data.can_edit);
+            const permission = await api.get(`/map/edit?id=${mapID}`);
+            setPermission(permission.data.permission);
 
             const response = await api.get(`/map/leaderboard?id=${mapID}&page=1&per_page=1`);
             if (response.data.data.length !== 0) {
@@ -101,7 +101,7 @@ export default function MapInfoPage(){
     }, []);
 
 
-    if (!stats || canEdit === undefined) {
+    if (!stats || permission === undefined) {
         return <Loading/>;
     }
 
@@ -218,7 +218,7 @@ export default function MapInfoPage(){
                 transition={{ duration: 1 }}
                 className="map-info-card-wrapper"
             >
-                <MapInfoCard stats={stats} canEdit={canEdit} loading={loading} setLoading={setLoading}>
+                <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
                     <button disabled={loading} className="map-leaderboard-button map-info-button gray-button" onClick={mapLeaderboard}>
                         <FaMedal className="map-info-button-icon"/>
                         Leaderboard

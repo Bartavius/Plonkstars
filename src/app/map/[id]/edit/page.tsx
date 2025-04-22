@@ -53,8 +53,8 @@ export default function EditMapPage() {
 
     const getLocations = async () => {
         try{
-            const canEdit = await api.get(`/map/edit?id=${MAPID}`);
-            if(!canEdit.data.can_edit){
+            const permission = await api.get(`/map/edit?id=${MAPID}`);
+            if(permission.data.permission < 1){
                 router.push(`/map/${MAPID}`);
             }
             const response = await api.get(`/map/bounds?id=${MAPID}`);
