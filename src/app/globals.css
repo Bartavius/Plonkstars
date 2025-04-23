@@ -172,6 +172,10 @@ text-decoration: underline;
   width: 100%;
 }
 
+.dark-hover-button{
+  transition: filter 0.2s ease-in-out;
+}
+
 .dark-hover-button:hover {
   cursor: pointer;
   filter: brightness(90%);

@@ -141,7 +141,7 @@ export default function MapInfoCard({
                 <>{stats.name}</>
             }
             {2 <= permission && !editingName &&
-                <FaPencilAlt className="map-name-edit-pencil mouse-pointer" onClick={() => setEditingName(true)}/>
+                <FaPencilAlt className="map-name-edit-pencil dark-hover-button" onClick={() => setEditingName(true)}/>
             }
             {editingName && 2 <= permission &&
                 <div className="map-name-editing">
@@ -159,7 +159,7 @@ export default function MapInfoCard({
                 <div className="map-info-description">
                     <div className="map-info-description-text">{description}
                         {2 <= permission &&
-                            <FaPencilAlt className="description-edit-pencil mouse-pointer" onClick={() => setEditingDescription(true)}/>
+                            <FaPencilAlt className="description-edit-pencil dark-hover-button" onClick={() => setEditingDescription(true)}/>
                         }
                     </div>
                 </div>

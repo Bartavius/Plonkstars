@@ -210,7 +210,7 @@ export default function MapInfoPage(){
         <div className="relative">
             <div className="navbar-buffer"/>
             <button disabled={loading} className="map-search-back-button" onClick={goBack}>
-                <IoMdArrowRoundBack className="map-search-back mouse-pointer"/>
+                <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
             </button>
             <motion.div
                 initial={{ opacity: 0, y: -20 }}

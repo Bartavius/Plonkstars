@@ -54,7 +54,7 @@ export default function DeletePage(){
         <div className="relative h-[80vh]">
                 <div className="navbar-buffer"/>
                 <button disabled={loading} className="map-search-back-button" onClick={goBack}>
-                    <IoMdArrowRoundBack className="map-search-back mouse-pointer"/>
+                    <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
                 </button>
                 <div className="centered-elements">
                     <div className="delete-box">

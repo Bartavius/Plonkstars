@@ -195,11 +195,6 @@
     filter: brightness(90%);
 }
 
-.mouse-pointer:hover {
-    cursor:pointer;
-    filter: brightness(90%);
-}
-
 .map-search-back-button{
     position: absolute;
     margin-left: 3rem;
@@ -321,6 +316,7 @@
     top: 1rem;
     right: 1rem;
     font-size: 1.5rem;
+    transition: all 0.2s ease-in-out;
 }
 
 .map-delete-trash-button:hover {

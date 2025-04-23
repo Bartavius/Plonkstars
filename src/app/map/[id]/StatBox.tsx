@@ -22,12 +22,12 @@ const StatBox = ({mapStats}:
     {mapStats: statColumn}) => {
     return (
     <div className="map-info-container">
-        <div className={`map-info-box ${mapStats.onClick? "mouse-pointer" : ""}`} onClick={mapStats.onClick}>
+        <div className={`map-info-box ${mapStats.onClick? "dark-hover-button" : ""}`} onClick={mapStats.onClick}>
             <div className="map-info-header">{mapStats.name}</div>
             <div className="horizontal-alignment">
                 {mapStats.cols.map((col, index) => (
                 <div className="typed-map-stat-container" key={index}>
-                    <div className={`typed-map-stat-box ${col.onClick? "mouse-pointer" : ""}`} onClick={col.onClick}>
+                    <div className={`typed-map-stat-box ${col.onClick? "dark-hover-button" : ""}`} onClick={col.onClick}>
                         <motion.div 
                             initial={{ opacity: 0}}
                             animate={{ opacity: 1}}
@@ -43,7 +43,7 @@ const StatBox = ({mapStats}:
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 1 + 0.2*index }}
-                                    className={`map-stat-card  ${stat.onClick? "mouse-pointer" : ""}`}
+                                    className={`map-stat-card  ${stat.onClick? "dark-hover-button" : ""}`}
                                     onClick={stat.onClick}
                                 >
                                     <div className="map-stat-icon">{stat.icon}</div>
