@@ -104,7 +104,7 @@ export default function Results() {
         <div className="grid grid-cols-3 gap-4 w-full">
           <div className="flex justify-between items-center">
             <ScoreAccordion open={open} guesses={data.users} className="absolute" user={data.this_user}/>
-            <button className="accordion-toggle" onClick={() => setOpen(!open)}>
+            <button className="accordion-toggle dark-hover-button gray-disabled" onClick={() => setOpen(!open)}>
               <FaMedal/>{open ? 'Hide' : 'Show'} Scores
             </button>
             <div className="text-center">
