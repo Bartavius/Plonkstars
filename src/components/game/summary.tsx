@@ -62,11 +62,9 @@ export default function Summary({
   function timeString(time: number){
     if (time === undefined) return "Timed Out";
     const minutes = Math.floor(time / 60);
-    const seconds = Math.round((time % 60) * 10) / 10;
+    const seconds = Math.round(time % 60);
     return minutes > 0
-      ? `${minutes.toString().padStart(2, "0")}:${seconds
-            .toFixed(1)
-            .padStart(4, "0")}`: `${seconds}s`;
+      ? `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`: `${seconds}s`;
   };
 
   const keys: Record<string, any> = {total: <div className={highlighted === 0?"text-white":""}>Total</div>};
