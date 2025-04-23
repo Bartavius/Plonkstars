@@ -212,7 +212,7 @@ export default function Game() {
                   Map Name
                 </label>
                 <button
-                  className={`bg-dark w-full py-2 rounded-lg font-semibold mb-4 ${
+                  className={`bg-dark w-full py-2 rounded-lg font-semibold mb-4 dark-hover-button ${
                     loading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   disabled={loading}
@@ -236,7 +236,7 @@ export default function Game() {
                 </div>
                 <button
                   disabled={loading}
-                  className={`${daily.finished ? "bg-yellow":"game-setup-btn"} w-full py-2 rounded-lg font-semibold ${
+                  className={`${daily.finished ? "bg-yellow":"game-setup-btn"} w-full py-2 rounded-lg font-semibold dark-hover-button ${
                     loading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   onClick={playDaily}
