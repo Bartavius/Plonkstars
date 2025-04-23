@@ -16,8 +16,8 @@ export default function formatGuess({
     function timeString(time: number){
         if (time === undefined) return "Timed Out";
         const minutes = Math.floor(time / 60);
-        const seconds = Math.round((time % 60) * 10) / 10;
-        return minutes > 0 ? `${minutes.toString().padStart(2, "0")}:${seconds.toFixed(1).padStart(4, "0")}`: `${seconds}s`;
+        const seconds = Math.round(time % 60);
+        return minutes > 0 ? `${minutes.toString().padStart(2, "0")}:${seconds}`: `${seconds}s`;
     };
     return (
       <div className="summary-score-box">
