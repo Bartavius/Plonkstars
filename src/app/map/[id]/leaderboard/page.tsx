@@ -62,7 +62,7 @@ export default function MapLeaderboardPage(){
                 className="map-info-card-wrapper"
             >
                 <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
-                    <button disabled={loading} className="map-leaderboard-button map-info-button gray-button" onClick={mapStats}>
+                    <button disabled={loading} className="map-leaderboard-button map-info-button dark-hover-button gray-disabled" onClick={mapStats}>
                         <IoIosStats className="map-info-button-icon"/>
                         Stats
                     </button>

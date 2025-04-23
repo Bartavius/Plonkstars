@@ -219,7 +219,7 @@ export default function MapInfoPage(){
                 className="map-info-card-wrapper"
             >
                 <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
-                    <button disabled={loading} className="map-leaderboard-button map-info-button gray-button" onClick={mapLeaderboard}>
+                    <button disabled={loading} className="map-leaderboard-button map-info-button dark-hover-button gray-disabled" onClick={mapLeaderboard}>
                         <FaMedal className="map-info-button-icon"/>
                         Leaderboard
                     </button>

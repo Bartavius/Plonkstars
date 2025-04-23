@@ -169,8 +169,8 @@ export default function MapInfoCard({
                     <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength} ref={descriptionRef} onKeyDown={descriptionKeyListener}/>                 
                     <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
                     <div className="map-description-editing-footer">
-                        <button onClick={descriptionCancel} className="map-description-cancel gray-button" disabled={loading}>Cancel</button>
-                        <button onClick={editDescription} className="map-description-save gray-button" disabled={loading}><div>Save</div></button>
+                        <button onClick={descriptionCancel} className="map-description-cancel dark-hover-button gray-disabled" disabled={loading}>Cancel</button>
+                        <button onClick={editDescription} className="map-description-save dark-hover-button gray-disabled" disabled={loading}><div>Save</div></button>
                     </div>
                 </div>
             }
@@ -178,12 +178,12 @@ export default function MapInfoCard({
                 <button className="game-button map-add-description" onClick={() => setEditingDescription(true)} disabled={loading}>Add Description</button>
             }
             <div className="map-info-button-div">
-                <button disabled={loading} className="play-button map-info-button gray-button" onClick={playMap}>
+                <button disabled={loading} className="play-button map-info-button dark-hover-button gray-disabled" onClick={playMap}>
                     <FaPlay className="map-info-button-icon"/>
                     Play
                 </button>
                 {1 <= permission && 
-                    <button disabled={loading} className="edit-button map-info-button gray-button" onClick={editMap}>
+                    <button disabled={loading} className="edit-button map-info-button dark-hover-button gray-disabled" onClick={editMap}>
                         <FaPencilAlt className="map-info-button-icon"/>
                         Edit
                     </button>}
