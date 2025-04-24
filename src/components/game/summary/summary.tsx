@@ -2,9 +2,9 @@
 import "./summary.css";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import Table from "../table/table";
+import Table from "@/components/table/table";
 import {useRouter} from "next/navigation";
-import ScoreBox from "./ScoreBox";
+import ScoreBox from "@/components/game/summary/ScoreBox";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),

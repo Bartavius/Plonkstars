@@ -1,6 +1,6 @@
 import Table from '@/components/table/table';
-import './page.css';
-import ScoreBox from '@/components/game/ScoreBox';
+import './results.css';
+import ScoreBox from '@/components/game/summary/ScoreBox';
 
 export default function ScoreAccordion({
     open,

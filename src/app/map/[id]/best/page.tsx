@@ -4,7 +4,7 @@ import api from "@/utils/api";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import Loading from "@/components/loading";
-import Summary from "@/components/game/summary";
+import Summary from "@/components/game/summary/summary";
 
 interface Location {
   lat: number;

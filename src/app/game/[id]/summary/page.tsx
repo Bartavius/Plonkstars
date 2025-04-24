@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import Loading from "@/components/loading";
-import Summary from "@/components/game/summary";
+import Summary from "@/components/game/summary/summary";
 import { ImLink } from "react-icons/im";
 import "./page.css";
 import Popup from "@/components/Popup";

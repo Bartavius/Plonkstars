@@ -1,20 +1,11 @@
 "use client";
 
-import { MapContainer, Marker, Polyline, Tooltip } from "react-leaflet";
+import { MapContainer, Polyline, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import MapIcon from "./mapIcon";
 import getTileLayer from "@/utils/leaflet";
 import FitBounds from "./FitBounds";
-import L from "leaflet";
-import { useEffect, useState } from "react";
-import api from "@/utils/api";
-
-interface UserIcon {
-  hue: number;
-  saturation: number;
-  brightness: number;
-}
 
 export default function BasicMapResult({
   markers,

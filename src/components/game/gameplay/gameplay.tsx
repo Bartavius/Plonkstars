@@ -6,61 +6,41 @@ import dynamic from "next/dynamic";
 import api from "@/utils/api";
 import GamePanel from "@/components/game/GamePanel";
 import "@/app/game.css";
-import Loading from "@/components/loading";
 import "./gameplay.css";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
   ssr: false,
 });
 
-export default function MatchPage() {
+export default function GamePlay({
+    guessRedirect,
+    correctLat,
+    correctLng,
+    time,
+    timeLimit,
+    roundNumber,
+    totalScore,
+    NMPZ,
+    mapBounds
+}: {
+    guessRedirect: string;
+    correctLat: number;
+    correctLng: number;
+    time?: Date;
+    timeLimit?: number;
+    roundNumber: number;
+    totalScore: number;
+    NMPZ: boolean;
+    mapBounds: any;
+}) {
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
-  const [correctLat, setCorrectLat] = useState<number>(0);
-  const [correctLng, setCorrectLng] = useState<number>(0);
-  const [time, setTime] = useState<Date | null>(null);
-  const [timeLimit, setTimeLimit] = useState<number>(0);
-  const [roundNumber, setRoundNumber] = useState<number>(0);
-  const [totalScore, setTotalScore] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
   const [reload, setReload] = useState<number>(0);
-  const [NMPZ, setNMPZ] = useState(false);
-  const [mapBounds, setMapBounds] = useState<any>(null);
 
   const router = useRouter();
   const params = useParams();
   const matchId = Array.isArray(params.id) ? params.id[0] : params.id;
-
-  useEffect(() => {
-    const fetchLocation = async (id: string) => {
-      setLoading(true);
-      try {
-        const response = await api.post(`/game/round`,{id});
-        const { lat, lng, round, time, time_limit, total, nmpz, map_bounds } = response.data;
-        
-        setRoundNumber(round);
-        setCorrectLat(lat);
-        setCorrectLng(lng);
-        setTime(new Date(time));
-        setTimeLimit(time_limit);
-        setTotalScore(total);
-        setNMPZ(nmpz);
-        setMapBounds(map_bounds);
-        setLoading(false);
-      } catch (err: any) {
-        if (err.response?.status == 404) {
-          router.push("/game");
-        }
-        if (err.response?.data?.error == "No more rounds are available") {
-          router.push(`/game/${id}/summary`);
-        }
-      }
-    };
-    if (matchId) {
-      fetchLocation(matchId); //render loading screen later
-    }
-  }, [matchId]);
 
   const sleep = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
@@ -82,7 +62,7 @@ export default function MatchPage() {
     } else {
       await sleep(1000);
     }
-    router.push(`/game/${matchId}/result?round=${roundNumber}`);
+    router.push(guessRedirect);
   };
 
   useEffect(() => {
@@ -102,10 +82,6 @@ export default function MatchPage() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [lat,lng]);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <div color="bg-dark">

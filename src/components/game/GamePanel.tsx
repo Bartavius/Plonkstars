@@ -8,8 +8,8 @@ const GamePanel = ({
     totalScore,
     roundNumber,
 }: {
-    time: Date | null;
-    timeLimit: number | null;
+    time?: Date | undefined;
+    timeLimit?: number | undefined;
     timeoutFunction: (() => void) | null;
     totalScore: number;
     roundNumber: number;
