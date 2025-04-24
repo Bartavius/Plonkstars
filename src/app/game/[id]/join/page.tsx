@@ -15,18 +15,19 @@ export default function JoinGame() {
     const dispatch = useDispatch();
     useEffect(() => {
         const joinGame = async () => {
-            try {
-                const res = await api.post("/game/play", {
-                id:sessionID,
-                });
-                router.push(`/game/${sessionID}`);
-            } catch (err: any) {
-                if (err.response?.status === 404) {
-                    dispatch(setError(err.response?.data?.error || "Game not found"));
-                    router.push("/game"); 
-                }
-                router.push(`/game/${sessionID}`);
+            const state = await api.get(`/game/state?id=${sessionID}`);
+            if (state.data.state === "waiting") {
+                router.push(`/game/${sessionID}/result?round=${state.data.round}`);
+                return;
             }
+            else if (state.data.state === "finished") {
+                router.push(`/game/${sessionID}/summary`);
+                return;
+            }
+            else if (state.data.state === "not_playing"){
+                await api.post("/game/play", {id:sessionID});
+            }
+            router.push(`/game/${sessionID}`);
         };
         joinGame();
     }, []);

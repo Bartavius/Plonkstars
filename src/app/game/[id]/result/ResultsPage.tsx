@@ -29,14 +29,19 @@ export default function Results() {
   const [data,setData] = useState<any>();
   const [error, setError] = useState<string | undefined>(undefined);
   const [open, setOpen] = useState(false);
+  const [redirect, setRedirect] = useState(`/game/${matchId}`);
 
   const nextGame = () => {
-    router.push(`/game/${matchId}`);
+    router.push(redirect);
   };
 
   useEffect(() => {
     const getResults = async () => {
       try {
+        const state = await api.get(`/game/state?id=${matchId}`);
+        if(state.data.state === "finished"){
+          setRedirect(`/game/${matchId}/summary`);
+        }
         const response = await api.get(
           `/game/results?id=${matchId}&round=${roundNumber}`
         );
