@@ -63,9 +63,8 @@ export default function Results({
   const userDistance = thisUser.guess.distance? distanceString(thisUser.guess.distance): undefined;
 
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <GamePanel
-        timeoutFunction={null}
         totalScore={thisUser.score}
         roundNumber={roundNumber}
       />

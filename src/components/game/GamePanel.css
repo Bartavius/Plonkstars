@@ -13,7 +13,7 @@
 
 .score-wrapper{
     position: relative;
-    height: 10vh;
+    height: var(--navbar-height);
     width: 100%;
     z-index: 101;
 }
