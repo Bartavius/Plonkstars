@@ -6,6 +6,7 @@ import authReducer from './authSlice';
 import gameReducer from './gameSlice';
 import settingsReducer from './settingsSlice';
 import errorReducer from './errorSlice';
+import PartyReducer from './partySlice';
 import sessionStorage from 'redux-persist/lib/storage/session';
 
 const gamePersistConfig = {
@@ -18,11 +19,17 @@ const settingsPersistConfig = {
   storage: storage,
 };
 
+const partyPersistConfig = {
+  key: 'party',
+  storage: sessionStorage,
+};
+
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     game: persistReducer<any>(gamePersistConfig, gameReducer),
     settings: persistReducer<any>(settingsPersistConfig, settingsReducer),
+    party: persistReducer<any>(partyPersistConfig, PartyReducer),
     error: errorReducer,
   },
 
