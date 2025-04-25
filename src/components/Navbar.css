@@ -3,12 +3,15 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: var(--navbar-height);
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.2s ease-in-out;
+}
+
+.navbar-primary{
+  height: var(--navbar-height);
 }
 
 .nav.open {
@@ -34,10 +37,6 @@
   max-height: 0px;
   overflow: hidden;
   transition: max-height 0.2s ease-in-out;
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-elements-open {

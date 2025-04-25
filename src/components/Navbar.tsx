@@ -47,7 +47,7 @@ export default function NavBar() {
   return (
     <div className={`navbar ${sigmar.className} ${isMenuOpen ? "open" : ""}`}>
       <nav className="nav-header">
-        <div className="mx-auto flex justify-between items-center p-4">
+        <div className="mx-auto flex justify-between items-center p-4 navbar-primary">
           <a href="/" className="text-xl font-bold text-gray-200 nav-logo">
             <span className="text-red">Plonk</span>Stars
           </a>
@@ -60,26 +60,26 @@ export default function NavBar() {
             <FiMenu size={24} />
           </button>
         </div>
-      </nav>
-      <ul className={`navbar-elements ${isMenuOpen && "navbar-elements-open"}`}>
-        {(auth ? registeredTabs : unregisteredTabs).map((tab) => (
+        <ul className={`navbar-elements ${isMenuOpen && "navbar-elements-open"}`}>
+          {(auth ? registeredTabs : unregisteredTabs).map((tab) => (
             <li
-            onClick={()=>{
-              router.push(tab.link);
-              setIsMenuOpen(false);
-            }}
-            key={tab.tab}
-            className={`navbar-element ${
-              Array.isArray(params) && params.includes(tab.tab)
-                ? "active"
-                : ""
-            }`}
-          >
-            <label>{tab.tab}</label>
-          </li>
-          
-        ))}
-      </ul>
+              onClick={()=>{
+                router.push(tab.link);
+                setIsMenuOpen(false);
+              }}
+              key={tab.tab}
+              className={`navbar-element ${
+                Array.isArray(params) && params.includes(tab.tab)
+                  ? "active"
+                  : ""
+              }`}
+            >
+              <label>{tab.tab}</label>
+            </li>
+            
+          ))}
+        </ul>
+      </nav>
     </div>
   );
 }
