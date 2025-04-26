@@ -40,6 +40,10 @@ export default function PartyPage() {
         await api.post("/party/delete", { code: code });
     }
 
+    async function gameStart() {
+        router.push(`/game`);
+    }
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -57,7 +61,9 @@ export default function PartyPage() {
                     <button className="btn-primary party-page-exit-button" onClick={() => (isHost ? disbandParty() : leaveParty())}>{isHost ? "Disband Party" : "Leave"}</button>
                 </div>
                 <div>a</div>
-                <div>a</div>
+                <div className="party-page-footer-content-right">
+                    <button className="party-page-start-button" onClick={gameStart}>Start</button>
+                </div>
             </div>
         </div>
     );

@@ -2,6 +2,7 @@ import "./page.css";
 import colorPresets from "./avatar.json";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
+import UserIcon from "@/components/user/UserIcon";
 
 interface UserIcon {
   hue: number;
@@ -89,12 +90,7 @@ export default function AvatarCustom({
       <div className="settings-label">Avatar Customization</div>
       <div className="avatar-customizer-container">
         <div className="avatar-preview">
-          <img
-            src="/PlonkStarsAvatar.svg"
-            alt="avatar-icon-preview"
-            className="avatar-icon"
-            style={{ filter: getFilterStyle() }}
-          />
+          <UserIcon data={userIcon} className="avatar-icon"/>
         </div>
 
         {/* Right side: Color adjustment controls */}

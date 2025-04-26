@@ -43,6 +43,10 @@
     gap: 0.5rem;
     align-items: center;
 }
+
+.round-leaderboard-avatar{
+    width:2rem;
+}
   
 .round-user-name-text{
     color:var(--lightest-blue);

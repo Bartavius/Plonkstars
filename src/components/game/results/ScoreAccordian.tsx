@@ -1,6 +1,7 @@
 import Table from '@/components/table/table';
 import './results.css';
 import ScoreBox from '@/components/game/summary/ScoreBox';
+import UserIcon from "@/components/user/UserIcon";
 
 export default function ScoreAccordion({
     open,
@@ -27,7 +28,8 @@ export default function ScoreAccordion({
             guess: <ScoreBox data={guess.guess}/>,
             heading: (
                 <div className="round-rank-box">
-                  <div className="round-rank-number-text">#{guess.rank}<img src="/PlonkStarsAvatar.svg" style={{filter: `hue-rotate(${guess.user.user_cosmetics.hue}deg) saturate(${guess.user.user_cosmetics.saturation}%) brightness(${guess.user.user_cosmetics.brightness}%)`}} alt="" /></div>
+                  <div className="round-rank-number-text">#{guess.rank}<UserIcon data={guess.user.user_cosmetics} className="round-leaderboard-avatar"/></div>
+                  
                   <div className="round-user-name-text">{guess.user.username}</div>
                 </div>
             ),

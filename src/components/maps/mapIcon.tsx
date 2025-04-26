@@ -1,6 +1,9 @@
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import { Marker } from "react-leaflet";
+import UserIcon from "@/components/user/UserIcon";
+import ReactDOMServer from "react-dom/server";
+
 
 import "./mapIcon.css";
 
@@ -67,9 +70,7 @@ export default function MapIcon({
       }else{
         const newIcon = createColorIcon(
           calculatedSize,
-          recolor.hue,
-          recolor.saturation,
-          recolor.brightness,
+          recolor
         );
         iconCache[cacheKey] = newIcon;
         iconCache[iconUrl] = newIcon;
@@ -80,13 +81,12 @@ export default function MapIcon({
 
   const createColorIcon = (
     calculatedSize: [number, number],
-    hue: number,
-    saturation: number,
-    brightness: number
+    data:any
   ) => {
+    const htmlString = ReactDOMServer.renderToString(<UserIcon data={data} />);
     return L.divIcon({
       className: clickable ? "clickable-icon":"non-clickable-icon",
-      html: `<img src=${iconUrl} style="filter: hue-rotate(${hue}deg) saturate(${saturation}%) brightness(${brightness}%) ;" alt="" />`,
+      html: htmlString,
       iconSize: calculatedSize,
       iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
     });

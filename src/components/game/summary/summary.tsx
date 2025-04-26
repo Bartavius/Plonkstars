@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Table from "@/components/table/table";
 import {useRouter} from "next/navigation";
 import ScoreBox from "@/components/game/summary/ScoreBox";
+import UserIcon from "@/components/user/UserIcon";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -78,7 +79,7 @@ export default function Summary({
     map.total = <ScoreBox data={scores}/>;
     map.heading = (
       <div className="summary-rank-box">
-        <div className="rank-number-text">#{rank}<img src="/PlonkStarsAvatar.svg" style={{filter: `hue-rotate(${scores.user.user_cosmetics.hue}deg) saturate(${scores.user.user_cosmetics.saturation}%) brightness(${scores.user.user_cosmetics.brightness}%)`}} alt="" /></div>
+        <div className="rank-number-text">#{rank}<UserIcon data={user.user_cosmetics} className="w-[1.5rem]"/></div>
         <div className="user-name-text">{scores.user.username}</div>
       </div>
     );

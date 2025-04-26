@@ -2,9 +2,8 @@
     height: 4rem;
     width: 100%;
     background-color: var(--dark-blue);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr;
+    display: flex;
+    justify-content: space-between;
     box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
     align-items: center;
 }
@@ -15,4 +14,22 @@
 
 .party-page-footer-content-left{
     margin-left: 1rem;
+}
+
+.party-page-footer-content-right{
+    margin-right: 1rem;
+}
+
+.party-page-start-button{
+    background-color: var(--color-green);
+    transition: all 0.2s ease-in-out;
+    padding: 0.5rem 2rem;
+    border-radius: 1rem;
+}
+
+.party-page-start-button:hover{
+    background-color: var(--color-green);
+    filter: brightness(90%);
+    transform: scale(1.02);
+    box-shadow: 0px 3px 10px rgba(  0,  25,  51, 0.3);
 }
