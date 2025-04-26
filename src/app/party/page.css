@@ -33,3 +33,24 @@
     transform: scale(1.02);
     box-shadow: 0px 3px 10px rgba(  0,  25,  51, 0.3);
 }
+
+.party-page-user-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.party-page-user-card{
+    width: fit-content;
+    min-width: 15%;
+}
+
+.user-card-outline{
+    border-color: white;
+    border-width: 2px;
+}
+
+.user-card-gold-name{
+    color: var(--leaderboard-yellow);
+}

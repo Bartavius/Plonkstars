@@ -1,0 +1,22 @@
+.user-card-card{
+    background-color: var(--dark-blue);
+    border-radius: 1rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+.user-card-username{
+    background-color: var(--darker-blue);
+    border-radius: 1rem;
+    border-top-right-radius: 0rem;
+    border-top-left-radius: 0rem;
+    padding: 1rem 0.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 0.75rem;
+}
