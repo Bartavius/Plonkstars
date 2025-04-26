@@ -57,20 +57,22 @@
     justify-content: center;
     font-size: small;
 }
-.map-card:hover {
+
+.map-card-clickable:hover {
     background-color: var(--lighter-blue);
+    cursor: pointer;
 }
 
 .map-card {
     background-color: var(--plonk-stars-white);
     color: var(--darkest-blue);
-    cursor: pointer;
     display: flex;
     flex-direction: row; 
     align-items: center;
     border-radius: 1rem;
     box-shadow: 1rem;
     transition: all 0.2s ease-in-out;
+    width: 100%;
 }
 
 .map-name {

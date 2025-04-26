@@ -75,9 +75,8 @@ const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:str
                             {maps.map((map: any, index) => (
                                 <li
                                     key={index}
-                                    onClick={() => mapSelect(map.id, map.name)}
                                 >
-                                    <MapCard map={map}/>
+                                    <MapCard map={map} onClick={() => mapSelect(map.id, map.name)}/>
                                 </li>
                             ))}
                         </ul>

@@ -46,10 +46,8 @@ export default function challengePage() {
     return (
         <div className="centered-elements">
             <div className="challenge-title">You got challenged by {host.username}</div>
-            <div className="session-info-box">
-                <button className="map-wrapper" onClick={()=>{setLoading(true); router.push(`/map/${map.id}`)}} disabled={loading}>
-                    <MapCard map={map}/>
-                </button>
+            <div className="session-info-box">   
+                <MapCard map={map} onClick={()=>{setLoading(true); router.push(`/map/${map.id}`)}}/>
                 <div className="challenge-text">Rounds: {rules.rounds}</div>
                 <div className="challenge-text">Time: {rules.time} seconds</div>
                 <div className="challenge-text">NMPZ: {rules.NMPZ ? "Yes" : "No"}</div>

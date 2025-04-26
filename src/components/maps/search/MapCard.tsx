@@ -8,7 +8,16 @@ interface MapInfo{
     average_generation_time:number,
     total_guesses:number
 }
-const MapCard = ({map}:{map:MapInfo}) => {
+const MapCard = ({
+    map,
+    onClick,
+    className = ""
+}:{
+    map:MapInfo,
+    onClick?:() => void,
+    className?:string
+
+}) => {
 
     const getColor = (score:number, lower:number, upper:number, des?:boolean) => {
         if(!des){
@@ -28,7 +37,7 @@ const MapCard = ({map}:{map:MapInfo}) => {
     }
 
     return(
-    <div className="map-card">  
+    <div className={`map-card ${onClick ? "map-card-clickable" : ""} ${className}`} onClick={onClick}>  
         <img src="/PlonkStarsMarker.png" className="h-full p-4"/>
         <div className="map-title">
             <div className="map-name">

@@ -10,14 +10,38 @@
 
 .party-page-content {
     height: calc(100vh - 4rem - var(--navbar-height));
+    overflow: auto;
 }
+
+
 
 .party-page-footer-content-left{
     margin-left: 1rem;
 }
 
+.party-page-footer-content-center{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 50rem;
+}
+
 .party-page-footer-content-right{
     margin-right: 1rem;
+}
+
+.party-page-map{
+    background-color: var(--dark-blue) !important;
+    border-width: 2px !important;
+    border-color: white !important;
+    filter: brightness(110%);
+}
+
+.party-page-map-host:hover{
+    cursor: pointer;
+    filter: brightness(90%);
 }
 
 .party-page-start-button{
@@ -39,11 +63,17 @@
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
+    align-items: center;
+    height:100%;
 }
 
 .party-page-user-card{
     width: fit-content;
     min-width: 15%;
+}
+
+.user-card-style{
+    box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
 }
 
 .user-card-outline{
