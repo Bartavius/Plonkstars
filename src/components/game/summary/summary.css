@@ -79,3 +79,7 @@ body {
 .summary-highlight-self-row{
   background-color: var(--dark-blue);
 }
+
+.summary-leaderboard-avatar{
+  width: 1.5rem;
+}
