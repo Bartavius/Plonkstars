@@ -1,13 +1,17 @@
 .user-card-card{
+    position: relative;
     background-color: var(--dark-blue);
     border-radius: 1rem;
-    padding-top: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    width: 100%;
+}
+
+.user-card-user-icon{
+    padding: 25%;
+    padding-bottom: 0%;
 }
 .user-card-username{
     background-color: var(--darker-blue);

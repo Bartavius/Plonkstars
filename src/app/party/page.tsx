@@ -12,6 +12,7 @@ import MapCard from "@/components/maps/search/MapCard";
 import Modal from "@/components/Modal";
 import MapSearch from "@/components/maps/search/MapSearch";
 import { clearPartyCode } from "@/redux/partySlice";
+import { GiExitDoor } from "react-icons/gi";
 
 export default function PartyPage() {
     const [isHost, setIsHost] = useState<boolean>();
@@ -72,6 +73,10 @@ export default function PartyPage() {
         await api.post("/party/delete", { code: code });
     }
 
+    async function kickUser(username: string) {
+        await api.post("/party/users/remove", { code: code, username: username });
+    }
+
     async function gameStart() {
         router.push(`/game`);
     }
@@ -91,12 +96,18 @@ export default function PartyPage() {
         <div className="relative overflow-hidden">
             <div className="navbar-buffer"/>
             <div className="party-page-content">
-                {/* <div>Code:{code}</div> */}
+                <div>Code:{code}</div>
                 <div className="party-page-user-list">
                     {users.members.map(((user: any) => {
                         return (
                             <div key={user.username} className="party-page-user-card">
-                                <UserCard data={user} className={`user-card-style ${user.username == users.this? "user-card-outline":""} ${user.username == users.host? "user-card-gold-name":""}`}/>
+                                <UserCard data={user} className={`user-card-style ${user.username === users.this? "user-card-outline":""} ${user.username === users.host? "user-card-gold-name":""}`}>
+                                    {user.username !== users.host && isHost && 
+                                        <button className="party-kick-button" onClick={() => kickUser(user.username)}>
+                                            <GiExitDoor />
+                                        </button>
+                                    }
+                                </UserCard>
                             </div>
                         )
                     }))}
@@ -107,7 +118,7 @@ export default function PartyPage() {
                     <button className="btn-primary party-page-exit-button" onClick={() => (isHost ? disbandParty() : leaveParty())}>{isHost ? "Disband Party" : "Leave"}</button>
                 </div>
                 <div className="party-page-footer-content-center">
-                    <div></div>
+                    <div>Rules:</div>
                     <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => setMapOpen(true) : undefined} />
                 </div>
                 <div className="party-page-footer-content-right">

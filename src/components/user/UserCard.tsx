@@ -11,7 +11,7 @@ export default function UserCard({
 }){
     return(
         <div className={`user-card-card ${className}`}>
-            <UserIcon data={data.user_cosmetics} className="w-[4rem]"/>
+            <UserIcon data={data.user_cosmetics} className="user-card-user-icon"/>
             <div className="user-card-username">{data.username}</div>
             {children}
         </div>

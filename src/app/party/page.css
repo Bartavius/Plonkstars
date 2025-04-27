@@ -68,8 +68,7 @@
 }
 
 .party-page-user-card{
-    width: fit-content;
-    min-width: 15%;
+    min-width: 10%;
 }
 
 .user-card-style{
@@ -83,4 +82,17 @@
 
 .user-card-gold-name{
     color: var(--leaderboard-yellow);
+}
+
+.party-kick-button{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.5rem;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+.party-kick-button:hover{
+    cursor: pointer;
+    color: var(--plonk-stars-red);
 }
