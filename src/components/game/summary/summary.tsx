@@ -79,7 +79,7 @@ export default function Summary({
     map.total = <ScoreBox data={scores}/>;
     map.heading = (
       <div className="summary-rank-box">
-        <div className="rank-number-text">#{rank}<UserIcon data={user.user_cosmetics} className="summary-leaderboard-avatar"/></div>
+        <div className="rank-number-text">#{rank}<UserIcon data={scores.user.user_cosmetics} className="summary-leaderboard-avatar"/></div>
         <div className="user-name-text">{scores.user.username}</div>
       </div>
     );
