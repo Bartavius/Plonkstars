@@ -44,5 +44,5 @@ export default function useSocket({
         };
     }, [room, namespace, token, memoizedFunctions]);
     
-      return socketRef.current;
+      return socketRef;
 }

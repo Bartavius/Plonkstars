@@ -55,18 +55,20 @@ export default function GameResultPage() {
 
   async function nextRound() {
     if (state.state === "finished") {
-      router.push(`/game/${matchId}/summary`);
+      router.push(`/live/${matchId}/summary`);
       return;
     }
-    if (state.state === "results"){
+    if (state.state === "results" && isHost){
       setLoading(true);
       await api.post("/game/next", {id:matchId});
     }
   }
 
-  if (!data || loading) {
+  if (!data){
     return <Loading />;
   }
+
+  const centerText = state.state === "finished"? undefined: (isHost ? (loading?<div>Loading next round...</div>:undefined) : <div>Waiting for host...</div>)
 
   return (
     <ProtectedRoutes>
@@ -77,7 +79,7 @@ export default function GameResultPage() {
           users={data.users} 
           roundNumber={roundNumber} 
           correct={data.correct} 
-          isHost={isHost || state.state === "finished"}
+          centerText={centerText}
         />
       </Suspense>
     </ProtectedRoutes>

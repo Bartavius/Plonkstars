@@ -38,6 +38,10 @@ export default function Page() {
 
   const socket = useLiveSocket({id:id?.toString()??""})
 
+  async function ping(){
+    await api.post("/game/ping",{id});
+  }
+
   if (!data) {
     return <Loading />;
   }
@@ -56,7 +60,7 @@ export default function Page() {
         totalScore={data.total}
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
-        onTimeout={() => socket?.send("ping",{code})}
+        onTimeout={ping}
       />
     </ProtectedRoutes>
   );

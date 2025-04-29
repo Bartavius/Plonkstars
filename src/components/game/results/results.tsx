@@ -18,14 +18,14 @@ export default function Results({
   users,
   roundNumber,
   correct,
-  isHost = true,
+  centerText,
 }:{
   onClick: () => void,
   this_user: any,
   users: any,
   roundNumber: number,
   correct: any,
-  isHost?: boolean
+  centerText?:React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -93,7 +93,7 @@ export default function Results({
             </div>
           </div>
           <div className="game-footer-element w-full">
-            {isHost ? (
+            {centerText ?? (
               <button
                 onClick={onClick}
                 style={{ zIndex: 10000 }}
@@ -101,8 +101,7 @@ export default function Results({
               >
                 <b>Next Round</b>
               </button>
-            ) :<div>Waiting for Host...</div>
-            }
+            )}
           </div>
           <div className="flex justify-left items-center">
             {userDistance !== undefined && (
