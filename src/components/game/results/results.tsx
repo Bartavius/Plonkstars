@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import "@/app/game.css";
@@ -14,26 +13,27 @@ const BasicMapResult = dynamic(
 );
 
 export default function Results({
-  redirect,
+  onClick,
   this_user,
   users,
   roundNumber,
   correct,
+  isHost = true,
 }:{
-  redirect: string,
+  onClick: () => void,
   this_user: any,
   users: any,
   roundNumber: number,
-  correct: any
+  correct: any,
+  isHost?: boolean
 }) {
   const [open, setOpen] = useState(false);
 
-  const router = useRouter();
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === "Space") {
         event.preventDefault();
-        nextGame();
+        onClick();
       }
     };
 
@@ -46,9 +46,6 @@ export default function Results({
     };
   }, []);
   
-  const nextGame = () => {
-    router.push(redirect);
-  };
 
   const thisUser = users.find((user:any) => user.user.username === this_user.username);
 
@@ -96,13 +93,16 @@ export default function Results({
             </div>
           </div>
           <div className="game-footer-element w-full">
-            <button
-              onClick={nextGame}
-              style={{ zIndex: 10000 }}
-              className="game-button"
-            >
-              <b>Next Round</b>
-            </button>
+            {isHost ? (
+              <button
+                onClick={onClick}
+                style={{ zIndex: 10000 }}
+                className="game-button"
+              >
+                <b>Next Round</b>
+              </button>
+            ) :<div>Waiting for Host...</div>
+            }
           </div>
           <div className="flex justify-left items-center">
             {userDistance !== undefined && (

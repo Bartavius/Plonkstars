@@ -13,7 +13,6 @@ const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
 });
 
 export default function GamePlay({
-    guessRedirect,
     correctLat,
     correctLng,
     time,
@@ -21,9 +20,13 @@ export default function GamePlay({
     roundNumber,
     totalScore,
     NMPZ,
-    mapBounds
+    mapBounds,
+    canGuess = true,
+    userLat,
+    userLng,
+    onTimeout,
+    onGuess,
 }: {
-    guessRedirect: string;
     correctLat: number;
     correctLng: number;
     time?: Date;
@@ -32,18 +35,20 @@ export default function GamePlay({
     totalScore: number;
     NMPZ: boolean;
     mapBounds: any;
+    userLat?: number;
+    userLng?: number;
+    canGuess?: boolean;
+    onTimeout?: () => void;
+    onGuess?: () => void;
 }) {
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
-  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(!canGuess);
   const [reload, setReload] = useState<number>(0);
 
   const router = useRouter();
   const params = useParams();
   const matchId = Array.isArray(params.id) ? params.id[0] : params.id;
-
-  const sleep = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
 
   const backToStart = () => {
     setReload((prev) => prev + 1);
@@ -59,10 +64,12 @@ export default function GamePlay({
           id: matchId,
         });
       } catch (err: any) {}
+      onGuess && onGuess();
     } else {
-      await sleep(1000);
+      setTimeout(() => {
+        onTimeout && onTimeout();
+      }, 1000);
     }
-    router.push(guessRedirect);
   };
 
   useEffect(() => {
@@ -94,10 +101,13 @@ export default function GamePlay({
       />
       <div className="relative min-h-[90vh] min-w-full">
         <CombinedMap
+          lat={userLat}
+          lng={userLng}
+          canChange={!submitted}
           setLat={setLat}
           setLng={setLng}
-          lat={correctLat}
-          lng={correctLng}
+          correctLat={correctLat}
+          correctLng={correctLng}
           reload={reload}
           NMPZ={NMPZ}
           mapBounds={mapBounds}

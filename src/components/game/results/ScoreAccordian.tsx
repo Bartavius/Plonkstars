@@ -14,13 +14,11 @@ export default function ScoreAccordion({
     guesses: any[];
     user?: any;
 }) {
-    console.log(guesses);
     const headers = {
         total: 'Total',
         guess: 'Guess',
     };
 
-    console.log(guesses);
 
     const data = guesses.map((guess) => {
         return {

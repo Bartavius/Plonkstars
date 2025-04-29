@@ -76,7 +76,6 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
     getLeaderboard();
   }, [page, NMPZ]);
 
-  console.log(leaderboard);
   const headers = {
     average_score: "Avg. Score",
     rounds: "Rounds",

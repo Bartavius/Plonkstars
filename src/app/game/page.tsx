@@ -100,7 +100,6 @@ export default function Game() {
     }
   };
 
-  console.log(daily);
 
   const addMap = (id: string, name: string) => {
     setIsModalOpen(false);

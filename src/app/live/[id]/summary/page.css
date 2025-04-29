@@ -1,0 +1,78 @@
+.summary-container {
+  width: 100dvw;
+  height: 100dvh;
+}
+.link-button {
+  background-color: var(--dark-blue);
+  border-radius: 1rem;
+  padding: 1rem;
+  color: white;
+  transition: 0.2s ease-in-out;
+  z-index: 2;
+}
+
+.copy-link-button {
+  background-color: var(--darkest-blue);
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-left-radius: 0rem;
+  border-bottom-left-radius: 0rem;
+}
+
+.link-button:hover {
+  background-color: var(--darker-blue);
+  transform: scale(1.02);
+  box-shadow: 0px 3px 10px rgba(  0,  25,  51, 0.3);
+}
+
+.link-button:active {
+  transform: scale(0.97);
+}
+
+.link-text {
+  opacity: 0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  white-space: nowrap;
+  visibility: hidden;
+  transform: translateX(40px);
+  transition: all 0.5s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  max-width: 50%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  background-color: var(--dark-blue);
+  color: var(--lightest-blue);
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.link-text.visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.button-icon {
+  font-size:1rem;
+  margin-right: 0.5rem;
+}
+
+.summary-leaderboard-button{
+  background-color: var(--leaderboard-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border-radius: 1rem;
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+  
+}

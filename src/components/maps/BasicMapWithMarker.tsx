@@ -11,16 +11,22 @@ import FitBounds from "./FitBounds";
 import api from "@/utils/api";
 
 export default function BasicMapWithMarker({
+  lat,
+  lng,
+  canChange = true,
   setLat,
   setLng,
   mapBounds,
 }: {
+  lat?: number,
+  lng?: number,
+  canChange?: boolean
   setLat: (n: number) => void;
   setLng: (n: number) => void;
   mapBounds: any;
 }){
   const [markerPosition, setMarkerPosition] = useState<LatLngLiteral | null>(
-    null
+    lat !== undefined && lng !== undefined? {lat,lng}: null
   );
   const [isHovered, setIsHovered] = useState(false);
   const [center] = useState({ lat: 20, lng: 0 });
@@ -34,6 +40,7 @@ export default function BasicMapWithMarker({
   function LocationMarker({ setMarkerPosition }: LocationMarkerProps) {
     useMapEvents({
       click(e) {
+        if(!canChange) return;
         const { lat, lng } = e.latlng;
         setLat(lat);
         setLng(lng);

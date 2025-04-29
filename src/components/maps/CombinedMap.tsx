@@ -3,18 +3,24 @@ import StreetView from "./Streetview";
 import "./Streetview.css"
 
 export default function CombinedMap({
-  setLat,
-  setLng,
   lat,
   lng,
+  canChange = true,
+  setLat,
+  setLng,
+  correctLat,
+  correctLng,
   reload,
   NMPZ,
   mapBounds,
 }: {
+  lat?: number;
+  lng?: number;
+  canChange?: boolean;
   setLat: (n: number) => void;
   setLng: (n: number) => void;
-  lat: number;
-  lng: number;
+  correctLat: number;
+  correctLng: number;
   reload: number;
   NMPZ: boolean;
   mapBounds:any;
@@ -22,10 +28,10 @@ export default function CombinedMap({
   return (
     <div className="relative">
       <div className={`${NMPZ ? "NMPZ" : ""} street-view-container`} key={reload}>
-        <StreetView lat={lat} lng={lng}/>
+        <StreetView lat={correctLat} lng={correctLng}/>
       </div>
       <div style={{ position: "absolute", bottom: "1.5%", right: "0.8%" }}>
-        <BasicMapWithMarker setLat={setLat} setLng={setLng} mapBounds={mapBounds}/>
+        <BasicMapWithMarker lat={lat} lng={lng} setLat={setLat} setLng={setLng} mapBounds={mapBounds} canChange={canChange}/>
       </div>
     </div>
   );

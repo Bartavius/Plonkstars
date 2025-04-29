@@ -20,7 +20,6 @@ interface Location {
 
 export default function SummaryPage() {
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
-  const previousGame = useSelector((state: any) => state.game);
   const [locations, setLocations] = useState<Location[]>([]);
   const [user, setUser] = useState<string>("");
   const [data, setData] = useState<any>();
@@ -32,30 +31,10 @@ export default function SummaryPage() {
   const router = useRouter();
   const challengeLink = `${window.location.origin}/game/${params.id}/challenge`;
 
-
-  const startNewGame = async () => {
-    try {
-      const response = await api.post("/game/create", {
-        rounds: previousGame.rounds,
-        time: previousGame.seconds,
-        map_id: previousGame.mapId,
-        nmpz: previousGame.NMPZ,
-      });
-      const { id } = response.data;
-      router.push(`/game/${id}/join`);
-    } catch (err: any) {
-      console.error(err);
-    }
-  };
-
   const copyLink = () => {
     navigator.clipboard.writeText(challengeLink);
     setUpdate(update + 1);
   };
-
-  const gameMenu = () => {
-    router.push("/game");
-  }
 
   useEffect(() => {
     if (!params.id) {
@@ -79,7 +58,7 @@ export default function SummaryPage() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === "Space") {
         event.preventDefault();
-        startNewGame();
+        router.push("/party");
       }
     };
 
@@ -101,9 +80,6 @@ export default function SummaryPage() {
         <Summary locations={locations} data={data.users} user={user} leaderboard={leaderboard}>
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
-              <button className="btn-selected" onClick={gameMenu}>
-                Main Menu
-              </button>
               <button className="summary-leaderboard-button" onClick={()=>setLeaderboard(!leaderboard)}>
                 {leaderboard? 
                   <>
@@ -138,8 +114,8 @@ export default function SummaryPage() {
                 <CgCopy/>
               </button>
               }
-              <button className="ml-1 btn-primary" onClick={startNewGame}>
-                Next Game
+              <button className="ml-1 btn-primary" onClick={() => router.push(`/party`)}>
+                Back To Party
               </button>
             </div>
           </div>

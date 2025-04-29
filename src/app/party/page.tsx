@@ -20,6 +20,7 @@ export default function PartyPage() {
     const [loading, setLoading] = useState<boolean>(true);
     const [rules, setRules] = useState<any>();
     const [mapOpen, setMapOpen] = useState<boolean>(false);
+    const [url, setUrl] = useState<string>();
 
     const dispatch = useDispatch();
     const code = useSelector((state: any) => state.party).code;
@@ -38,19 +39,20 @@ export default function PartyPage() {
             },
             message:(data)=>console.log(data),
             add_user:(data)=>{
-                console.log(data);
                 setUsers((prev:any) => ({
                     ...prev,members: [...prev.members, data]
                 }))
             },
             remove_user: (data) => {
-                console.log(data);
                 setUsers((prev: any) => ({
                   ...prev,
                   members: prev.members.filter((user: any) => user.username !== data.username),
                 }));
               },
             update_rules:(data)=>setRules(data),
+            start: (data) =>{
+                router.push(`${data.type.toLowerCase()}/${data.id}`)
+            },
         }
     });
 
@@ -61,7 +63,6 @@ export default function PartyPage() {
         setUsers(users.data);
         const rules = await api.get(`/party/rules?code=${code}`);
         setRules(rules.data);
-        console.log(users.data);
         setLoading(false);
     }
 
@@ -78,7 +79,7 @@ export default function PartyPage() {
     }
 
     async function gameStart() {
-        router.push(`/game`);
+        await api.post("/party/start", { code: code });
     }
 
     async function setMap(id: string,name: string) {
@@ -92,6 +93,7 @@ export default function PartyPage() {
     if (loading) {
         return <Loading/>
     }
+
     return (
         <div className="relative overflow-hidden">
             <div className="navbar-buffer"/>
