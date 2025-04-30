@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import useLiveSocket from "../liveSocket";
 import { useSelector } from "react-redux";
+import Popup from "@/components/Popup";
 
 export default function Page() {
   const [data,setData] = useState<any>();

@@ -96,7 +96,9 @@ export default function SummaryPage() {
 
   return (
     <ProtectedRoutes>
-      <Popup update={update} message={update=== 0? undefined: "Link Copied"}/>
+      <Popup update={update}>
+        {update=== 0? undefined: "Link Copied"}
+      </Popup>
       <div className="summary-container">
         <Summary locations={locations} data={data.users} user={user} leaderboard={leaderboard}>
           <div className="grid grid-cols-3 gap-4 w-full">

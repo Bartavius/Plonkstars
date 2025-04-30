@@ -247,7 +247,9 @@ export default function Game() {
             </div>
           </div>
         </div>
-        <Popup message={error} type="error"/>
+        <Popup type="error">
+              {error}
+        </Popup>
         <div className="fixed">
           <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
             <h2 className="text-xl font-semibold text-center">Select Map</h2>

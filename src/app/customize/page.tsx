@@ -26,7 +26,9 @@ export default function Settings() {
   return (
     <div>
       <div className="navbar-buffer" />
-      <Popup message={message} update={update} />
+      <Popup update={update}>
+        {message}
+      </Popup>
       <div className="settings-wrapper">
         <div id="top" className="settings-header">
           Customizations

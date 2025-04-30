@@ -2,7 +2,6 @@ import "./Popup.css";
 import { useEffect, useState } from "react";
 
 export default function Popup({ 
-  message,
   duration = 2000, 
   fadeOut = 1000,
   background,
@@ -10,15 +9,16 @@ export default function Popup({
   update,
   className,
   type="info",
+  children
 }: {
   update?: number;
-  message?: string;
   duration?: number; 
   fadeOut?: number;
   background?: string;
   color?: string;
   className?: string;
   type?:string;
+  children?: React.ReactNode;
 }) {
   const [popupFade, setPopupFade] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export default function Popup({
       className = "text-blue-500 bg-blue-100 border border-blue-400";
   }
   function showPopup() {
-      if (show || !message) return;
+      if (show || !children) return;
       setShow(true);
       setPopupFade(false);
 
@@ -48,14 +48,14 @@ export default function Popup({
 
   useEffect(() => {
     showPopup()
-  }, [update, message]);
+  }, [update, children]);
 
   return (
     <>
-    {show && message && 
+    {show && 
     <div className="popup-wrapper">
       <div className={`settings-popup ${popupFade ? "opacity-0" : "opacity-100"} ${className}`} style={{color,background}}>
-          {message}
+          {children}
       </div>
     </div>
     }
