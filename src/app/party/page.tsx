@@ -19,6 +19,8 @@ export default function PartyPage() {
     const [users, setUsers] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
     const [rules, setRules] = useState<any>();
+    const [localRules, setLocalRules] = useState<any>();
+    const [rulesOpen, setRulesOpen] = useState<boolean>(false);
     const [mapOpen, setMapOpen] = useState<boolean>(false);
     const [url, setUrl] = useState<string>();
 
@@ -49,7 +51,7 @@ export default function PartyPage() {
                   members: prev.members.filter((user: any) => user.username !== data.username),
                 }));
               },
-            update_rules:(data)=>setRules(data),
+            update_rules:(data)=>{setRules(data);setLocalRules(data);},
             start: (data) =>{
                 router.push(`${data.type.toLowerCase()}/${data.id}`)
             },
@@ -63,6 +65,7 @@ export default function PartyPage() {
         setUsers(users.data);
         const rules = await api.get(`/party/rules?code=${code}`);
         setRules(rules.data);
+        setLocalRules(rules.data);
         setLoading(false);
     }
 
@@ -86,6 +89,10 @@ export default function PartyPage() {
         setMapOpen(false);
         await api.post("/party/rules", { code: code, ...rules, map_id: id });
     }
+
+    async function sendRules() {
+        await api.post("/party/rules",localRules);
+    }    
 
     useEffect(() => {
         fetchData();
@@ -129,6 +136,12 @@ export default function PartyPage() {
             </div>
             <div className="fixed">
                 <Modal isOpen={mapOpen} onClose={() => setMapOpen(false)}>
+                    <h2 className="text-xl font-semibold text-center">Select Map</h2>
+                    <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
+                </Modal>
+            </div>
+            <div className="fixed">
+                <Modal isOpen={rulesOpen} onClose={() => setRulesOpen(false)}>
                     <h2 className="text-xl font-semibold text-center">Select Map</h2>
                     <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
                 </Modal>
