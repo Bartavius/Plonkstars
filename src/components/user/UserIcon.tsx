@@ -6,7 +6,7 @@ export default function UserIcon({
     className?: string
 }){
     return(
-        <div className={`w-full ${className}`}>
+        <div className={className ? className:"w-full"}>
             <img src="/PlonkStarsAvatar.svg" style={{filter: `hue-rotate(${data.hue}deg) saturate(${data.saturation}%) brightness(${data.brightness}%)`}} alt="" />
         </div>
     )

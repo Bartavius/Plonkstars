@@ -2,7 +2,7 @@ import { clearPartyCode } from "@/redux/partySlice";
 import api from "@/utils/api";
 import useSocket from "@/utils/socket";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 type SocketEvents = {
@@ -35,6 +35,7 @@ export default function useLiveSocket({
                 dispatch(clearPartyCode());
                 router.push("/party/temp");
             },
+            summary: (data) => {router.push(`/live/${id}/summary`);},
             ...functions,
         }
     })
@@ -51,8 +52,8 @@ export default function useLiveSocket({
             case "playing":
                 push(`/live/${id}`);
                 break;
-            case "results":
             case "finished":
+            case "results":
                 push(`/live/${id}/result?round=${state.round}`);
                 break;
             default:

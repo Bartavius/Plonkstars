@@ -26,6 +26,7 @@ export default function GamePlay({
     userLng,
     onTimeout,
     onGuess,
+    rightFooter,
 }: {
     correctLat: number;
     correctLng: number;
@@ -40,6 +41,7 @@ export default function GamePlay({
     canGuess?: boolean;
     onTimeout?: () => void;
     onGuess?: () => void;
+    rightFooter?: React.ReactNode;
 }) {
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
@@ -124,17 +126,19 @@ export default function GamePlay({
           </div>
           <div className="footer-grid-center-elements"></div>
           <div className="footer-grid-right-elements">
-            <button
-              onClick={submitGuess}
-              disabled={
-                lat !== undefined && lng !== undefined && !submitted
-                  ? false
-                  : true
-              }
-              className="game-button"
-            >
-              <b className="block">Submit</b>
-            </button>
+            {rightFooter? rightFooter:
+              <button
+                onClick={submitGuess}
+                disabled={
+                  lat !== undefined && lng !== undefined && !submitted
+                    ? false
+                    : true
+                }
+                className="game-button"
+              >
+                <b className="block">Submit</b>
+              </button>
+            }
           </div>
         </div>
       </div>

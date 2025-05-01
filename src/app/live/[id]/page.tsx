@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import useLiveSocket from "../liveSocket";
 import { useSelector } from "react-redux";
 import Popup from "@/components/Popup";
+import UserIcon from "@/components/user/UserIcon";
 
 export default function Page() {
   const [data,setData] = useState<any>();
@@ -50,10 +51,11 @@ export default function Page() {
 
   const socketFunctions = {
       "guess": (data: any) => {
-        guesses && setGuesses(guesses + 1);
+        guesses !== undefined && setGuesses(guesses + 1);
         setPopupElement(
-          <div>
-            {data.username} guessed
+          <div className="flex flex-col justify-center items-center">
+            <UserIcon className="w-[1rem]" data={data.user_cosmetics}/>
+            <div>{data.username} guessed</div>
           </div>
         );
       },
@@ -73,6 +75,12 @@ export default function Page() {
     return <Loading />;
   }
 
+  const rightFooter = (
+    <div className="border border-gray-300 bg-white shadow-md rounded-full text-base font-semibold text-gray-800 mr-4 flex justify-center items-center px-5 py-1.5">
+      {guesses}/{players} guesses
+    </div>
+  )
+
   return (
     <ProtectedRoutes>
       <Popup>
@@ -91,6 +99,8 @@ export default function Page() {
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
         onTimeout={ping}
+        rightFooter={canGuess? undefined: rightFooter}
+        onGuess={() => setCanGuess(false)}
       />
     </ProtectedRoutes>
   );

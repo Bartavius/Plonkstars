@@ -10,6 +10,7 @@
 }
 
 .user-card-user-icon{
+    width: 100%;
     padding: 25%;
     padding-bottom: 0%;
 }

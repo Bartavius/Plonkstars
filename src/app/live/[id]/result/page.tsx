@@ -68,7 +68,7 @@ export default function GameResultPage() {
     return <Loading />;
   }
 
-  const centerText = state.state === "finished"? undefined: (isHost ? (loading?<div>Loading next round...</div>:undefined) : <div>Waiting for host...</div>)
+  const centerText = isHost ? (loading?<div>Loading next round...</div>:undefined) : <div>Waiting for host...</div>
 
   return (
     <ProtectedRoutes>
