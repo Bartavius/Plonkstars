@@ -54,7 +54,12 @@ export default function useLiveSocket({
                 break;
             case "finished":
             case "results":
-                push(`/live/${id}/result?round=${state.round}`);
+                if (state.round !== undefined) {
+                    push(`/live/${id}/result?round=${state.round}`);
+                }
+                else{
+                    push(`/live/${id}/summary`);
+                }
                 break;
             default:
                 break;
