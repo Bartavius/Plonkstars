@@ -49,9 +49,9 @@ export default function GameResultPage() {
       }
     };
     getResults();
-  },[])
+  },[]);
 
-  const socket = useLiveSocket({id: matchId?.toString() ?? ""});
+  const socket = useLiveSocket({id: matchId?.toString() ?? "",state});
 
   async function nextRound() {
     if (state.state === "finished") {

@@ -5,10 +5,18 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+type SocketEvents = {
+    [event: string]: (...args: any[]) => void;
+};
+
 export default function useLiveSocket({
     id,
+    state,
+    functions
 }:{
     id:string,
+    state:any,
+    functions?:SocketEvents
 }){
     const router = useRouter();
     const pathname = usePathname();
@@ -27,6 +35,7 @@ export default function useLiveSocket({
                 dispatch(clearPartyCode());
                 router.push("/party/temp");
             },
+            ...functions,
         }
     })
 
@@ -58,8 +67,8 @@ export default function useLiveSocket({
     }
     
     useEffect(() =>{
-        next();
-    },[])
+        state && pushState(state);
+    },[state])
     
 
     return socket;
