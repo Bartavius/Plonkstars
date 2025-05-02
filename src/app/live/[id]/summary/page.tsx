@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
-import { useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import Loading from "@/components/loading";

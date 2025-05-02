@@ -6,7 +6,7 @@ export default function Table(
         data,
         onClickRow,
         onClickHeader,
-        className,
+        className="",
     }:{
         headers: any,
         data: any[],

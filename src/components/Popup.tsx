@@ -22,16 +22,17 @@ export default function Popup({
 }) {
   const [popupFade, setPopupFade] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
-
-  switch (type) {
-    case "error":
-      className = "text-red-500 bg-red-100 border border-red-400";
-      break;
-    case "success":
-      className = "text-green-500 bg-green-100 border border-green-400";
-      break;
-    case "info":
-      className = "text-blue-500 bg-blue-100 border border-blue-400";
+  if (!className){
+    switch (type) {
+      case "error":
+        className = "text-red-500 bg-red-100 border border-red-400";
+        break;
+      case "success":
+        className = "text-green-500 bg-green-100 border border-green-400";
+        break;
+      case "info":
+        className = "text-blue-500 bg-blue-100 border border-blue-400";
+    }
   }
   function showPopup() {
       if (show || !children) return;

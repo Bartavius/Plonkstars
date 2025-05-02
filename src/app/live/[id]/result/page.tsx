@@ -25,7 +25,6 @@ export default function GameResultPage() {
   }
 
   const [data,setData] = useState<any>();
-  const [error, setError] = useState<string | undefined>(undefined);
   const [state,setState] = useState<any>();
   const [isHost, setIsHost] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -45,7 +44,7 @@ export default function GameResultPage() {
 
         
       } catch (err: any) {
-        setError(err.response?.data?.error || "Error getting results");
+
       }
     };
     getResults();

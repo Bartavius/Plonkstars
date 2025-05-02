@@ -6,14 +6,13 @@
     justify-content: space-between;
     box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
     align-items: center;
+    overflow: hidden;
 }
 
 .party-page-content {
     height: calc(100vh - 4rem - var(--navbar-height));
     overflow: auto;
 }
-
-
 
 .party-page-footer-content-left{
     margin-left: 1rem;
@@ -24,7 +23,7 @@
     grid-template-columns: repeat(2, 1fr);
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
     width: 50rem;
 }
 
@@ -92,7 +91,50 @@
     color: white;
     transition: all 0.2s ease-in-out;
 }
+
 .party-kick-button:hover{
     cursor: pointer;
     color: var(--plonk-stars-red);
+}
+
+.party-page-rules-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.party-page-rule-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.party-page-rule-key-text{
+    font-size: 1.25rem;
+    color: var(--plonk-stars-red);
+    font-weight: 800;
+    
+}
+
+.party-page-rule-value-text{
+    font-size: 1rem;
+    color: white;
+}
+
+.party-page-rules-footer{
+    background-color: var(--dark-blue);
+    border-radius: 1rem;
+    padding: 0 1rem;
+    border: solid 2px white;
+    filter: brightness(110%);
+    transition: all 0.2s ease-in-out;
+}
+
+.party-page-rules-footer-host:hover{
+    cursor: pointer;
+    filter: brightness(90%);
 }

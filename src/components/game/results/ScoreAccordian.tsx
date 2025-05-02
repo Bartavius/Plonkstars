@@ -5,7 +5,7 @@ import UserIcon from "@/components/user/UserIcon";
 
 export default function ScoreAccordion({
     open,
-    className,
+    className = "",
     guesses,
     user,
 }: {

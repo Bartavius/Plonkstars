@@ -13,16 +13,22 @@ import Modal from "@/components/Modal";
 import MapSearch from "@/components/maps/search/MapSearch";
 import { clearPartyCode } from "@/redux/partySlice";
 import { GiExitDoor } from "react-icons/gi";
+import { FaQuestionCircle } from "react-icons/fa";
+import { BsInfinity } from "react-icons/bs";
+
+const MIN_ROUNDS = 5;
+const MAX_ROUNDS = 20;
+const MIN_TIME = 5;
+const MAX_TIME = 300;
 
 export default function PartyPage() {
-    const [isHost, setIsHost] = useState<boolean>();
+    const [isHost, setIsHost] = useState<boolean>(false);
     const [users, setUsers] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
     const [rules, setRules] = useState<any>();
     const [localRules, setLocalRules] = useState<any>();
     const [rulesOpen, setRulesOpen] = useState<boolean>(false);
     const [mapOpen, setMapOpen] = useState<boolean>(false);
-    const [url, setUrl] = useState<string>();
 
     const dispatch = useDispatch();
     const code = useSelector((state: any) => state.party).code;
@@ -87,11 +93,12 @@ export default function PartyPage() {
 
     async function setMap(id: string,name: string) {
         setMapOpen(false);
-        await api.post("/party/rules", { code: code, ...rules, map_id: id });
+        await api.post("/party/rules", { code, ...rules, map_id: id });
     }
 
-    async function sendRules() {
-        await api.post("/party/rules",localRules);
+    async function saveRules() {
+        setRulesOpen(false);
+        await api.post("/party/rules",{code, ...localRules});
     }    
 
     useEffect(() => {
@@ -100,6 +107,12 @@ export default function PartyPage() {
     if (loading) {
         return <Loading/>
     }
+
+    const displayRules = {
+        Rounds: rules.rounds,
+        Time: rules.time === -1? <BsInfinity/>:`${rules.time}s`, 
+        NMPZ: rules.nmpz.toString()
+    };
 
     return (
         <div className="relative overflow-hidden">
@@ -127,7 +140,14 @@ export default function PartyPage() {
                     <button className="btn-primary party-page-exit-button" onClick={() => (isHost ? disbandParty() : leaveParty())}>{isHost ? "Disband Party" : "Leave"}</button>
                 </div>
                 <div className="party-page-footer-content-center">
-                    <div>Rules:</div>
+                    <div className={`party-page-rules-footer ${isHost ? "party-page-rules-footer-host" : ""}`} onClick={isHost ? () => setRulesOpen(true) : undefined}>
+                        {Object.entries(displayRules).map(([key, value]) => (
+                            <div key={key} className="party-page-rule-item">
+                                <div className="party-page-rule-key-text">{key}</div> 
+                                <div className="party-page-rule-value-text">{value}</div>
+                            </div>
+                        ))}
+                    </div>
                     <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => setMapOpen(true) : undefined} />
                 </div>
                 <div className="party-page-footer-content-right">
@@ -140,10 +160,72 @@ export default function PartyPage() {
                     <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
                 </Modal>
             </div>
-            <div className="fixed">
-                <Modal isOpen={rulesOpen} onClose={() => setRulesOpen(false)}>
-                    <h2 className="text-xl font-semibold text-center">Select Map</h2>
-                    <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
+            <div className="fixed">  
+                <Modal isOpen={isHost && rulesOpen} onClose={() => setRulesOpen(false)}>
+                    <h2 className="text-xl font-semibold text-center">Set Rules</h2>
+                    <div className="mb-4">
+                        <label className="block mb-2 text-white" htmlFor="round-range">
+                            No. of Rounds: {localRules.rounds}
+                        </label>
+                        <input
+                            className="focus:outline-none input-field cursor-pointer"
+                            style={{ padding: "0px" }}
+                            type="range"
+                            id="round-range"
+                            min={MIN_ROUNDS}
+                            max={MAX_ROUNDS}
+                            step="1"
+                            value={localRules.rounds}
+                            onChange={(e) => 
+                                setLocalRules((prev:any) => ({...prev,rounds:Number(e.target.value)}))
+                            }
+                        />
+                    </div>
+                    <div className="mb-6">
+                    <label className="block mb-2 text-white" htmlFor="time-range">
+                        Time Limit: {localRules.time >= MAX_TIME + 1 || localRules.time == -1 ? <BsInfinity className="inline"/> : `${localRules.time}s`}
+                    </label>
+                    <input
+                        className="text-dark focus:outline-none input-field cursor-pointer"
+                        style={{ padding: "0px" }}
+                        type="range"
+                        id="time-range"
+                        min={MIN_TIME}
+                        max={MAX_TIME + 1}
+                        step="1"
+                        value={localRules.time == -1 ? MAX_TIME + 1 : localRules.time}
+                        onChange={(e) => {
+                                const val = Number(e.target.value);
+                                setLocalRules((prev:any) => ({...prev,time:val === MAX_TIME + 1? -1:val})) 
+                            }
+                        }
+                    />
+                    </div>
+                    <div className="mb-6">
+                        <input
+                            type="checkbox"
+                            name="NMPZ-toggle"
+                            id="NMPZ-toggle"
+                            checked={localRules.nmpz}
+                            className="mr-2 cursor-pointer"
+                            onChange={(e) => 
+                                setLocalRules((prev:any) => ({...prev,nmpz:e.target.checked}))
+                            }
+                        />
+                        <label
+                            htmlFor="NMPZ-toggle"
+                            title="No moving, No panning, No zooming"
+                        >
+                            <b>NMPZ</b>
+                            <FaQuestionCircle className="ml-2 inline" />
+                        </label>
+                    </div>
+                    <button
+                        className="btn-primary justify-center flex mx-auto"
+                        onClick={saveRules}
+                    >
+                        Save Rules
+                    </button>
                 </Modal>
             </div>
         </div>

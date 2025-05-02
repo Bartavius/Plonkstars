@@ -1,5 +1,4 @@
 import { clearPartyCode } from "@/redux/partySlice";
-import api from "@/utils/api";
 import useSocket from "@/utils/socket";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";

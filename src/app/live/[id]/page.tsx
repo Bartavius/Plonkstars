@@ -6,7 +6,6 @@ import api from "@/utils/api";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import useLiveSocket from "../liveSocket";
-import { useSelector } from "react-redux";
 import Popup from "@/components/Popup";
 import UserIcon from "@/components/user/UserIcon";
 
