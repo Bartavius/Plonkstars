@@ -16,28 +16,35 @@ export default function Page() {
   function pushCorrect(data:any){
     if (data.state === "results") {
       router.push(`/game/${id}/result?round=${data.round}`);
+      return true;
     } else if (data.state === "finished") {
       router.push(`/game/${id}/summary`);
+      return true;
     } else if (data.state === "not_playing"){
       router.push(`/game/${id}`);
+      return true;
     }
   }
   useEffect(() => {
     const fetchLocation = async () => {
       try {
         const state = await api.get(`/game/state?id=${id}`);
-        pushCorrect(state.data);
+        if (pushCorrect(state.data)){
+          return;
+        }
         
         const response = await api.get(`/game/round?id=${id}`);
         setData(response.data);
       } catch (err: any) {
         console.log(err);
-        if (err.response?.status == 404) {
-          router.push("/game");
-        }
         if (err.response?.data?.error == "No more rounds are available") {
           router.push(`/game/${id}/summary`);
+          return;
         }
+        
+        router.push("/game");
+        
+        
       }
     };
     fetchLocation(); //render loading screen later

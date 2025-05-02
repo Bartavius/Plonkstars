@@ -27,6 +27,7 @@ export default function SummaryPage() {
   const [showLink, setShowLink] = useState(false);
   const [update, setUpdate] = useState(0);
   const [leaderboard, setLeaderboard] = useState<boolean>(false);
+  const [isHost, setIsHost] = useState<boolean>();
   
   const params = useParams();
   const router = useRouter();
@@ -68,6 +69,9 @@ export default function SummaryPage() {
         setLocations(res.data.rounds);
         setUser(res.data.this_user);
         setData(res.data);
+
+        const isHost = await api.get(`/session/host?id=${params.id}`);
+        setIsHost(isHost.data.is_host);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -79,7 +83,11 @@ export default function SummaryPage() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === "Space") {
         event.preventDefault();
-        startNewGame();
+        if (isHost) {
+          startNewGame();
+        } else {
+          gameMenu();
+        }
       }
     };
 
@@ -88,9 +96,9 @@ export default function SummaryPage() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [isHost]);
 
-  if (!data) {
+  if (!data || isHost === undefined) {
     return <Loading/>;
   }
 
@@ -103,9 +111,11 @@ export default function SummaryPage() {
         <Summary locations={locations} data={data.users} user={user} leaderboard={leaderboard}>
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
-              <button className="btn-selected" onClick={gameMenu}>
-                Main Menu
-              </button>
+              {isHost &&
+                <button className="btn-selected" onClick={gameMenu}>
+                  Main Menu
+                </button>
+              }
               <button className="summary-leaderboard-button" onClick={()=>setLeaderboard(!leaderboard)}>
                 {leaderboard? 
                   <>
@@ -140,9 +150,14 @@ export default function SummaryPage() {
                 <CgCopy/>
               </button>
               }
-              <button className="ml-1 btn-primary" onClick={startNewGame}>
-                Next Game
-              </button>
+              {isHost ?
+                <button className="ml-1 btn-primary" onClick={startNewGame}>
+                  Next Game
+                </button>:
+                <button className="ml-1 btn-primary" onClick={gameMenu}>
+                  Back To Menu
+               </button>
+              }
             </div>
           </div>
         </Summary>

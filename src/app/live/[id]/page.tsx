@@ -20,7 +20,6 @@ export default function Page() {
   const [canGuess, setCanGuess] = useState<boolean>(true);
   const [popupElement, setPopupElement] = useState<React.ReactNode>();
 
-  const code = useSelector((state: any) => state.party).code;
   const params = useParams();
   const id = params.id;
 

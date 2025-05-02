@@ -2,7 +2,7 @@ import { clearPartyCode } from "@/redux/partySlice";
 import api from "@/utils/api";
 import useSocket from "@/utils/socket";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 type SocketEvents = {
