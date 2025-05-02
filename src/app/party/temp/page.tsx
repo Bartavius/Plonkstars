@@ -18,14 +18,16 @@ export default function Temp(){
     }
     
     async function joinParty(){
-        const res = await api.post("/party/join", {code:input});
-        if(res.status == 200){
-            dispatch(setPartyCode(input));
-            router.push(`/party`);
+        try{
+            await api.post("/party/join", {code:input});
+        } catch(err:any){
+            if(err.response?.status == 404){
+                alert("Invalid party code");
+                return;
+            }
         }
-        else{
-            alert("Invalid party code")
-        }
+        dispatch(setPartyCode(input));
+        router.push(`/party`);
     }
     return (
         <div className="relative flex justify-center items-center flex-col h-screen">

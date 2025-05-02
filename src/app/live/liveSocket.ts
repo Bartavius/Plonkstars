@@ -30,7 +30,7 @@ export default function useLiveSocket({
         namespace: "/party",
         room: room,
         functions:{
-            next: (data) => next(),
+            next: (data) => pushState(data),
             leave:(data)=>{
                 dispatch(clearPartyCode());
                 router.push("/party/temp");
@@ -39,12 +39,6 @@ export default function useLiveSocket({
             ...functions,
         }
     })
-
-    async function next() {
-        const state = await api.get(`/game/state?id=${id}`);
-        console.log(state.data);
-        pushState(state.data);
-    }
 
     function pushState(state: any){
         switch (state.state) {
