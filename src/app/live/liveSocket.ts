@@ -21,13 +21,13 @@ export default function useLiveSocket({
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const dispatch = useDispatch();
-    const room = useSelector((state: any) => state.party).code;
+    const code = useSelector((state: any) => state.party).code;
 
     const fullPath = searchParams.toString() ? `${pathname}?${searchParams.toString()}`: pathname;
 
     const socket = useSocket({
         namespace: "/party",
-        room: room,
+        rooms: {code,id},
         functions:{
             next: (data) => pushState(data),
             leave:(data)=>{

@@ -39,7 +39,7 @@ export default function PartyPage() {
     }
     const socket = useSocket({
         namespace: "/party",
-        room: code,
+        rooms: {code:code},
         functions:{
             leave:(data)=>{
                 dispatch(clearPartyCode());

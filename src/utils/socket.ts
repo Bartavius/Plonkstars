@@ -10,17 +10,18 @@ type SocketEvents = {
 
 export default function useSocket({
     namespace,
-    room,
+    rooms,
     functions,
 }:{
     namespace: string;
-    room?: string;
+    rooms?: any;
     functions:SocketEvents;
 }){
     const token = useSelector((state: any) => state.auth.token); 
     const socketRef = useRef<Socket | null>(null);
 
-    const memoizedFunctions = Object.keys(functions).toString();
+    const memorizedFunctions = Object.keys(functions).toString();
+    const memorizedRooms = Object.keys(rooms).toString();
     useEffect(() => { 
         const socket = io(`${process.env.NEXT_PUBLIC_BACKEND}/socket${namespace}`, {
             transports: ['websocket', 'polling'],
@@ -33,7 +34,7 @@ export default function useSocket({
         socketRef.current = socket;
 
         socket.on("connect", () => {
-            socket.emit("join", {id:room,token});
+            socket.emit("join", {...rooms,token});
             console.log("Connected");
         });
         Object.keys(functions).forEach((event: string) => {socket.on(event, functions[event]);});
@@ -42,7 +43,7 @@ export default function useSocket({
             socket.disconnect();
             socketRef.current = null;
         };
-    }, [room, namespace, token, memoizedFunctions]);
+    }, [memorizedRooms, namespace, token, memorizedFunctions]);
     
       return socketRef;
 }

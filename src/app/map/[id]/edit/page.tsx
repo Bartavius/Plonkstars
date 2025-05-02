@@ -42,7 +42,7 @@ export default function EditMapPage() {
     
     const socket = useSocket({
         namespace: "/map/edit",
-        room: MAPID?.toString(),
+        rooms: {id:MAPID?.toString()},
         functions: {
             add: (data) => setBounds(prevBounds => [...prevBounds, ...data.bounds]),
             remove: (data) => setBounds(prevBounds => prevBounds.filter((bound) => !data.bounds.includes(bound.id))),
