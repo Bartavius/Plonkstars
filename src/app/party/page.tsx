@@ -15,6 +15,8 @@ import { clearPartyCode } from "@/redux/partySlice";
 import { GiExitDoor } from "react-icons/gi";
 import { FaQuestionCircle } from "react-icons/fa";
 import { BsInfinity } from "react-icons/bs";
+import { BiCheck, BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
+import { FaSquareCheck, FaSquareXing } from "react-icons/fa6";
 
 const MIN_ROUNDS = 5;
 const MAX_ROUNDS = 20;
@@ -70,6 +72,7 @@ export default function PartyPage() {
         const users = await api.get(`/party/users?code=${code}`);
         setUsers(users.data);
         const rules = await api.get(`/party/rules?code=${code}`);
+        console.log(rules.data);
         setRules(rules.data);
         setLocalRules(rules.data);
         setLoading(false);
@@ -111,8 +114,10 @@ export default function PartyPage() {
     const displayRules = {
         Rounds: rules.rounds,
         Time: rules.time === -1? <BsInfinity/>:`${rules.time}s`, 
-        NMPZ: rules.nmpz.toString()
+        NMPZ: rules.nmpz ? <BiSolidCheckboxChecked className="text-green-300 text-xl"/>:<BiSolidCheckboxMinus className="text-red-300 text-xl"/>,
     };
+
+    console.log(displayRules);
 
     return (
         <div className="relative overflow-hidden">
@@ -148,7 +153,7 @@ export default function PartyPage() {
                             </div>
                         ))}
                     </div>
-                    <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => setMapOpen(true) : undefined} />
+                    <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => {setMapOpen(true);setLocalRules(rules);} : undefined} />
                 </div>
                 <div className="party-page-footer-content-right">
                     {isHost ? <button className="party-page-start-button" onClick={gameStart}>Start</button>:<div>Waiting for host...</div>}
@@ -161,7 +166,7 @@ export default function PartyPage() {
                 </Modal>
             </div>
             <div className="fixed">  
-                <Modal isOpen={isHost && rulesOpen} onClose={() => setRulesOpen(false)}>
+                <Modal isOpen={isHost && rulesOpen} onClose={() => {setRulesOpen(false)}}>
                     <h2 className="text-xl font-semibold text-center">Set Rules</h2>
                     <div className="mb-4">
                         <label className="block mb-2 text-white" htmlFor="round-range">
