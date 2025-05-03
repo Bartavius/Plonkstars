@@ -15,8 +15,7 @@ import { clearPartyCode } from "@/redux/partySlice";
 import { GiExitDoor } from "react-icons/gi";
 import { FaQuestionCircle } from "react-icons/fa";
 import { BsInfinity } from "react-icons/bs";
-import { BiCheck, BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
-import { FaSquareCheck, FaSquareXing } from "react-icons/fa6";
+import { BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
 
 const MIN_ROUNDS = 5;
 const MAX_ROUNDS = 20;
@@ -37,7 +36,7 @@ export default function PartyPage() {
     const router = useRouter();
 
     if(!code){
-        router.push("/party/temp");
+        router.push("/game");
     }
     const socket = useSocket({
         namespace: "/party",

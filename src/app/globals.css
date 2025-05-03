@@ -122,6 +122,9 @@ text-decoration: underline;
 .bg-dark {
   background-color: var(--darker-blue);
 }
+.bg-light {
+  background-color: var(--lighter-blue);
+}
 
 .bg-white {
   background-color: var(--plonk-stars-white);
