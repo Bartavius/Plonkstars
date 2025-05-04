@@ -4,7 +4,7 @@ import { MapContainer, Polyline, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
 import MapIcon from "./mapIcon";
-import getTileLayer from "@/utils/leaflet";
+import MapTileLayer from "@/utils/leaflet";
 import FitBounds from "./FitBounds";
 
 export default function BasicMapResult({
@@ -61,7 +61,7 @@ export default function BasicMapResult({
         center={CENTER}
         zoom={7}
       >
-        {getTileLayer(512,-1)}
+        <MapTileLayer size={512} offset={-1}/>
         {boundedMarkers.map((markerObj:any, index:number) => (
           <div key={index}>
             {markerObj && (

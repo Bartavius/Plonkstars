@@ -7,7 +7,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import MapIcon from "./mapIcon";
 import "./map.css";
-import getTileLayer from "../../utils/leaflet";
+import MapTileLayer from "../../utils/leaflet";
 import FitBounds from "./FitBounds";
 
 interface Location {
@@ -66,7 +66,7 @@ export default function MapPreview({
                 center={CENTER}
                 zoom={2}
             >
-                {getTileLayer(512, -1)}
+                <MapTileLayer size={512} offset={-1}/>
                 {children}
                 <div>
                     {points.map((point,index) => (

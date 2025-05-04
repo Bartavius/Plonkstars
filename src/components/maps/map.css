@@ -1,25 +1,20 @@
 .leaflet-container-wrapper {
-    width: 23vw; /* 800 */
-    height: 25vh; /* 460 */
+    width: 23vw;
+    height: 25vh;
     overflow: hidden;
     z-index: 99;
-    transition: transform 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
     transform-origin: bottom right;
     opacity: 0.6;
-    transform: scale(1); /* scale 0.59 */
 }
   
 .leaflet-container-wrapper.hovered {
-    transform: scaleX(2.4) scaleY(2.4); /* 1.2 instead */
+    height: 50vh;
+    width: 46vw;
     opacity: 1;
     cursor: crosshair;
 }
   
-.leaflet-container-wrapper:hover {
-    transform: scaleX(2.4) scaleY(2.4); /* 1.2 instead */
-    opacity: 1;
-    cursor: crosshair;
-}
   
 .leaflet-control-attribution {
     font-size: 0.35rem !important;
@@ -82,11 +77,10 @@
         height: 30vh;
         opacity: 1;
     }
-  
-    .leaflet-container-wrapper:hover {
-        transform: none;
-    }
+
     .leaflet-container-wrapper.hovered {
+        width: 100vw;
+        height: 30vh;
         transform: none;
     }
   

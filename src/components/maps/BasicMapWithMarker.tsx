@@ -5,7 +5,7 @@ import { MapContainer, useMapEvents } from "react-leaflet";
 import { LatLngLiteral } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./map.css";
-import getTileLayer from "@/utils/leaflet";
+import MapTileLayer from "@/utils/leaflet";
 import MapIcon from "./mapIcon";
 import FitBounds from "./FitBounds";
 import api from "@/utils/api";
@@ -31,7 +31,7 @@ export default function BasicMapWithMarker({
   const [isHovered, setIsHovered] = useState(false);
   const [center] = useState({ lat: 20, lng: 0 });
   const ZOOM_LEVEL = 0;
-  const mapRef = useRef(null);
+  const mapRef = useRef<L.Map | null>(null);
 
   interface LocationMarkerProps {
     setMarkerPosition: (pos: LatLngLiteral) => void;
@@ -60,6 +60,14 @@ export default function BasicMapWithMarker({
     }, 1000);
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      mapRef.current?.invalidateSize();
+    }, 150);
+  
+    return () => clearTimeout(timeout);
+  }, [isHovered]);
+
   const [userIcon, setUserIcon] = useState<any>({hue: 0, saturation: 100, brightness: 100});
   useEffect(() => {
     const fetchAvatar = async () => {
@@ -81,10 +89,10 @@ export default function BasicMapWithMarker({
         ref={mapRef}
         className="leaflet-map"
       >
-        {getTileLayer()}
+        <MapTileLayer size={512} offset={-1}/>
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
-          <MapIcon pos={markerPosition} recolor={userIcon} iconUrl="/PlonkStarsAvatar.svg" iconPercent={0.1}/>
+          <MapIcon pos={markerPosition} recolor={userIcon} iconUrl="/PlonkStarsAvatar.svg" iconPercent={0.2}/>
         )}
         <FitBounds locations={[mapBounds.start,mapBounds.end]} summary={false}/>
       </MapContainer>
