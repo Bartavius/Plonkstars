@@ -12,14 +12,15 @@ import { setGameSettings } from "@/redux/gameSlice";
 import ProtectedRoutes from "../ProtectedRoutes";
 import { clearError } from "@/redux/errorSlice";
 import { FaQuestionCircle } from "react-icons/fa";
+import constants from "@/app/constants.json";
 import Popup from "@/components/Popup";
 import Multiplayer from "./multiplayer";
 import Daily from "./daily";
 
-const MIN_ROUNDS = 5;
-const MAX_ROUNDS = 20;
-const MIN_TIME = 5;
-const MAX_TIME = 300;
+const MIN_ROUNDS = constants.ROUND_MIN_ROUNDS;
+const MAX_ROUNDS = constants.ROUND_MAX_ROUNDS;
+const MIN_TIME = constants.ROUND_MIN_TIME;
+const MAX_TIME = constants.ROUND_MAX_TIME;
 
 export default function Game() {
   const router = useRouter();

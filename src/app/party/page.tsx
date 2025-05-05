@@ -16,11 +16,12 @@ import { GiExitDoor } from "react-icons/gi";
 import { FaQuestionCircle } from "react-icons/fa";
 import { BsInfinity } from "react-icons/bs";
 import { BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
+import constants from "@/app/constants.json";
 
-const MIN_ROUNDS = 5;
-const MAX_ROUNDS = 20;
-const MIN_TIME = 5;
-const MAX_TIME = 300;
+const MIN_ROUNDS = constants.ROUND_MIN_ROUNDS;
+const MAX_ROUNDS = constants.ROUND_MAX_ROUNDS;
+const MIN_TIME = constants.ROUND_MIN_TIME;
+const MAX_TIME = constants.ROUND_MAX_TIME;
 
 export default function PartyPage() {
     const [isHost, setIsHost] = useState<boolean>(false);

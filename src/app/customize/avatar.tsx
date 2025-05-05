@@ -3,6 +3,7 @@ import colorPresets from "./avatar.json";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
 import UserIcon from "@/components/user/UserIcon";
+import constants from "@/app/constants.json";
 
 interface UserIcon {
   hue: number;
@@ -10,9 +11,9 @@ interface UserIcon {
   brightness: number;
 }
 
-const MAX_HUE = 360;
-const MAX_SATURATION = 300;
-const MAX_BRIGHTNESS = 200;
+const MAX_HUE = constants.AVATAR_MAX_HUE;
+const MAX_SATURATION = constants.AVATAR_MAX_SATURATION;
+const MAX_BRIGHTNESS = constants.AVATAR_MAX_BRIGHTNESS;
 
 export default function AvatarCustom({
   setMessage,
