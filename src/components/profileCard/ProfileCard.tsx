@@ -1,6 +1,7 @@
 import "./ProfileCard.css";
 import { Sigmar } from "next/font/google";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
+import Image from "next/image";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
@@ -22,7 +23,7 @@ export default function ProfileCard({
   return (
     <div className={`profile-card-container ${sigmar.className}`}>
       <div className="profile-card-image">
-        <img src={`${image}`} alt={name} />
+        <Image src={image} alt={name} width={180} height={360}/>
       </div>
       <div className="profile-card-content">
         <div className="profile-card-name-container">

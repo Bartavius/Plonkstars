@@ -4,8 +4,8 @@ export default function Contacts() {
   const persons = [
     {
       name: "Patrick Zhang",
-      image: "profile/patrick.png",
       title: "Full-stack Developer",
+      image: "/profile/patrick.png",
       body: "Patrick is a such big fan of rice, in fact, his phone's wallpaper is rice.",
       linkedin: "https://linkedin.com/in/patrick--zhang",
       github: "https://github.com/pzhang345",
@@ -13,7 +13,7 @@ export default function Contacts() {
     {
       name: `Bart Lojanarungsiri`,
       title: "Full-stack Developer",
-      image: "profile/bart.png",
+      image: "/profile/bart.png",
       body: "Bart plays Plonkstars so much he can probably guess where you are by looking at the dirt.",
       linkedin: "https://linkedin.com/in/jlojanarungsiri",
       github: "https://github.com/Bartavius",
@@ -21,7 +21,7 @@ export default function Contacts() {
     {
       name: `Yuval Ailon`,
       title: "Frontend and Art :)",
-      image: "profile/yuval.png",
+      image: "/profile/yuval.png",
       body: "Yuval is probably messing with Plonkstars code (maliciously) or ballroom dancing right now.",
       linkedin: "https://www.linkedin.com/in/yuval-ailon/",
       github: "https://github.com/YuvalAilon",

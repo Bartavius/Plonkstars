@@ -5,6 +5,7 @@ import Contacts from "./Contacts";
 import { Sigmar } from "next/font/google";
 import Footer from "@/components/footer/Footer";
 import { useSelector } from "react-redux";
+import Image from 'next/image';
 import "./page.css";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });

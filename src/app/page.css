@@ -33,12 +33,12 @@
 }
 
 .mapImage {
-  image-rendering: pixelated;
   display: flex;
   position: absolute;
   z-index: -10;
   height: auto;
   transform-origin: center bottom;
+  image-rendering: pixelated;
 }
 
 .mapImageTemprate {
