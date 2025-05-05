@@ -9,8 +9,7 @@
 }
   
 .leaflet-container-wrapper.hovered {
-    height: 50vh;
-    width: 46vw;
+    transform: scale(2.4);
     opacity: 1;
     cursor: crosshair;
 }
@@ -79,8 +78,6 @@
     }
 
     .leaflet-container-wrapper.hovered {
-        width: 100vw;
-        height: 30vh;
         transform: none;
     }
   

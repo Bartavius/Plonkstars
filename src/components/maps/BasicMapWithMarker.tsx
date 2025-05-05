@@ -89,10 +89,10 @@ export default function BasicMapWithMarker({
         ref={mapRef}
         className="leaflet-map"
       >
-        <MapTileLayer size={512} offset={-1}/>
+        <MapTileLayer size={128} offset={1}/>
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
-          <MapIcon pos={markerPosition} recolor={userIcon} iconUrl="/PlonkStarsAvatar.svg" iconPercent={0.2}/>
+          <MapIcon pos={markerPosition} recolor={userIcon} iconUrl="/PlonkStarsAvatar.svg" iconPercent={0.1}/>
         )}
         <FitBounds locations={[mapBounds.start,mapBounds.end]} summary={false}/>
       </MapContainer>
