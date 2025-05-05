@@ -49,7 +49,7 @@ export default function Page() {
 
   const socketFunctions = {
       "guess": (data: any) => {
-        guesses !== undefined && setGuesses(guesses + 1);
+        setGuesses((prev) => prev + 1);
         setPopupElement(
           <div className="flex flex-col justify-center items-center">
             <UserIcon className="w-[1rem]" data={data.user_cosmetics}/>
