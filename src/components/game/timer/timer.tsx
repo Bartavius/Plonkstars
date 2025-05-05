@@ -7,19 +7,19 @@ const Timer = ({
   }: {
     time: Date;
     timeLimit: number;
-    timeoutFunction: () => void;
+    timeoutFunction?: () => void;
   }) => {
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const [percentRemaining, setPercentRemaining] = useState<number>(1);
     
     useEffect(() => {
         function updateTimer() {
-            const remaining = ((time.getTime() - new Date().getTime()) / 1000) - 1;
+            const remaining = ((time.getTime() - new Date().getTime()) / 1000);
             setTimeLeft(remaining);
             setPercentRemaining(remaining / timeLimit);
             if (remaining < 0) {
                 clearInterval(intervalId);
-                timeoutFunction();
+                timeoutFunction && timeoutFunction();
             }
         }
         const intervalId = setInterval(updateTimer, 100);

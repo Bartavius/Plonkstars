@@ -68,9 +68,7 @@ export default function GamePlay({
       } catch (err: any) {}
       onGuess && onGuess();
     } else {
-      setTimeout(() => {
-        onTimeout && onTimeout();
-      }, 1000);
+      onTimeout && onTimeout();
     }
   };
 

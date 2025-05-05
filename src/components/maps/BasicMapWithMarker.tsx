@@ -60,14 +60,6 @@ export default function BasicMapWithMarker({
     }, 1000);
   };
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      mapRef.current?.invalidateSize();
-    }, 150);
-  
-    return () => clearTimeout(timeout);
-  }, [isHovered]);
-
   const [userIcon, setUserIcon] = useState<any>({hue: 0, saturation: 100, brightness: 100});
   useEffect(() => {
     const fetchAvatar = async () => {

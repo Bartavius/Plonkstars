@@ -20,7 +20,7 @@ const GamePanel = ({
                 <ScoreDisplay totalScore={totalScore} roundNumber={roundNumber}/>
             </div>
             <div>
-                {time && timeLimit && timeoutFunction && (
+                {time && timeLimit && (
                     <div>
                         <Timer time={time} timeLimit={timeLimit} timeoutFunction={timeoutFunction} />
                     </div>
