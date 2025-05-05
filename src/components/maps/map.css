@@ -8,6 +8,13 @@
     opacity: 0.6;
 }
   
+
+.leaflet-container-wrapper:hover {
+    transform: scale(2.4);
+    opacity: 1;
+    cursor: crosshair;
+}
+
 .leaflet-container-wrapper.hovered {
     transform: scale(2.4);
     opacity: 1;
@@ -74,6 +81,10 @@
     .leaflet-container-wrapper {
         width: 100vw;
         height: 30vh;
+        opacity: 1;
+    }
+    .leaflet-container-wrapper:hover {
+        transform: none;
         opacity: 1;
     }
 
