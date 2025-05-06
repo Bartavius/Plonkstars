@@ -81,7 +81,7 @@ export default function BasicMapWithMarker({
         ref={mapRef}
         className="leaflet-map"
       >
-        <MapTileLayer size={128} offset={1}/>
+        <MapTileLayer/>
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
           <MapIcon pos={markerPosition} recolor={userIcon} iconUrl="/PlonkStarsAvatar.svg" iconPercent={0.1}/>
