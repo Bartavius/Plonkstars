@@ -9,6 +9,7 @@ import MapTileLayer from "@/utils/leaflet";
 import MapIcon from "./mapIcon";
 import FitBounds from "./FitBounds";
 import api from "@/utils/api";
+import { useSelector } from "react-redux";
 
 export default function BasicMapWithMarker({
   lat,
@@ -32,6 +33,7 @@ export default function BasicMapWithMarker({
   const [center] = useState({ lat: 20, lng: 0 });
   const ZOOM_LEVEL = 0;
   const mapRef = useRef<L.Map | null>(null);
+  const res = useSelector((state: any) => state.settings.miniMapResolution);
 
   interface LocationMarkerProps {
     setMarkerPosition: (pos: LatLngLiteral) => void;
@@ -81,7 +83,7 @@ export default function BasicMapWithMarker({
         ref={mapRef}
         className="leaflet-map"
       >
-        <MapTileLayer/>
+        <MapTileLayer size={res} offset={8-Math.log2(res)}/>
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
           <MapIcon pos={markerPosition} recolor={userIcon} iconUrl="/PlonkStarsAvatar.svg" iconPercent={0.1}/>

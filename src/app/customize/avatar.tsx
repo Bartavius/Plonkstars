@@ -18,7 +18,7 @@ const MAX_BRIGHTNESS = constants.AVATAR_MAX_BRIGHTNESS;
 export default function AvatarCustom({
   setMessage,
 }: {
-  setMessage: (message: string) => void;
+  setMessage: (message: React.ReactNode) => void;
 }) {
   const [userIconDefault, setUserIconDefault] = useState<UserIcon>({
     hue: 0,

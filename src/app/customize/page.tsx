@@ -8,19 +8,20 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMapType } from "@/redux/settingsSlice";
 import Popup from "@/components/Popup";
+import MapDisplay from "./mapLayer";
 import AvatarCustom from "./avatar";
+import MapResolution from "./mapResolution";
 
 export default function Settings() {
   const mapNumber = useSelector((state: any) => state.settings.mapNumber);
   const [currentMap, setCurrentMap] = useState<number>(mapNumber);
-  const [message, setMessage] = useState<string>();
+  const [message, _setMessage] = useState<React.ReactNode>();
   const [update, setUpdate] = useState<number>(0);
   const dispatch = useDispatch();
 
-  const saveChanges = () => {
-    dispatch(setMapType({ mapNumber: currentMap }));
-    setMessage("Changes saved!");
-    setUpdate(update + 1);
+  const setMessage = (message: React.ReactNode) => {
+    _setMessage(message);
+    setUpdate((prev) => prev + 1);
   };
 
   return (
@@ -33,40 +34,9 @@ export default function Settings() {
         <div id="top" className="settings-header">
           Customizations
         </div>
-
-        <AvatarCustom setMessage={setMessage} />
-        
-        <div className="settings-box">
-          <div className="settings-label">Map Type</div>
-          <div className="settings-dropdown">
-            <select
-              className="settings-dropdown-select"
-              defaultValue={currentMap}
-              onChange={(e) =>
-                setCurrentMap(parseInt((e.target as HTMLSelectElement).value))
-              }
-            >
-              {maps.map((mapValue: any, index: number) => (
-                <option key={index} value={index}>
-                  {mapValue.name}
-                </option>
-              ))}
-            </select>
-            <MapContainer center={[0, 0]} zoom={0} className="leaflet-map">
-              <TileLayer
-                url={maps[currentMap].url}
-                attribution={maps[currentMap].attribution}
-                tileSize={256}
-                zoomOffset={0}
-                detectRetina={true}
-                className="leaflet-control-attribution"
-              />
-            </MapContainer>
-          </div>
-          <button className="form-button-selected mt-2" onClick={saveChanges}>
-            Save Changes
-          </button>
-        </div>
+        <AvatarCustom setMessage={setMessage}/>
+        <MapDisplay setMessage={setMessage}/>
+        <MapResolution setMessage={setMessage}/>
       </div>
     </div>
   );

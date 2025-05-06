@@ -292,3 +292,27 @@ input[type="range"].slider::-moz-range-thumb {
     margin-top: 70px;
   }
 }
+
+.resolution-map {
+  width:100%;
+  height: 100%;
+  cursor: crosshair !important;
+}
+
+.resolution-map-container {
+  margin-top: 2rem;
+  width: 23vw;
+  height: 25vh;
+  overflow: hidden;
+  z-index: 1;
+  transform-origin: top;
+  opacity: 0.6;
+  transform: scale(2.4);
+  opacity: 1;
+  cursor: crosshair;
+}
+
+.resolution-map-buffer {
+  width: 100%;
+  height: 35vh;
+}
