@@ -1,25 +1,33 @@
 import { useEffect, useState } from "react";
 import "./timer.css";
+import { after } from "node:test";
 const Timer = ({
     time,
     timeLimit,
     timeoutFunction,
+    afterTimeoutFunction,
   }: {
     time: Date;
     timeLimit: number;
     timeoutFunction?: () => void;
+    afterTimeoutFunction?: () => void; 
   }) => {
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const [percentRemaining, setPercentRemaining] = useState<number>(1);
+    const [done, setDone] = useState<boolean>(false);
     
     useEffect(() => {
         function updateTimer() {
             const remaining = ((time.getTime() - new Date().getTime()) / 1000);
-            setTimeLeft(remaining);
-            setPercentRemaining(remaining / timeLimit);
-            if (remaining < 0) {
-                clearInterval(intervalId);
+            setTimeLeft(Math.max(remaining, 0));
+            setPercentRemaining(Math.max(remaining, 0) / timeLimit);
+            if (-1 < remaining && remaining < 0 && !done) {
                 timeoutFunction && timeoutFunction();
+                setDone(true);
+            }
+            else if (remaining < -1){
+              afterTimeoutFunction && afterTimeoutFunction();
+              clearInterval(intervalId);
             }
         }
         const intervalId = setInterval(updateTimer, 100);

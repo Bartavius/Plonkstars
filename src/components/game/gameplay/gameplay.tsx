@@ -25,6 +25,7 @@ export default function GamePlay({
     userLat,
     userLng,
     onTimeout,
+    afterTimeoutFunction,
     onGuess,
     rightFooter,
 }: {
@@ -41,6 +42,7 @@ export default function GamePlay({
     canGuess?: boolean;
     onTimeout?: () => void;
     onGuess?: () => void;
+    afterTimeoutFunction?: () => void;
     rightFooter?: React.ReactNode;
 }) {
   const [lat, setLat] = useState<number>();
@@ -96,6 +98,7 @@ export default function GamePlay({
         time={time}
         timeLimit={timeLimit}
         timeoutFunction={submitGuess}
+        afterTimeoutFunction={afterTimeoutFunction}
         totalScore={totalScore}
         roundNumber={roundNumber}
       />
