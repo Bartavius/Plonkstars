@@ -12,6 +12,7 @@
 .party-page-content {
     height: calc(100vh - 4rem - var(--navbar-height));
     overflow: auto;
+    position: relative;
 }
 
 .party-page-footer-content-left{
@@ -64,6 +65,7 @@
     justify-content: center;
     align-items: center;
     height:100%;
+    z-index: 1;
 }
 
 .party-page-user-card{
@@ -137,4 +139,20 @@
 .party-page-rules-footer-host:hover{
     cursor: pointer;
     filter: brightness(90%);
+}
+
+.party-page-code-box{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 100px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 1rem;
+    background-color: var(--dark-blue);
+    padding: 0.5rem;
+    z-index: 2;
 }

@@ -31,6 +31,7 @@ export default function PartyPage() {
     const [localRules, setLocalRules] = useState<any>();
     const [rulesOpen, setRulesOpen] = useState<boolean>(false);
     const [mapOpen, setMapOpen] = useState<boolean>(false);
+    const [hoverCode, setHoverCode] = useState<boolean>(false);
 
     const dispatch = useDispatch();
     const code = useSelector((state: any) => state.party).code;
@@ -123,7 +124,7 @@ export default function PartyPage() {
         <div className="relative overflow-hidden">
             <div className="navbar-buffer"/>
             <div className="party-page-content">
-                <div>Code:{code}</div>
+                <div className="party-page-code-box" onMouseEnter={() => setHoverCode(true)} onMouseLeave={() => setHoverCode(false)}>{hoverCode ? code: "Hover for Code"}</div>
                 <div className="party-page-user-list">
                     {users.members.map(((user: any) => {
                         return (
