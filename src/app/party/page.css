@@ -156,3 +156,8 @@
     padding: 0.5rem;
     z-index: 2;
 }
+
+.party-page-code-box:hover{
+    cursor: pointer;
+    filter: brightness(90%);
+}

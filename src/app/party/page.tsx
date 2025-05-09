@@ -17,6 +17,7 @@ import { FaQuestionCircle } from "react-icons/fa";
 import { BsInfinity } from "react-icons/bs";
 import { BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
 import constants from "@/app/constants.json";
+import Popup from "@/components/Popup";
 
 const MIN_ROUNDS = constants.ROUND_MIN_ROUNDS;
 const MAX_ROUNDS = constants.ROUND_MAX_ROUNDS;
@@ -32,6 +33,9 @@ export default function PartyPage() {
     const [rulesOpen, setRulesOpen] = useState<boolean>(false);
     const [mapOpen, setMapOpen] = useState<boolean>(false);
     const [hoverCode, setHoverCode] = useState<boolean>(false);
+    const [type, setType] = useState<string>();
+    const [message, setMessage] = useState<string>();
+    const [update, setUpdate] = useState<number>(0);
 
     const dispatch = useDispatch();
     const code = useSelector((state: any) => state.party).code;
@@ -89,6 +93,10 @@ export default function PartyPage() {
 
     async function kickUser(username: string) {
         await api.post("/party/users/remove", { code: code, username: username });
+        setType("error");
+        setMessage(`Kicked ${username}`);
+        setUpdate((prev) => prev + 1);
+
     }
 
     async function gameStart() {
@@ -98,13 +106,27 @@ export default function PartyPage() {
     async function setMap(id: string,name: string) {
         setMapOpen(false);
         await api.post("/party/rules", { code, ...rules, map_id: id });
+        setType("success");
+        setMessage("Saved Map");
+        setUpdate((prev) => prev + 1);
+
     }
 
     async function saveRules() {
         setRulesOpen(false);
         await api.post("/party/rules",{code, ...localRules});
-    }    
+        setType("success");
+        setMessage("Saved Rules");
+        setUpdate((prev) => prev + 1);
 
+    }
+    
+    function copyPartyLink(){
+        navigator.clipboard.writeText(`${window.location.origin}/party/join?code=${code}`);
+        setType("info");
+        setMessage("Copied Party Link");
+        setUpdate((prev) => prev + 1);
+    }
     useEffect(() => {
         fetchData();
     }, []);
@@ -122,9 +144,10 @@ export default function PartyPage() {
 
     return (
         <div className="relative overflow-hidden">
+            <Popup update={update} type={type}>{message}</Popup>
             <div className="navbar-buffer"/>
             <div className="party-page-content">
-                <div className="party-page-code-box" onMouseEnter={() => setHoverCode(true)} onMouseLeave={() => setHoverCode(false)}>{hoverCode ? code: "Hover for Code"}</div>
+                <div className="party-page-code-box" onMouseEnter={() => setHoverCode(true)} onMouseLeave={() => setHoverCode(false)} onClick={copyPartyLink}>{hoverCode ? code: "Hover for Code"}</div>
                 <div className="party-page-user-list">
                     {users.members.map(((user: any) => {
                         return (

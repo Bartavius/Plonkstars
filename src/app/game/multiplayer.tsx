@@ -107,7 +107,7 @@ export default function Multiplayer({
                             </div>
                         ))}
                     </div>
-                    <button className="form-button-general" onClick={joinParty} disabled={loading}>Join Party</button>
+                    <button className="form-button-general" onClick={() => router.push(`/party/join?code=${input.join("")}`)} disabled={loading}>Join Party</button>
                 </div>
             </div>
         </div>
