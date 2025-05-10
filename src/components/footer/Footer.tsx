@@ -5,7 +5,6 @@ export default function Footer() {
   return (
     <footer className="footer-container">
       <div className="about-text">
-        <p>© 2025 Jirath "Bart" Lojanarungsiri, Patrick Zhang, and Yuval Ailon. All rights reserved.</p>
         <p className="about-text">
           Just a group of friends building awesome projects together because we can.
         </p>
