@@ -27,7 +27,13 @@ export default function JoinGame() {
             else if (state.data.state === "not_playing"){
                 try{
                     await api.post("/game/play", {id:sessionID});
-                }catch(err:any){} 
+                }catch(err:any){
+                    if (err.response.status === 400){
+                        dispatch(setError(err.response.data.error));
+                        router.push(`/game`);
+                        return;
+                    }
+                } 
                 await api.post("/game/next", {id:sessionID});
             }
             router.push(`/game/${sessionID}`);
