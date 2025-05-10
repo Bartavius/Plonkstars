@@ -34,6 +34,11 @@
     left: 1rem;
 }
 
+.map-accordion {
+    bottom: 5rem;
+    right: 1rem;
+}
+
 .round-rank-number-text{
     color:white;
     font-size: 2rem;
