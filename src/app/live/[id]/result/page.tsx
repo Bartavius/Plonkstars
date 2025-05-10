@@ -8,6 +8,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useLiveSocket from "../../liveSocket";
+import { get } from "http";
 
 const Results = dynamic(() => import("@/components/game/results/results"), { ssr: false });
 
@@ -28,8 +29,16 @@ export default function GameResultPage() {
   const [state,setState] = useState<any>();
   const [isHost, setIsHost] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [maps, setMaps] = useState<any[]>([]);
 
   useEffect(() => {
+    
+    const getMaps = async () => {
+      // TODO: get maps user has permission to edit
+      // TODO: refactor eventually so that it checks for permissions instead of just checking for map creators
+      const response = await api.get(`/account/permissions/map-edit`);
+      setMaps(response.data);
+    };
     const getResults = async () => {
       try {
         const state = await api.get(`/game/state?id=${matchId}`);
@@ -48,6 +57,7 @@ export default function GameResultPage() {
       }
     };
     getResults();
+    getMaps();
   },[]);
 
   const socket = useLiveSocket({id: matchId?.toString() ?? "",state});
@@ -77,6 +87,7 @@ export default function GameResultPage() {
           this_user={data.this_user} 
           users={data.users} 
           roundNumber={roundNumber} 
+          maps={maps}
           correct={data.correct} 
           centerText={centerText}
         />
