@@ -6,7 +6,17 @@ import MapCard from "./MapCard";
 import "./MapSearch.css"
 import Loading from "@/components/loading";
 
-const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:string) => void,pageSize?:number, bodySize?:string}) => {
+export default function MapSearch({
+    mapSelect,
+    pageSize,
+    bodySize,
+    editable = false
+}:{
+    mapSelect: (id:string,name:string) => void,
+    pageSize?:number,
+    bodySize?:string,
+    editable?:boolean
+}){
     const [loading, setLoading] = useState<boolean>();
     const [page, setPage] = useState(1);
     const [input, setInput] = useState("");
@@ -21,7 +31,7 @@ const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:str
     const query = async () => {
         if (!loading) {
             setLoading(true);
-            const res = await api.get(`/map/search?name=${mapName}&page=${page}&per_page=${pageSize}`);
+            const res = await api.get(`/map/search?name=${mapName}&page=${page}&per_page=${pageSize}${editable? "&editable=true":""}`);
             setMaps(res.data.maps);
             setHasNext(res.data.pages > page);
             setLoading(false);
@@ -91,4 +101,3 @@ const MapSearch = ({mapSelect,pageSize,bodySize}:{mapSelect: (id:string,name:str
         </div>
     )
 }
-export default MapSearch;
