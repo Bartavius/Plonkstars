@@ -88,8 +88,8 @@ export default function Results({
         weight: 1,
       });
       setMessage("Successfully added the location!","success");
-    } catch (error) {
-      setMessage("Failed to add the location.","error");
+    } catch (error:any) {
+      setMessage(error.response.data.error || "Failed to add the location.","error");
     }
     setIsModalOpen(false);
   };
