@@ -1,61 +1,63 @@
 import "./page.css";
-import colorPresets from "./avatar.json";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
 import UserIcon from "@/components/user/UserIcon";
 import constants from "@/app/constants.json";
-
-interface UserIcon {
-  hue: number;
-  saturation: number;
-  brightness: number;
-}
+import ColorSelection from "./selection/color";
+import { UserIconCosmetics } from "@/types/userIconCosmetics";
+import HatSelection from "./selection/hat";
+import BodySelection from "./selection/body";
+import FaceSelection from "./selection/face";
 
 const MAX_HUE = constants.AVATAR_MAX_HUE;
 const MAX_SATURATION = constants.AVATAR_MAX_SATURATION;
 const MAX_BRIGHTNESS = constants.AVATAR_MAX_BRIGHTNESS;
+
+enum Tabs {
+  COLORS = "colors",
+  HATS = "hats",
+  BODY = "body",
+  FACES = "faces",
+}
+
+const tabNames = [Tabs.COLORS, Tabs.HATS, Tabs.BODY, Tabs.FACES];
 
 export default function AvatarCustom({
   setMessage,
 }: {
   setMessage: (message: React.ReactNode) => void;
 }) {
-  const [userIconDefault, setUserIconDefault] = useState<UserIcon>({
+  const [userIconDefault, setUserIconDefault] = useState<UserIconCosmetics>({
     hue: 0,
     saturation: 150,
     brightness: 100,
   });
-  const [userIcon, setUserIcon] = useState<UserIcon>({
+  const [userIcon, setUserIcon] = useState<UserIconCosmetics>({
     hue: userIconDefault.hue,
     saturation: userIconDefault.saturation,
     brightness: userIconDefault.brightness,
   });
   const [loading, setLoading] = useState(true);
-
-  const handleSliderChange = (property: string, value: number) => {
-    setUserIcon((prev) => ({
-      ...prev,
-      [property]: value,
-    }));
-  };
-
-  const handlePresetClick = (preset: UserIcon) => {
-    setUserIcon({
-      hue: preset.hue,
-      saturation: preset.saturation,
-      brightness: preset.brightness,
-    });
-  };
-
-  const getFilterStyle = () => {
-    return `hue-rotate(${userIcon.hue}deg) 
-                saturate(${userIcon.saturation}%) 
-                brightness(${userIcon.brightness}%)`;
-  };
+  const [selectedTab, setSelectedTab] = useState<Tabs>(Tabs.COLORS);
 
   const saveAvatarChanges = async () => {
     await api.put("/account/profile/avatar-customize", userIcon);
     setMessage("Avatar changes saved!");
+  };
+
+  const renderTabContent = (tab: Tabs) => {
+    switch (tab) {
+      case Tabs.COLORS:
+        return <ColorSelection userIcon={userIcon} setUserIcon={setUserIcon} />;
+      case Tabs.HATS:
+        return <HatSelection userIcon={userIcon} setUserIcon={setUserIcon} />;
+      case Tabs.BODY:
+        return <BodySelection userIcon={userIcon} setUserIcon={setUserIcon} />;
+      case Tabs.FACES:
+        return <FaceSelection userIcon={userIcon} setUserIcon={setUserIcon} />;
+      default:
+        return null;
+    }
   };
 
   useEffect(() => {
@@ -68,11 +70,13 @@ export default function AvatarCustom({
           hue: data.hue,
           saturation: data.saturation,
           brightness: data.brightness,
+          // TODO: other cosmetic settings here
         });
         setUserIcon({
           hue: data.hue,
           saturation: data.saturation,
           brightness: data.brightness,
+          // TODO: other cosmetic settings here
         });
         setLoading(false);
       } catch (error) {
@@ -91,127 +95,44 @@ export default function AvatarCustom({
       <div className="settings-label">Avatar Customization</div>
       <div className="avatar-customizer-container">
         <div className="avatar-preview">
-          <UserIcon data={userIcon} className="avatar-icon"/>
+          <UserIcon data={userIcon} className="avatar-icon" />
         </div>
-
-        {/* Right side: Color adjustment controls */}
-        <div className="color-controls">
-          <div className="text-center">
-            <span className="">Set Colors</span>
-            <div className="text-center justify-center flex">
-              <div className="color-presets">
-                {colorPresets.map((preset) => (
-                  <div
-                    className="flex-column align-center justify-center"
-                    key={preset.name}
-                  >
-                    <label htmlFor={preset.name}>{preset.name}</label>
-                    <div
-                      id={preset.name}
-                      key={preset.name}
-                      className="color-preset justify-center flex"
-                      style={{ backgroundColor: preset.color }}
-                      onClick={() => handlePresetClick(preset)}
-                      title={preset.name}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          {/* Hue adjustment */}
-          <div className="control-group">
-            <label htmlFor="hue-slider">Hue</label>
-            <div className="slider-wrapper">
-              <div
-                className="hue-slider-background"
-                style={{
-                  filter: `saturate(${userIcon.saturation}%) brightness(${userIcon.brightness}%)`,
-                }}
-              />
-              <input
-                id="hue-slider"
-                type="range"
-                min="0"
-                max={`${MAX_HUE}`}
-                value={userIcon.hue}
-                className="slider hue-slider"
-                onChange={(e) =>
-                  handleSliderChange("hue", parseInt(e.target.value))
-                }
-              />
-            </div>
-            <span className="value-display">{userIcon.hue}°</span>
-          </div>
-
-          {/* Saturation adjustment */}
-          <div className="control-group">
-            <label htmlFor="saturation-slider">Saturation</label>
-            <div className="slider-wrapper">
-              <div
-                className="saturation-slider-background slider"
-                style={{ filter: `hue-rotate(${userIcon.hue}deg) ` }}
-              />
-              <input
-                id="saturation-slider"
-                type="range"
-                min="0"
-                max={`${MAX_SATURATION}`}
-                value={userIcon.saturation}
-                className="slider saturation-slider"
-                onChange={(e) =>
-                  handleSliderChange("saturation", parseInt(e.target.value))
-                }
-              />
-            </div>
-            <span className="value-display">{userIcon.saturation}%</span>
-          </div>
-
-          {/* Brightness adjustment */}
-          <div className="control-group">
-            <label htmlFor="brightness-slider">Brightness</label>
-            <div className="slider-wrapper">
-              <div
-                className="brightness-slider-background"
-                style={{
-                  filter: `hue-rotate(${userIcon.hue}deg) saturate(${userIcon.saturation}%)`,
-                }}
-              />
-              <input
-                id="brightness-slider"
-                type="range"
-                min="0"
-                max={`${MAX_BRIGHTNESS}`}
-                value={userIcon.brightness}
-                className="slider brightness-slider"
-                onChange={(e) =>
-                  handleSliderChange("brightness", parseInt(e.target.value))
-                }
-              />
-            </div>
-            <span className="value-display">{userIcon.brightness}%</span>
+        <div className="">
+          {tabNames.map((tab) => (
+            <button
+              key={tab}
+              className={`btn-primary avatar-tab ${
+                selectedTab === tab ? "!bg-black" : ""
+              }`}
+              onClick={() => setSelectedTab(tab)}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+  <div className="flex w-full h-full">{renderTabContent(selectedTab)}
+  </div>
+          
+          <div className="mt-5 flex justify-center">
+            <button
+              className="form-button-general mr-3"
+              onClick={() =>
+                setUserIcon({
+                  hue: userIconDefault.hue,
+                  saturation: userIconDefault.saturation,
+                  brightness: userIconDefault.brightness,
+                })
+              }
+            >
+              Reset
+            </button>
+            <button
+              className="form-button-selected"
+              onClick={() => saveAvatarChanges()}
+            >
+              Save Changes
+            </button>
           </div>
         </div>
-      </div>
-      <div>
-        <button
-          className="form-button-general mr-3"
-          onClick={() =>
-            setUserIcon({
-              hue: userIconDefault.hue,
-              saturation: userIconDefault.saturation,
-              brightness: userIconDefault.brightness,
-            })
-          }
-        >
-          Reset
-        </button>
-        <button
-          className="form-button-selected"
-          onClick={() => saveAvatarChanges()}
-        >
-          Save Changes
-        </button>
       </div>
     </div>
   );

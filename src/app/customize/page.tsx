@@ -22,7 +22,7 @@ export default function Settings() {
   const setMessage = (message: React.ReactNode) => {
     _setMessage(message);
     setUpdate((prev) => prev + 1);
-  };
+  }
 
   return (
     <div>
