@@ -6,7 +6,6 @@ import "@/app/game.css";
 import GamePanel from "@/components/game/GamePanel";
 import ScoreAccordion from "./ScoreAccordian";
 import { FaMedal } from "react-icons/fa";
-import MapAccordian from "./MapAccordian";
 import Popup from "@/components/Popup";
 import Modal from "@/components/Modal";
 import MapSearch from "@/components/maps/search/MapSearch";
@@ -35,7 +34,6 @@ export default function Results({
   centerText?: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
-  const [openMaps, setOpenMaps] = useState(false);
   const [update, setUpdate] = useState<number>(0);
   const [message, _setMessage] = useState<React.ReactNode>();
   const [messageType, setMessageType] = useState<string>();

@@ -32,13 +32,6 @@ export default function GameResultPage() {
   const [maps, setMaps] = useState<any[]>([]);
 
   useEffect(() => {
-    
-    const getMaps = async () => {
-      // TODO: get maps user has permission to edit
-      // TODO: refactor eventually so that it checks for permissions instead of just checking for map creators
-      const response = await api.get(`/account/permissions/map-edit`);
-      setMaps(response.data);
-    };
     const getResults = async () => {
       try {
         const state = await api.get(`/game/state?id=${matchId}`);
@@ -57,7 +50,6 @@ export default function GameResultPage() {
       }
     };
     getResults();
-    getMaps();
   },[]);
 
   const socket = useLiveSocket({id: matchId?.toString() ?? "",state});
