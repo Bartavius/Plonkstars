@@ -9,44 +9,25 @@ import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { Face } from "@/types/cosmetics/faces";
 
 export function renderFace(
-  face: Face,
-  faceProps: CosmeticProps
-): React.ReactElement {
-  switch (face) {
-    case Face.NO_FACE:
-      faceProps.top = 0;
-      faceProps.left = 0;
-      faceProps.scale = 1;
-      return <NoFace />;
-    case Face.SMILEY:
-      faceProps.top = -10;
-      faceProps.left = 0;
-      faceProps.scale = 0.75;
-      return <Smiley />;
-    case Face.COOL:
-      faceProps.top = -8;
-      faceProps.left = -2;
-      faceProps.scale = 1.25;
-      return <CoolFace />;
-    case Face.NERD:
-      faceProps.top = -10;
-      faceProps.left = 0;
-      faceProps.scale = 0.75;
-      return <NerdFace />;
-    case Face.ANGRY:
-      faceProps.top = -10;
-      faceProps.left = 0;
-      faceProps.scale = 0.75;
-      return <AngryFace />;
-    case Face.WINK:
-      faceProps.top = -10;
-      faceProps.left = 0;
-      faceProps.scale = 0.75;
-      return <WinkingFace />;
-    case Face.SURPRISED:
-      faceProps.top = -10;
-      faceProps.left = 0;
-      faceProps.scale = 0.75;
-      return <SurprisedFace />;
+    face: Face
+  ): { component: React.ReactElement; props: CosmeticProps } {
+    switch (face) {
+      case Face.NO_FACE:
+        return { component: <NoFace />, props: { top: 0, left: 0, scale: 1 } };
+      case Face.SMILEY:
+        return { component: <Smiley />, props: { top: -10, left: 0, scale: 0.75 } };
+      case Face.COOL:
+        return { component: <CoolFace />, props: { top: -8, left: -2, scale: 1.25 } };
+      case Face.NERD:
+        return { component: <NerdFace />, props: { top: -10, left: 0, scale: 0.75 } };
+      case Face.ANGRY:
+        return { component: <AngryFace />, props: { top: -10, left: 0, scale: 0.75 } };
+      case Face.WINK:
+        return { component: <WinkingFace />, props: { top: -10, left: 0, scale: 0.75 } };
+      case Face.SURPRISED:
+        return { component: <SurprisedFace />, props: { top: -10, left: 0, scale: 0.75 } };
+      default:
+        return { component: <NoFace />, props: { top: 0, left: 0, scale: 1 } };
+    }
   }
-}
+  

@@ -3,22 +3,16 @@ import NoHat from "@/components/cosmetics/hats/NoHat";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { Hat } from "@/types/cosmetics/hats";
 
-export function renderHat(hat: Hat, hatProps: CosmeticProps) {
-    switch (hat) {
-      case Hat.NO_HAT:
-        hatProps.top = 0;
-        hatProps.left = 0;
-        hatProps.scale = 1;
-        return <NoHat />;
-      case Hat.FEDORA:
-        hatProps.top = -45;
-        hatProps.left = 0;
-        hatProps.scale = 1.6;
-        return <Fedora />;
-      default:
-        hatProps.top = 0;
-        hatProps.left = 0;
-        hatProps.scale = 1;
-        return <NoHat />;
-    }
-  };
+export function renderHat(hat: Hat): {
+  component: React.ReactElement;
+  props: CosmeticProps;
+} {
+  switch (hat) {
+    case Hat.NO_HAT:
+      return { component: <NoHat />, props: { top: 0, left: 0, scale: 1 } };
+    case Hat.FEDORA:
+      return { component: <Fedora />, props: { top: -45, left: 0, scale: 1.6 } };
+    default:
+      return { component: <NoHat />, props: { top: 0, left: 0, scale: 1 } };
+  }
+}

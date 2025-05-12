@@ -1,18 +1,11 @@
-import Smiley from "@/components/cosmetics/faces/SmileyFace";
-import Fedora from "@/components/cosmetics/hats/Fedora";
-import Shirt from "@/components/cosmetics/body/PurpleShirt";
-import CoolFace from "@/components/cosmetics/faces/CoolFace";
-import NerdFace from "../cosmetics/faces/NerdFace";
-import AngryFace from "../cosmetics/faces/AngryFace";
-import NoFace from "../cosmetics/faces/NoFace";
-import { useState } from "react";
-import PurpleShirt from "@/components/cosmetics/body/PurpleShirt";
-import NoBody from "../cosmetics/body/NoBody";
-import NoHat from "../cosmetics/hats/NoHat";
+import { useEffect, useState } from "react";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { renderFace } from "./RenderSwitch/faces";
 import { renderBody } from "./RenderSwitch/bodies";
 import { renderHat } from "./RenderSwitch/hats";
+import NoFace from "../cosmetics/faces/NoFace";
+import NoBody from "../cosmetics/body/NoBody";
+import NoHat from "../cosmetics/hats/NoHat";
 
 export default function UserIcon({
   data,
@@ -25,21 +18,52 @@ export default function UserIcon({
   const hat = data.hat;
   const body = data.body;
 
+  // face stuff
   const [faceProps, setFaceProps] = useState<CosmeticProps>({
     top: 0,
     left: 0,
     scale: 1,
   });
+  const [faceComponent, setFaceComponent] = useState<React.ReactElement>(
+    <NoFace />
+  );
+
+  useEffect(() => {
+    const { component, props } = renderFace(face);
+    setFaceProps(props);
+    setFaceComponent(component);
+  }, [face]);
+
+  // body stuff
   const [hatProps, setHatProps] = useState<CosmeticProps>({
     top: -45,
     left: 0,
     scale: 1.6,
   });
+  const [hatComponent, sethatComponent] = useState<React.ReactElement>(
+    <NoHat />
+  );
+
+    useEffect(() => {
+        const { component, props } = renderHat(hat);
+        setHatProps(props);
+        sethatComponent(component);
+    }, [hat]);
+
+    // body stuff
   const [bodyProps, setBodyProps] = useState<CosmeticProps>({
     top: 0,
     left: 0,
     scale: 1,
   });
+    const [bodyComponent, setBodyComponent] = useState<React.ReactElement>(
+        <NoBody />
+    );
+    useEffect(() => {
+        const { component, props } = renderBody(body);
+        setBodyProps(props);
+        setBodyComponent(component);
+    }, [body]);
 
   return (
     <div className={className ? className : "w-full"}>
@@ -61,7 +85,7 @@ export default function UserIcon({
             transform: `scale(${faceProps.scale})`,
           }}
         >
-          {renderFace(face, faceProps)}
+          {faceComponent}
         </div>
 
         {/* body */}
@@ -73,7 +97,7 @@ export default function UserIcon({
             transform: `scale(${bodyProps.scale})`,
           }}
         >
-          {renderBody(body, bodyProps)}
+          {bodyComponent}
         </div>
 
         {/* hats */}
@@ -85,7 +109,7 @@ export default function UserIcon({
             transform: `scale(${hatProps.scale})`,
           }}
         >
-          {renderHat(hat, hatProps)}
+          {hatComponent}
         </div>
       </div>
     </div>
