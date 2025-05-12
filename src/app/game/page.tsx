@@ -98,8 +98,8 @@ export default function Game() {
   return (
     <ProtectedRoutes>
       <div className="relative">
+      <div className="navbar-buffer" />
         <div className="flex items-center justify-center min-h-screen text-white p-6 w-full h-full">
-        <div className="navbar-buffer"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-y-8 border-white border-4 shadow-lg rounded-2xl py-6 form-window divide-x divide-x-3">
             
             <div className="w-full px-4 h-full">
