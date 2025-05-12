@@ -31,11 +31,17 @@ export default function AvatarCustom({
     hue: 0,
     saturation: 150,
     brightness: 100,
+    face: "no_face",
+    body: "no_body",
+    hat: "no_hat",
   });
   const [userIcon, setUserIcon] = useState<UserIconCosmetics>({
     hue: userIconDefault.hue,
     saturation: userIconDefault.saturation,
     brightness: userIconDefault.brightness,
+    face: userIconDefault.face,
+    body: userIconDefault.body,
+    hat: userIconDefault.hat,
   });
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState<Tabs>(Tabs.COLORS);
@@ -70,13 +76,17 @@ export default function AvatarCustom({
           hue: data.hue,
           saturation: data.saturation,
           brightness: data.brightness,
-          // TODO: other cosmetic settings here
+          face: data.face,
+          body: data.body,
+          hat: data.hat,
         });
         setUserIcon({
           hue: data.hue,
           saturation: data.saturation,
           brightness: data.brightness,
-          // TODO: other cosmetic settings here
+          face: data.face,
+          body: data.body,
+          hat: data.hat,
         });
         setLoading(false);
       } catch (error) {
@@ -104,7 +114,6 @@ export default function AvatarCustom({
                 key={tab}
                 className={`sm:mx-0 sm:px-2 sm:py-1 sm:text-sm md:px-4 md:py-2 mx-1 bg-red md:text-md md:bold transition-colors duration-200 rounded-t-lg outline outline-2 ${
                   selectedTab === tab
-                    
                     ? "outline-red-200 border-transparent text-red-200 hover:text-red-100 hover:outline-red-100"
                     : "outline-red text-red font-extrabold !bg-red-200"
                 }`}
@@ -115,7 +124,9 @@ export default function AvatarCustom({
             ))}
           </div>
 
-          <div className="flex w-full bg-red rounded-lg p-3">{renderTabContent(selectedTab)}</div>
+          <div className="flex w-full bg-red rounded-lg p-3">
+            {renderTabContent(selectedTab)}
+          </div>
 
           <div className="mt-5 flex justify-center">
             <button
@@ -125,6 +136,9 @@ export default function AvatarCustom({
                   hue: userIconDefault.hue,
                   saturation: userIconDefault.saturation,
                   brightness: userIconDefault.brightness,
+                  face: userIconDefault.face,
+                  body: userIconDefault.body,
+                  hat: userIconDefault.hat,
                 })
               }
             >
