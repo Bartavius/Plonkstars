@@ -1,4 +1,3 @@
-import PixelHat from "@/components/cosmetics/hats/fedora";
 import Lootbox from "@/components/cosmetics/lootbox";
 
 export default function Page() {
