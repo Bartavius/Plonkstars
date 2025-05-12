@@ -75,7 +75,7 @@ export default function Daily({
             >
                 {daily.finished?"Leaderboard":daily.playing?"Continue":"Play"}
             </button>
-            </>:<Loading/>
+            </>:<div className="flex justify-center items-center w-full h-full">Loading...</div>
             }
         </div>
     )
