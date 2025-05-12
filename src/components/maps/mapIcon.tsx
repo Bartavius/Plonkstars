@@ -6,6 +6,7 @@ import ReactDOMServer from "react-dom/server";
 
 
 import "./mapIcon.css";
+import { UserIconCosmetics } from "@/types/userIconCosmetics";
 
 interface Location {
   lat: number;
@@ -21,7 +22,7 @@ export default function MapIcon({
   iconUrl,
   iconSize,
   iconPercent,
-  recolor,
+  customize,
   children,
 }: {
   pos: Location;
@@ -30,7 +31,7 @@ export default function MapIcon({
   iconUrl: string;
   iconSize?: [number, number];
   iconPercent?: number;
-  recolor?: { hue: number; saturation: number; brightness: number };
+  customize?: UserIconCosmetics;
   children?: React.ReactNode;
 }) {
   const [icon, setIcon] = useState<L.Icon | L.DivIcon | null>(null);
@@ -38,9 +39,12 @@ export default function MapIcon({
     const cacheKey = JSON.stringify({
       iconUrl,
       size: iconSize?.join("x") ?? iconPercent ?? "default",
-      hue: recolor?.hue ?? 0,
-      sat: recolor?.saturation ?? 100,
-      bright: recolor?.brightness ?? 100,
+      hue: customize?.hue ?? 0,
+      sat: customize?.saturation ?? 100,
+      bright: customize?.brightness ?? 100,
+      face: customize?.face ?? "no_face",
+      body: customize?.body ?? "no_body",
+      hat: customize?.hat ?? "no_hat",
     });
     if (iconCache[cacheKey]) {
       setIcon(iconCache[cacheKey]);
@@ -57,7 +61,7 @@ export default function MapIcon({
         ? [img.width * iconPercent, img.height * iconPercent]
         : [img.width, img.height];
 
-      if(!recolor){
+      if(!customize){
         const newIcon = L.icon({
           className: clickable ? "clickable-icon":"non-clickable-icon",
           iconUrl: iconUrl,
@@ -70,14 +74,14 @@ export default function MapIcon({
       }else{
         const newIcon = createColorIcon(
           calculatedSize,
-          recolor
+          customize
         );
         iconCache[cacheKey] = newIcon;
         iconCache[iconUrl] = newIcon;
         setIcon(newIcon);
       };
     };
-  }, [iconUrl, iconSize, iconPercent, recolor]);
+  }, [iconUrl, iconSize, iconPercent, customize]);
 
   const createColorIcon = (
     calculatedSize: [number, number],

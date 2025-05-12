@@ -9,6 +9,7 @@ import MapIcon from "./mapIcon";
 import "./map.css";
 import MapTileLayer from "../../utils/leaflet";
 import FitBounds from "./FitBounds";
+import { UserIconCosmetics } from "@/types/userIconCosmetics";
 
 interface Location {
     lat:number,
@@ -35,7 +36,7 @@ export default function MapPreview({
     height?: number;
     onSelect?: (location: Location|Bounds|undefined,isRect:boolean) => void;
     selected?: Location|Bounds|undefined;
-    user_cosmetics?: {hue: number, saturation: number, brightness: number};
+    user_cosmetics?: UserIconCosmetics;
 }){
     const points = bounds.filter((marker) => {
         return "lat" in marker && "lng" in marker;
@@ -75,7 +76,7 @@ export default function MapPreview({
                             <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsMarker.png" onClick={onSelect ? () => onSelect(point,false) : undefined}/>
                         }
                         {point == selected && 
-                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.svg" onClick={onSelect ? () => onSelect(undefined,false) : undefined} iconPercent={0.2} recolor={user_cosmetics}/>
+                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.svg" onClick={onSelect ? () => onSelect(undefined,false) : undefined} iconPercent={0.2} customize={user_cosmetics}/>
                         }
                         </div>
                     ))}
