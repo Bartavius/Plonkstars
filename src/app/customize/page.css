@@ -63,6 +63,7 @@
   border-radius: 1rem;
   width: 50%;
   height: auto;
+  min-height: 400px;
   max-width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
@@ -301,8 +302,8 @@ input[type="range"].slider::-moz-range-thumb {
   }
 
   .avatar-preview {
-    margin-bottom: 50px;
-    margin-top: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .avatar-customizer {

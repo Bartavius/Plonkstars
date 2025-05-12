@@ -80,8 +80,12 @@ export default function BasicMapWithMarker({
       setUserIcon(cosmetics);
     }
     fetchAvatar();
-    setLoading(false);
   }, [])
+
+  useEffect(() => {
+    setLoading(false);
+    console.log(userIcon);
+  }, [userIcon]);
 
   if (loading) {
     return <Loading />;

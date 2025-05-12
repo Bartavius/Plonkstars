@@ -77,7 +77,7 @@ export default function BasicMapResult({
                   <>
                     <MapIcon
                       pos={{ lat: user.lat, lng: user.lng }}
-                      recolor={user.user.user_cosmetics}
+                      customize={user.user.user_cosmetics}
                       iconUrl="/PlonkStarsAvatar.svg"
                       iconPercent={0.2}
                     >

@@ -6,7 +6,7 @@ import Smiley from "@/components/cosmetics/faces/SmileyFace";
 import SurprisedFace from "@/components/cosmetics/faces/SurprisedFace";
 import WinkingFace from "@/components/cosmetics/faces/WinkingFace";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
-import { Face } from "@/types/cosmetics/faces";
+import { Face } from "@/types/cosmetics/Faces";
 
 export function renderFace(
     face: Face

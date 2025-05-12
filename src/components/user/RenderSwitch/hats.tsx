@@ -1,7 +1,7 @@
 import Fedora from "@/components/cosmetics/hats/Fedora";
 import NoHat from "@/components/cosmetics/hats/NoHat";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
-import { Hat } from "@/types/cosmetics/hats";
+import { Hat } from "@/types/cosmetics/Hats";
 
 export function renderHat(hat: Hat): {
   component: React.ReactElement;
