@@ -24,10 +24,13 @@ export default function JoinGame() {
                 router.push(`/game/${sessionID}/summary`);
                 return;
             }
+            else if (state.data.state === "unfinished"){
+                dispatch(setError("Host has not finished the game yet"));
+                router.push(`/game`);
+                return;
+            }
             else if (state.data.state === "not_playing"){
-                try{
-                    await api.post("/game/play", {id:sessionID});
-                }catch(err:any){} 
+                await api.post("/game/play", {id:sessionID});
                 await api.post("/game/next", {id:sessionID});
             }
             router.push(`/game/${sessionID}`);
