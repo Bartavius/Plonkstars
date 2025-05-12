@@ -1,10 +1,5 @@
 import CosmeticScrollBox from "@/components/cosmetics/CosmeticBox";
-import AngryFace from "@/components/cosmetics/faces/AngryFace";
-import CoolFace from "@/components/cosmetics/faces/coolFace";
-import NerdFace from "@/components/cosmetics/faces/NerdFace";
-import NoFace from "@/components/cosmetics/faces/NoFace";
-import SmileyFace from "@/components/cosmetics/faces/smiley";
-import { CosmeticTiers } from "@/types/CosmeticTiers";
+import { faces } from "../cosmetic_lists/faces";
 import { UserIconCosmetics } from "@/types/userIconCosmetics";
 
 export default function FaceSelection({
@@ -28,11 +23,3 @@ export default function FaceSelection({
     </div>
   );
 }
-
-const faces = [
-    { name: "no_face", tier: CosmeticTiers.COMMON, html: <NoFace /> },
-    { name: "smiley_face", tier: CosmeticTiers.COMMON, html: <SmileyFace /> },
-    { name: "cool_face", tier: CosmeticTiers.LEGENDARY, html: <CoolFace /> },
-    { name: "nerd_face", tier: CosmeticTiers.EPIC, html: <NerdFace /> },
-    { name: "angry_face", tier: CosmeticTiers.UNCOMMON, html: <AngryFace /> },
-  ];

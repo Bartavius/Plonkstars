@@ -1,7 +1,7 @@
-import Smiley from "@/components/cosmetics/faces/smiley";
-import Fedora from "@/components/cosmetics/hats/fedora";
+import Smiley from "@/components/cosmetics/faces/SmileyFace";
+import Fedora from "@/components/cosmetics/hats/Fedora";
 import Shirt from "@/components/cosmetics/body/PurpleShirt";
-import CoolFace from "@/components/cosmetics/faces/coolFace";
+import CoolFace from "@/components/cosmetics/faces/CoolFace";
 import NerdFace from "../cosmetics/faces/NerdFace";
 import AngryFace from "../cosmetics/faces/AngryFace";
 import NoFace from "../cosmetics/faces/NoFace";
@@ -9,12 +9,10 @@ import { useState } from "react";
 import PurpleShirt from "@/components/cosmetics/body/PurpleShirt";
 import NoBody from "../cosmetics/body/NoBody";
 import NoHat from "../cosmetics/hats/NoHat";
-
-interface CosmeticProps {
-  top: number;
-  left: number;
-  scale: number;
-}
+import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
+import { renderFace } from "./RenderSwitch/faces";
+import { renderBody } from "./RenderSwitch/bodies";
+import { renderHat } from "./RenderSwitch/hats";
 
 export default function UserIcon({
   data,
@@ -43,84 +41,9 @@ export default function UserIcon({
     scale: 1,
   });
 
-  const renderFace = () => {
-    switch (face) {
-      case "no_face":
-        faceProps.top = 0;
-        faceProps.left = 0;
-        faceProps.scale = 1;
-        return <NoFace />;
-      case "smiley_face":
-        faceProps.top = -10;
-        faceProps.left = 0;
-        faceProps.scale = 0.75;
-        return <Smiley />;
-      case "cool_face":
-        faceProps.top = -8;
-        faceProps.left = -2;
-        faceProps.scale = 1.25;
-        return <CoolFace />;
-      case "nerd_face":
-        faceProps.top = -10;
-        faceProps.left = 0;
-        faceProps.scale = 0.75;
-        return <NerdFace />;
-      case "angry_face":
-        faceProps.top = -10;
-        faceProps.left = 0;
-        faceProps.scale = 0.75;
-        return <AngryFace />;
-      default:
-        faceProps.top = 0;
-        faceProps.left = 0;
-        faceProps.scale = 1;
-        return <NoFace />;
-    }
-  };
-
-  const renderBody = () => {
-    switch (body) {
-      case "no_body":
-        bodyProps.top = 0;
-        bodyProps.left = 0;
-        bodyProps.scale = 1;
-        return <NoBody />;
-      case "purple_shirt":
-        bodyProps.top = 33;
-        bodyProps.left = 0;
-        bodyProps.scale = 0.79;
-        return <PurpleShirt />;
-      default:
-        bodyProps.top = 0;
-        bodyProps.left = 0;
-        bodyProps.scale = 1;
-        return <NoBody />;
-    }
-  };
-
-  const renderHat = () => {
-    switch (hat) {
-      case "no_hat":
-        hatProps.top = 0;
-        hatProps.left = 0;
-        hatProps.scale = 1;
-        return <NoHat />;
-      case "fedora":
-        hatProps.top = -45;
-        hatProps.left = 0;
-        hatProps.scale = 1.6;
-        return <Fedora />;
-      default:
-        hatProps.top = 0;
-        hatProps.left = 0;
-        hatProps.scale = 1;
-        return <NoHat />;
-    }
-  };
-
   return (
     <div className={className ? className : "w-full"}>
-      <div className="relative">
+      <div className="relative flex justify-center items-center w-full h-full">
         <img
           src="/PlonkStarsAvatar.svg"
           style={{
@@ -138,7 +61,7 @@ export default function UserIcon({
             transform: `scale(${faceProps.scale})`,
           }}
         >
-          {renderFace()}
+          {renderFace(face, faceProps)}
         </div>
 
         {/* body */}
@@ -148,9 +71,9 @@ export default function UserIcon({
             top: `${bodyProps.top}%`,
             left: `${bodyProps.left}%`,
             transform: `scale(${bodyProps.scale})`,
-          }} // smiley should be 0.75 scale
+          }}
         >
-          {renderBody()}
+          {renderBody(body, bodyProps)}
         </div>
 
         {/* hats */}
@@ -160,9 +83,9 @@ export default function UserIcon({
             top: `${hatProps.top}%`,
             left: `${hatProps.left}%`,
             transform: `scale(${hatProps.scale})`,
-          }} // smiley should be 0.75 scale
+          }}
         >
-          {renderHat()}
+          {renderHat(hat, hatProps)}
         </div>
       </div>
     </div>

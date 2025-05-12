@@ -1,8 +1,6 @@
 import CosmeticScrollBox from "@/components/cosmetics/CosmeticBox";
-import Fedora from "@/components/cosmetics/hats/fedora";
-import NoHat from "@/components/cosmetics/hats/NoHat";
-import { CosmeticTiers } from "@/types/CosmeticTiers";
 import { UserIconCosmetics } from "@/types/userIconCosmetics";
+import { hats } from "../cosmetic_lists/hats";
 
 export default function HatSelection({
   userIcon,
@@ -25,8 +23,3 @@ export default function HatSelection({
     </div>
   );
 }
-
-const hats = [
-    { name: "no_hat", tier: CosmeticTiers.COMMON, html: <NoHat /> },
-    { name: "fedora", tier: CosmeticTiers.EPIC, html: <Fedora /> },
-  ];

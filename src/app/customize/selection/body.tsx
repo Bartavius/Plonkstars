@@ -1,8 +1,6 @@
-import NoBody from "@/components/cosmetics/body/NoBody";
-import Shirt from "@/components/cosmetics/body/PurpleShirt";
-import CosmeticScrollBox from "@/components/cosmetics/CosmeticBox";
-import { CosmeticTiers } from "@/types/CosmeticTiers";
 import { UserIconCosmetics } from "@/types/userIconCosmetics";
+import CosmeticScrollBox from "@/components/cosmetics/CosmeticBox";
+import { bodies } from "../cosmetic_lists/bodies";
 
 export default function BodySelection({
   userIcon,
@@ -25,8 +23,3 @@ export default function BodySelection({
     </div>
   );
 }
-
-const bodies = [
-    { name: "no_shirt", tier: CosmeticTiers.COMMON, html: <NoBody /> },
-    { name: "purple_shirt", tier: CosmeticTiers.COMMON, html: <Shirt /> },
-  ];
