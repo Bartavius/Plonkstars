@@ -68,7 +68,7 @@ export default function BasicMapWithMarker({
     hue: 0,
     saturation: 100,
     brightness: 100,
-    hat: "no_hat",
+    hat: "fedora",
     body: "no_body",
     face: "no_face",
   });

@@ -1,9 +1,10 @@
 import Lootbox from "@/components/cosmetics/lootbox";
+import { CosmeticTiers } from "@/types/CosmeticTiers";
 
 export default function Page() {
 
     // TODO: this will be a placeholder just to display tiers for now
-    const tier = "legendary"; // This will be replaced with actual tier data
+    const tier: CosmeticTiers = CosmeticTiers.EPIC; // This will be replaced with actual tier data
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">

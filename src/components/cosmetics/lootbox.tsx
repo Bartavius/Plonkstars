@@ -1,6 +1,7 @@
-type Tier = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+import { CosmeticTiers } from "@/types/CosmeticTiers";
 
-const tierColors: Record<Tier, { base: string; lid: string; lock: string }> = {
+
+const tierColors: Record<CosmeticTiers, { base: string; lid: string; lock: string }> = {
   common: {
     base: '#8B4513',   // brown
     lid: '#A0522D',
@@ -29,7 +30,7 @@ const tierColors: Record<Tier, { base: string; lid: string; lock: string }> = {
 };
 
 interface LootboxProps {
-  tier: Tier;
+  tier: CosmeticTiers;
 }
 
 export default function Lootbox({ tier }: LootboxProps) {

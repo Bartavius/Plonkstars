@@ -6,6 +6,9 @@ import { renderHat } from "./RenderSwitch/hats";
 import NoFace from "../cosmetics/faces/NoFace";
 import NoBody from "../cosmetics/body/NoBody";
 import NoHat from "../cosmetics/hats/NoHat";
+import Fedora from "../cosmetics/hats/Fedora";
+import Loading from "../loading";
+import { UserIconCosmetics } from "@/types/userIconCosmetics";
 
 export default function UserIcon({
   data,
@@ -17,6 +20,7 @@ export default function UserIcon({
   const face = data.face;
   const hat = data.hat;
   const body = data.body;
+
 
   // face stuff
   const [faceProps, setFaceProps] = useState<CosmeticProps>({
@@ -41,13 +45,14 @@ export default function UserIcon({
     scale: 1.6,
   });
   const [hatComponent, sethatComponent] = useState<React.ReactElement>(
-    <NoHat />
+    <Fedora />
   );
 
     useEffect(() => {
         const { component, props } = renderHat(hat);
         setHatProps(props);
         sethatComponent(component);
+        console.log("hat");
     }, [hat]);
 
     // body stuff
@@ -63,7 +68,9 @@ export default function UserIcon({
         const { component, props } = renderBody(body);
         setBodyProps(props);
         setBodyComponent(component);
+        console.log("body");
     }, [body]);
+
 
   return (
     <div className={className ? className : "w-full"}>

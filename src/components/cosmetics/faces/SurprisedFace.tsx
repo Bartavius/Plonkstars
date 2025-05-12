@@ -2,8 +2,6 @@ import React from "react";
 import { Cosmetic } from "../cosmetic";
 
 const SurprisedFace: React.FC<Cosmetic> = (props) => {
-  const allProps = {...props, name: "Surprised Face"};
-  
   return (
     <svg
       viewBox="0 0 10 10"
