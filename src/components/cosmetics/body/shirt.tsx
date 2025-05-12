@@ -32,7 +32,7 @@ class Shirt extends React.Component<ShirtProps> {
     return (
       <div className="cosmetic-item" style={{ position: 'relative' }}>
         {/* Tier indicator - could be a badge, border, etc. */}
-        <div className="tier-badge" 
+        {/* <div className="tier-badge" 
              style={{ 
                position: 'absolute', 
                top: '-10px', 
@@ -47,7 +47,7 @@ class Shirt extends React.Component<ShirtProps> {
                boxShadow: tierStyle.glow
              }}>
           {this.tier}
-        </div>
+        </div> */}
         
         {/* The shirt SVG with potentially a glow effect */}
         <svg

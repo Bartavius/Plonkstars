@@ -1,7 +1,8 @@
 import React from "react";
 import { Cosmetic } from "../cosmetic";
 
-const Smiley: React.FC<Cosmetic> = (props) => {
+const WinkingFace: React.FC<Cosmetic> = (props) => {
+  const allProps = {...props, name: "Winking Face"};
   
   return (
     <svg
@@ -12,17 +13,20 @@ const Smiley: React.FC<Cosmetic> = (props) => {
       height="100%"
       preserveAspectRatio="xMidYMid meet"
     >
-      {/* Eyes */}
+      {/* Normal Eye */}
       <rect x="3" y="3" width="1" height="1" fill="black" />
-      <rect x="6" y="3" width="1" height="1" fill="black" />
-
-      {/* Smile */}
+      
+      {/* Winking Eye - horizontal line */}
+      <rect x="6" y="3" width="2" height="1" fill="black" />
+      
+      {/* Smirk */}
       <rect x="3" y="6" width="1" height="1" fill="black" />
       <rect x="4" y="7" width="1" height="1" fill="black" />
       <rect x="5" y="7" width="1" height="1" fill="black" />
       <rect x="6" y="6" width="1" height="1" fill="black" />
+      <rect x="7" y="5" width="1" height="1" fill="black" />
     </svg>
   );
 };
 
-export default Smiley;
+export default WinkingFace;
