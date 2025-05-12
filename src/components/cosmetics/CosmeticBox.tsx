@@ -15,14 +15,14 @@ export default function CosmeticScrollBox({
 
 }: CosmeticScrollBoxProps) {
   return (
-    <div className="w-64 h-80 border border-gray-300 rounded-lg overflow-y-scroll p-2 bg-white shadow-inner">
-      <div className="grid grid-cols-2 gap-2">
+    <div className="w-104 h-99 border border-gray-300 rounded-lg overflow-y-scroll p-2 bg-white shadow-inner">
+      <div className="grid grid-cols-3 gap-2">
         {cosmetics.map((cosmetic, index) => (
           <CosmeticDisplayBox
             key={index}
             tier={cosmetic.tier}
             onClick={() => onClick?.(cosmetic.name)}
-            className={`aspect-square ${cosmetic.name === selected ? "border-2 border-red-500" : ""}`}
+            className={`aspect-square ${cosmetic.name === selected ? "outline outline-4 outline-red-600" : ""}`}
           >
             {cosmetic.html}
           </CosmeticDisplayBox>
