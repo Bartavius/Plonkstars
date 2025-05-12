@@ -27,7 +27,7 @@ export default function ColorSelection({
   };
 
   return (
-    <div className="color-controls">
+    <div className="color-controls p-1">
       <div className="text-center">
         <span className="">Set Colors</span>
         <div className="text-center justify-center flex">
@@ -60,7 +60,7 @@ export default function ColorSelection({
       </div>
       {/* Hue adjustment */}
       <div className="control-group">
-        <label htmlFor="hue-slider">Hue</label>
+        <label htmlFor="hue-slider"><span className="!text-white">Hue</span></label>
         <div className="slider-wrapper">
           <div
             className="hue-slider-background"
@@ -80,12 +80,12 @@ export default function ColorSelection({
             }
           />
         </div>
-        <span className="value-display">{userIcon.hue}°</span>
+        <span className="value-display !text-white">{userIcon.hue}°</span>
       </div>
 
       {/* Saturation adjustment */}
       <div className="control-group">
-        <label htmlFor="saturation-slider">Saturation</label>
+        <label htmlFor="saturation-slider"><span className="!text-white">Saturation</span></label>
         <div className="slider-wrapper">
           <div
             className="saturation-slider-background slider"
@@ -103,12 +103,12 @@ export default function ColorSelection({
             }
           />
         </div>
-        <span className="value-display">{userIcon.saturation}%</span>
+        <span className="value-display !text-white">{userIcon.saturation}%</span>
       </div>
 
       {/* Brightness adjustment */}
       <div className="control-group">
-        <label htmlFor="brightness-slider">Brightness</label>
+        <label htmlFor="brightness-slider"><span className="!text-white">Brightness</span></label>
         <div className="slider-wrapper">
           <div
             className="brightness-slider-background"
@@ -128,7 +128,7 @@ export default function ColorSelection({
             }
           />
         </div>
-        <span className="value-display">{userIcon.brightness}%</span>
+        <span className="value-display !text-white">{userIcon.brightness}%</span>
       </div>
     </div>
   );

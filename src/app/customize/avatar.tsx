@@ -97,21 +97,26 @@ export default function AvatarCustom({
         <div className="avatar-preview">
           <UserIcon data={userIcon} className="avatar-icon" />
         </div>
-        <div className="">
-          {tabNames.map((tab) => (
-            <button
-              key={tab}
-              className={`btn-primary avatar-tab ${
-                selectedTab === tab ? "!bg-black" : ""
-              }`}
-              onClick={() => setSelectedTab(tab)}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-  <div className="flex w-full h-full">{renderTabContent(selectedTab)}
-  </div>
-          
+        <div className="avatar-customizer p-2 rounded-lg">
+          <div className="flex justify-center">
+            {tabNames.map((tab) => (
+              <button
+                key={tab}
+                className={`sm:mx-0 sm:px-2 sm:py-1 sm:text-sm md:px-4 md:py-2 mx-1 bg-red md:text-md md:bold transition-colors duration-200 rounded-t-lg outline outline-2 ${
+                  selectedTab === tab
+                    
+                    ? "outline-red-200 border-transparent text-red-200 hover:text-red-100 hover:outline-red-100"
+                    : "outline-red text-red font-extrabold !bg-red-200"
+                }`}
+                onClick={() => setSelectedTab(tab)}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex w-full bg-red rounded-lg p-3">{renderTabContent(selectedTab)}</div>
+
           <div className="mt-5 flex justify-center">
             <button
               className="form-button-general mr-3"

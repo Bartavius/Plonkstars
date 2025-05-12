@@ -67,6 +67,17 @@
   aspect-ratio: 1;
 }
 
+.avatar-customizer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: 1;
+}
+
 /* Avatar image */
 .avatar-icon {
   max-width: 100%;
