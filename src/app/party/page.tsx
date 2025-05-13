@@ -36,14 +36,12 @@ export default function PartyPage() {
     const [type, setType] = useState<string>();
     const [message, setMessage] = useState<string>();
     const [update, setUpdate] = useState<number>(0);
+    const [state, setState] = useState<any>();
 
     const dispatch = useDispatch();
     const code = useSelector((state: any) => state.party).code;
     const router = useRouter();
 
-    if(!code){
-        router.push("/game");
-    }
     const socket = useSocket({
         namespace: "/party",
         rooms: {code:code},
@@ -65,13 +63,21 @@ export default function PartyPage() {
                 }));
               },
             update_rules:(data)=>{setRules(data);setLocalRules(data);},
-            start: (data) =>{
-                router.push(`${data.type.toLowerCase()}/${data.id}`)
-            },
+            start: pushGame
         }
     });
 
+    function pushGame(data:any){
+        router.push(`/${data.type.toLowerCase()}/${data.id}`);
+    }
+
     async function fetchData() {
+        const state = await api.get(`/party/game/state?code=${code}`);
+        if (state.data.state === "playing" && state.data.joined) {
+            pushGame(state.data);
+            return;
+        }
+        setState(state.data);
         await api.post(`/party/lobby/join`,{code});
         const isHost = await api.get(`/party/host?code=${code}`);
         setIsHost(isHost.data.is_host);
@@ -104,6 +110,11 @@ export default function PartyPage() {
         await api.post("/party/start", { code: code });
     }
 
+    async function joinGame(){
+        await api.post("/party/game/join", { code: code });
+        pushGame(state);
+    }
+
     async function setMap(id: string,name: string) {
         setMapOpen(false);
         await api.post("/party/rules", { code, ...rules, map_id: id });
@@ -129,6 +140,10 @@ export default function PartyPage() {
         setUpdate((prev) => prev + 1);
     }
     useEffect(() => {
+        if(!code){
+            router.push("/game");
+            return;
+        }
         fetchData();
     }, []);
     if (loading) {
@@ -181,7 +196,13 @@ export default function PartyPage() {
                     <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => {setMapOpen(true);setLocalRules(rules);} : undefined} />
                 </div>
                 <div className="party-page-footer-content-right">
-                    {isHost ? <button className="party-page-start-button" onClick={gameStart}>Start</button>:<div>Waiting for host...</div>}
+                    {isHost ? 
+                        <button className="party-page-start-button" onClick={gameStart}>Start</button>:
+                        (state.state==="playing"?
+                            <button className="party-page-start-button" onClick={joinGame}>Join Game</button>:
+                            <div>Waiting for host...</div>
+                        )
+                    }
                 </div>
             </div>
             <div className="fixed">
