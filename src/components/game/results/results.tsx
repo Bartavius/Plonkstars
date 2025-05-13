@@ -20,7 +20,6 @@ export default function Results({
   onClick,
   this_user,
   users,
-  maps,
   roundNumber,
   correct,
   centerText,
@@ -28,7 +27,6 @@ export default function Results({
   onClick: () => void;
   this_user: any;
   users: any;
-  maps: any[];
   roundNumber: number;
   correct: any;
   centerText?: React.ReactNode;

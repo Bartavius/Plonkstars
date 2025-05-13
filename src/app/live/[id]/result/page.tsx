@@ -8,7 +8,6 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useLiveSocket from "../../liveSocket";
-import { get } from "http";
 
 const Results = dynamic(() => import("@/components/game/results/results"), { ssr: false });
 
@@ -29,8 +28,7 @@ export default function GameResultPage() {
   const [state,setState] = useState<any>();
   const [isHost, setIsHost] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [maps, setMaps] = useState<any[]>([]);
-
+  
   useEffect(() => {
     const getResults = async () => {
       try {
@@ -79,7 +77,6 @@ export default function GameResultPage() {
           this_user={data.this_user} 
           users={data.users} 
           roundNumber={roundNumber} 
-          maps={maps}
           correct={data.correct} 
           centerText={centerText}
         />

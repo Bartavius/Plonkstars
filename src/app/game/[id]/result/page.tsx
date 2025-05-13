@@ -26,7 +26,6 @@ export default function GameResultPage() {
   const [state, setState] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [maps, setMaps] = useState<any[]>([]);
 
   useEffect(() => {
     const getResults = async () => {
@@ -68,7 +67,6 @@ export default function GameResultPage() {
           onClick={nextRound}
           this_user={data.this_user}
           users={data.users}
-          maps={maps}
           roundNumber={roundNumber}
           correct={data.correct}
         />

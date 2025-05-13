@@ -72,6 +72,7 @@ export default function PartyPage() {
     });
 
     async function fetchData() {
+        await api.post(`/party/lobby/join`,{code});
         const isHost = await api.get(`/party/host?code=${code}`);
         setIsHost(isHost.data.is_host);
         const users = await api.get(`/party/users?code=${code}`);
