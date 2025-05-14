@@ -10,6 +10,8 @@ import MapIcon from "./mapIcon";
 import FitBounds from "./FitBounds";
 import api from "@/utils/api";
 import { useSelector } from "react-redux";
+import { UserIconCosmetics } from "@/types/userIconCosmetics";
+import Loading from "../loading";
 
 export default function BasicMapWithMarker({
   lat,
@@ -62,7 +64,15 @@ export default function BasicMapWithMarker({
     }, 1000);
   };
 
-  const [userIcon, setUserIcon] = useState<any>({hue: 0, saturation: 100, brightness: 100});
+  const [userIcon, setUserIcon] = useState<UserIconCosmetics>({
+    hue: 0,
+    saturation: 100,
+    brightness: 100,
+    hat: null,
+    body: null,
+    face: null,
+  });
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchAvatar = async () => {
       const response = await api.get("/account/profile");
@@ -71,6 +81,14 @@ export default function BasicMapWithMarker({
     }
     fetchAvatar();
   }, [])
+
+  useEffect(() => {
+    setLoading(false);
+  }, [userIcon]);
+
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div
       className={`leaflet-container-wrapper ${isHovered ? "hovered" : ""}`}
@@ -86,7 +104,7 @@ export default function BasicMapWithMarker({
         <MapTileLayer size={res} offset={8-Math.log2(res)}/>
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
-          <MapIcon pos={markerPosition} recolor={userIcon} iconUrl="/PlonkStarsAvatar.svg" iconPercent={0.1}/>
+          <MapIcon pos={markerPosition} customize={userIcon} iconUrl="/PlonkStarsAvatar.png" iconPercent={0.55}/>
         )}
         <FitBounds locations={[mapBounds.start,mapBounds.end]} summary={false}/>
       </MapContainer>

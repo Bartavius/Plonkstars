@@ -1,9 +1,9 @@
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import { Marker } from "react-leaflet";
-import UserIcon from "@/components/user/UserIcon";
 import ReactDOMServer from "react-dom/server";
-
+import UserIcon from "@/components/user/UserIcon";
+import { UserIconCosmetics } from "@/types/userIconCosmetics";
 
 import "./mapIcon.css";
 
@@ -21,7 +21,7 @@ export default function MapIcon({
   iconUrl,
   iconSize,
   iconPercent,
-  recolor,
+  customize,
   children,
 }: {
   pos: Location;
@@ -30,69 +30,72 @@ export default function MapIcon({
   iconUrl: string;
   iconSize?: [number, number];
   iconPercent?: number;
-  recolor?: { hue: number; saturation: number; brightness: number };
+  customize?: UserIconCosmetics;
   children?: React.ReactNode;
 }) {
   const [icon, setIcon] = useState<L.Icon | L.DivIcon | null>(null);
+
   useEffect(() => {
     const cacheKey = JSON.stringify({
       iconUrl,
       size: iconSize?.join("x") ?? iconPercent ?? "default",
-      hue: recolor?.hue ?? 0,
-      sat: recolor?.saturation ?? 100,
-      bright: recolor?.brightness ?? 100,
+      hue: customize?.hue ?? 0,
+      sat: customize?.saturation ?? 100,
+      bright: customize?.brightness ?? 100,
+      face: customize?.face ?? null,
+      body: customize?.body ?? null,
+      hat: customize?.hat ?? null,
     });
+
+    // Check if icon is cached
     if (iconCache[cacheKey]) {
       setIcon(iconCache[cacheKey]);
       return;
     }
 
-    const img = new Image();
-    img.src = iconUrl;
+    const loadIcon = () => {
+      const img = new Image();
+      img.src = iconUrl;
 
-    img.onload = () => {
-      const calculatedSize: [number, number] = iconSize
-        ? iconSize
-        : iconPercent
-        ? [img.width * iconPercent, img.height * iconPercent]
-        : [img.width, img.height];
+      img.onload = () => {
+        const calculatedSize: [number, number] = iconSize
+          ? iconSize
+          : iconPercent
+          ? [img.width * iconPercent, img.height * iconPercent]
+          : [img.width, img.height];
 
-      if(!recolor){
-        const newIcon = L.icon({
-          className: clickable ? "clickable-icon":"non-clickable-icon",
-          iconUrl: iconUrl,
-          iconSize: calculatedSize,
-          iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
-        });
+        let newIcon;
+
+        if (!customize) {
+          // If no customization, use the default image icon
+          newIcon = L.icon({
+            className: clickable ? "clickable-icon" : "non-clickable-icon",
+            iconUrl: iconUrl,
+            iconSize: calculatedSize,
+            iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
+          });
+        } else {
+          // Create a divIcon with the UserIcon for customization
+          const htmlString = ReactDOMServer.renderToString(<UserIcon data={customize} />);
+          newIcon = L.divIcon({
+            className: clickable ? "clickable-icon" : "non-clickable-icon",
+            html: htmlString,
+            iconSize: calculatedSize,
+            iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
+          });
+        }
+
         iconCache[cacheKey] = newIcon;
-        iconCache[iconUrl] = newIcon;
-        setIcon(newIcon);
-      }else{
-        const newIcon = createColorIcon(
-          calculatedSize,
-          recolor
-        );
-        iconCache[cacheKey] = newIcon;
-        iconCache[iconUrl] = newIcon;
-        setIcon(newIcon);
+        setIcon(newIcon); // Set the new icon
       };
     };
-  }, [iconUrl, iconSize, iconPercent, recolor]);
 
-  const createColorIcon = (
-    calculatedSize: [number, number],
-    data:any
-  ) => {
-    const htmlString = ReactDOMServer.renderToString(<UserIcon data={data} />);
-    return L.divIcon({
-      className: clickable ? "clickable-icon":"non-clickable-icon",
-      html: htmlString,
-      iconSize: calculatedSize,
-      iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
-    });
-  };
+    loadIcon(); // Trigger the image load
 
-  if (!icon) return null;
+  }, [iconUrl, iconSize, iconPercent, customize, clickable]);
+
+  if (!icon) return null; // Don't render if icon is not yet loaded
+
   return (
     <Marker
       icon={icon}
@@ -110,7 +113,7 @@ export default function MapIcon({
                   },
             }
           : {}
-        }
+      }
     >
       {children}
     </Marker>
