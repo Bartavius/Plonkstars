@@ -3,6 +3,7 @@ import api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import joinParty from "@/app/party/join/join";
 
 export default function Multiplayer({
     loading,
@@ -36,7 +37,7 @@ export default function Multiplayer({
         } else if (e.key === "ArrowRight" && selectedIndex < 3) {
             setSelectedIndex(selectedIndex + 1);
         } else if (e.key === "Enter") {
-            joinParty();
+            joinPartyButton();
         }
       };
 
@@ -56,18 +57,11 @@ export default function Multiplayer({
         }
     }
     
-    async function joinParty(){
+    function joinPartyButton(){
         if (loading) return;
-        try{
-            setLoading(true);
-            await api.post("/party/join", {code:input.join("")});
-            dispatch(setPartyCode(input.join("")));
-            router.push(`/party`);
-        } catch(err:any){
-           setError(err.response?.data?.error || "Could not join party");
-           setLoading(false);
-        }
+        joinParty({code:input.join(""),setError,router,dispatch});
     }
+
     return (
         <div className="w-full px-4">
             <h2 className="text-xl font-semibold mb-4 text-center">
@@ -107,7 +101,7 @@ export default function Multiplayer({
                             </div>
                         ))}
                     </div>
-                    <button className="form-button-general" onClick={() => router.push(`/party/join?code=${input.join("")}`)} disabled={loading}>Join Party</button>
+                    <button className="form-button-general" onClick={joinPartyButton} disabled={loading}>Join Party</button>
                 </div>
             </div>
         </div>

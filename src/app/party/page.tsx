@@ -18,6 +18,7 @@ import { BsInfinity } from "react-icons/bs";
 import { BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
 import constants from "@/app/constants.json";
 import Popup from "@/components/Popup";
+import { setError } from "@/redux/errorSlice";
 
 const MIN_ROUNDS = constants.ROUND_MIN_ROUNDS;
 const MAX_ROUNDS = constants.ROUND_MAX_ROUNDS;
@@ -48,7 +49,8 @@ export default function PartyPage() {
         functions:{
             leave:(data)=>{
                 dispatch(clearPartyCode());
-                router.push("/party/temp");
+                dispatch(setError(data.reason));
+                router.push("/game");
             },
             message:(data)=>console.log(data),
             add_user:(data)=>{
@@ -84,7 +86,6 @@ export default function PartyPage() {
         const users = await api.get(`/party/users?code=${code}`);
         setUsers(users.data);
         const rules = await api.get(`/party/rules?code=${code}`);
-        console.log(rules.data);
         setRules(rules.data);
         setLocalRules(rules.data);
         setLoading(false);
@@ -144,7 +145,17 @@ export default function PartyPage() {
             router.push("/game");
             return;
         }
+
+        function leaveLobby(){
+            api.post("/party/lobby/leave", {code});
+        };
+
+        window.addEventListener("beforeunload", leaveLobby);
+
         fetchData();
+        return () => {
+            window.removeEventListener("beforeunload", leaveLobby);
+        };
     }, []);
     if (loading) {
         return <Loading/>
@@ -155,8 +166,6 @@ export default function PartyPage() {
         Time: rules.time === -1? <BsInfinity/>:`${rules.time}s`, 
         NMPZ: rules.nmpz ? <BiSolidCheckboxChecked className="text-green-300 text-xl"/>:<BiSolidCheckboxMinus className="text-red-300 text-xl"/>,
     };
-
-    console.log(displayRules);
 
     return (
         <div className="relative overflow-hidden">
