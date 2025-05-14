@@ -2,27 +2,27 @@ import { CosmeticTiers } from "@/types/CosmeticTiers";
 
 
 const tierColors: Record<CosmeticTiers, { base: string; lid: string; lock: string }> = {
-  common: {
+  COMMON: {
     base: '#8B4513',   // brown
     lid: '#A0522D',
     lock: '#C0C0C0',   // silver
   },
-  uncommon: {
+  UNCOMMON: {
     base: '#228B22',   // forest green
     lid: '#32CD32',    // lime green
     lock: '#C0C0C0',
   },
-  rare: {
+  RARE: {
     base: '#1E90FF',   // dodger blue
     lid: '#00BFFF',    // deep sky blue
     lock: '#FFD700',   // gold
   },
-  epic: {
+  EPIC: {
     base: '#800080',   // purple
     lid: '#BA55D3',    // orchid
     lock: '#FFD700',
   },
-  legendary: {
+  LEGENDARY: {
     base: '#FF8C00',   // dark orange
     lid: '#FFA500',    // orange
     lock: '#FFD700',
