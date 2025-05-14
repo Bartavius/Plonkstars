@@ -1,8 +1,10 @@
+import { CosmeticProps } from "./cosmetics/CosmeticProps";
+
 export interface UserIconCosmetics {
     hue: number;
     saturation: number;
     brightness: number;
-    hat: string;
-    body: string;
-    face: string;
+    hat: CosmeticProps | null;
+    body: CosmeticProps | null;
+    face: CosmeticProps | null;
   }

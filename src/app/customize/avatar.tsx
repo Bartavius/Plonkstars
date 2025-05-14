@@ -8,6 +8,8 @@ import { UserIconCosmetics } from "@/types/userIconCosmetics";
 import HatSelection from "./selection/hat";
 import BodySelection from "./selection/body";
 import FaceSelection from "./selection/face";
+import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
+import { CosmeticTypes } from "@/types/cosmetics/CosmeticTypes";
 
 const MAX_HUE = constants.AVATAR_MAX_HUE;
 const MAX_SATURATION = constants.AVATAR_MAX_SATURATION;
@@ -31,9 +33,9 @@ export default function AvatarCustom({
     hue: 0,
     saturation: 150,
     brightness: 100,
-    face: "no_face",
-    body: "no_body",
-    hat: "no_hat",
+    face: null,
+    body: null,
+    hat: null,
   });
   const [userIcon, setUserIcon] = useState<UserIconCosmetics>({
     hue: userIconDefault.hue,
@@ -51,27 +53,48 @@ export default function AvatarCustom({
     setMessage("Avatar changes saved!");
   };
 
+  const [facesOwned, setFacesOwned] = useState<CosmeticProps[]>([]);
+  const [faces, setFaces] = useState<CosmeticProps[]>([]);
+
+  const [bodiesOwned, setBodiesOwned] = useState<CosmeticProps[]>([]);
+  const [bodies, setBodies] = useState<CosmeticProps[]>([]);
+
+  const [hatsOwned, setHatsOwned] = useState<CosmeticProps[]>([]);
+  const [hats, setHats] = useState<CosmeticProps[]>([]);
+
   const renderTabContent = (tab: Tabs) => {
     switch (tab) {
       case Tabs.COLORS:
         return <ColorSelection userIcon={userIcon} setUserIcon={setUserIcon} />;
       case Tabs.HATS:
-        return <HatSelection userIcon={userIcon} setUserIcon={setUserIcon} />;
+        return <HatSelection userIcon={userIcon} setUserIcon={setUserIcon} hatsUnowned={hats} hatsOwned={hatsOwned} />;
       case Tabs.BODY:
-        return <BodySelection userIcon={userIcon} setUserIcon={setUserIcon} />;
+        return <BodySelection userIcon={userIcon} setUserIcon={setUserIcon} bodiesUnowned={bodies} bodiesOwned={bodiesOwned}/>;
       case Tabs.FACES:
-        return <FaceSelection userIcon={userIcon} setUserIcon={setUserIcon} />;
+        return <FaceSelection userIcon={userIcon} setUserIcon={setUserIcon} facesUnowned={faces} facesOwned={facesOwned}/>;
       default:
         return null;
     }
   };
 
   useEffect(() => {
-    const fetchCosmetics = async () => {
+    const fetchCosmetics = async () => { // might eventually have to limit amounts queried once cosmetics scale
+      const { data } = await api.get("/account/profile/cosmetics");
+      setFaces(data.unowned_faces)
+      setFacesOwned(data.owned_faces)
+      setBodies(data.unowned_bodies)
+      setBodiesOwned(data.owned_bodies)
+      setHats(data.unowned_hats)
+      setHatsOwned(data.owned_hats)
+    }
+
+    const fetchEquippedCosmetics = async () => {
       try {
         const response = await api.get("/account/profile");
         const profile = response.data;
-        const data = profile.user_cosmetics;
+        const data = profile.user_cosmetics; //TODO: This used to be true, but the endpoint will most likely have to change
+
+        // TODO: user face/body/hat is not being queried properly here
         setUserIconDefault({
           hue: data.hue,
           saturation: data.saturation,
@@ -93,6 +116,7 @@ export default function AvatarCustom({
         console.error("Error fetching user cosmetics:", error);
       }
     };
+    fetchEquippedCosmetics();
     fetchCosmetics();
   }, []);
 

@@ -68,9 +68,9 @@ export default function BasicMapWithMarker({
     hue: 0,
     saturation: 100,
     brightness: 100,
-    hat: "fedora",
-    body: "no_body",
-    face: "no_face",
+    hat: null,
+    body: null,
+    face: null,
   });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -84,7 +84,6 @@ export default function BasicMapWithMarker({
 
   useEffect(() => {
     setLoading(false);
-    console.log(userIcon);
   }, [userIcon]);
 
   if (loading) {

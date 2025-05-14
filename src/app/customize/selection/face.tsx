@@ -1,24 +1,29 @@
 import CosmeticScrollBox from "@/components/cosmetics/CosmeticBox";
-import { faces } from "../cosmetic_lists/faces";
+import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { UserIconCosmetics } from "@/types/userIconCosmetics";
 
 export default function FaceSelection({
   userIcon,
   setUserIcon,
+  facesOwned, //TODO: figure out the facesOwned / not owned
+  facesUnowned,
 }: {
   userIcon: UserIconCosmetics;
   setUserIcon: (icon: UserIconCosmetics) => void;
+  facesOwned: CosmeticProps[];
+  facesUnowned: CosmeticProps[];
 }) {
-  const handleFaceClick = (face: string) => {
+  const handleFaceClick = (face: CosmeticProps | null) => {
     setUserIcon({ ...userIcon, face });
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       <CosmeticScrollBox
-        cosmetics={faces}
-        selected={userIcon.face ?? "no_face"}
-        onClick={(name) => handleFaceClick(name)}
+        cosmeticsOwned={facesOwned}
+        cosmeticsUnowned={facesUnowned}
+        selected={userIcon.face?.image ? userIcon.face.image.toString() : null}
+        onClick={(face) => handleFaceClick(face)}
       />
     </div>
   );

@@ -1,24 +1,29 @@
 import CosmeticScrollBox from "@/components/cosmetics/CosmeticBox";
+import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { UserIconCosmetics } from "@/types/userIconCosmetics";
-import { hats } from "../cosmetic_lists/hats";
 
 export default function HatSelection({
   userIcon,
   setUserIcon,
+  hatsOwned,
+  hatsUnowned,
 }: {
   userIcon: UserIconCosmetics;
   setUserIcon: (icon: UserIconCosmetics) => void;
+  hatsOwned: CosmeticProps[];
+  hatsUnowned: CosmeticProps[];
 }) {
-  const handleHatClick = (hat: string) => {
+  const handleHatClick = (hat: CosmeticProps | null) => {
     setUserIcon({ ...userIcon, hat });
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       <CosmeticScrollBox
-        cosmetics={hats}
-        selected={userIcon.hat ?? "no_hat"}
-        onClick={(name) => handleHatClick(name)}
+        cosmeticsOwned={hatsOwned}
+        cosmeticsUnowned={hatsUnowned}
+        selected={userIcon.hat?.image ? userIcon.hat.image.toString() : null}
+        onClick={(hat) => handleHatClick(hat)}
       />
     </div>
   );
