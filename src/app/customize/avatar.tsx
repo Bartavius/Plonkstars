@@ -26,8 +26,10 @@ const tabNames = [Tabs.COLORS, Tabs.HATS, Tabs.BODY, Tabs.FACES];
 
 export default function AvatarCustom({
   setMessage,
+  setType,
 }: {
   setMessage: (message: React.ReactNode) => void;
+  setType: (type: string) => void;
 }) {
   const [userIconDefault, setUserIconDefault] = useState<UserIconCosmetics>({
     hue: 0,
@@ -49,9 +51,21 @@ export default function AvatarCustom({
   const [selectedTab, setSelectedTab] = useState<Tabs>(Tabs.COLORS);
 
   const saveAvatarChanges = async () => {
-    await api.put("/account/profile/avatar-customize", userIcon);
-    setMessage("Avatar changes saved!");
+    try {
+      const response = await api.put("/account/profile/avatar-customize", userIcon);
+      setType('success');
+      setMessage(response.data.message);
+    } catch (error: any) {
+      setType('error');
+      if (error.response && error.response.data && error.response.data.error) {
+        
+        setMessage(`${error.response.data.error}`);
+      } else {
+        setMessage("Failed to save avatar changes. Please try again.");
+      }
+    }
   };
+  
 
   const [facesOwned, setFacesOwned] = useState<CosmeticProps[]>([]);
   const [faces, setFaces] = useState<CosmeticProps[]>([]);
@@ -67,33 +81,55 @@ export default function AvatarCustom({
       case Tabs.COLORS:
         return <ColorSelection userIcon={userIcon} setUserIcon={setUserIcon} />;
       case Tabs.HATS:
-        return <HatSelection userIcon={userIcon} setUserIcon={setUserIcon} hatsUnowned={hats} hatsOwned={hatsOwned} />;
+        return (
+          <HatSelection
+            userIcon={userIcon}
+            setUserIcon={setUserIcon}
+            hatsUnowned={hats}
+            hatsOwned={hatsOwned}
+          />
+        );
       case Tabs.BODY:
-        return <BodySelection userIcon={userIcon} setUserIcon={setUserIcon} bodiesUnowned={bodies} bodiesOwned={bodiesOwned}/>;
+        return (
+          <BodySelection
+            userIcon={userIcon}
+            setUserIcon={setUserIcon}
+            bodiesUnowned={bodies}
+            bodiesOwned={bodiesOwned}
+          />
+        );
       case Tabs.FACES:
-        return <FaceSelection userIcon={userIcon} setUserIcon={setUserIcon} facesUnowned={faces} facesOwned={facesOwned}/>;
+        return (
+          <FaceSelection
+            userIcon={userIcon}
+            setUserIcon={setUserIcon}
+            facesUnowned={faces}
+            facesOwned={facesOwned}
+          />
+        );
       default:
         return null;
     }
   };
 
   useEffect(() => {
-    const fetchCosmetics = async () => { // might eventually have to limit amounts queried once cosmetics scale
+    const fetchCosmetics = async () => {
+      // might eventually have to limit amounts queried once cosmetics scale
       const { data } = await api.get("/account/profile/cosmetics");
-      setFaces(data.unowned_faces)
-      setFacesOwned(data.owned_faces)
-      setBodies(data.unowned_bodies)
-      setBodiesOwned(data.owned_bodies)
-      setHats(data.unowned_hats)
-      setHatsOwned(data.owned_hats)
-    }
+      setFaces(data.unowned_faces);
+      setFacesOwned(data.owned_faces);
+      setBodies(data.unowned_bodies);
+      setBodiesOwned(data.owned_bodies);
+      setHats(data.unowned_hats);
+      setHatsOwned(data.owned_hats);
+    };
 
     const fetchEquippedCosmetics = async () => {
       try {
         const response = await api.get("/account/profile");
         const profile = response.data;
         const data = profile.user_cosmetics; //TODO: This used to be true, but the endpoint will most likely have to change
-
+        console.log(data);
         // TODO: user face/body/hat is not being queried properly here
         setUserIconDefault({
           hue: data.hue,

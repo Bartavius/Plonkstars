@@ -9,8 +9,6 @@ export default function UserIcon({
   const hat = data.hat;
   const body = data.body;
 
-  console.log(JSON.stringify(data))
-
   return (
     <div className={className ? className : "w-full"}>
       <div className="relative flex justify-center items-center w-full h-full">
