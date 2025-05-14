@@ -68,7 +68,7 @@ export default function BasicMapResult({
               <MapIcon
                 pos={markerObj.correct}
                 clickable={true}
-                iconUrl="/PlonkStarsMarker.svg"
+                iconUrl="/PlonkStarsMarker.png"
                 iconPercent={1}
               />
             )}
