@@ -49,7 +49,7 @@ export default function PartyPage() {
         functions:{
             leave:(data)=>{
                 dispatch(clearPartyCode());
-                dispatch(setError(data.reason));
+                dispatch(setError(data?.reason));
                 router.push("/game");
             },
             message:(data)=>console.log(data),
