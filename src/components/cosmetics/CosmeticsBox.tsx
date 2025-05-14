@@ -41,7 +41,7 @@ export default function CosmeticScrollBox({
             }`}
           >
             <img
-              src={`cosmetics/${cosmetic.type}/${cosmetic.image}`}
+              src={`cosmetics/${cosmetic.type.toUpperCase()}/${cosmetic.image}`}
               alt={cosmetic.item_name.toString()}
             />
           </CosmeticDisplayBox>
