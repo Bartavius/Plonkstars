@@ -1,5 +1,5 @@
 import React from "react";
-import CosmeticDisplayBox from "./CosmeticDisplayBox";
+import CosmeticDisplayBox from "./CosmeticsDisplayBox";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { CosmeticTiers } from "@/types/CosmeticTiers";
 

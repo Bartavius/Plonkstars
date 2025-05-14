@@ -1,4 +1,4 @@
-import CosmeticScrollBox from "@/components/cosmetics/CosmeticBox";
+import CosmeticScrollBox from "@/components/cosmetics/CosmeticsBox";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { UserIconCosmetics } from "@/types/userIconCosmetics";
 

@@ -68,7 +68,8 @@ export default function BasicMapResult({
               <MapIcon
                 pos={markerObj.correct}
                 clickable={true}
-                iconUrl="/PlonkStarsMarker.png"
+                iconUrl="/PlonkStarsMarker.svg"
+                iconPercent={1}
               />
             )}
             {markerObj.users.map((user:any, userIndex:number) => (
@@ -78,8 +79,9 @@ export default function BasicMapResult({
                     <MapIcon
                       pos={{ lat: user.lat, lng: user.lng }}
                       customize={user.user.user_cosmetics}
-                      iconUrl="/PlonkStarsAvatar.png"
-                      iconPercent={0.2}
+                      iconUrl="/PlonkStarsAvatar.png
+                      "
+                      iconPercent={1.25}
                     >
                       <Tooltip direction="top" offset={[0, -30]}>
                         {user.user.username}

@@ -9,7 +9,6 @@ import HatSelection from "./selection/hat";
 import BodySelection from "./selection/body";
 import FaceSelection from "./selection/face";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
-import { CosmeticTypes } from "@/types/cosmetics/CosmeticTypes";
 
 const MAX_HUE = constants.AVATAR_MAX_HUE;
 const MAX_SATURATION = constants.AVATAR_MAX_SATURATION;

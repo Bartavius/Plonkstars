@@ -104,7 +104,7 @@ export default function BasicMapWithMarker({
         <MapTileLayer size={res} offset={8-Math.log2(res)}/>
         <LocationMarker setMarkerPosition={setMarkerPosition} />
         {markerPosition && (
-          <MapIcon pos={markerPosition} customize={userIcon} iconUrl="/PlonkStarsAvatar.png" iconPercent={0.1}/>
+          <MapIcon pos={markerPosition} customize={userIcon} iconUrl="/PlonkStarsAvatar.png" iconPercent={0.55}/>
         )}
         <FitBounds locations={[mapBounds.start,mapBounds.end]} summary={false}/>
       </MapContainer>
