@@ -204,7 +204,7 @@ export default function EditMapPage() {
                         weight={0}
                         interactive={false}
                     />
-                    {selectedBound && "lat" in selectedBound && "lng" in selectedBound && <MapIcon pos={selectedBound} iconUrl={"/PlonkStarsAvatar.svg"} customize={user?.user_cosmetics} iconPercent={0.2}/>}
+                    {selectedBound && "lat" in selectedBound && "lng" in selectedBound && <MapIcon pos={selectedBound} iconUrl={"/PlonkStarsAvatar.png"} customize={user?.user_cosmetics} iconPercent={0.2}/>}
                     {selectedBound && "start" in selectedBound && "end" in selectedBound &&
                         <Rectangle
                             bounds = {[[selectedBound.start.lat,selectedBound.start.lng],[selectedBound.end.lat,selectedBound.end.lng]]}

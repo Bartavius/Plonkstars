@@ -78,7 +78,7 @@ export default function BasicMapResult({
                     <MapIcon
                       pos={{ lat: user.lat, lng: user.lng }}
                       customize={user.user.user_cosmetics}
-                      iconUrl="/PlonkStarsAvatar.svg"
+                      iconUrl="/PlonkStarsAvatar.png"
                       iconPercent={0.2}
                     >
                       <Tooltip direction="top" offset={[0, -30]}>

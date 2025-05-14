@@ -42,9 +42,9 @@ export default function MapIcon({
       hue: customize?.hue ?? 0,
       sat: customize?.saturation ?? 100,
       bright: customize?.brightness ?? 100,
-      face: customize?.face ?? "no_face",
-      body: customize?.body ?? "no_body",
-      hat: customize?.hat ?? "no_hat",
+      face: customize?.face ?? null,
+      body: customize?.body ?? null,
+      hat: customize?.hat ?? null,
     });
 
     // Check if icon is cached
