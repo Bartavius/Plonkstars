@@ -6,8 +6,10 @@ import "@/app/game.css";
 import GamePanel from "@/components/game/GamePanel";
 import ScoreAccordion from "./ScoreAccordian";
 import { FaMedal } from "react-icons/fa";
-import MapAccordian from "./MapAccordian";
 import Popup from "@/components/Popup";
+import Modal from "@/components/Modal";
+import MapSearch from "@/components/maps/search/MapSearch";
+import api from "@/utils/api";
 
 const BasicMapResult = dynamic(
   () => import("@/components/maps/BasicMapResult"),
@@ -18,7 +20,6 @@ export default function Results({
   onClick,
   this_user,
   users,
-  maps,
   roundNumber,
   correct,
   centerText,
@@ -26,18 +27,20 @@ export default function Results({
   onClick: () => void;
   this_user: any;
   users: any;
-  maps: any[];
   roundNumber: number;
   correct: any;
   centerText?: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
-  const [openMaps, setOpenMaps] = useState(false);
   const [update, setUpdate] = useState<number>(0);
   const [message, _setMessage] = useState<React.ReactNode>();
+  const [messageType, setMessageType] = useState<string>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
 
-  const setMessage = (message: React.ReactNode) => {
+  const setMessage = (message: React.ReactNode,type?:string) => {
     _setMessage(message);
+    setMessageType(type);
     setUpdate((prev) => prev + 1);
   };
 
@@ -72,11 +75,25 @@ export default function Results({
     ? distanceString(thisUser.guess.distance)
     : undefined;
 
+  async function addLocation(id:string,name: string){
+    if (correct === undefined) return;
+    try {
+      const res = await api.post("/map/edit/bound/add", {
+        ...correct,
+        id,
+        weight: 1,
+      });
+      setMessage("Successfully added the location!","success");
+    } catch (error:any) {
+      setMessage(error.response.data.error || "Failed to add the location.","error");
+    }
+    setIsModalOpen(false);
+  };
   return (
     <div className="relative overflow-hidden">
-      <Popup update={update} type={typeof message === "string" && message.includes("Failed") ? "error" : "success"}>
-                {message}
-              </Popup>
+      <Popup update={update} type={messageType}>
+        {message}
+      </Popup>
       <GamePanel totalScore={thisUser.score} roundNumber={roundNumber} />
       <div className="map-result-container min-h-[90vh] min-w-full">
         <div>
@@ -97,13 +114,6 @@ export default function Results({
       <div className="game-footer w-full">
         <div className="grid grid-cols-3 gap-4 w-full">
           <div className="flex justify-between items-center">
-            <MapAccordian
-              open={openMaps}
-              maps={maps}
-              location={correct}
-              className="absolute justify-end"
-              setMessage={setMessage}
-            />
             <ScoreAccordion
               open={open}
               guesses={users}
@@ -131,7 +141,7 @@ export default function Results({
             {centerText ?? (
               <button
                 onClick={onClick}
-                style={{ zIndex: 10000 }}
+                style={{ zIndex: 2 }}
                 className="game-button"
               >
                 <b>Next Round</b>
@@ -158,12 +168,21 @@ export default function Results({
             )}
             <button
               className="btn-primary mr-4"
-              onClick={() => setOpenMaps(!openMaps)}
+              onClick={() => setIsModalOpen(true)}
             >
               <span>Add Location to Your Maps</span>
             </button>
           </div>
         </div>
+      </div>
+      <div className="fixed z-10">
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h2 className="text-xl font-semibold text-center">Add this location to a map</h2>
+          <div className="text-center">
+            
+          </div>
+          <MapSearch mapSelect={addLocation} pageSize={12} bodySize="60vh" editable={true}/>
+        </Modal>
       </div>
     </div>
   );

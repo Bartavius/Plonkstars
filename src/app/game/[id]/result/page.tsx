@@ -26,15 +26,8 @@ export default function GameResultPage() {
   const [state, setState] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [maps, setMaps] = useState<any[]>([]);
 
   useEffect(() => {
-    const getMaps = async () => {
-      // TODO: get maps user has permission to edit
-      // TODO: refactor eventually so that it checks for permissions instead of just checking for map creators
-      const response = await api.get(`/account/permissions/map-edit`);
-      setMaps(response.data);
-    };
     const getResults = async () => {
       try {
         const state = await api.get(`/game/state?id=${matchId}`);
@@ -49,7 +42,6 @@ export default function GameResultPage() {
       }
     };
     getResults();
-    getMaps();
   }, []);
 
   async function nextRound() {
@@ -75,7 +67,6 @@ export default function GameResultPage() {
           onClick={nextRound}
           this_user={data.this_user}
           users={data.users}
-          maps={maps}
           roundNumber={roundNumber}
           correct={data.correct}
         />

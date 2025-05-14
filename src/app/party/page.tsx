@@ -18,6 +18,7 @@ import { BsInfinity } from "react-icons/bs";
 import { BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
 import constants from "@/app/constants.json";
 import Popup from "@/components/Popup";
+import { setError } from "@/redux/errorSlice";
 
 const MIN_ROUNDS = constants.ROUND_MIN_ROUNDS;
 const MAX_ROUNDS = constants.ROUND_MAX_ROUNDS;
@@ -36,21 +37,20 @@ export default function PartyPage() {
     const [type, setType] = useState<string>();
     const [message, setMessage] = useState<string>();
     const [update, setUpdate] = useState<number>(0);
+    const [state, setState] = useState<any>();
 
     const dispatch = useDispatch();
     const code = useSelector((state: any) => state.party).code;
     const router = useRouter();
 
-    if(!code){
-        router.push("/game");
-    }
     const socket = useSocket({
         namespace: "/party",
         rooms: {code:code},
         functions:{
             leave:(data)=>{
                 dispatch(clearPartyCode());
-                router.push("/party/temp");
+                dispatch(setError(data?.reason));
+                router.push("/game");
             },
             message:(data)=>console.log(data),
             add_user:(data)=>{
@@ -65,19 +65,27 @@ export default function PartyPage() {
                 }));
               },
             update_rules:(data)=>{setRules(data);setLocalRules(data);},
-            start: (data) =>{
-                router.push(`${data.type.toLowerCase()}/${data.id}`)
-            },
+            start: pushGame
         }
     });
 
+    function pushGame(data:any){
+        router.push(`/${data.type.toLowerCase()}/${data.id}`);
+    }
+
     async function fetchData() {
+        const state = await api.get(`/party/game/state?code=${code}`);
+        if (state.data.state === "playing" && state.data.joined) {
+            pushGame(state.data);
+            return;
+        }
+        setState(state.data);
+        await api.post(`/party/lobby/join`,{code});
         const isHost = await api.get(`/party/host?code=${code}`);
         setIsHost(isHost.data.is_host);
         const users = await api.get(`/party/users?code=${code}`);
         setUsers(users.data);
         const rules = await api.get(`/party/rules?code=${code}`);
-        console.log(rules.data);
         setRules(rules.data);
         setLocalRules(rules.data);
         setLoading(false);
@@ -101,6 +109,11 @@ export default function PartyPage() {
 
     async function gameStart() {
         await api.post("/party/start", { code: code });
+    }
+
+    async function joinGame(){
+        await api.post("/party/game/join", { code: code });
+        pushGame(state);
     }
 
     async function setMap(id: string,name: string) {
@@ -128,7 +141,21 @@ export default function PartyPage() {
         setUpdate((prev) => prev + 1);
     }
     useEffect(() => {
+        if(!code){
+            router.push("/game");
+            return;
+        }
+
+        function leaveLobby(){
+            api.post("/party/lobby/leave", {code});
+        };
+
+        window.addEventListener("beforeunload", leaveLobby);
+
         fetchData();
+        return () => {
+            window.removeEventListener("beforeunload", leaveLobby);
+        };
     }, []);
     if (loading) {
         return <Loading/>
@@ -139,8 +166,6 @@ export default function PartyPage() {
         Time: rules.time === -1? <BsInfinity/>:`${rules.time}s`, 
         NMPZ: rules.nmpz ? <BiSolidCheckboxChecked className="text-green-300 text-xl"/>:<BiSolidCheckboxMinus className="text-red-300 text-xl"/>,
     };
-
-    console.log(displayRules);
 
     return (
         <div className="relative overflow-hidden">
@@ -180,7 +205,13 @@ export default function PartyPage() {
                     <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => {setMapOpen(true);setLocalRules(rules);} : undefined} />
                 </div>
                 <div className="party-page-footer-content-right">
-                    {isHost ? <button className="party-page-start-button" onClick={gameStart}>Start</button>:<div>Waiting for host...</div>}
+                    {isHost ? 
+                        <button className="party-page-start-button" onClick={gameStart}>Start</button>:
+                        (state.state==="playing"?
+                            <button className="party-page-start-button" onClick={joinGame}>Join Game</button>:
+                            <div>Waiting for host...</div>
+                        )
+                    }
                 </div>
             </div>
             <div className="fixed">

@@ -8,6 +8,7 @@ import Loading from "@/components/loading";
 import api from "@/utils/api";
 import { useDispatch } from "react-redux";
 import MapCard from "@/components/maps/search/MapCard";
+import { BsInfinity } from "react-icons/bs";
 
 export default function challengePage() {
     const [data,setData] = useState<any>(); 
@@ -49,7 +50,7 @@ export default function challengePage() {
             <div className="session-info-box">   
                 <MapCard map={map} onClick={()=>{setLoading(true); router.push(`/map/${map.id}`)}}/>
                 <div className="challenge-text">Rounds: {rules.rounds}</div>
-                <div className="challenge-text">Time: {rules.time} seconds</div>
+                <div className="challenge-text">Time: {rules.time === -1? <BsInfinity/>:`${rules.time} seconds`}</div>
                 <div className="challenge-text">NMPZ: {rules.NMPZ ? "Yes" : "No"}</div>
                 <div className="button-wrapper">
                     <button onClick={()=>{setLoading(true); router.push(`/game/${sessionID}/join`)}} className="game-button" disabled={loading}>{data.playing?"Continue":"Play"}</button>
