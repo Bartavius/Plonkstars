@@ -84,24 +84,22 @@ export default function Page() {
                 rarityColors[cosmetic.tier]
               } rounded-xl shadow-2xl text-center animate-reward-pop relative`}
             >
-              <h2 className="text-2xl font-bold text-green-600 mb-4">
-                🎉 Cosmetic Unlocked! 🎉
+              <h2 className="text-2xl font-bold mb-4">
+                {cosmetic.tier} Cosmetic Unlocked!
               </h2>
               <div className="w-full h-64 flex justify-center items-center">
-                <div
-                  className={`absolute w-48 h-48 rounded-full opacity-30 blur-xl z-0 animate-spin-slow ${darkerRarityColors[cosmetic.tier]}`}
-                 
-                />
                 <img
                   src={`/cosmetics/${cosmetic.type}/${cosmetic.image}`}
                   alt={cosmetic.image.toString()}
                   className="max-h-full max-w-full object-contain"
                 />
                 
+                
               </div>
-              <p className="text-xl font-bold text-white">
+              <p className="text-4xl font-bold text-black mt-5">
                 {cosmetic.item_name}
               </p>
+            
               
             </div>
             
