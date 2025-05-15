@@ -24,15 +24,15 @@ export default function NavBar() {
       { tab: "Home", link: "/" },
       { tab: "Game", link: "/game" },
       { tab: "Maps", link: "/map" },
-      { tab: "Contacts", link: "/#contact" },
       { tab: "Customizations", link: "/customize" },
+      { tab: "Shop", link: "/shop" },
+      { tab: "Contacts", link: "/#contact" },
       { tab: "Logout", link: "/account/logout" },
     ];
     unregisteredTabs = [
       { tab: "Home", link: "/" },
       { tab: "Login", link: "/account/login" },
       { tab: "Register", link: "/account/register" },
-      { tab: "Contacts", link: "/#contact" },
     ];
   }
 

@@ -127,9 +127,8 @@ export default function AvatarCustom({
       try {
         const response = await api.get("/account/profile");
         const profile = response.data;
-        const data = profile.user_cosmetics; //TODO: This used to be true, but the endpoint will most likely have to change
-        console.log(data);
-        // TODO: user face/body/hat is not being queried properly here
+        const data = profile.user_cosmetics;
+        
         setUserIconDefault({
           hue: data.hue,
           saturation: data.saturation,
@@ -154,6 +153,9 @@ export default function AvatarCustom({
     fetchEquippedCosmetics();
     fetchCosmetics();
   }, []);
+
+  console.log(userIcon);
+        // TODO: user face/body/hat is not being queried properly here
 
   if (loading) {
     return <div className="loading">Loading Avatar Customization...</div>;

@@ -1,0 +1,39 @@
+@keyframes reward-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-reward-pop {
+  animation: reward-pop 3s ease-out;
+}
+
+
+@keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .whirlpool {
+    position: absolute;
+    width: 12rem; /* 48 in Tailwind = 12rem */
+    height: 12rem;
+    border-radius: 9999px;
+    opacity: 0.3;
+    filter: blur(1.5rem);
+    z-index: 0;
+    animation: spin-slow 4s linear infinite;
+    background: conic-gradient(from 0deg, var(--whirlpool-color) 0%, transparent 100%);
+  }
