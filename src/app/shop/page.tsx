@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/components/loading";
 import Popup from "@/components/Popup";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { CosmeticTiers } from "@/types/CosmeticTiers";
@@ -11,6 +12,7 @@ export default function Page() {
   const [update, setUpdate] = useState<number>(0);
   const [type, setType] = useState("");
   const [response, setResponse] = useState<Response | null>(null);
+  const [crates, setCrates] = useState<Crate[]>();
 
   const setMessage = (message: React.ReactNode) => {
     _setMessage(message);
@@ -21,17 +23,18 @@ export default function Page() {
   useEffect(() => {
     const fetchCoins = async () => {
       const { data } = await api.get("/account/coins");
-      setCoins(parseInt(data.coins));
+      setCoins(data.coins);
     };
     fetchCoins();
   }, [response]);
 
-  const buyCrate = async (crate: Crate) => {
+  const buyCrate = async (name: string) => {
     try {
-      const response = await api.post("/cosmetics/crates/buy", crate);
-      setMessage(response.data.message || "Purchase successful!");
+      const response = await api.post("/cosmetics/crates/buy", {crate:name});
+      setCoins(response.data.coins);
       setResponse(response.data);
       setType("success");
+      setUpdate((prev) => prev + 1);
     } catch (err: any) {
       const errorMsg =
         err.response?.data?.message ||
@@ -41,10 +44,20 @@ export default function Page() {
     }
   };
 
+  useEffect(() => {
+    async function fetchCrates() {
+      const response = await api.get("/cosmetics/crates/shop");
+      setCrates(response.data);
+    }
+    fetchCrates();
+  },[]);
+
+  if (!crates) return <Loading />;
+
   return (
     <div>
       <div className="navbar-buffer" />
-      <Popup update={update} type={type}>
+      <Popup update={update} type={type === "success" ? undefined: type}>
         {message}
 
     {/* //     "cosmetic": reward.to_json() if hasattr(reward, 'to_json') else None,
@@ -59,28 +72,28 @@ export default function Page() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div
               className={`w-[50%] h-[60%] p-6 ${
-                rarityColors[response.tier]
+                rarityColors[response.cosmetic?.tier ?? response.tier ?? "COMMON"]
               } rounded-xl shadow-2xl text-center animate-reward-pop relative`}
             >
               <h2 className="text-2xl font-bold mb-4">
-                {response.duplicate && `You've unlocked a duplicate ${response.tier} cosmetic. Instead, you'll be awarded with...` }
-                {response.cosmetic && `${response.cosmetic.tier} Cosmetic Unlocked!`}
+                {response.refund === undefined && response.cosmetic === undefined && "You got nothing! womp womp"}
+                {response.refund !== undefined? `You've unlocked a duplicate ${response.cosmetic? response.cosmetic.item_name:`${response.tier} cosmetic`}` 
+                :
+                response.cosmetic && `${response.cosmetic.tier} Cosmetic Unlocked!`}
                 {response.tier === 'COINS' && `You've won...`}
               </h2>
               <div className="w-full h-64 flex justify-center items-center">
-                {response.cosmetic ?
+                {response.cosmetic && response.refund != undefined ?
                 <img
                   src={`/cosmetics/${response.cosmetic.type}/${response.cosmetic.image}`}
                   alt={response.cosmetic.image.toString()}
                   className="max-h-full max-w-full object-contain"
                 /> :
-                <img src="/cosmetics/coin.png" alt="coin" className="max-h-full max-w-full object-contain"/>
-                
-                
-}
+                response.refund && <img src="/cosmetics/coin.png" alt="coin" className="max-h-full max-w-full object-contain"/>
+                }
               </div>
               <p className="text-4xl font-bold text-black mt-5">
-                {response.cosmetic ? response.cosmetic.item_name : `${response.coins} coins`}
+                {response.cosmetic ? response.cosmetic.item_name : response.refund && `${response.refund} coins`}
               </p>
             </div>
           </div>
@@ -99,7 +112,7 @@ export default function Page() {
             <div
               key={crate.name}
               className={`flex justify-between items-center px-6 py-4 rounded-lg shadow cursor-pointer transform transition duration-150 hover:scale-105 hover:shadow-lg`}
-              onClick={() => buyCrate(crate)}
+              onClick={() => buyCrate(crate.name)}
             >
               <div className="text-lg font-semibold">{crate.name}</div>
               <div className="text-lg font-semibold">{crate.price} coins</div>
@@ -112,90 +125,23 @@ export default function Page() {
 }
 
 interface Response {
-    cosmetic: CosmeticProps | null;
-    coins: number | null;
-    duplicate: boolean;
-    tier: CosmeticTiers | 'COINS';
-    message: string;
+    cosmetic: CosmeticProps | undefined;
+    refund: number | undefined;
+    tier: CosmeticTiers | 'COINS' | undefined;
+    message: string | undefined;
 }
 
 // TODO: restructure so that each tier now has percentages on waht can spawn
 interface Crate {
     name: string; // will need image name later
     price: number;
-    percentages: Percentages;
-    coinsMin: number;
-    coinsMax: number;
+    items: CrateItems[];
   }
 
-  interface Percentages {
-    COINS: number;
-    COMMON: number;
-    UNCOMMON: number;
-    RARE: number;
-    EPIC: number;
-    LEGENDARY: number;
-  }
-
-  const crates: Crate[] = [
-    {
-      name: "Wooden Crate",
-      price: 20,
-      percentages: {
-        COINS: 0.4,
-        COMMON: 0.58889,
-        UNCOMMON: 0.01,
-        RARE: 0.001,
-        EPIC: 0.0001,
-        LEGENDARY: 0.00001,
-      },
-      coinsMin: 0,
-      coinsMax: 0,
-    },
-    {
-      name: "Bronze Crate",
-      price: 500,
-      percentages: {
-        COINS: 0.1,
-        COMMON: 0.6,
-        UNCOMMON: 0.2,
-        RARE: 0.08,
-        EPIC: 0.015,
-        LEGENDARY: 0.005,
-      },
-      coinsMin: 100,
-      coinsMax: 500,
-    },
-    {
-      name: "Silver Crate",
-      price: 1000,
-      percentages: {
-        COINS: 0.15,
-        COMMON: 0.35,
-        UNCOMMON: 0.25,
-        RARE: 0.15,
-        EPIC: 0.07,
-        LEGENDARY: 0.03,
-      },
-      coinsMin: 250,
-      coinsMax: 800,
-    },
-    {
-      name: "Gold Crate",
-      price: 2000,
-      percentages: {
-        COINS: 0.2,
-        COMMON: 0.1,
-        UNCOMMON: 0.2,
-        RARE: 0.25,
-        EPIC: 0.15,
-        LEGENDARY: 0.1,
-      },
-      coinsMin: 500,
-      coinsMax: 1500,
-    },
-  ];
-
+interface CrateItems {
+  tier: CosmeticTiers;
+  weight: number;
+}
 
   // Map rarities to Tailwind color classes
   const rarityColors: Record<CosmeticTiers | 'COINS', string> = {
