@@ -2,7 +2,6 @@ import "./page.css";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
 import UserIcon from "@/components/user/UserIcon";
-import constants from "@/app/constants.json";
 import ColorSelection from "./selection/color";
 import { UserIconCosmetics } from "@/types/userIconCosmetics";
 import HatSelection from "./selection/hat";
@@ -10,9 +9,6 @@ import BodySelection from "./selection/body";
 import FaceSelection from "./selection/face";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 
-const MAX_HUE = constants.AVATAR_MAX_HUE;
-const MAX_SATURATION = constants.AVATAR_MAX_SATURATION;
-const MAX_BRIGHTNESS = constants.AVATAR_MAX_BRIGHTNESS;
 
 enum Tabs {
   COLORS = "colors",
@@ -51,7 +47,7 @@ export default function AvatarCustom({
 
   const saveAvatarChanges = async () => {
     try {
-      const response = await api.put("/account/profile/avatar-customize", userIcon);
+      const response = await api.put("/cosmetics/customize", userIcon);
       setType('success');
       setMessage(response.data.message);
     } catch (error: any) {
@@ -114,7 +110,7 @@ export default function AvatarCustom({
   useEffect(() => {
     const fetchCosmetics = async () => {
       // might eventually have to limit amounts queried once cosmetics scale
-      const { data } = await api.get("/account/profile/cosmetics");
+      const { data } = await api.get("/cosmetics/all");
       setFaces(data.unowned_faces);
       setFacesOwned(data.owned_faces);
       setBodies(data.unowned_bodies);

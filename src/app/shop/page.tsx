@@ -20,7 +20,7 @@ export default function Page() {
   const [coins, setCoins] = useState(0);
   useEffect(() => {
     const fetchCoins = async () => {
-      const { data } = await api.get("/account/profile/coins");
+      const { data } = await api.get("/account/coins");
       setCoins(parseInt(data.coins));
     };
     fetchCoins();
@@ -28,7 +28,7 @@ export default function Page() {
 
   const buyCrate = async (crate: Crate) => {
     try {
-      const response = await api.post("/account/profile/buy", crate);
+      const response = await api.post("/cosmetics/crates/buy", crate);
       setMessage(response.data.message || "Purchase successful!");
       setResponse(response.data);
       setType("success");
