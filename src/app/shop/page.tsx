@@ -6,6 +6,7 @@ import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { CosmeticTiers } from "@/types/CosmeticTiers";
 import api from "@/utils/api";
 import { useEffect, useState } from "react";
+import { FaQuestionCircle } from "react-icons/fa";
 
 export default function Page() {
   const [message, _setMessage] = useState<React.ReactNode>();
@@ -59,15 +60,6 @@ export default function Page() {
       <div className="navbar-buffer" />
       <Popup update={update} type={type === "success" ? undefined: type}>
         {message}
-
-    {/* //     "cosmetic": reward.to_json() if hasattr(reward, 'to_json') else None,
-    //     "coins": reward if isinstance(reward, int) else None,
-    //     "duplicate": duplicate,
-    //     "tier": result_tier,
-    //     "message": f"{crate_name.capitalize()} Crate purchased successfully!"
-    //  */}
-
-
         {response && type == "success" && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div
@@ -104,7 +96,7 @@ export default function Page() {
         <div className="mb-6 text-center text-3xl font-bold">Shop</div>
 
         <div className="mb-8 text-center text-lg font-semibold text-gray-700">
-          Coins: {coins}
+          Coins: {coins} <FaQuestionCircle className="inline" title="Get coins from playing the daily, both placement and score award points!"/>
         </div>
 
         <div className="flex flex-col gap-4">
