@@ -200,3 +200,7 @@ text-decoration: underline;
 .gray-disabled:disabled{
   background-color: gray;
 }
+
+.pixelated {
+  image-rendering: pixelated;
+}

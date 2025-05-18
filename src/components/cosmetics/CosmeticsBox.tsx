@@ -59,6 +59,7 @@ export default function CosmeticScrollBox({
             locked={true}
           >
             <img
+              className="w-full pixelated"
               src={`cosmetics/${cosmetic.type}/${cosmetic.image}`}
               alt={cosmetic.item_name.toString()}
             />
