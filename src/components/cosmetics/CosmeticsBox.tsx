@@ -41,6 +41,7 @@ export default function CosmeticScrollBox({
             }`}
           >
             <img
+              className="w-full pixelated"
               src={`cosmetics/${cosmetic.type.toUpperCase()}/${cosmetic.image}`}
               alt={cosmetic.item_name.toString()}
             />
