@@ -58,7 +58,7 @@ export default function Page() {
   return (
     <div>
       <div className="navbar-buffer" />
-      <Popup update={update} type={type === "success" ? undefined: type}>
+      <Popup update={update} type={type === "success" ? null: type}>
         {message}
         {response && type == "success" && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -79,13 +79,13 @@ export default function Page() {
                 <img
                   src={`/cosmetics/${response.cosmetic.type}/${response.cosmetic.image}`}
                   alt={response.cosmetic.image.toString()}
-                  className="max-h-full max-w-full object-contain"
+                  className="h-full w-full object-contain pixelated"
                 /> :
-                response.refund && <img src="/cosmetics/coin.png" alt="coin" className="max-h-full max-w-full object-contain"/>
+                response.refund && <img src="/cosmetics/coin.png" alt="coin" className="h-full w-full object-contain pixelated"/>
                 }
               </div>
               <p className="text-4xl font-bold text-black mt-5">
-                {response.cosmetic ? response.cosmetic.item_name : response.refund && `${response.refund} coins`}
+                {response.refund ? `${response.refund} coins`: response.cosmetic && response.cosmetic.item_name }
               </p>
             </div>
           </div>

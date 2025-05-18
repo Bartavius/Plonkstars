@@ -1,5 +1,5 @@
 import "./Popup.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Popup({ 
   duration = 2000, 
@@ -17,11 +17,14 @@ export default function Popup({
   background?: string;
   color?: string;
   className?: string;
-  type?:string;
+  type?:string | null;
   children?: React.ReactNode;
 }) {
   const [popupFade, setPopupFade] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
+  
+  const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   switch (type) {
     case "error":
@@ -34,28 +37,49 @@ export default function Popup({
       className += " text-blue-500 bg-blue-100 border border-blue-400 z-100";
   }
   
-  function showPopup() {
-      if (show || !children) return;
-      setShow(true);
-      setPopupFade(false);
+    function clearTimeouts() {
+    if (fadeTimeoutRef.current) {
+      clearTimeout(fadeTimeoutRef.current);
+      fadeTimeoutRef.current = null;
+    }
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+  }
 
-      setTimeout(() => {
-          setPopupFade(true);
-          setTimeout(() => {
-            setShow(false);
-          }, fadeOut);
-      }, duration);
-  };
+  function showPopup() {
+    if (show || !children) return;
+    clearTimeouts();
+
+    setShow(true);
+    setPopupFade(false);
+
+    fadeTimeoutRef.current = setTimeout(() => {
+      setPopupFade(true);
+      hideTimeoutRef.current = setTimeout(() => {
+        setShow(false);
+      }, fadeOut);
+    }, duration);
+  }
 
   useEffect(() => {
-    showPopup()
+    showPopup();
+
+    // Clean up on unmount or prop change
+    return () => clearTimeouts();
   }, [update, children]);
+
+  function handleClick() {
+    clearTimeouts();
+    setShow(false);
+  }
 
   return (
     <>
     {show && 
     <div className="popup-wrapper">
-      <div className={`settings-popup ${popupFade ? "opacity-0" : "opacity-100"} ${className}`} style={{color,background}} onClick={() => setShow(false)}>
+      <div className={`settings-popup ${popupFade ? "opacity-0" : "opacity-100"} ${className}`} onClick={handleClick}>
           {children}
       </div>
     </div>
