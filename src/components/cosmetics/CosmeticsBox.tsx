@@ -17,8 +17,8 @@ export default function CosmeticScrollBox({
   onClick,
 }: CosmeticScrollBoxProps) {
   return (
-    <div className="overflow-y-scroll p-2 bg-red shadow-inner">
-      <div className="grid grid-cols-2 grid-rows-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+    <div className="overflow-y-scroll p-2 bg-red shadow-inner w-full">
+      <div className="grid grid-cols-2 grid-rows-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 w-full">
         <CosmeticDisplayBox
             tier={CosmeticTiers.COMMON}
             onClick={() => onClick?.(null)}
