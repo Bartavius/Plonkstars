@@ -214,80 +214,77 @@ export default function PartyPage() {
                     }
                 </div>
             </div>
-            <div className="fixed">
-                <Modal isOpen={mapOpen} onClose={() => setMapOpen(false)}>
-                    <h2 className="text-xl font-semibold text-center">Select Map</h2>
-                    <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
-                </Modal>
-            </div>
-            <div className="fixed">  
-                <Modal isOpen={isHost && rulesOpen} onClose={() => {setRulesOpen(false)}}>
-                    <h2 className="text-xl font-semibold text-center">Set Rules</h2>
-                    <div className="mb-4">
-                        <label className="block mb-2 text-white" htmlFor="round-range">
-                            No. of Rounds: {localRules.rounds}
-                        </label>
-                        <input
-                            className="focus:outline-none input-field cursor-pointer"
-                            style={{ padding: "0px" }}
-                            type="range"
-                            id="round-range"
-                            min={MIN_ROUNDS}
-                            max={MAX_ROUNDS}
-                            step="1"
-                            value={localRules.rounds}
-                            onChange={(e) => 
-                                setLocalRules((prev:any) => ({...prev,rounds:Number(e.target.value)}))
-                            }
-                        />
-                    </div>
-                    <div className="mb-6">
-                    <label className="block mb-2 text-white" htmlFor="time-range">
-                        Time Limit: {localRules.time >= MAX_TIME + 1 || localRules.time == -1 ? <BsInfinity className="inline"/> : `${localRules.time}s`}
+            <Modal isOpen={mapOpen} onClose={() => setMapOpen(false)}>
+                <h2 className="text-xl font-semibold text-center">Select Map</h2>
+                <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
+            </Modal>
+            
+            <Modal isOpen={isHost && rulesOpen} onClose={() => {setRulesOpen(false)}}>
+                <h2 className="text-xl font-semibold text-center">Set Rules</h2>
+                <div className="mb-4">
+                    <label className="block mb-2 text-white" htmlFor="round-range">
+                        No. of Rounds: {localRules.rounds}
                     </label>
                     <input
-                        className="text-dark focus:outline-none input-field cursor-pointer"
+                        className="focus:outline-none input-field cursor-pointer"
                         style={{ padding: "0px" }}
                         type="range"
-                        id="time-range"
-                        min={MIN_TIME}
-                        max={MAX_TIME + 1}
+                        id="round-range"
+                        min={MIN_ROUNDS}
+                        max={MAX_ROUNDS}
                         step="1"
-                        value={localRules.time == -1 ? MAX_TIME + 1 : localRules.time}
-                        onChange={(e) => {
-                                const val = Number(e.target.value);
-                                setLocalRules((prev:any) => ({...prev,time:val === MAX_TIME + 1? -1:val})) 
-                            }
+                        value={localRules.rounds}
+                        onChange={(e) => 
+                            setLocalRules((prev:any) => ({...prev,rounds:Number(e.target.value)}))
                         }
                     />
-                    </div>
-                    <div className="mb-6">
-                        <input
-                            type="checkbox"
-                            name="NMPZ-toggle"
-                            id="NMPZ-toggle"
-                            checked={localRules.nmpz}
-                            className="mr-2 cursor-pointer"
-                            onChange={(e) => 
-                                setLocalRules((prev:any) => ({...prev,nmpz:e.target.checked}))
-                            }
-                        />
-                        <label
-                            htmlFor="NMPZ-toggle"
-                            title="No moving, No panning, No zooming"
-                        >
-                            <b>NMPZ</b>
-                            <FaQuestionCircle className="ml-2 inline" />
-                        </label>
-                    </div>
-                    <button
-                        className="btn-primary justify-center flex mx-auto"
-                        onClick={saveRules}
+                </div>
+                <div className="mb-6">
+                <label className="block mb-2 text-white" htmlFor="time-range">
+                    Time Limit: {localRules.time >= MAX_TIME + 1 || localRules.time == -1 ? <BsInfinity className="inline"/> : `${localRules.time}s`}
+                </label>
+                <input
+                    className="text-dark focus:outline-none input-field cursor-pointer"
+                    style={{ padding: "0px" }}
+                    type="range"
+                    id="time-range"
+                    min={MIN_TIME}
+                    max={MAX_TIME + 1}
+                    step="1"
+                    value={localRules.time == -1 ? MAX_TIME + 1 : localRules.time}
+                    onChange={(e) => {
+                            const val = Number(e.target.value);
+                            setLocalRules((prev:any) => ({...prev,time:val === MAX_TIME + 1? -1:val})) 
+                        }
+                    }
+                />
+                </div>
+                <div className="mb-6">
+                    <input
+                        type="checkbox"
+                        name="NMPZ-toggle"
+                        id="NMPZ-toggle"
+                        checked={localRules.nmpz}
+                        className="mr-2 cursor-pointer"
+                        onChange={(e) => 
+                            setLocalRules((prev:any) => ({...prev,nmpz:e.target.checked}))
+                        }
+                    />
+                    <label
+                        htmlFor="NMPZ-toggle"
+                        title="No moving, No panning, No zooming"
                     >
-                        Save Rules
-                    </button>
-                </Modal>
-            </div>
+                        <b>NMPZ</b>
+                        <FaQuestionCircle className="ml-2 inline" />
+                    </label>
+                </div>
+                <button
+                    className="btn-primary justify-center flex mx-auto"
+                    onClick={saveRules}
+                >
+                    Save Rules
+                </button>
+            </Modal>
         </div>
     );
 }

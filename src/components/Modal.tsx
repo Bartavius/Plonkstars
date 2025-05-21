@@ -23,7 +23,8 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
     <div 
       ref={modalRef}
       onClick={handleBackgroundClick}
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center flex-col items-center z-100"
+      style={{ zIndex: 100 }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center flex-col items-center"
     >
       <div className="navbar-buffer"/>
       <div className="modal-window" onClick={(e) => e.stopPropagation()}>
