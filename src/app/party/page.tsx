@@ -13,17 +13,11 @@ import Modal from "@/components/Modal";
 import MapSearch from "@/components/maps/search/MapSearch";
 import { clearPartyCode } from "@/redux/partySlice";
 import { GiExitDoor } from "react-icons/gi";
-import { FaQuestionCircle } from "react-icons/fa";
 import { BsInfinity } from "react-icons/bs";
 import { BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
-import constants from "@/app/constants.json";
 import Popup from "@/components/Popup";
 import { setError } from "@/redux/errorSlice";
-
-const MIN_ROUNDS = constants.ROUND_MIN_ROUNDS;
-const MAX_ROUNDS = constants.ROUND_MAX_ROUNDS;
-const MIN_TIME = constants.ROUND_MIN_TIME;
-const MAX_TIME = constants.ROUND_MAX_TIME;
+import UserInput from "@/components/party/userInput";
 
 export default function PartyPage() {
     const [isHost, setIsHost] = useState<boolean>(false);
@@ -38,6 +32,7 @@ export default function PartyPage() {
     const [message, setMessage] = useState<string>();
     const [update, setUpdate] = useState<number>(0);
     const [state, setState] = useState<any>();
+    const [rulesConfig, setRulesConfig] = useState<any>(null);
 
     const dispatch = useDispatch();
     const code = useSelector((state: any) => state.party).code;
@@ -88,6 +83,8 @@ export default function PartyPage() {
         const rules = await api.get(`/party/rules?code=${code}`);
         setRules(rules.data);
         setLocalRules(rules.data);
+        const rulesConfig = await api.get(`/party/rules/config?code=${code}`);
+        setRulesConfig(rulesConfig.data);
         setLoading(false);
     }
 
@@ -104,7 +101,6 @@ export default function PartyPage() {
         setType("error");
         setMessage(`Kicked ${username}`);
         setUpdate((prev) => prev + 1);
-
     }
 
     async function gameStart() {
@@ -132,6 +128,12 @@ export default function PartyPage() {
         setMessage("Saved Rules");
         setUpdate((prev) => prev + 1);
 
+    }
+
+    function setPageError(error: string) {
+        setType("error");
+        setMessage(error);
+        setUpdate((prev) => prev + 1);
     }
     
     function copyPartyLink(){
@@ -161,12 +163,20 @@ export default function PartyPage() {
         return <Loading/>
     }
 
+    function setSingleRules(key: string, value: any) {
+        setLocalRules((prev: any) => ({
+            ...prev,
+            [key]: value
+        }));
+    }
+
     const displayRules = {
         Rounds: rules.rounds,
         Time: rules.time === -1? <BsInfinity/>:`${rules.time}s`, 
         NMPZ: rules.nmpz ? <BiSolidCheckboxChecked className="text-green-300 text-xl"/>:<BiSolidCheckboxMinus className="text-red-300 text-xl"/>,
     };
 
+    console.log(rulesConfig)
     return (
         <div className="relative overflow-hidden">
             <Popup update={update} type={type}>{message}</Popup>
@@ -221,63 +231,18 @@ export default function PartyPage() {
             
             <Modal isOpen={isHost && rulesOpen} onClose={() => {setRulesOpen(false)}}>
                 <h2 className="text-xl font-semibold text-center">Set Rules</h2>
-                <div className="mb-4">
-                    <label className="block mb-2 text-white" htmlFor="round-range">
-                        No. of Rounds: {localRules.rounds}
-                    </label>
-                    <input
-                        className="focus:outline-none input-field cursor-pointer"
-                        style={{ padding: "0px" }}
-                        type="range"
-                        id="round-range"
-                        min={MIN_ROUNDS}
-                        max={MAX_ROUNDS}
-                        step="1"
-                        value={localRules.rounds}
-                        onChange={(e) => 
-                            setLocalRules((prev:any) => ({...prev,rounds:Number(e.target.value)}))
-                        }
-                    />
-                </div>
-                <div className="mb-6">
-                <label className="block mb-2 text-white" htmlFor="time-range">
-                    Time Limit: {localRules.time >= MAX_TIME + 1 || localRules.time == -1 ? <BsInfinity className="inline"/> : `${localRules.time}s`}
-                </label>
-                <input
-                    className="text-dark focus:outline-none input-field cursor-pointer"
-                    style={{ padding: "0px" }}
-                    type="range"
-                    id="time-range"
-                    min={MIN_TIME}
-                    max={MAX_TIME + 1}
-                    step="1"
-                    value={localRules.time == -1 ? MAX_TIME + 1 : localRules.time}
-                    onChange={(e) => {
-                            const val = Number(e.target.value);
-                            setLocalRules((prev:any) => ({...prev,time:val === MAX_TIME + 1? -1:val})) 
-                        }
-                    }
-                />
-                </div>
-                <div className="mb-6">
-                    <input
-                        type="checkbox"
-                        name="NMPZ-toggle"
-                        id="NMPZ-toggle"
-                        checked={localRules.nmpz}
-                        className="mr-2 cursor-pointer"
-                        onChange={(e) => 
-                            setLocalRules((prev:any) => ({...prev,nmpz:e.target.checked}))
-                        }
-                    />
-                    <label
-                        htmlFor="NMPZ-toggle"
-                        title="No moving, No panning, No zooming"
-                    >
-                        <b>NMPZ</b>
-                        <FaQuestionCircle className="ml-2 inline" />
-                    </label>
-                </div>
+                {
+                    rulesConfig && Object.entries(rulesConfig).map(([key, value]: [string, any]) => (
+                        <UserInput
+                            key={key}
+                            inputType={value.display}
+                            data={value}
+                            value={localRules ? localRules[key] : undefined}
+                            setError={setPageError}
+                            setInput={(input: any) => setSingleRules(key, input)}
+                        />
+                    ))
+                }
                 <button
                     className="btn-primary justify-center flex mx-auto"
                     onClick={saveRules}
