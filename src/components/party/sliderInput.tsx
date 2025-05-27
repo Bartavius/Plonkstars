@@ -1,4 +1,5 @@
 import { BsInfinity } from "react-icons/bs"
+import "@/app/game.css";
 
 export default function SliderInput({
     data,
@@ -11,7 +12,7 @@ export default function SliderInput({
 }) {
     return (
         <div className="w-full relative flex flex-col gap-2">
-           <label className="block mb-2 text-white" htmlFor={data.name}>
+           <label className="block text-white" htmlFor={data.name}>
                 {data.name}: {value === -1 ? <BsInfinity className="inline"/> : value}
             </label>
             <input

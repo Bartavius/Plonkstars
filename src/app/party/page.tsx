@@ -233,14 +233,16 @@ export default function PartyPage() {
                 <h2 className="text-xl font-semibold text-center">Set Rules</h2>
                 {
                     rulesConfig && Object.entries(rulesConfig).map(([key, value]: [string, any]) => (
-                        <UserInput
-                            key={key}
-                            inputType={value.display}
-                            data={value}
-                            value={localRules ? localRules[key] : undefined}
-                            setError={setPageError}
-                            setInput={(input: any) => setSingleRules(key, input)}
-                        />
+                        <div className="py-2" key={key}>
+                            <UserInput
+                                key={key}
+                                inputType={value.display}
+                                data={value}
+                                value={localRules ? localRules[key] : undefined}
+                                setError={setPageError}
+                                setInput={(input: any) => setSingleRules(key, input)}
+                            />
+                        </div>
                     ))
                 }
                 <button

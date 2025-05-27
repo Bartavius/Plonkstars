@@ -36,7 +36,7 @@ export default function UserInput({
         }
 
         if (data.type === "integer" || data.type === "number") {
-            if (data.min !== undefined && value < data.min){ 
+            if (data.min !== undefined && value < data.min && !(data.infinity && value === -1)){ 
                 setError(`Value cannot be less than ${data.min}`); 
                 return;
             }
