@@ -232,15 +232,15 @@ export default function PartyPage() {
             <Modal isOpen={isHost && rulesOpen} onClose={() => {setRulesOpen(false)}}>
                 <h2 className="text-xl font-semibold text-center">Set Rules</h2>
                 {
-                    rulesConfig && Object.entries(rulesConfig).map(([key, value]: [string, any]) => (
-                        <div className="py-2" key={key}>
+                    rulesConfig && rulesConfig.map((data:any) => (
+                        <div className="py-2" key={data.key}>
                             <UserInput
-                                key={key}
-                                inputType={value.display}
-                                data={value}
-                                value={localRules ? localRules[key] : undefined}
+                                key={data.key}
+                                inputType={data.display}
+                                data={data}
+                                value={localRules ? localRules[data.key] : undefined}
                                 setError={setPageError}
-                                setInput={(input: any) => setSingleRules(key, input)}
+                                setInput={(input: any) => setSingleRules(data.key, input)}
                             />
                         </div>
                     ))
