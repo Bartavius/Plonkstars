@@ -18,7 +18,9 @@ import { BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
 import Popup from "@/components/Popup";
 import { setError } from "@/redux/errorSlice";
 import UserInput from "@/components/party/userInput";
+import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 
+const modes = !process.env.TESTING ? ["Live","Duels"]:["Live"]
 export default function PartyPage() {
     const [isHost, setIsHost] = useState<boolean>(false);
     const [users, setUsers] = useState<any>();
@@ -33,6 +35,7 @@ export default function PartyPage() {
     const [update, setUpdate] = useState<number>(0);
     const [state, setState] = useState<any>();
     const [rulesConfig, setRulesConfig] = useState<any>(null);
+    const [modeIndex, setModeIndex] = useState<number>(0);
 
     const dispatch = useDispatch();
     const code = useSelector((state: any) => state.party).code;
@@ -170,8 +173,17 @@ export default function PartyPage() {
         }));
     }
 
+    async function changeMode(index: number) {
+        index = index % modes.length;
+        setModeIndex(index);
+        await api.post("/party/rules", { code, type: modes[index] });
+
+        const rulesConfig = await api.get(`/party/rules/config?code=${code}`);
+        setRulesConfig(rulesConfig.data);
+    }
+
     const displayRules = {
-        Rounds: rules.rounds,
+        Rounds: rules.rounds === -1 ? <BsInfinity/> : rules.rounds,
         Time: rules.time === -1? <BsInfinity/>:`${rules.time}s`, 
         NMPZ: rules.nmpz ? <BiSolidCheckboxChecked className="text-green-300 text-xl"/>:<BiSolidCheckboxMinus className="text-red-300 text-xl"/>,
     };
@@ -183,6 +195,11 @@ export default function PartyPage() {
             <div className="navbar-buffer"/>
             <div className="party-page-content">
                 <div className="party-page-code-box" onMouseEnter={() => setHoverCode(true)} onMouseLeave={() => setHoverCode(false)} onClick={copyPartyLink}>{hoverCode ? code: "Hover for Code"}</div>
+                <div className="party-page-mode-box">
+                    <GoTriangleLeft className="party-page-mode-change-arrow" onClick={() => changeMode(modeIndex-1)}/>
+                    {modes[modeIndex]}
+                    <GoTriangleRight className="party-page-mode-change-arrow" onClick={() => changeMode(modeIndex + 1)}/>
+                </div>
                 <div className="party-page-user-list">
                     {users.members.map(((user: any) => {
                         return (

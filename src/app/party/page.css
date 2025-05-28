@@ -157,7 +157,35 @@
     z-index: 1;
 }
 
+.party-page-mode-box{
+    position: absolute;
+    top: 0.5rem;
+    width: 200px;
+    left: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    border-radius: 1rem;
+    background-color: var(--dark-blue);
+    padding: 0.5rem;
+    z-index: 1;
+    transform: translateX(-50%);
+}
+
 .party-page-code-box:hover{
     cursor: pointer;
     filter: brightness(90%);
+}
+
+.party-page-mode-change-arrow{
+    font-size: 1.5rem;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+.party-page-mode-change-arrow:hover{
+    cursor: pointer;
+    color: var(--plonk-stars-red);
+    transform: scale(1.1);
 }
