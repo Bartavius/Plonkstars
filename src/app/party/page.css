@@ -109,13 +109,15 @@
 }
 
 .party-page-rule-item{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+    height: 100%;
 }
 
 .party-page-rule-key-text{
+    display: flex;
+    justify-content: center;
     font-size: 1.25rem;
     color: var(--plonk-stars-red);
     font-weight: 800;
@@ -123,6 +125,8 @@
 }
 
 .party-page-rule-value-text{
+    display: flex;
+    justify-content: center;
     font-size: 1rem;
     color: white;
 }
