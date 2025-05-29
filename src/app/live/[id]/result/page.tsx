@@ -5,7 +5,7 @@ import Loading from "@/components/loading";
 import api from "@/utils/api";
 import dynamic from "next/dynamic";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import useLiveSocket from "../../liveSocket";
 
@@ -26,7 +26,8 @@ export default function GameResultPage() {
 
   const [data,setData] = useState<any>();
   const [state,setState] = useState<any>();
-  const [isHost, setIsHost] = useState<boolean>();
+  const [isHost, setIsHost] = useState(false);
+  const isHostRef = useRef<boolean>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   
   useEffect(() => {
@@ -41,8 +42,7 @@ export default function GameResultPage() {
 
         const isHost = await api.get(`/party/host?code=${code}`);
         setIsHost(isHost.data.is_host);
-
-        
+        isHostRef.current = isHost.data.is_host;
       } catch (err: any) {
 
       }
@@ -53,22 +53,22 @@ export default function GameResultPage() {
   const socket = useLiveSocket({id: matchId?.toString() ?? "",state});
 
   async function nextRound() {
+    if (loading) return;
     if (state.state === "finished") {
       router.push(`/live/${matchId}/summary`);
       return;
     }
-    if (state.state === "results" && isHost){
+    if (state.state === "results" && isHostRef.current){
       setLoading(true);
       await api.post("/game/next", {id:matchId});
     }
   }
 
-  if (!data){
+  if (!data || isHostRef.current === undefined) {
     return <Loading />;
   }
 
   const centerText = isHost ? (loading?<div>Loading next round...</div>:undefined) : <div>Waiting for host...</div>
-
   return (
     <ProtectedRoutes>
       <Suspense fallback={<Loading />}>
