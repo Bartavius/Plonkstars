@@ -20,7 +20,7 @@ import { setError } from "@/redux/errorSlice";
 import UserInput from "@/components/party/userInput";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 
-const modes = !process.env.TESTING ? ["Live","Duels"]:["Live"]
+const modes = process.env.TESTING ? ["Live","Duels"]:["Live"]
 export default function PartyPage() {
     const [isHost, setIsHost] = useState<boolean>(false);
     const [users, setUsers] = useState<any>();
