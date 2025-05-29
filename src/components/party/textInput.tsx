@@ -7,7 +7,7 @@ export default function TextInput({
 }:{
     data: any,
     setInput: (input:string) => void,
-    value:any
+    value?:any
 }) {
     const [input, setInputState] = useState(value || "");
 
@@ -29,7 +29,7 @@ export default function TextInput({
             <input
                 type={data.type==="integer" ? "number":"text"}
                 id={data.name}
-                className="w-full bg-dark text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-dark text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={input === -1 ? "" : input}
                 onChange={(e) => setInputState(e.target.value)}
                 onBlur={() => setInput(input)}

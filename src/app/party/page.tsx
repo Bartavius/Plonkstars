@@ -20,7 +20,9 @@ import { setError } from "@/redux/errorSlice";
 import UserInput from "@/components/party/userInput";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 
-const modes = process.env.TESTING ? ["Live","Duels"]:["Live"]
+console.log(process.env.TESTING);
+const modes = process.env.NEXT_PUBLIC_TESTING ? ["Live","Duels"]:["Live"]
+
 export default function PartyPage() {
     const [isHost, setIsHost] = useState<boolean>(false);
     const [users, setUsers] = useState<any>();
@@ -86,6 +88,7 @@ export default function PartyPage() {
         const rules = await api.get(`/party/rules?code=${code}`);
         setRules(rules.data);
         setLocalRules(rules.data);
+        setModeIndex(modes.findIndex(item => item.toLowerCase() === rules.data.type.toLowerCase()));
         const rulesConfig = await api.get(`/party/rules/config?code=${code}`);
         setRulesConfig(rulesConfig.data);
         setLoading(false);
@@ -107,7 +110,7 @@ export default function PartyPage() {
     }
 
     async function gameStart() {
-        await api.post("/party/start", { code: code });
+        await api.post("/party/game/start", { code: code });
     }
 
     async function joinGame(){

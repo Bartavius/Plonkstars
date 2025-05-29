@@ -5,7 +5,7 @@ export default function CheckboxInput({
 }:{
     data: any,
     setInput: (input:boolean) => void,
-    value:any
+    value?:any
 }) {
     return (
         <div className="w-full relative">

@@ -8,7 +8,7 @@ export default function SliderInput({
 }:{
     data: any,
     setInput: (input:any) => void,
-    value:any
+    value?:any
 }) {
     return (
         <div className="w-full relative flex flex-col gap-2">
