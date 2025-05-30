@@ -18,7 +18,7 @@ export default function MapResolution({setMessage}:{setMessage: (message: React.
 
     return (
         <div className="settings-box">
-            <div className="settings-label">Map Resolution</div>
+            <div className="settings-label">Minimap Resolution</div>
             <label className="block mb-2 text-white" htmlFor="resolution-range">
                   Zoom: {resolution}
             </label>
