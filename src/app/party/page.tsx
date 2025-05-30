@@ -64,20 +64,21 @@ export default function PartyPage() {
                 }));
               },
             update_rules:(data)=>{setRules(data);setLocalRules(data);},
-            start: pushGame
+            start: pushGame,
+            summary: updateGameState
         }
     });
 
+    async function updateGameState(data:any){
+        const state = await api.get(`/party/game/state?code=${code}`);
+        setState(state.data);
+    }
     function pushGame(data:any){
         router.push(`/${data.type.toLowerCase()}/${data.id}`);
     }
 
     async function fetchData() {
         const state = await api.get(`/party/game/state?code=${code}`);
-        if (state.data.state === "playing" && state.data.joined) {
-            pushGame(state.data);
-            return;
-        }
         setState(state.data);
         await api.post(`/party/lobby/join`,{code});
         const isHost = await api.get(`/party/host?code=${code}`);
@@ -240,11 +241,15 @@ export default function PartyPage() {
                     <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => {setMapOpen(true);setLocalRules(rules);} : undefined} />
                 </div>
                 <div className="party-page-footer-content-right">
-                    {isHost ? 
-                        <button className="party-page-start-button" onClick={gameStart}>Start</button>:
+                    {
                         (state.state==="playing"?
-                            <button className="party-page-start-button" onClick={joinGame}>Join Game</button>:
-                            <div>Waiting for host...</div>
+                            (state.joined ? 
+                                <button className="party-page-start-button" onClick={() => pushGame(state)}>Rejoin Game</button>:
+                                <button className="party-page-start-button" onClick={joinGame}>Join Game</button> 
+                            ):
+                            (isHost ? 
+                            <button className="party-page-start-button" onClick={gameStart}>Start</button>:
+                            <div>Waiting for host...</div>)
                         )
                     }
                 </div>
