@@ -158,9 +158,16 @@ export default function PartyPage() {
             api.post("/party/lobby/leave", {code});
         };
 
-        window.addEventListener("beforeunload", leaveLobby);
+        try{
+            fetchData();
+        }
+        catch (err: any) {
+            dispatch(clearPartyCode());
+            dispatch(setError(err?.response?.data?.error || "An error occurred while fetching party data."));
+            router.push("/game");
+        }
 
-        fetchData();
+        window.addEventListener("beforeunload", leaveLobby);
         return () => {
             window.removeEventListener("beforeunload", leaveLobby);
         };
