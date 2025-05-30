@@ -20,7 +20,6 @@ import { setError } from "@/redux/errorSlice";
 import UserInput from "@/components/party/userInput";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 
-console.log(process.env.TESTING);
 const modes = process.env.NEXT_PUBLIC_TESTING ? ["Live","Duels"]:["Live"]
 
 export default function PartyPage() {
@@ -198,7 +197,6 @@ export default function PartyPage() {
         NMPZ: rules.nmpz ? <BiSolidCheckboxChecked className="text-green-300 text-xl"/>:<BiSolidCheckboxMinus className="text-red-300 text-xl"/>,
     };
 
-    console.log(rulesConfig)
     return (
         <div className="relative overflow-hidden">
             <Popup update={update} type={type}>{message}</Popup>

@@ -45,7 +45,6 @@ export default function UserInput({
                 return;
             }
         }
-        console.log("changing input", data.name, value);
         setInput(value);
     }
     return (

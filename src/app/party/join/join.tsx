@@ -6,7 +6,6 @@ export default async function joinParty({code,setError,router,dispatch}:{code:st
         await api.post("/party/join", {code});
     } catch(err:any){
         if (err.response?.status === 404) {
-            console.log("Party not found");
             setError(err.response?.data?.error || "Could not join party");
             return;
         }

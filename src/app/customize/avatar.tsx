@@ -150,7 +150,6 @@ export default function AvatarCustom({
     fetchCosmetics();
   }, []);
 
-  console.log(userIcon);
         // TODO: user face/body/hat is not being queried properly here
 
   if (loading) {
