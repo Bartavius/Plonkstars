@@ -174,12 +174,9 @@ export default function MapInfoPage(){
 
     
     const topGuesses = stats.other.top_guesses ?? {user:{username:"N/A"},stat:"N/A"};
-    const fastestPlonker = stats.other.fast_guesser ?? {user:{username:"N/A"},stat:-1};
-    const bestAverage = stats.other.best_average ?? {user:{username:"N/A"},stat:"N/A"};
-
-    if (typeof bestAverage.stat === "number") {
-        bestAverage.stat = roundNumber(bestAverage.stat,2);
-    }
+    const fastestnk = stats.other.fastest_5k ?? stats.other.fastest_nk ?? {user:{username:"N/A"},stat:-1};
+    const most_5ks = stats.other.most_5ks;
+    const bestScore = stats.other.highest_score ?? {user:{username:"N/A"},stat:"N/A"};
 
     const otherUserStats = {
         name: "Other User Stats",
@@ -188,10 +185,17 @@ export default function MapInfoPage(){
                 name: "Miscellaneous Stats",
                 items: [
                     { icon: <BsCapsule/>, title: `Most Addicted: ${topGuesses.user.username}`, stat: topGuesses.stat + (stats.other.top_guesses ? " plonks" : "")},
-                    { icon: <FaRunning/>, title: `Fastest Plonker: ${fastestPlonker.user.username}`, ...timeString(fastestPlonker.stat) },
-                    { icon: <CgRowFirst/>, title: `Best Average: ${bestAverage.user.username}`, stat: bestAverage.stat },
                     { icon: <Md5K/>, title: "Number of 5ks", stat:stats.other["5ks"]},
-                ]
+                    (most_5ks ?
+                        (
+                            { icon: <FaMedal/>, title: `Most 5ks: ${most_5ks.user.username}`, stat: most_5ks.stat }
+                        ) :
+                        (
+                            { icon: <CgRowFirst/>, title: `Best Score: ${fastestnk.user.username}`, stat: bestScore.stat }
+                        )
+                    ),
+                    {icon: <FaRunning/>, title: `Fastest ${most_5ks && bestScore.state !== "N/A" ? "5k" : (Math.floor(bestScore.stat/1000) === 0 ? "Guess" : `${Math.floor(bestScore.stat/1000)}k`)}: ${fastestnk.user.username}`, ...timeString(fastestnk.stat)}
+                ] 
             },
             {
                 name: "#1: " + topUser.user,
