@@ -1,7 +1,7 @@
 import { setPartyCode } from "@/redux/partySlice";
 import api from "@/utils/api";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import joinParty from "@/app/party/join/join";
 
@@ -15,33 +15,48 @@ export default function Multiplayer({
     setError: (error:string) => void
 }) {
     const [input, setInput] = useState<string[]>(["","","",""]);
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
     const [isFocused, setIsFocused] = useState(false);
+
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
     const dispatch = useDispatch();
     const router = useRouter();
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
+    function handleKeyDown(e: React.KeyboardEvent,i:number){
         if (e.ctrlKey || e.metaKey) return;
         const newLetters = [...input];
         if (/^[a-zA-Z]$/.test(e.key)) {
-            newLetters[selectedIndex] = e.key.toUpperCase();
+            newLetters[i] = e.key.toUpperCase();
             setInput(newLetters);
-            if (selectedIndex < 3) setSelectedIndex(selectedIndex + 1);
-        } else if (e.key === "Backspace" && selectedIndex >= 0) {
-            newLetters[selectedIndex] = "";
+            if (i < 3) setSelectedIndex(i + 1);
+        } else if (e.key === "Backspace" && i >= 0) {
+            newLetters[i] = "";
             setInput(newLetters);
-            if (selectedIndex != 0) setSelectedIndex(selectedIndex - 1);
+            if (i != 0) setSelectedIndex(i - 1);
         }
-        else if (e.key === "ArrowLeft" && selectedIndex > 0) {
-            setSelectedIndex(selectedIndex - 1);
-        } else if (e.key === "ArrowRight" && selectedIndex < 3) {
-            setSelectedIndex(selectedIndex + 1);
+        else if (e.key === "ArrowLeft" && i > 0) {
+            setSelectedIndex(i - 1);
+        } else if (e.key === "ArrowRight" && i < 3) {
+            setSelectedIndex(i + 1);
         } else if (e.key === "Enter") {
             joinPartyButton();
         }
-      };
+    };
 
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
+        const val = e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
+
+        if (!val) return;
+
+        const newInput = [...input];
+        newInput[index] = val[0];
+        setInput(newInput);
+
+        if (index < 3) {
+            setSelectedIndex(index + 1);
+        }
+    };
 
     async function createParty(){
         if (loading) return;
@@ -75,6 +90,12 @@ export default function Multiplayer({
         setInput(newInput);
         setSelectedIndex(Math.min(pasteData.length + selectedIndex, 3));
     }
+
+    useEffect(() =>{
+        if (selectedIndex < 0) return;
+        inputRefs.current[selectedIndex]?.focus();
+    },[selectedIndex]);
+    
     return (
         <div className="w-full px-4">
             <h2 className="text-xl font-semibold mb-4 text-center">
@@ -98,8 +119,7 @@ export default function Multiplayer({
                     <div 
                         tabIndex={0}
                         onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
-                        onKeyDown={handleKeyDown} 
+                        onBlur={() => {setIsFocused(false),setSelectedIndex(-1)}}
                         onPaste={handlePaste}
                         className="flex mb-2 gap-2 outline-none"
                     >
@@ -107,10 +127,12 @@ export default function Multiplayer({
                             <input
                                 key={i}
                                 type="text"
+                                ref={(el) => { inputRefs.current[i] = el; }}
                                 maxLength={1}
                                 value={input[i]}
-                                onKeyDown={handleKeyDown}
                                 onPaste={handlePaste}
+                                onChange={(e) => handleChange(e, i)}
+                                onKeyDown={(e) => handleKeyDown(e, i)}
                                 onFocus={() => setSelectedIndex(i)}
                                 className={`w-12 h-12 border-2 text-center text-2xl rounded bg-light text-dark
                                 focus:outline-none caret-transparent focus:ring-0 ${
@@ -119,6 +141,9 @@ export default function Multiplayer({
                                 inputMode="text"
                                 pattern="[A-Za-z]"
                                 autoComplete="off"
+                                autoCorrect="off"
+                                spellCheck={false}
+
                             />
                         ))}
                     </div>
