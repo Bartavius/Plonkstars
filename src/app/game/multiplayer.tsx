@@ -22,6 +22,7 @@ export default function Multiplayer({
     const router = useRouter();
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.ctrlKey || e.metaKey) return;
         const newLetters = [...input];
         if (/^[a-zA-Z]$/.test(e.key)) {
             newLetters[selectedIndex] = e.key.toUpperCase();
@@ -62,6 +63,18 @@ export default function Multiplayer({
         joinParty({code:input.join(""),setError,router,dispatch});
     }
 
+    function handlePaste(e: React.ClipboardEvent) {
+        e.preventDefault();
+        const pasteData = e.clipboardData.getData("Text").toUpperCase().replace(/[^A-Z]/g, "");
+        const newInput = [...input];
+
+        for (let i = selectedIndex; i < Math.min(4, pasteData.length); i++) {
+            newInput[i] = pasteData[i - selectedIndex];
+        }
+
+        setInput(newInput);
+        setSelectedIndex(Math.min(pasteData.length + selectedIndex, 3));
+    }
     return (
         <div className="w-full px-4">
             <h2 className="text-xl font-semibold mb-4 text-center">
@@ -87,18 +100,26 @@ export default function Multiplayer({
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         onKeyDown={handleKeyDown} 
+                        onPaste={handlePaste}
                         className="flex mb-2 gap-2 outline-none"
                     >
-                        {Array.from({ length: 4 }).map((_, i) => (
-                            <div
+                       {Array.from({ length: 4 }).map((_, i) => (
+                            <input
                                 key={i}
-                                className={`w-12 h-12 border-2 flex items-center justify-center text-2xl rounded bg-light text-dark ${
-                                    isFocused && i === selectedIndex ? "border-blue-500 bg-blue-100" : "border-gray-300"
-                                  }`}
-                                  onClick={()=>setSelectedIndex(i)}
-                            >
-                            {input[i] ?? ""}
-                            </div>
+                                type="text"
+                                maxLength={1}
+                                value={input[i]}
+                                onKeyDown={handleKeyDown}
+                                onPaste={handlePaste}
+                                onFocus={() => setSelectedIndex(i)}
+                                className={`w-12 h-12 border-2 text-center text-2xl rounded bg-light text-dark
+                                focus:outline-none caret-transparent focus:ring-0 ${
+                                i === selectedIndex ? "border-blue-500 bg-blue-100" : "border-gray-300"
+                                }`}
+                                inputMode="text"
+                                pattern="[A-Za-z]"
+                                autoComplete="off"
+                            />
                         ))}
                     </div>
                     <button className="form-button-general" onClick={joinPartyButton} disabled={loading}>Join Party</button>
