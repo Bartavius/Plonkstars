@@ -1,7 +1,7 @@
 'use client';
 import { Sigmar } from "next/font/google";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { FiMenu } from "react-icons/fi";
 import "./Navbar.css";
@@ -39,13 +39,29 @@ export default function NavBar() {
   const params = useParams();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen(prev => !prev);
   };
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    }
+
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
-    <div className={`navbar ${sigmar.className} ${isMenuOpen ? "open" : ""}`}>
+    <div className={`navbar ${sigmar.className} ${isMenuOpen ? "open" : ""}`} ref={menuRef}>
       <nav className="nav-header">
         <div className="mx-auto flex justify-between items-center p-4 navbar-primary">
           <a href="/" className="text-xl font-bold text-gray-200 nav-logo">
