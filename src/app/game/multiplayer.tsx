@@ -26,11 +26,7 @@ export default function Multiplayer({
     function handleKeyDown(e: React.KeyboardEvent,i:number){
         if (e.ctrlKey || e.metaKey) return;
         const newLetters = [...input];
-        if (/^[a-zA-Z]$/.test(e.key)) {
-            newLetters[i] = e.key.toUpperCase();
-            setInput(newLetters);
-            if (i < 3) setSelectedIndex(i + 1);
-        } else if (e.key === "Backspace" && i >= 0) {
+        if (e.key === "Backspace" && i >= 0) {
             newLetters[i] = "";
             setInput(newLetters);
             if (i != 0) setSelectedIndex(i - 1);
