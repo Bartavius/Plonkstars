@@ -194,7 +194,7 @@ export default function MapInfoPage(){
                             { icon: <CgRowFirst/>, title: `Best Score: ${fastestnk.user.username}`, stat: bestScore.stat }
                         )
                     ),
-                    {icon: <FaRunning/>, title: `Fastest ${most_5ks && bestScore.state !== "N/A" ? "5k" : (Math.floor(bestScore.stat/1000) === 0 ? "Guess" : `${Math.floor(bestScore.stat/1000)}k`)}: ${fastestnk.user.username}`, ...timeString(fastestnk.stat)}
+                    {icon: <FaRunning/>, title: `Fastest ${most_5ks || bestScore.stat === "N/A" ? "5k" : (Math.floor(bestScore.stat/1000) === 0 ? "Guess" : `${Math.floor(bestScore.stat/1000)}k`)}: ${fastestnk.user.username}`, ...timeString(fastestnk.stat)}
                 ] 
             },
             {
