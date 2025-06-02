@@ -29,6 +29,7 @@ export default function GameResultPage() {
   const [isHost, setIsHost] = useState(false);
   const isHostRef = useRef<boolean>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
+  const [preload, setPreload] = useState<boolean>(true);
   
   useEffect(() => {
     const getResults = async () => {
@@ -43,6 +44,7 @@ export default function GameResultPage() {
         const isHost = await api.get(`/party/host?code=${code}`);
         setIsHost(isHost.data.is_host);
         isHostRef.current = isHost.data.is_host;
+        setPreload(false);
       } catch (err: any) {
 
       }
@@ -64,7 +66,8 @@ export default function GameResultPage() {
     }
   }
 
-  if (!data || isHostRef.current === undefined) {
+
+  if (preload) {
     return <Loading />;
   }
 
