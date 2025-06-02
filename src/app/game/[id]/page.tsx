@@ -65,7 +65,7 @@ export default function Page() {
         totalScore={data.total}
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
-        onTimeout={() => router.push(`/game/${id}/result?round=${data.round}`)}
+        afterTimeoutFunction={() => router.push(`/game/${id}/result?round=${data.round}`)}
         onGuess={() => router.push(`/game/${id}/result?round=${data.round}`)}
       />
     </ProtectedRoutes>
