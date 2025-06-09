@@ -28,6 +28,7 @@ export default function GamePlay({
     afterTimeoutFunction,
     onGuess,
     rightFooter,
+    onPlonk,
 }: {
     correctLat: number;
     correctLng: number;
@@ -44,6 +45,7 @@ export default function GamePlay({
     onGuess?: () => void;
     afterTimeoutFunction?: () => void;
     rightFooter?: React.ReactNode;
+    onPlonk?: (lat:number,lng:number) => void;
 }) {
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
@@ -74,6 +76,14 @@ export default function GamePlay({
     }
   };
 
+  function setPos(lat: number, lng: number) {
+    if (canGuess) {
+      setLat(lat);
+      setLng(lng);
+      onPlonk && onPlonk(lat,lng);
+    }
+  }
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (lat !== undefined && lng !== undefined && event.code === "Space") {
@@ -97,7 +107,6 @@ export default function GamePlay({
       <GamePanel
         time={time}
         timeLimit={timeLimit}
-        timeoutFunction={submitGuess}
         afterTimeoutFunction={afterTimeoutFunction}
         totalScore={totalScore}
         roundNumber={roundNumber}
@@ -107,8 +116,7 @@ export default function GamePlay({
           lat={userLat}
           lng={userLng}
           canChange={!submitted}
-          setLat={setLat}
-          setLng={setLng}
+          setPos={setPos}
           correctLat={correctLat}
           correctLng={correctLng}
           reload={reload}

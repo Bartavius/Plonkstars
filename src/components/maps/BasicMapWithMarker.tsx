@@ -17,15 +17,13 @@ export default function BasicMapWithMarker({
   lat,
   lng,
   canChange = true,
-  setLat,
-  setLng,
+  setPos,
   mapBounds,
 }: {
   lat?: number,
   lng?: number,
   canChange?: boolean
-  setLat: (n: number) => void;
-  setLng: (n: number) => void;
+  setPos: (lat: number,lng:number) => void;
   mapBounds: any;
 }){
   const [markerPosition, setMarkerPosition] = useState<LatLngLiteral | null>(
@@ -46,8 +44,7 @@ export default function BasicMapWithMarker({
       click(e) {
         if(!canChange) return;
         const { lat, lng } = e.latlng;
-        setLat(lat);
-        setLng(lng);
+        setPos(lat,lng);
         setMarkerPosition({ lat, lng });
       },
     });

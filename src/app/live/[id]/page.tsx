@@ -34,6 +34,8 @@ export default function Page() {
           case "playing":
             setPlayers(state.data.player);
             setGuesses(state.data.guess);
+            setLat(state.data.user_lat);
+            setLng(state.data.user_lng);
         }
 
         setState(state.data);
@@ -69,6 +71,15 @@ export default function Page() {
     await api.post("/game/ping",{id});
   }
 
+  async function onPlonk(lat: number, lng: number) {
+    await api.post("/game/ping", {
+      type:"plonk",
+      id,
+      lat,
+      lng,
+    })
+  }
+
   if (!data || !state) {
     return <Loading />;
   }
@@ -99,6 +110,7 @@ export default function Page() {
         afterTimeoutFunction={ping}
         rightFooter={canGuess? undefined: rightFooter}
         onGuess={() => setCanGuess(false)}
+        onPlonk={onPlonk}
       />
     </ProtectedRoutes>
   );

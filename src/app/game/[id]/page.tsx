@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 
 export default function Page() {
   const [data,setData] = useState<any>();
+  const [userLat, setUserLat] = useState<number|undefined>(undefined);
+  const [userLng, setUserLng] = useState<number|undefined>(undefined);
 
   const router = useRouter();
   const params = useParams();
@@ -32,7 +34,9 @@ export default function Page() {
         if (pushCorrect(state.data)){
           return;
         }
-        
+        setUserLat(state.data.user_lat);
+        setUserLng(state.data.user_lng);
+
         const response = await api.get(`/game/round?id=${id}`);
         setData(response.data);
       } catch (err: any) {
@@ -50,6 +54,14 @@ export default function Page() {
     fetchLocation(); //render loading screen later
   }, []);
 
+  async function onPlonk(lat: number, lng: number) {
+    if (!data) return;
+    await api.post("/game/ping", {
+      id,
+      lat,
+      lng,
+    })
+  }
   if (!data) {
     return <Loading />;
   }
@@ -57,6 +69,7 @@ export default function Page() {
   return (
     <ProtectedRoutes>
       <GamePlay 
+
         correctLat={data.lat}
         correctLng={data.lng}
         time={new Date(data.time)}
@@ -65,6 +78,7 @@ export default function Page() {
         totalScore={data.total}
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
+        onPlonk={onPlonk}
         afterTimeoutFunction={() => router.push(`/game/${id}/result?round=${data.round}`)}
         onGuess={() => router.push(`/game/${id}/result?round=${data.round}`)}
       />
