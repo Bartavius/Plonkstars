@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import api from "@/utils/api";
@@ -47,12 +47,11 @@ export default function GamePlay({
     rightFooter?: React.ReactNode;
     onPlonk?: (lat:number,lng:number) => void;
 }) {
-  const [lat, setLat] = useState<number>();
-  const [lng, setLng] = useState<number>();
+  const [lat, setLat] = useState<number|undefined>(userLat);
+  const [lng, setLng] = useState<number|undefined>(userLng);
   const [submitted, setSubmitted] = useState<boolean>(!canGuess);
   const [reload, setReload] = useState<number>(0);
 
-  const router = useRouter();
   const params = useParams();
   const matchId = Array.isArray(params.id) ? params.id[0] : params.id;
 
@@ -113,8 +112,8 @@ export default function GamePlay({
       />
       <div className="relative min-h-[90vh] min-w-full">
         <CombinedMap
-          lat={userLat}
-          lng={userLng}
+          lat={lat}
+          lng={lng}
           canChange={!submitted}
           setPos={setPos}
           correctLat={correctLat}

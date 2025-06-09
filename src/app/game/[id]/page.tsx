@@ -69,7 +69,8 @@ export default function Page() {
   return (
     <ProtectedRoutes>
       <GamePlay 
-
+        userLat={userLat}
+        userLng={userLng}
         correctLat={data.lat}
         correctLng={data.lng}
         time={new Date(data.time)}
