@@ -34,8 +34,8 @@ export default function Page() {
         if (pushCorrect(state.data)){
           return;
         }
-        setUserLat(state.data.user_lat);
-        setUserLng(state.data.user_lng);
+        setUserLat(state.data.lat);
+        setUserLng(state.data.lng);
 
         const response = await api.get(`/game/round?id=${id}`);
         setData(response.data);

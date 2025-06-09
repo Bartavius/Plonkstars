@@ -34,8 +34,8 @@ export default function Page() {
           case "playing":
             setPlayers(state.data.player);
             setGuesses(state.data.guess);
-            setLat(state.data.user_lat);
-            setLng(state.data.user_lng);
+            setLat(state.data.lat);
+            setLng(state.data.lng);
         }
 
         setState(state.data);
