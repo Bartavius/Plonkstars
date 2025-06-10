@@ -9,7 +9,7 @@ type SocketEvents = {
     [event: string]: (...args: any[]) => void;
 };
 
-export default function useLiveSocket({
+export default function useDuelsSocket({
     id,
     state,
     functions
@@ -45,16 +45,14 @@ export default function useLiveSocket({
         switch (state.state) {
             case "waiting":
             case "playing":
-                push(`/live/${id}`);
+            case "spectating":
+                push(`/duels/${id}`);
                 break;
             case "finished":
+                push(`/duels/${id}/summary`);
+                break;
             case "results":
-                if (state.round !== undefined) {
-                    push(`/live/${id}/result?round=${state.round}`);
-                }
-                else{
-                    push(`/live/${id}/summary`);
-                }
+                push(`/duels/${id}/result?round=${state.round}`);
                 break;
             default:
                 break;
