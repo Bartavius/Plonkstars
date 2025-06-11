@@ -31,7 +31,7 @@ export default function useDuelsSocket({
         rooms: {code,id},
         functions:{
             next: (data) => pushState(data),
-            leave:(data)=>{
+            leave:(data)=> {
                 dispatch(clearPartyCode());
                 dispatch(setError(data?.reason));
                 router.push("/game");

@@ -2,10 +2,12 @@
 
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import Loading from "@/components/loading";
+import { setError } from "@/redux/errorSlice";
 import api from "@/utils/api";
 import dynamic from "next/dynamic";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const Results = dynamic(() => import("@/components/game/results/results"), {
   ssr: false,
@@ -15,6 +17,7 @@ export default function GameResultPage() {
   const searchParams = useSearchParams();
   const params = useParams();
   const router = useRouter();
+  const dispatch = useDispatch();
   const matchId = params.id;
   const roundNumber = parseInt(searchParams.get("round") || "-1");
 
@@ -25,7 +28,7 @@ export default function GameResultPage() {
   const [data, setData] = useState<any>();
   const [state, setState] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [preloading, setPreloading] = useState<boolean>(true);
 
   useEffect(() => {
     const getResults = async () => {
@@ -36,8 +39,9 @@ export default function GameResultPage() {
           `/game/results?id=${matchId}&round=${roundNumber}`
         );
         setData(response.data);
+        setPreloading(false);
       } catch (err: any) {
-        setError(err.response?.data?.error || "Error getting results");
+        dispatch(setError(err.response?.data?.error || "Error getting results"));
         router.push("/game");
       }
     };
@@ -56,7 +60,7 @@ export default function GameResultPage() {
     }
   }
 
-  if (!data || loading) {
+  if (preloading || loading) {
     return <Loading />;
   }
 
