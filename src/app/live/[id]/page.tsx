@@ -107,7 +107,7 @@ export default function Page() {
         totalScore={data.total}
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
-        afterTimeoutFunction={ping}
+        onTimeout={ping}
         rightFooter={canGuess? undefined: rightFooter}
         onGuess={() => setCanGuess(false)}
         onPlonk={onPlonk}

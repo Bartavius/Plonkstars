@@ -18,7 +18,6 @@ const initialState: GameState = {
   NMPZ: undefined,
 };
 
-// Fetch initial state asynchronously and dispatch to update the state
 export const fetchInitialState = async (dispatch: any) => {
   const res = await api.get("/session/default");
   dispatch(

@@ -5,14 +5,12 @@ const GamePanel = ({
     time,
     timeLimit,
     timeoutFunction,
-    afterTimeoutFunction,
     totalScore,
     roundNumber,
 }: {
     time?: Date;
     timeLimit?: number ;
     timeoutFunction?: () => void;
-    afterTimeoutFunction?: () => void;
     totalScore: number;
     roundNumber: number;
 }) => {
@@ -24,7 +22,7 @@ const GamePanel = ({
             <div>
                 {time && timeLimit && (
                     <div>
-                        <Timer time={time} timeLimit={timeLimit} timeoutFunction={timeoutFunction} afterTimeoutFunction={afterTimeoutFunction}/>
+                        <Timer time={time} timeLimit={timeLimit} timeoutFunction={timeoutFunction}/>
                     </div>
                 )}
             </div>

@@ -1,32 +1,28 @@
 import { useEffect, useState } from "react";
 import "./timer.css";
 import { after } from "node:test";
+import { useSelector } from "react-redux";
 const Timer = ({
     time,
     timeLimit,
     timeoutFunction,
-    afterTimeoutFunction,
   }: {
     time: Date;
     timeLimit: number;
     timeoutFunction?: () => void;
-    afterTimeoutFunction?: () => void; 
   }) => {
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const [percentRemaining, setPercentRemaining] = useState<number>(1);
-    const [done, setDone] = useState<boolean>(false);
+
+    const offset = useSelector((state: any) => state.time.offset);
     
     useEffect(() => {
         function updateTimer() {
-            const remaining = ((time.getTime() - new Date().getTime()) / 1000);
+            const remaining = ((time.getTime() + offset - new Date().getTime()) / 1000);
             setTimeLeft(Math.max(remaining, 0));
             setPercentRemaining(Math.max(remaining, 0) / timeLimit);
-            if (-1 < remaining && remaining < 0 && !done) {
-                timeoutFunction && timeoutFunction();
-                setDone(true);
-            }
-            else if (remaining < -1){
-              afterTimeoutFunction && afterTimeoutFunction();
+            if (remaining < -1){
+              timeoutFunction && timeoutFunction();
               clearInterval(intervalId);
             }
         }
@@ -37,7 +33,7 @@ const Timer = ({
     
     const hours = Math.floor(timeLeft / 3600);
     const minutes = Math.floor((timeLeft % 3600) / 60);
-    const seconds = Math.round(timeLeft % 60);
+    const seconds = Math.floor(timeLeft % 60);
 
     const getColor = (percent: number) => {
         

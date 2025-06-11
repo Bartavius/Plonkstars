@@ -25,7 +25,6 @@ export default function GamePlay({
     userLat,
     userLng,
     onTimeout,
-    afterTimeoutFunction,
     onGuess,
     rightFooter,
     onPlonk,
@@ -43,7 +42,6 @@ export default function GamePlay({
     canGuess?: boolean;
     onTimeout?: () => void;
     onGuess?: () => void;
-    afterTimeoutFunction?: () => void;
     rightFooter?: React.ReactNode;
     onPlonk?: (lat:number,lng:number) => void;
 }) {
@@ -70,8 +68,6 @@ export default function GamePlay({
         });
       } catch (err: any) {}
       onGuess && onGuess();
-    } else {
-      onTimeout && onTimeout();
     }
   };
 
@@ -106,7 +102,7 @@ export default function GamePlay({
       <GamePanel
         time={time}
         timeLimit={timeLimit}
-        afterTimeoutFunction={afterTimeoutFunction}
+        timeoutFunction={onTimeout}
         totalScore={totalScore}
         roundNumber={roundNumber}
       />

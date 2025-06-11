@@ -5,11 +5,13 @@ import Loading from "@/components/loading";
 import api from "@/utils/api";
 import { useRouter,useParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import { MdDataArray } from "react-icons/md";
 
 export default function Page() {
   const [data,setData] = useState<any>();
   const [userLat, setUserLat] = useState<number|undefined>(undefined);
   const [userLng, setUserLng] = useState<number|undefined>(undefined);
+  const [offset,setOffset] = useState<number>();
 
   const router = useRouter();
   const params = useParams();
@@ -27,6 +29,7 @@ export default function Page() {
       return true;
     }
   }
+
   useEffect(() => {
     const fetchLocation = async () => {
       try {
@@ -80,7 +83,7 @@ export default function Page() {
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
         onPlonk={onPlonk}
-        afterTimeoutFunction={() => router.push(`/game/${id}/result?round=${data.round}`)}
+        onTimeout={() => router.push(`/game/${id}/result?round=${data.round}`)}
         onGuess={() => router.push(`/game/${id}/result?round=${data.round}`)}
       />
     </ProtectedRoutes>

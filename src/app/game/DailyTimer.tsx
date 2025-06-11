@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function DailyTimer(
     {
@@ -10,11 +11,13 @@ export default function DailyTimer(
     }
 ){
     const date = new Date(time);
+    const offset = useSelector((state: any) => state.time.offset);
+    console.log("offset", offset);
     const [second,setSeconds] = useState((date.getTime() - new Date().getTime()) / 1000)
     useEffect(()=>{
         const interval = setInterval(() => {
             setSeconds(() => {
-                const remaining = ((date.getTime() - new Date().getTime()) / 1000) - 1;
+                const remaining = ((date.getTime() + offset - new Date().getTime()) / 1000) - 1;
                 if (remaining <= 0) {
                     onFinish();
                     clearInterval(interval);
