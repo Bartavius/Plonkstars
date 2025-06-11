@@ -10,14 +10,15 @@ export default function DailyTimer(
         onFinish: () => void
     }
 ){
-    const date = new Date(time);
+    const date = new Date(time).getTime();
     const offset = useSelector((state: any) => state.time.offset);
+    const now = new Date().getTime() + offset;
     console.log("offset", offset);
-    const [second,setSeconds] = useState((date.getTime() - new Date().getTime()) / 1000)
+    const [second,setSeconds] = useState((date - now) / 1000)
     useEffect(()=>{
         const interval = setInterval(() => {
             setSeconds(() => {
-                const remaining = ((date.getTime() + offset - new Date().getTime()) / 1000) - 1;
+                const remaining = ((date - now) / 1000) - 1;
                 if (remaining <= 0) {
                     onFinish();
                     clearInterval(interval);

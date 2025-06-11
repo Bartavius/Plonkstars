@@ -18,7 +18,8 @@ const Timer = ({
     
     useEffect(() => {
         function updateTimer() {
-            const remaining = ((time.getTime() + offset - new Date().getTime()) / 1000);
+            const now = new Date().getTime() + offset;
+            const remaining = ((time.getTime() - now) / 1000);
             setTimeLeft(Math.max(remaining, 0));
             setPercentRemaining(Math.max(remaining, 0) / timeLimit);
             if (remaining < -1){
