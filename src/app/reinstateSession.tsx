@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { initializeAuth } from "@/redux/authSlice";
 import { fetchInitialState } from "@/redux/gameSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { calcOffset } from "@/redux/timeSlice";
 
 export default function ReinstateSession() {
   const dispatch = useDispatch();
@@ -16,9 +15,6 @@ export default function ReinstateSession() {
       fetchInitialState(dispatch);
     }
 
-    if (time.offset === undefined){
-      calcOffset(dispatch);
-    }
   }, []);
 
   return null;

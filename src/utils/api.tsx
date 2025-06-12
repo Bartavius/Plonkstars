@@ -4,7 +4,6 @@ import { logout } from '@/redux/authSlice';
 import { redirect } from 'next/navigation';
 import { setBlockedURL, setError } from '@/redux/errorSlice';
 import { store } from '@/redux/store';
-import { calcOffset } from '@/redux/timeSlice';
 
 
 const api = axios.create({
@@ -38,9 +37,6 @@ api.interceptors.response.use(
       store.dispatch(setBlockedURL(attemptedUrl)); 
       store.dispatch(logout());
       redirect("/account/login");
-    }
-    else if (error.response?.status === 400) {
-      calcOffset(store.dispatch)
     }
 
     return Promise.reject(error);

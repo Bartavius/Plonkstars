@@ -2,16 +2,17 @@
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import GamePlay from "@/components/game/gameplay/gameplay";
 import Loading from "@/components/loading";
+import calcuateOffset from "@/components/time";
 import api from "@/utils/api";
 import { useRouter,useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { MdDataArray } from "react-icons/md";
 
 export default function Page() {
   const [data,setData] = useState<any>();
+  const [offset,setOffset] = useState<number>();
+  const [loading, setLoading] = useState<boolean>(true);
   const [userLat, setUserLat] = useState<number|undefined>(undefined);
   const [userLng, setUserLng] = useState<number|undefined>(undefined);
-  const [offset,setOffset] = useState<number>();
 
   const router = useRouter();
   const params = useParams();
@@ -30,6 +31,11 @@ export default function Page() {
     }
   }
 
+  async function getRound(){
+    const response = await api.get(`/game/round?id=${id}`);
+    setData(response.data);
+    return response;
+  }
   useEffect(() => {
     const fetchLocation = async () => {
       try {
@@ -39,9 +45,9 @@ export default function Page() {
         }
         setUserLat(state.data.lat);
         setUserLng(state.data.lng);
-
-        const response = await api.get(`/game/round?id=${id}`);
-        setData(response.data);
+        const offset = await calcuateOffset(getRound);
+        setOffset(offset);
+        setLoading(false);
       } catch (err: any) {
         console.log(err);
         if (err.response?.data?.error == "No more rounds are available") {
@@ -54,7 +60,7 @@ export default function Page() {
         
       }
     };
-    fetchLocation(); //render loading screen later
+    fetchLocation();
   }, []);
 
   async function onPlonk(lat: number, lng: number) {
@@ -65,7 +71,7 @@ export default function Page() {
       lng,
     })
   }
-  if (!data) {
+  if (loading) {
     return <Loading />;
   }
 
@@ -83,6 +89,7 @@ export default function Page() {
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
         onPlonk={onPlonk}
+        offset={offset}
         onTimeout={() => router.push(`/game/${id}/result?round=${data.round}`)}
         onGuess={() => router.push(`/game/${id}/result?round=${data.round}`)}
       />

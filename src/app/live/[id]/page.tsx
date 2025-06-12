@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import useLiveSocket from "../liveSocket";
 import Popup from "@/components/Popup";
 import UserIcon from "@/components/user/UserIcon";
+import calcuateOffset from "@/components/time";
 
 export default function Page() {
   const [data,setData] = useState<any>();
@@ -18,10 +19,17 @@ export default function Page() {
   const [lng, setLng] = useState<number>();
   const [canGuess, setCanGuess] = useState<boolean>(true);
   const [popupElement, setPopupElement] = useState<React.ReactNode>();
+  const [offset, setOffset] = useState<number>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const params = useParams();
   const id = params.id;
 
+  async function getRound(){
+    const response = await api.get(`/game/round?id=${id}`);
+    setData(response.data);
+    return response;
+  }
   useEffect(() => {
     const fetchLocation = async () => {
       try {
@@ -37,11 +45,12 @@ export default function Page() {
             setLat(state.data.lat);
             setLng(state.data.lng);
         }
-
         setState(state.data);
 
-        const response = await api.get(`/game/round?id=${id}`);
-        setData(response.data);
+        const offset = await calcuateOffset(getRound)
+        setOffset(offset);
+        setLoading(false);
+        
       } catch (err: any) {
         console.log(err);
       }
@@ -80,7 +89,7 @@ export default function Page() {
     })
   }
 
-  if (!data || !state) {
+  if (loading) {
     return <Loading />;
   }
 

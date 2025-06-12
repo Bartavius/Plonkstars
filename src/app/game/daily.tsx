@@ -1,8 +1,8 @@
-import Loading from "@/components/loading";
 import api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import DailyTimer from "./DailyTimer";
+import calcuateOffset from "@/components/time";
 
 export default function Daily({
     loading,
@@ -12,15 +12,21 @@ export default function Daily({
     setLoading: (loading:boolean) => void
 }) {
     const [daily, setDaily] = useState<any>()
+    const [offset, setOffset] = useState<number|undefined>(undefined);
     const router = useRouter();
 
     async function fetchDaily() {
         const daily = await api.get(`/session/daily`);
         setDaily(daily.data);
+        return daily;
       }
     
       useEffect(() => {
-        fetchDaily();
+        async function fetchData() {
+            const offset = await calcuateOffset(fetchDaily);
+            setOffset(offset);
+        }
+        fetchData();
       },[]);
     
       async function playDaily() {
@@ -34,9 +40,9 @@ export default function Daily({
             <h2 className="text-xl font-semibold mb-2 text-center">
             Daily Challenge
             </h2>
-            { daily ? 
+            { daily && offset != undefined ? 
             <>
-            <div className="text-center mb-2 text-lg font-semibold text-white"><DailyTimer time={daily.next} onFinish={fetchDaily}/></div>
+            <div className="text-center mb-2 text-lg font-semibold text-white"><DailyTimer time={daily.next} onFinish={fetchDaily} offset={offset}/></div>
             <label
                 className="block mb-2 text-white"
                 htmlFor="map-search-bar"

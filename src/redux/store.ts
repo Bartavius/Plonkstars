@@ -7,7 +7,6 @@ import gameReducer from './gameSlice';
 import settingsReducer from './settingsSlice';
 import errorReducer from './errorSlice';
 import PartyReducer from './partySlice';
-import timeReducer from './timeSlice';
 import sessionStorage from 'redux-persist/lib/storage/session';
 
 const gamePersistConfig = {
@@ -25,11 +24,6 @@ const partyPersistConfig = {
   storage: sessionStorage,
 };
 
-const timePersistConfig = {
-  key: 'time',
-  storage: sessionStorage,
-};
-
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -37,7 +31,6 @@ export const store = configureStore({
     settings: persistReducer<any>(settingsPersistConfig, settingsReducer),
     party: persistReducer<any>(partyPersistConfig, PartyReducer),
     error: errorReducer,
-    time: persistReducer<any>(timePersistConfig, timeReducer),
   },
 
   middleware: (getDefaultMiddleware) =>

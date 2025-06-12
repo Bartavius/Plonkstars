@@ -28,6 +28,7 @@ export default function GamePlay({
     onGuess,
     rightFooter,
     onPlonk,
+    offset=0,
 }: {
     correctLat: number;
     correctLng: number;
@@ -44,6 +45,7 @@ export default function GamePlay({
     onGuess?: () => void;
     rightFooter?: React.ReactNode;
     onPlonk?: (lat:number,lng:number) => void;
+    offset?: number;
 }) {
   const [lat, setLat] = useState<number|undefined>(userLat);
   const [lng, setLng] = useState<number|undefined>(userLng);
@@ -103,6 +105,7 @@ export default function GamePlay({
         time={time}
         timeLimit={timeLimit}
         timeoutFunction={onTimeout}
+        offset={offset}
         totalScore={totalScore}
         roundNumber={roundNumber}
       />

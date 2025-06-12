@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
 import "./timer.css";
-import { after } from "node:test";
-import { useSelector } from "react-redux";
 const Timer = ({
     time,
     timeLimit,
+    offset = 0,
     timeoutFunction,
   }: {
     time: Date;
     timeLimit: number;
+    offset?: number;
     timeoutFunction?: () => void;
   }) => {
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const [percentRemaining, setPercentRemaining] = useState<number>(1);
-
-    const offset = useSelector((state: any) => state.time.offset);
-    
     useEffect(() => {
         function updateTimer() {
             const now = new Date().getTime() + offset;
