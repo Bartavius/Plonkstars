@@ -9,7 +9,7 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import useLiveSocket from "../../liveSocket";
 
-const Results = dynamic(() => import("@/components/game/results/results"), { ssr: false });
+const Results = dynamic(() => import("@/components/game/challenge/results/results"), { ssr: false });
 
 export default function GameResultPage() {
   const searchParams = useSearchParams();

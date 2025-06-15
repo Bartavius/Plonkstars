@@ -9,7 +9,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-const Results = dynamic(() => import("@/components/game/results/results"), {
+const Results = dynamic(() => import("@/components/game/challenge/results/results"), {
   ssr: false,
 });
 

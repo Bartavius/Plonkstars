@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Table from "@/components/table/table";
 import {useRouter} from "next/navigation";
-import ScoreBox from "@/components/game/summary/ScoreBox";
+import ScoreBox from "@/components/game/challenge/summary/ScoreBox";
 import UserIcon from "@/components/user/UserIcon";
 
 const BasicMapResult = dynamic(

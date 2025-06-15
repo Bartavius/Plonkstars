@@ -1,6 +1,6 @@
 "use client";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
-import GamePlay from "@/components/game/gameplay/gameplay";
+import GamePlay from "@/components/game/challenge/gameplay/gameplay";
 import Loading from "@/components/loading";
 import calcuateOffset from "@/components/time";
 import api from "@/utils/api";

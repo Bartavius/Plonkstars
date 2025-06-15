@@ -1,6 +1,6 @@
 import Table from '@/components/table/table';
 import './results.css';
-import ScoreBox from '@/components/game/summary/ScoreBox';
+import ScoreBox from '@/components/game/challenge/summary/ScoreBox';
 import UserIcon from "@/components/user/UserIcon";
 
 export default function ScoreAccordion({
