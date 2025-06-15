@@ -20,12 +20,10 @@ export default function colorGradient({
         const lastColor = colors[colors.length - 1];
         return `rgb(${lastColor.r}, ${lastColor.g}, ${lastColor.b})`;
     }
-    
+
     const segmentLength = 1 / (colors.length - 1);
     const segmentIndex = Math.floor(percent / segmentLength);
     const segmentPercent = (percent - segmentIndex * segmentLength) / segmentLength;
-
-    console.log(segmentLength, segmentIndex, segmentPercent, colors.length);
 
     const startColor = colors[segmentIndex];
     const endColor = colors[segmentIndex + 1];
