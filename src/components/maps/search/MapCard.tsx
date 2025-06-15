@@ -22,17 +22,15 @@ const MapCard = ({
 
     const getColor = (score:number, lower:number, upper:number, des?:boolean) => {
         score -= lower;
-        upper -= lower;
-
-        const percent = Math.min(Math.max(score / upper,0),1);
+        const percent = Math.min(Math.max(score / (upper - lower),0),1);
 
         if(des){
             return colorGradient({
                 percent: percent,
                 colors: [
-                    {r: 255, g: 0, b: 0}, 
-                    {r: 255, g: 255, b: 0}, 
-                    {r: 0, g: 255, b: 0}
+                    {r: 0, g: 255, b: 0},
+                    {r: 255, g: 255, b: 0},
+                    {r: 255, g: 0, b: 0},  
                 ]
             });
         }
