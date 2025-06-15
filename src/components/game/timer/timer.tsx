@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./timer.css";
+import colorGradient from "@/components/colorGradient";
 const Timer = ({
     time,
     timeLimit,
@@ -33,20 +34,13 @@ const Timer = ({
     const minutes = Math.floor((timeLeft % 3600) / 60);
     const seconds = Math.floor(timeLeft % 60);
 
-    const getColor = (percent: number) => {
-        
-        const red = percent < .5 ? 255: 255 * (1 - ((percent - 0.5) * 2));
-        const green = percent > .5 ? 255:255 * 2 * percent;
-        return `rgb(${red},${green},0)`;
-    };
-
     return (
       <div className="absolute timer-container">
         <div
             className="timer-fill"
             style={{ 
                 maxWidth: `${percentRemaining * 100}%`,
-                background: getColor(percentRemaining),
+                background: colorGradient({percent:percentRemaining}),
                 zIndex: 1 
             }}
         />

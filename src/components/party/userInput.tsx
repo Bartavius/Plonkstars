@@ -1,4 +1,3 @@
-import { input } from "framer-motion/client";
 import TextInput from "./textInput"
 import SliderInput from "./sliderInput";
 import CheckboxInput from "./checkboxInput";

@@ -1,5 +1,6 @@
 import { FaClock,FaGlobeAmericas } from "react-icons/fa";
 import { GiNetworkBars } from "react-icons/gi";
+import colorGradient from "@/components/colorGradient";
 import "./MapSearch.css";
 interface MapInfo{
     name:String,
@@ -20,20 +21,26 @@ const MapCard = ({
 }) => {
 
     const getColor = (score:number, lower:number, upper:number, des?:boolean) => {
-        if(!des){
-            des = false;
-        }
-        
         score -= lower;
         upper -= lower;
 
+        const percent = Math.min(Math.max(score / upper,0),1);
 
-        const percent = score / upper;
-        
-        const top = Math.max(Math.min(percent < .5 ? 255: 255 * (1 - ((percent - 0.5) * 2)),255),0);
-        const bottom = Math.max(Math.min(percent > .5 ? 255:255 * 2 * percent,255),0);
-
-        return des ? `rgb(${bottom},${top},0)`: `rgb(${top},${bottom},0)`;
+        if(des){
+            return colorGradient({
+                percent: percent,
+                colors: [
+                    {r: 255, g: 0, b: 0}, 
+                    {r: 255, g: 255, b: 0}, 
+                    {r: 0, g: 255, b: 0}
+                ]
+            });
+        }
+        else{
+            return colorGradient({
+                percent: percent,
+            })
+        }
     }
 
     return(
