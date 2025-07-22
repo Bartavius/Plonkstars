@@ -113,7 +113,7 @@ const Login: React.FC = () => {
                 </div>
                 <div className={`${sigmar.className} text-white`}>
                     To create an account: <a href="/account/register" className='link'>Register here</a>
-                </div>       
+                </div>
                 <button
                     type="submit"
                     disabled={!buttonEnabled}
@@ -122,6 +122,13 @@ const Login: React.FC = () => {
                     Sign In
                 </button>
             </form>
+            <div className={`${sigmar.className} text-white/50 text-sm mt-5ç`}>
+                    If you're just looking to try things out, you can login using our demo account,
+                    <br />
+                    <br /> 
+                    <p>username: demo</p>
+                    <p>password: demo</p>
+                </div>      
         </motion.div>
     </div>
   );
