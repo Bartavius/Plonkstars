@@ -12,9 +12,7 @@ export default function colorGradient({
     colors?: Color[],
     percent: number
 }){
-    if(percent < 0 || percent > 1){
-        throw new Error("Percent must be between 0 and 1");
-    }
+    percent = Math.max(0, Math.min(1, percent));
 
     if (percent == 1){
         const lastColor = colors[colors.length - 1];

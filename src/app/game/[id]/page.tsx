@@ -29,6 +29,7 @@ export default function Page() {
       router.push(`/game/${id}`);
       return true;
     }
+    return false;
   }
 
   async function getRound(){
@@ -56,8 +57,6 @@ export default function Page() {
         }
         
         router.push("/game");
-        
-        
       }
     };
     fetchLocation();
@@ -69,6 +68,7 @@ export default function Page() {
       id,
       lat,
       lng,
+      type: "plonk",
     })
   }
   if (loading) {

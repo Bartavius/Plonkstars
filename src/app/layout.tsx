@@ -60,7 +60,9 @@ export default function RootLayout({
           <ReinstateSession />
           {children}
         </ReduxProvider>
-        <Analytics />
+        {!process.env.NEXT_PUBLIC_TESTING &&
+          <Analytics />
+        }
       </body>
     </html>
   );

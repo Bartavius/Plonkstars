@@ -31,7 +31,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
         <button className="float-right text-xl font-bold" onClick={onClose}>
           &times;
         </button>
-        <div className="mt-4">{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   );

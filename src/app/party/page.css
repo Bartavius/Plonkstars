@@ -11,8 +11,11 @@
 
 .party-page-content {
     height: calc(100vh - 4rem - var(--navbar-height));
-    overflow: auto;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .party-page-footer-content-left{
@@ -65,11 +68,12 @@
     justify-content: center;
     align-items: center;
     height:100%;
+    width:100%;
     z-index: 0;
 }
 
 .party-page-user-card{
-    min-width: 10%;
+    min-width: 8vw;
 }
 
 .user-card-style{
@@ -85,17 +89,19 @@
     color: var(--leaderboard-yellow);
 }
 
-.party-kick-button{
+.party-user-buttons{
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
     font-size: 1.5rem;
     color: white;
     transition: all 0.2s ease-in-out;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
 }
 
 .party-kick-button:hover{
-    cursor: pointer;
     color: var(--plonk-stars-red);
 }
 
@@ -140,7 +146,7 @@
     transition: all 0.2s ease-in-out;
 }
 
-.party-page-rules-footer-host:hover{
+.party-page-rules-footer:hover{
     cursor: pointer;
     filter: brightness(90%);
 }
@@ -177,6 +183,12 @@
     transform: translateX(-50%);
 }
 
+.party-page-modal-title{
+    font-size: x-large;
+    font-weight: 600;
+    text-align: center;
+}
+
 .party-page-code-box:hover{
     cursor: pointer;
     filter: brightness(90%);
@@ -192,4 +204,225 @@
     cursor: pointer;
     color: var(--plonk-stars-red);
     transform: scale(1.1);
+}
+
+.party-page-team-content{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    z-index: 0;
+    gap: 1rem;
+    overflow: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.party-page-team-content-wrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.party-page-team-boxes{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.party-page-team-box{
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.party-page-team-box:hover{
+    filter: brightness(90%);
+    transform: scale(1.02);
+    box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
+}
+
+.party-page-team-box-selected{
+    border-width: 3px;
+    border-color: white;
+    transform: scale(1.02);
+    box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
+}
+
+.party-page-spectator-box{
+    border-color: white;
+    border-width: 2px;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.party-page-team-box-title{
+    text-align: center;
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+.party-page-footer-content-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.party-page-team-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.party-page-create-team-button{
+    background-color: var(--color-green);
+}
+
+.party-page-team-settings-button{
+    background-color: gray;
+}
+
+.party-page-delete-team-button{
+    background-color: var(--plonk-stars-red);
+}
+
+.party-page-leave-team-button{
+    background-color: var(--plonk-stars-red);
+}
+
+.party-page-join-team-button{
+    background-color: var(--color-green);
+}
+
+.party-page-team-button{
+    border-radius: 1rem;
+    padding: 0.25rem 2rem;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    color: white;
+}
+
+.party-page-team-button:hover{
+    cursor: pointer;
+    filter: brightness(90%);
+    transform: scale(1.02);
+    box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
+}
+
+.party-page-team-settings-title {
+    background-color: var(--dark-blue);
+    border-radius: 1rem;
+    padding: 1rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
+}
+
+.party-page-team-settings-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.party-team-settings-modal-save{
+    background-color: var(--plonk-stars-red);
+}
+
+.party-team-settings-modal-cancel{
+    background-color: gray;
+}
+
+.party-page-modal-team-settings-form{
+    background-color: var(--lighter-blue);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
+    color: var(--darkest-blue);
+}
+
+.party-page-team-settings-name-edit{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 3rem;
+    font-weight: 600;
+    color:black;
+}
+
+.party-page-team-settings-name{
+    width: 100%;
+    overflow: auto;
+    overflow-x: auto;  
+    white-space: nowrap;
+    word-break: break-all;
+    text-align: center;
+}
+
+.party-page-team-name-edit-button{
+    display: inline;
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.party-page-team-name-edit-button:hover{
+    cursor: pointer;
+    filter: brightness(110%);
+}
+
+.party-page-team-settings-name-edit-textbox{
+    text-align: center;
+    width: 100%;
+}
+
+.party-page-team-settings-name-editing-footer{
+    color: gray;
+    font-size: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.party-page-team-settings-name-edit-instruction{
+    font-size: 0.5rem;
+    text-align: center;
+}
+
+.party-page-team-settings-color{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.party-page-team-settings-color-picker{
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+    cursor: pointer;
+}
+
+.party-page-team-settings-color-reset{
+    background-color: gray;
 }

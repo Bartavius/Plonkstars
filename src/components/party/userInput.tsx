@@ -6,12 +6,14 @@ export default function UserInput({
     inputType,
     data,
     value,
+    editable = true,
     setInput,
     setError,
 }:{
     inputType: "input" | "slider" | "checkbox",
     data:any,
     value?:any,
+    editable?: boolean,
     setInput: (data:any) => void,
     setError: (error:string) => void
 }){
@@ -47,8 +49,8 @@ export default function UserInput({
         setInput(value);
     }
     return (
-        inputType === "input" ? <TextInput data={data} setInput={setRestrictions} value={value}/> :
-        inputType === "slider" ? <SliderInput data={data} setInput={setRestrictions} value={value}/> : 
-        inputType === "checkbox" ? <CheckboxInput data={data} setInput={setRestrictions} value={value}/> : null
+        inputType === "input" ? <TextInput data={data} setInput={setRestrictions} value={value} editable={editable}/> :
+        inputType === "slider" ? <SliderInput data={data} setInput={setRestrictions} value={value} editable={editable}/> : 
+        inputType === "checkbox" ? <CheckboxInput data={data} setInput={setRestrictions} value={value} editable={editable}/> : null
     )
 }

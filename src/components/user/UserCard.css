@@ -19,9 +19,17 @@
     border-radius: 1rem;
     border-top-right-radius: 0rem;
     border-top-left-radius: 0rem;
-    padding: 1rem 0.5rem;
+    padding: 0rem 0.5rem;
+    height: 3rem;
     width: 100%;
     display: flex;
+    align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 0.2rem;
     font-size: 0.75rem;
+}
+
+.gold-name{
+    color: var(--leaderboard-yellow);
 }

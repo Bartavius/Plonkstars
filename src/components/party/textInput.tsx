@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 export default function TextInput({
     data,
     setInput,
-    value
+    value,
+    editable = true,
 }:{
     data: any,
     setInput: (input:string) => void,
-    value?:any
+    value?:any,
+    editable?: boolean
 }) {
     const [input, setInputState] = useState(value || "");
 
@@ -24,7 +26,7 @@ export default function TextInput({
                 className="block text-white"
                 htmlFor={data.name}
             >
-                {data.name}
+                {data.name}:
             </label>
             <input
                 type={data.type==="integer" ? "number":"text"}
@@ -33,6 +35,7 @@ export default function TextInput({
                 value={input === -1 ? "" : input}
                 onChange={(e) => setInputState(e.target.value)}
                 onBlur={() => setInput(input)}
+                readOnly={!editable}
             />
         </div>
     );

@@ -4,11 +4,13 @@ import "@/app/game.css";
 export default function SliderInput({
     data,
     setInput,
-    value
+    value,
+    editable = true,
 }:{
     data: any,
     setInput: (input:any) => void,
     value?:any
+    editable?: boolean
 }) {
     return (
         <div className="w-full relative flex flex-col gap-2">
@@ -28,6 +30,7 @@ export default function SliderInput({
                     const newValue = Number(e.target.value);
                     setInput(newValue === data.max + 1 ? -1 : newValue);
                 }}
+                disabled={!editable}
             />
         </div>
     )

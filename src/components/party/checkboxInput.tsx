@@ -1,14 +1,21 @@
 export default function CheckboxInput({
     data,
     setInput,
-    value
+    value,
+    editable = true,
 }:{
     data: any,
     setInput: (input:boolean) => void,
-    value?:any
+    value?:any,
+    editable?: boolean,
 }) {
     return (
-        <div className="w-full relative">
+        <div className="w-full relative flex flex-row gap-2">
+            <label
+                htmlFor={data.name}
+            >
+                {data.name}:
+            </label>
             <input
                 type="checkbox"
                 id={data.name}
@@ -17,12 +24,8 @@ export default function CheckboxInput({
                 onChange={(e) => 
                     setInput(e.target.checked)
                 }
+                disabled={!editable}
             />
-            <label
-                htmlFor={data.name}
-            >
-                {data.name}
-            </label>
         </div>
     );
 }

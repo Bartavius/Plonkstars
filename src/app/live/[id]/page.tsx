@@ -76,10 +76,6 @@ export default function Page() {
     functions: socketFunctions,
   })
 
-  async function ping(){
-    await api.post("/game/ping",{id});
-  }
-
   async function onPlonk(lat: number, lng: number) {
     await api.post("/game/ping", {
       type:"plonk",
@@ -116,10 +112,10 @@ export default function Page() {
         totalScore={data.total}
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
-        onTimeout={ping}
         rightFooter={canGuess? undefined: rightFooter}
         onGuess={() => setCanGuess(false)}
         onPlonk={onPlonk}
+        offset={offset}
       />
     </ProtectedRoutes>
   );
