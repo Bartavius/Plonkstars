@@ -18,7 +18,6 @@ interface Location {
 }
 
 export default function SummaryPage() {
-  //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
   const [locations, setLocations] = useState<Location[]>([]);
   const [user, setUser] = useState<string>("");
   const [data, setData] = useState<any>();

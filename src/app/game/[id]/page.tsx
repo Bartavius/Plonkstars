@@ -18,17 +18,24 @@ export default function Page() {
   const params = useParams();
   const id = params.id;
 
-  function pushCorrect(data:any){
-    if (data.state === "results") {
+  async function pushCorrect(data:any){
+    if (data.state === "RESULTS") {
       router.push(`/game/${id}/result?round=${data.round}`);
       return true;
-    } else if (data.state === "finished") {
+    } 
+    else if (data.state === "FINISHED") {
       router.push(`/game/${id}/summary`);
       return true;
-    } else if (data.state === "not_playing"){
-      router.push(`/game/${id}`);
+    } 
+    else if (data.state === "RESTRICTED") {
+      router.push(`/game`);
       return true;
     }
+    else if (data.state === "NOT_STARTED") {
+      await api.post("/game/play", { id }).catch(() => {});
+      await api.post("/game/next", {id});
+    }
+
     return false;
   }
 
@@ -41,7 +48,7 @@ export default function Page() {
     const fetchLocation = async () => {
       try {
         const state = await api.get(`/game/state?id=${id}`);
-        if (pushCorrect(state.data)){
+        if (await pushCorrect(state.data)){
           return;
         }
         setUserLat(state.data.lat);
@@ -64,11 +71,10 @@ export default function Page() {
 
   async function onPlonk(lat: number, lng: number) {
     if (!data) return;
-    await api.post("/game/ping", {
+    await api.post("/game/plonk", {
       id,
       lat,
       lng,
-      type: "plonk",
     })
   }
   if (loading) {

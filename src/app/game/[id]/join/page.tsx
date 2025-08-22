@@ -11,29 +11,29 @@ import { useDispatch } from "react-redux";
 
 export default function JoinGame() {
     const router = useRouter();
-    const sessionID = useParams().id;
+    const id = useParams().id;
     const dispatch = useDispatch();
     useEffect(() => {
         const joinGame = async () => {
-            const state = await api.get(`/game/state?id=${sessionID}`);
-            if (state.data.state === "results") {
-                router.push(`/game/${sessionID}/result?round=${state.data.round}`);
+            const state = await api.get(`/game/state?id=${id}`);
+            if (state.data.state === "RESULTS") {
+                router.push(`/game/${id}/result?round=${state.data.round}`);
                 return;
             }
-            else if (state.data.state === "finished") {
-                router.push(`/game/${sessionID}/summary`);
+            else if (state.data.state === "FINISHED") {
+                router.push(`/game/${id}/summary`);
                 return;
             }
-            else if (state.data.state === "unfinished"){
+            else if (state.data.state === "RESTRICTED"){
                 dispatch(setError("Host has not finished the game yet"));
                 router.push(`/game`);
                 return;
             }
-            else if (state.data.state === "not_playing"){
-                await api.post("/game/play", {id:sessionID});
-                await api.post("/game/next", {id:sessionID});
+            else if (state.data.state === "NOT_STARTED"){
+                await api.post("/game/play", { id }).catch(() => {});
+                await api.post("/game/next", {id});
             }
-            router.push(`/game/${sessionID}`);
+            router.push(`/game/${id}`);
         };
         joinGame();
     }, []);

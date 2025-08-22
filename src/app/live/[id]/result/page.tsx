@@ -8,21 +8,16 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import useLiveSocket from "../../liveSocket";
+import Popup from "@/components/Popup";
+import UserIcon from "@/components/user/UserIcon";
 
 const Results = dynamic(() => import("@/components/game/challenge/results/results"), { ssr: false });
 
 export default function GameResultPage() {
-  const searchParams = useSearchParams();
   const params = useParams();
-  const router = useRouter();
   const matchId = params.id;
-  const roundNumber = parseInt(searchParams.get("round") || "-1");
   const code = useSelector((state: any) => state.party).code;
 
-
-  if (roundNumber === -1) {
-    return <div>Invalid round number</div>;
-  }
 
   const [data,setData] = useState<any>();
   const [state,setState] = useState<any>();
@@ -30,6 +25,7 @@ export default function GameResultPage() {
   const isHostRef = useRef<boolean>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [preload, setPreload] = useState<boolean>(true);
+  const [popupElement, setPopupElement] = useState<React.ReactNode>();
   
   useEffect(() => {
     const getResults = async () => {
@@ -37,7 +33,7 @@ export default function GameResultPage() {
         const state = await api.get(`/game/state?id=${matchId}`);
         setState(state.data);
         const response = await api.get(
-          `/game/results?id=${matchId}&round=${roundNumber}`
+          `/game/results?id=${matchId}`
         );
         setData(response.data)
 
@@ -52,15 +48,25 @@ export default function GameResultPage() {
     getResults();
   },[]);
 
-  const socket = useLiveSocket({id: matchId?.toString() ?? "",state});
+  const socketFunctions = {
+    join_game: (data:any) =>{ 
+      setPopupElement(
+        <div className="flex flex-col justify-center items-center">
+          <UserIcon className="w-[1rem]" data={data.user_cosmetics}/>
+          <div>{data.username} joined</div>
+        </div>
+      );
+    }
+  }
+
+  const socket = useLiveSocket({
+    id: matchId?.toString() ?? "",
+    state, 
+    functions:socketFunctions
+  });
 
   async function nextRound() {
-    if (loading) return;
-    if (state.state === "finished") {
-      router.push(`/live/${matchId}/summary`);
-      return;
-    }
-    if (state.state === "results" && isHostRef.current){
+    if (isHostRef.current && !loading){
       setLoading(true);
       await api.post("/game/next", {id:matchId});
     }
@@ -74,12 +80,15 @@ export default function GameResultPage() {
   const centerText = isHost ? (loading?<div>Loading next round...</div>:undefined) : <div>Waiting for host...</div>
   return (
     <ProtectedRoutes>
+      <Popup>
+        {popupElement}
+      </Popup>
       <Suspense fallback={<Loading />}>
         <Results 
           onClick={nextRound} 
           this_user={data.this_user} 
           users={data.users} 
-          roundNumber={roundNumber} 
+          roundNumber={data.round} 
           correct={data.correct} 
           centerText={centerText}
         />

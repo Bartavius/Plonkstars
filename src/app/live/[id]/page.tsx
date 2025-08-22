@@ -11,7 +11,7 @@ import UserIcon from "@/components/user/UserIcon";
 import calcuateOffset from "@/components/time";
 
 export default function Page() {
-  const [data,setData] = useState<any>();
+  const [round,setRound] = useState<any>();
   const [state,setState] = useState<any>();
   const [guesses,setGuesses] = useState<number>(0);
   const [players,setPlayers] = useState<number>(0);
@@ -27,24 +27,18 @@ export default function Page() {
 
   async function getRound(){
     const response = await api.get(`/game/round?id=${id}`);
-    setData(response.data);
+    setRound(response.data);
     return response;
   }
   useEffect(() => {
     const fetchLocation = async () => {
       try {
         const state = await api.get(`/game/state?id=${id}`);
-        switch(state.data.state) {
-          case "waiting":
-            setCanGuess(false);
-            setLat(state.data.lat);
-            setLng(state.data.lng);
-          case "playing":
-            setPlayers(state.data.player);
-            setGuesses(state.data.guess);
-            setLat(state.data.lat);
-            setLng(state.data.lng);
-        }
+        setCanGuess(!state.data.guessed);
+        setPlayers(state.data.player);
+        setGuesses(state.data.guess);
+        setLat(state.data.lat);
+        setLng(state.data.lng);
         setState(state.data);
 
         const offset = await calcuateOffset(getRound)
@@ -58,8 +52,10 @@ export default function Page() {
     fetchLocation(); //render loading screen later
   }, []);
 
+
+
   const socketFunctions = {
-      "guess": (data: any) => {
+      guess: (data: any) => {
         setGuesses((prev) => prev + 1);
         setPopupElement(
           <div className="flex flex-col justify-center items-center">
@@ -68,6 +64,15 @@ export default function Page() {
           </div>
         );
       },
+      join_game: (data: any) => {
+        setPlayers((prev) => prev + 1);
+        setPopupElement(
+          <div className="flex flex-col justify-center items-center">
+            <UserIcon className="w-[1rem]" data={data.user_cosmetics}/>
+            <div>{data.username} joined</div>
+          </div>
+        );
+      }
   }
 
   const socket = useLiveSocket({
@@ -77,8 +82,7 @@ export default function Page() {
   })
 
   async function onPlonk(lat: number, lng: number) {
-    await api.post("/game/ping", {
-      type:"plonk",
+    await api.post("/game/plonk", {
       id,
       lat,
       lng,
@@ -104,14 +108,14 @@ export default function Page() {
         userLat={lat}
         userLng={lng}
         canGuess={canGuess}
-        correctLat={data.lat}
-        correctLng={data.lng}
-        time={new Date(data.time)}
-        timeLimit={data.time_limit}
-        roundNumber={data.round}
-        totalScore={data.total}
-        NMPZ={data.nmpz}
-        mapBounds={data.map_bounds}
+        correctLat={round.lat}
+        correctLng={round.lng}
+        time={new Date(round.time)}
+        timeLimit={round.time_limit}
+        roundNumber={round.round}
+        totalScore={round.total}
+        NMPZ={round.nmpz}
+        mapBounds={round.map_bounds}
         rightFooter={canGuess? undefined: rightFooter}
         onGuess={() => setCanGuess(false)}
         onPlonk={onPlonk}

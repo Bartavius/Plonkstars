@@ -36,27 +36,20 @@ export default function useLiveSocket({
                 dispatch(setError(data?.reason));
                 router.push("/game");
             },
-            summary: (data) => {router.push(`/live/${id}/summary`);},
             ...functions,
         }
     })
 
     function pushState(state: any){
         switch (state.state) {
-            case "waiting":
-            case "playing":
+            case "GUESSING":
                 push(`/live/${id}`);
                 break;
-            case "finished":
-            case "results":
-                if (state.round !== undefined) {
-                    push(`/live/${id}/result?round=${state.round}`);
-                }
-                else{
-                    push(`/live/${id}/summary`);
-                }
+            case "FINISHED":
+                push(`/live/${id}/summary`);
                 break;
-            default:
+            case "RESULTS":
+                push(`/live/${id}/result`);
                 break;
         }
     }

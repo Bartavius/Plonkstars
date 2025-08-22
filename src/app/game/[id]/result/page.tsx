@@ -35,9 +35,7 @@ export default function GameResultPage() {
       try {
         const state = await api.get(`/game/state?id=${matchId}`);
         setState(state.data);
-        const response = await api.get(
-          `/game/results?id=${matchId}&round=${roundNumber}`
-        );
+        const response = await api.get(`/game/results?id=${matchId}&round=${roundNumber}`);
         setData(response.data);
         setPreloading(false);
       } catch (err: any) {
@@ -49,11 +47,11 @@ export default function GameResultPage() {
   }, []);
 
   async function nextRound() {
-    if (state.state === "finished") {
+    if (state.state === "FINISHED") {
       router.push(`/game/${matchId}/summary`);
       return;
     }
-    if (state.state === "results") {
+    if (state.state === "RESULTS") {
       setLoading(true);
       await api.post("/game/next", { id: matchId });
       router.push(`/game/${matchId}`);
@@ -71,7 +69,7 @@ export default function GameResultPage() {
           onClick={nextRound}
           this_user={data.this_user}
           users={data.users}
-          roundNumber={roundNumber}
+          roundNumber={data.round}
           correct={data.correct}
         />
       </Suspense>
