@@ -22,7 +22,7 @@ export default function UserInput({
             try{
                 value = parseFloat(value);
             } catch (e) {
-                setError("Value must be a number");
+                setError(`${data.name} must be a number`);
                 return;
             }
         }
@@ -31,18 +31,18 @@ export default function UserInput({
             try{
                 value = parseInt(value);
             } catch (e) {
-                setError("Value must be an integer");
+                setError(`${data.name} must be an integer`);
                 return;
             }
         }
 
         if (data.type === "integer" || data.type === "number") {
             if (data.min !== undefined && value < data.min && !(data.infinity && value === -1)){ 
-                setError(`Value cannot be less than ${data.min}`); 
+                setError(`${data.name} cannot be less than ${data.min}`); 
                 return;
             }
             if (data.max !== undefined && value > data.max){ 
-                setError(`Value cannot be greater than ${data.max}`);
+                setError(`${data.name} cannot be greater than ${data.max}`);
                 return;
             }
         }

@@ -40,7 +40,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
 
   const getLeaderboard = async () => {
     try {
-      const user = await api.get("/account/profile");
+      const user = await api.get("/account/avatar");
 
       const response = await api.get(
         `/map/leaderboard?id=${mapID}&per_page=${resultsPerPage}&page=${page}&nmpz=${NMPZ}`

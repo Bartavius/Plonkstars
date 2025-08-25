@@ -13,6 +13,7 @@ export default function Page() {
   const [loading, setLoading] = useState<boolean>(true);
   const [userLat, setUserLat] = useState<number|undefined>(undefined);
   const [userLng, setUserLng] = useState<number|undefined>(undefined);
+  const [score, setScore] = useState<number>(0);
 
   const router = useRouter();
   const params = useParams();
@@ -53,6 +54,7 @@ export default function Page() {
         }
         setUserLat(state.data.lat);
         setUserLng(state.data.lng);
+        setScore(state.data.score);
         const offset = await calcuateOffset(getRound);
         setOffset(offset);
         setLoading(false);
@@ -91,7 +93,7 @@ export default function Page() {
         time={new Date(data.time)}
         timeLimit={data.time_limit}
         roundNumber={data.round}
-        totalScore={data.total}
+        totalScore={score}
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
         onPlonk={onPlonk}

@@ -72,7 +72,7 @@ export default function BasicMapWithMarker({
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchAvatar = async () => {
-      const response = await api.get("/account/profile");
+      const response = await api.get("/account/avatar");
       const cosmetics = response.data.user_cosmetics;
       setUserIcon(cosmetics);
     }

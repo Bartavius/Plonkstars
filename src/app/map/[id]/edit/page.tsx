@@ -61,7 +61,7 @@ export default function EditMapPage() {
             setBounds(response.data);
             setLoading(false);
 
-            const user = await api.get("/account/profile");
+            const user = await api.get("/account/avatar");
             setUser(user.data);
         } catch (error) {
             router.push("/map");

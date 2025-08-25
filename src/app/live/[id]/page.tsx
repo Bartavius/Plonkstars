@@ -113,7 +113,7 @@ export default function Page() {
         time={new Date(round.time)}
         timeLimit={round.time_limit}
         roundNumber={round.round}
-        totalScore={round.total}
+        totalScore={state.score}
         NMPZ={round.nmpz}
         mapBounds={round.map_bounds}
         rightFooter={canGuess? undefined: rightFooter}

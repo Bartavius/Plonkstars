@@ -121,7 +121,7 @@ export default function AvatarCustom({
 
     const fetchEquippedCosmetics = async () => {
       try {
-        const response = await api.get("/account/profile");
+        const response = await api.get("/account/avatar");
         const profile = response.data;
         const data = profile.user_cosmetics;
         
