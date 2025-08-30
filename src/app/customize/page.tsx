@@ -1,7 +1,6 @@
 "use client";
 
 import "./page.css";
-import "leaflet/dist/leaflet.css";
 import { useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 import Popup from "@/components/Popup";

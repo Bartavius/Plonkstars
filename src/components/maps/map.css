@@ -1,4 +1,4 @@
-.leaflet-container-wrapper {
+.game-map-wrapper {
     width: 23vw;
     height: 25vh;
     overflow: hidden;
@@ -9,13 +9,13 @@
 }
   
 
-.leaflet-container-wrapper:hover {
+.game-map-wrapper:hover {
     transform: scale(2.4);
     opacity: 1;
     cursor: crosshair;
 }
 
-.leaflet-container-wrapper.hovered {
+.game-map-wrapper.hovered {
     transform: scale(2.4);
     opacity: 1;
     cursor: crosshair;
@@ -78,17 +78,17 @@
         margin: 0%;
         top: -10vh;
     }
-    .leaflet-container-wrapper {
+    .game-map-wrapper {
         width: 100vw;
         height: 30vh;
         opacity: 1;
     }
-    .leaflet-container-wrapper:hover {
+    .game-map-wrapper:hover {
         transform: none;
         opacity: 1;
     }
 
-    .leaflet-container-wrapper.hovered {
+    .game-map-wrapper.hovered {
         transform: none;
     }
   

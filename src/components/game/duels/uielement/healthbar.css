@@ -1,0 +1,30 @@
+.duels-health-bar{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    filter: brightness(0.9);
+    border-radius: 0.5rem;
+    background-color:var(--darker-blue);
+    padding: 3px;
+}
+
+.duels-health-bar-fill{
+    position: relative;
+    height: 100%;
+    border-radius: 0.5rem;
+    z-index: 1;
+}
+.duels-health-bar-hp{
+    top: 0;
+    position: absolute;
+    color: white;
+    width: 100%;
+    height: 100%;
+    display: flex;     
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+    font-weight: bold;
+    z-index: 2;
+}

@@ -7,6 +7,7 @@ import api from "@/utils/api";
 import GamePanel from "@/components/game/GamePanel";
 import "@/app/game.css";
 import "./gameplay.css";
+import BasicMapWithMarker from "@/components/maps/BasicMapWithMarker";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
   ssr: false,
@@ -29,6 +30,7 @@ export default function GamePlay({
     rightFooter,
     onPlonk,
     offset=0,
+    cosmetics,
 }: {
     correctLat: number;
     correctLng: number;
@@ -38,6 +40,7 @@ export default function GamePlay({
     totalScore: number;
     NMPZ: boolean;
     mapBounds: any;
+    cosmetics: any;
     userLat?: number;
     userLng?: number;
     canGuess?: boolean;
@@ -59,7 +62,7 @@ export default function GamePlay({
     setReload((prev) => prev + 1);
   }
 
-  const submitGuess = async () => {
+  async function submitGuess(){
     if (lat !== undefined && lng !== undefined && !submitted) {
       setSubmitted(true);
       try {
@@ -73,8 +76,13 @@ export default function GamePlay({
     }
   };
 
-  function setPos(lat: number, lng: number) {
-    if (canGuess) {
+  async function setPos(lat: number, lng: number) {
+    if (!submitted) {
+      await api.post("/game/plonk", {
+        id: matchId,
+        lng: (((lng % 360) + 540) % 360) - 180,
+        lat,
+      })
       setLat(lat);
       setLng(lng);
       onPlonk && onPlonk(lat,lng);
@@ -111,15 +119,11 @@ export default function GamePlay({
       />
       <div className="relative min-h-[90vh] min-w-full">
         <CombinedMap
-          lat={lat}
-          lng={lng}
-          canChange={!submitted}
-          setPos={setPos}
           correctLat={correctLat}
           correctLng={correctLng}
           reload={reload}
           NMPZ={NMPZ}
-          mapBounds={mapBounds}
+          map={<BasicMapWithMarker lat={lat} lng={lng} setPos={setPos} mapBounds={mapBounds} cosmetics={cosmetics}/>}
         />
       </div>
       <div className="game-footer">

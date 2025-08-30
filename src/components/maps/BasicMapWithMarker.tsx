@@ -1,110 +1,52 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { MapContainer, useMapEvents } from "react-leaflet";
-import { LatLngLiteral } from "leaflet";
-import "leaflet/dist/leaflet.css";
 import "./map.css";
 import MapTileLayer from "@/utils/leaflet";
 import MapIcon from "./mapIcon";
 import FitBounds from "./FitBounds";
-import api from "@/utils/api";
 import { useSelector } from "react-redux";
 import { UserIconCosmetics } from "@/types/userIconCosmetics";
-import Loading from "../loading";
 
 export default function BasicMapWithMarker({
   lat,
   lng,
-  canChange = true,
   setPos,
   mapBounds,
+  cosmetics,
 }: {
   lat?: number,
   lng?: number,
-  canChange?: boolean
   setPos: (lat: number,lng:number) => void;
   mapBounds: any;
+  cosmetics?: UserIconCosmetics;
 }){
-  const [markerPosition, setMarkerPosition] = useState<LatLngLiteral | null>(
-    lat !== undefined && lng !== undefined? {lat,lng}: null
-  );
-  const [isHovered, setIsHovered] = useState(false);
-  const [center] = useState({ lat: 20, lng: 0 });
-  const ZOOM_LEVEL = 0;
-  const mapRef = useRef<L.Map | null>(null);
   const res = useSelector((state: any) => state.settings.miniMapResolution);
 
-  interface LocationMarkerProps {
-    setMarkerPosition: (pos: LatLngLiteral) => void;
-  }
 
-  function LocationMarker({ setMarkerPosition }: LocationMarkerProps) {
+  const ClickHandler = () => {
     useMapEvents({
       click(e) {
-        if(!canChange) return;
         const { lat, lng } = e.latlng;
         setPos(lat,lng);
-        setMarkerPosition({ lat, lng });
       },
     });
     return null;
   }
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setTimeout(() => {
-      setIsHovered(false);
-    }, 1000);
-  };
-
-  const [userIcon, setUserIcon] = useState<UserIconCosmetics>({
-    hue: 0,
-    saturation: 100,
-    brightness: 100,
-    hat: null,
-    body: null,
-    face: null,
-  });
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      const response = await api.get("/account/avatar");
-      const cosmetics = response.data.user_cosmetics;
-      setUserIcon(cosmetics);
-    }
-    fetchAvatar();
-  }, [])
-
-  useEffect(() => {
-    setLoading(false);
-  }, [userIcon]);
-
-  if (loading) {
-    return <Loading />;
-  }
   return (
-    <div
-      className={`leaflet-container-wrapper ${isHovered ? "hovered" : ""}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+    <MapContainer
+      zoomDelta={2}
+      wheelPxPerZoomLevel={2}
+      zoomControl={false}
+      className="leaflet-map"
     >
-      <MapContainer
-        center={center}
-        zoom={ZOOM_LEVEL}
-        ref={mapRef}
-        className="leaflet-map"
-      >
-        <MapTileLayer size={res} offset={8-Math.log2(res)}/>
-        <LocationMarker setMarkerPosition={setMarkerPosition} />
-        {markerPosition && (
-          <MapIcon pos={markerPosition} customize={userIcon} iconUrl="/PlonkStarsAvatar.png" iconPercent={0.55}/>
-        )}
-        <FitBounds locations={[mapBounds.start,mapBounds.end]} summary={false}/>
-      </MapContainer>
-    </div>
+      <MapTileLayer size={res} offset={8-Math.log2(res)}/>
+      <ClickHandler />
+      {lat && lng && (
+        <MapIcon pos={{lat,lng}} customize={cosmetics} iconUrl="/PlonkStarsAvatar.png" iconPercent={0.55}/>
+      )}
+      <FitBounds locations={[mapBounds.start,mapBounds.end]} summary={false}/>
+    </MapContainer>
   );
 };

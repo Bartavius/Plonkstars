@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
-import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import ReduxProvider from "./reduxProvider";
 import ReinstateSession from "./reinstateSession";

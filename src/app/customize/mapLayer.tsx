@@ -31,7 +31,7 @@ export default function MapDisplay({setMessage}:{setMessage: (message: React.Rea
             </option>
             ))}
         </select>
-        <MapContainer center={[0, 0]} zoom={0} className="leaflet-map">
+        <MapContainer center={[0, 0]} zoom={0} className="customize-leaflet-map">
             <TileLayer
             url={maps[currentMap].url}
             attribution={maps[currentMap].attribution}

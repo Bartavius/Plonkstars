@@ -40,7 +40,7 @@
   justify-content: center;
 }
 
-.leaflet-map {
+.customize-leaflet-map {
   z-index: 0;
   margin-top: 1rem;
   width: 100%;

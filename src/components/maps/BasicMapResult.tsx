@@ -1,7 +1,6 @@
 "use client";
 
 import { MapContainer, Polyline, Tooltip } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import "./map.css";
 import MapIcon from "./mapIcon";
 import MapTileLayer from "@/utils/leaflet";
@@ -37,10 +36,6 @@ export default function BasicMapResult({
 
   const locations = boundedMarkers.map((marker:any) => [marker.correct, ...marker.users.filter((guess:any)=> (!user || guess.user.username === user.username))]).flat();
 
-  const ZOOM_DELTA = 2;
-  const PX_PER_ZOOM_LEVEL = 2;
-  const CENTER = { lat: 0, lng: 0 };
-
   const dottedLine = {
     color: "black",
     weight: 7,
@@ -54,12 +49,10 @@ export default function BasicMapResult({
       style={height ? { height: `${height}dvh` } : undefined}
     >
       <MapContainer
-        zoomDelta={ZOOM_DELTA}
-        wheelPxPerZoomLevel={PX_PER_ZOOM_LEVEL}
-        scrollWheelZoom={true}
+        zoomDelta={2}
+        wheelPxPerZoomLevel={2}
+        zoomControl={false}
         className="leaflet-result-map"
-        center={CENTER}
-        zoom={7}
       >
         <MapTileLayer size={512} offset={-1}/>
         {boundedMarkers.map((markerObj:any, index:number) => (

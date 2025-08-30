@@ -18,6 +18,7 @@ export default function Page() {
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
   const [canGuess, setCanGuess] = useState<boolean>(true);
+  const [cosmetics, setCosmetics] = useState<any>(null);
   const [popupElement, setPopupElement] = useState<React.ReactNode>();
   const [offset, setOffset] = useState<number>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -43,6 +44,10 @@ export default function Page() {
 
         const offset = await calcuateOffset(getRound)
         setOffset(offset);
+
+        const cosmetics = await api.get("/account/avatar");
+        setCosmetics(cosmetics.data.user_cosmetics);
+
         setLoading(false);
         
       } catch (err: any) {
@@ -81,14 +86,6 @@ export default function Page() {
     functions: socketFunctions,
   })
 
-  async function onPlonk(lat: number, lng: number) {
-    await api.post("/game/plonk", {
-      id,
-      lat,
-      lng,
-    })
-  }
-
   if (loading) {
     return <Loading />;
   }
@@ -118,8 +115,8 @@ export default function Page() {
         mapBounds={round.map_bounds}
         rightFooter={canGuess? undefined: rightFooter}
         onGuess={() => setCanGuess(false)}
-        onPlonk={onPlonk}
         offset={offset}
+        cosmetics={cosmetics}
       />
     </ProtectedRoutes>
   );

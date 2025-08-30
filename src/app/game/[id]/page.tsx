@@ -13,6 +13,7 @@ export default function Page() {
   const [loading, setLoading] = useState<boolean>(true);
   const [userLat, setUserLat] = useState<number|undefined>(undefined);
   const [userLng, setUserLng] = useState<number|undefined>(undefined);
+  const [cosmetics, setCosmetics] = useState<any>();
   const [score, setScore] = useState<number>(0);
 
   const router = useRouter();
@@ -57,6 +58,10 @@ export default function Page() {
         setScore(state.data.score);
         const offset = await calcuateOffset(getRound);
         setOffset(offset);
+
+        const cosmetics = await api.get("/account/avatar");
+        setCosmetics(cosmetics.data.user_cosmetics);
+
         setLoading(false);
       } catch (err: any) {
         console.log(err);
@@ -71,14 +76,6 @@ export default function Page() {
     fetchLocation();
   }, []);
 
-  async function onPlonk(lat: number, lng: number) {
-    if (!data) return;
-    await api.post("/game/plonk", {
-      id,
-      lat,
-      lng,
-    })
-  }
   if (loading) {
     return <Loading />;
   }
@@ -96,10 +93,10 @@ export default function Page() {
         totalScore={score}
         NMPZ={data.nmpz}
         mapBounds={data.map_bounds}
-        onPlonk={onPlonk}
         offset={offset}
         onTimeout={() => router.push(`/game/${id}/result?round=${data.round}`)}
         onGuess={() => router.push(`/game/${id}/result?round=${data.round}`)}
+        cosmetics={cosmetics}
       />
     </ProtectedRoutes>
   );

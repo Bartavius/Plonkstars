@@ -4,7 +4,6 @@ import {
     Rectangle,
 } from "react-leaflet";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import MapIcon from "./mapIcon";
 import "./map.css";
 import MapTileLayer from "../../utils/leaflet";
