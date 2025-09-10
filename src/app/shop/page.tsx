@@ -123,7 +123,6 @@ interface Response {
     message: string | undefined;
 }
 
-// TODO: restructure so that each tier now has percentages on waht can spawn
 interface Crate {
     name: string; // will need image name later
     price: number;

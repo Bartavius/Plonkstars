@@ -5,6 +5,19 @@ export default function UserIcon({
     data: any;
     className?: string;
   }) {
+
+    // test cosmetics: //
+    // data.hat = {
+    //   "item_name": "Giga Chad",
+    //   "type": "HAT",
+    //   "tier": "LEGENDARY",
+    //   "image": "rice-hat.png",
+    //   "top_position": -50,
+    //   "left_position": 0,
+    //   "scale": 0.9
+    // }
+    ///////////////////
+
     const face = data.face;
     const hat = data.hat;
     const body = data.body;
