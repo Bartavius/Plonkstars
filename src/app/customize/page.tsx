@@ -22,17 +22,19 @@ export default function Settings() {
 
   return (
     <ProtectedRoutes>
-      <div className="navbar-buffer" />
-      <Popup update={update} type={type}>
-        {message}
-      </Popup>
-      <div className="settings-wrapper">
-        <div id="top" className="settings-header">
-          Customizations
+      <div>
+        <div className="navbar-buffer" />
+        <Popup update={update} type={type}>
+          {message}
+        </Popup>
+        <div className="settings-wrapper">
+          <div id="top" className="settings-header">
+            Customizations
+          </div>
+          <AvatarCustom setMessage={setMessage} setType={setType}/>
+          <MapDisplay setMessage={setMessage}/>
+          <MapResolution setMessage={setMessage}/>
         </div>
-        <AvatarCustom setMessage={setMessage} setType={setType}/>
-        <MapDisplay setMessage={setMessage}/>
-        <MapResolution setMessage={setMessage}/>
       </div>
     </ProtectedRoutes>
   );
