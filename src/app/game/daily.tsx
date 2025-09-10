@@ -2,7 +2,7 @@ import api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import DailyTimer from "./DailyTimer";
-import calcuateOffset from "@/components/time";
+import calculateOffset from "@/components/time";
 
 export default function Daily({
     loading,
@@ -23,7 +23,7 @@ export default function Daily({
     
       useEffect(() => {
         async function fetchData() {
-            const offset = await calcuateOffset(fetchDaily);
+            const offset = await calculateOffset(fetchDaily);
             setOffset(offset);
         }
         fetchData();
@@ -34,6 +34,8 @@ export default function Daily({
         setLoading(true);
         router.push(`/game/${daily.id}/join`);
       }
+
+    console.log(daily)
 
     return (
         <div className="w-full px-4 relative">

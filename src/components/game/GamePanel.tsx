@@ -5,21 +5,19 @@ const GamePanel = ({
     time,
     timeLimit,
     timeoutFunction,
-    totalScore,
-    roundNumber,
+    display,
     offset = 0,
 }: {
     time?: Date;
     timeLimit?: number ;
     timeoutFunction?: () => void;
-    totalScore: number;
-    roundNumber: number;
+    display: [{key:string,value:string}, {key:string,value:string}];
     offset?: number;
 }) => {
     return (
-        <div className='game-panel'>
+        <div className="game-panel">
             <div className="score-wrapper">
-                <ScoreDisplay totalScore={totalScore} roundNumber={roundNumber}/>
+                <ScoreDisplay display={display}/>
             </div>
             <div>
                 {time && timeLimit && (

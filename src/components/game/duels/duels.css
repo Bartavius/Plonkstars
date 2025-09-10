@@ -1,0 +1,6 @@
+.duels-results-map-container{
+    height: 90vh;
+    width: 100%;
+    position: relative;
+    z-index: 0;
+}

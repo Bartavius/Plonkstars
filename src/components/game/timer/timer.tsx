@@ -35,7 +35,7 @@ const Timer = ({
     const seconds = Math.floor(timeLeft % 60);
 
     return (
-      <div className="absolute timer-container">
+      <div className="timer-container">
         <div
             className="timer-fill"
             style={{ 

@@ -20,8 +20,9 @@ import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 import PlayerDisplay from "./PlayerDisplay";
 import TeamDisplay from "./TeamDisplay";
 import { Team } from "./structs";
+import ProtectedRoutes from "../ProtectedRoutes";
 
-const modes = process.env.NEXT_PUBLIC_TESTING ? ["Live","Duels"]:["Live"]
+const modes = ["Live","Duels"]
 
 export default function PartyPage() {
     const [users, setUsers] = useState<any>();
@@ -253,79 +254,81 @@ export default function PartyPage() {
 
     const isHost = host == thisUser;
     return (
-        <div className="relative overflow-hidden">
-            <Popup update={update} type={type} duration={750} fadeOut={1000}>{message}</Popup>
-            <div className="navbar-buffer"/>
-            <div className="party-page-content">
-                <div className="party-page-code-box" onMouseEnter={() => setHoverCode(true)} onMouseLeave={() => setHoverCode(false)} onClick={copyPartyLink}>{hoverCode ? code: "Hover for Code"}</div>
-                <div className="party-page-mode-box">
-                    {isHost ? <GoTriangleLeft className="party-page-mode-change-arrow" onClick={() => changeMode(modeIndex-1)}/>:<div/>}
-                    {modes[modeIndex]}
-                    {isHost ? <GoTriangleRight className="party-page-mode-change-arrow" onClick={() => changeMode(modeIndex + 1)}/>:<div/>}
-                </div>
-                {rules.team_type == "solo" ? <PlayerDisplay users={users} host={host} thisUser={thisUser} kickUser={kickUser}/>:
-                rules.team_type == "team" ? <TeamDisplay code={code} users={users} host={host} thisUser={thisUser} teams={teams} kickUser={kickUser} setMessage={setMessage}/>:undefined}
-            </div>
-            <div className="party-page-footer">
-                <div className="party-page-footer-content-left">
-                    <button className="btn-primary party-page-exit-button" onClick={() => (isHost ? disbandParty() : leaveParty())}>{isHost ? "Disband Party" : "Leave"}</button>
-                </div>
-                <div className="party-page-footer-content-center">
-                    <div className="party-page-rules-footer" onClick={() => setRulesOpen(true)}>
-                        {Object.entries(displayRules).map(([key, value]) => (
-                            <div key={key} className="party-page-rule-item">
-                                <div className="party-page-rule-key-text">{key}</div> 
-                                <div className="party-page-rule-value-text">{value}</div>
-                            </div>
-                        ))}
+        <ProtectedRoutes>
+            <div className="relative overflow-hidden">
+                <Popup update={update} type={type} duration={750} fadeOut={1000}>{message}</Popup>
+                <div className="navbar-buffer"/>
+                <div className="party-page-content">
+                    <div className="party-page-code-box" onMouseEnter={() => setHoverCode(true)} onMouseLeave={() => setHoverCode(false)} onClick={copyPartyLink}>{hoverCode ? code: "Hover for Code"}</div>
+                    <div className="party-page-mode-box">
+                        {isHost ? <GoTriangleLeft className="party-page-mode-change-arrow" onClick={() => changeMode(modeIndex-1)}/>:<div/>}
+                        {modes[modeIndex]}
+                        {isHost ? <GoTriangleRight className="party-page-mode-change-arrow" onClick={() => changeMode(modeIndex + 1)}/>:<div/>}
                     </div>
-                    <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => {setMapOpen(true);setLocalRules(rules);} : undefined} />
+                    {rules.team_type == "solo" ? <PlayerDisplay users={users} host={host} thisUser={thisUser} kickUser={kickUser}/>:
+                    rules.team_type == "team" ? <TeamDisplay code={code} users={users} host={host} thisUser={thisUser} teams={teams} kickUser={kickUser} setMessage={setMessage}/>:undefined}
                 </div>
-                <div className="party-page-footer-content-right">
-                    {
-                        (state.state==="playing"?
-                            (state.joined ? 
-                                <button className="party-page-start-button" onClick={() => pushGame(state)}>Rejoin Game</button>:
-                                <button className="party-page-start-button" onClick={joinGame}>Join Game</button> 
-                            ):
-                            (isHost ? 
-                            <button className="party-page-start-button" onClick={gameStart}>Start</button>:
-                            <div>Waiting for host...</div>)
-                        )
-                    }
-                </div>
-            </div>
-            <Modal isOpen={mapOpen} onClose={() => setMapOpen(false)}>
-                <h2 className="party-page-modal-title">Select Map</h2>
-                <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
-            </Modal>
-            
-            <Modal isOpen={rulesOpen} onClose={() => {setRulesOpen(false)}}>
-                <h2 className="party-page-modal-title">Rules</h2>
-                {
-                    rulesConfig && rulesConfig.map((data:any) => (
-                        <div className="py-2" key={data.key}>
-                            <UserInput
-                                key={data.key}
-                                inputType={data.display}
-                                data={data}
-                                value={localRules ? localRules[data.key] : undefined}
-                                setError={(error) => setMessage(error,"error")}
-                                setInput={(input: any) => setSingleRules(data.key, input)}
-                                editable={isHost}
-                            />
+                <div className="party-page-footer">
+                    <div className="party-page-footer-content-left">
+                        <button className="btn-primary party-page-exit-button" onClick={() => (isHost ? disbandParty() : leaveParty())}>{isHost ? "Disband Party" : "Leave"}</button>
+                    </div>
+                    <div className="party-page-footer-content-center">
+                        <div className="party-page-rules-footer" onClick={() => setRulesOpen(true)}>
+                            {Object.entries(displayRules).map(([key, value]) => (
+                                <div key={key} className="party-page-rule-item">
+                                    <div className="party-page-rule-key-text">{key}</div> 
+                                    <div className="party-page-rule-value-text">{value}</div>
+                                </div>
+                            ))}
                         </div>
-                    ))
-                }
-                {isHost &&
-                    <button
-                        className="btn-primary justify-center flex mx-auto"
-                        onClick={saveRules}
-                    >
-                        Save Rules
-                    </button>
-                }
-            </Modal>
-        </div>
+                        <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => {setMapOpen(true);setLocalRules(rules);} : undefined} />
+                    </div>
+                    <div className="party-page-footer-content-right">
+                        {
+                            (state.state==="playing"?
+                                (state.joined ? 
+                                    <button className="party-page-start-button" onClick={() => pushGame(state)}>Rejoin Game</button>:
+                                    <button className="party-page-start-button" onClick={joinGame}>Join Game</button> 
+                                ):
+                                (isHost ? 
+                                <button className="party-page-start-button" onClick={gameStart}>Start</button>:
+                                <div>Waiting for host...</div>)
+                            )
+                        }
+                    </div>
+                </div>
+                <Modal isOpen={mapOpen} onClose={() => setMapOpen(false)}>
+                    <h2 className="party-page-modal-title">Select Map</h2>
+                    <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
+                </Modal>
+                
+                <Modal isOpen={rulesOpen} onClose={() => {setRulesOpen(false)}}>
+                    <h2 className="party-page-modal-title">Rules</h2>
+                    {
+                        rulesConfig && rulesConfig.map((data:any) => (
+                            <div className="py-2" key={data.key}>
+                                <UserInput
+                                    key={data.key}
+                                    inputType={data.display}
+                                    data={data}
+                                    value={localRules ? localRules[data.key] : undefined}
+                                    setError={(error) => setMessage(error,"error")}
+                                    setInput={(input: any) => setSingleRules(data.key, input)}
+                                    editable={isHost}
+                                />
+                            </div>
+                        ))
+                    }
+                    {isHost &&
+                        <button
+                            className="btn-primary justify-center flex mx-auto"
+                            onClick={saveRules}
+                        >
+                            Save Rules
+                        </button>
+                    }
+                </Modal>
+            </div>
+        </ProtectedRoutes>
     );
 }

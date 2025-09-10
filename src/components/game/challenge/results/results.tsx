@@ -94,7 +94,7 @@ export default function Results({
       <Popup update={update} type={messageType}>
         {message}
       </Popup>
-      <GamePanel totalScore={thisUser.score} roundNumber={roundNumber} />
+      <GamePanel display={[{key:"SCORE",value:thisUser.score.toString()},{key:"ROUND", value:roundNumber.toString()}]} />
       <div className="map-result-container min-h-[90vh] min-w-full">
         <div>
           <BasicMapResult

@@ -37,10 +37,7 @@ export default function BasicMapResult({
   const locations = boundedMarkers.map((marker:any) => [marker.correct, ...marker.users.filter((guess:any)=> (!user || guess.user.username === user.username))]).flat();
 
   const dottedLine = {
-    color: "black",
-    weight: 7,
-    opacity: 1,
-    dashArray: "5, 15",
+    
   };
   
   return (
@@ -87,7 +84,12 @@ export default function BasicMapResult({
                           [user.lat, user.lng],
                           [markerObj.correct.lat, markerObj.correct.lng],
                         ]}
-                        pathOptions={dottedLine}
+                        pathOptions={{
+                          color:"black",
+                          weight: 7,
+                          opacity: 1,
+                          dashArray: "5, 15"
+                        }}
                       />
                     </div>
                   </>

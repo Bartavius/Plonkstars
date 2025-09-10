@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import useLiveSocket from "../liveSocket";
 import Popup from "@/components/Popup";
 import UserIcon from "@/components/user/UserIcon";
-import calcuateOffset from "@/components/time";
+import calculateOffset from "@/components/time";
 
 export default function Page() {
   const [round,setRound] = useState<any>();
@@ -42,7 +42,7 @@ export default function Page() {
         setLng(state.data.lng);
         setState(state.data);
 
-        const offset = await calcuateOffset(getRound)
+        const offset = await calculateOffset(getRound)
         setOffset(offset);
 
         const cosmetics = await api.get("/account/avatar");

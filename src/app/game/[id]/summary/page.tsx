@@ -64,7 +64,7 @@ export default function SummaryPage() {
     }
     const fetchGuesses = async () => {
       try {
-        const res = await api.get(`/game/summary?session=${params.id}`);
+        const res = await api.get(`/game/summary?id=${params.id}`);
       
         setLocations(res.data.rounds);
         setUser(res.data.this_user);

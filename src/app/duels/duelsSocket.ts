@@ -36,25 +36,23 @@ export default function useDuelsSocket({
                 dispatch(setError(data?.reason));
                 router.push("/game");
             },
-            summary: (data) => {router.push(`/live/${id}/summary`);},
             ...functions,
         }
     })
 
     function pushState(state: any){
-        switch (state.state) {
-            case "waiting":
-            case "playing":
-            case "spectating":
+        if (typeof state !== "string"){
+            state = state.state;
+        }
+        switch (state) {
+            case "GUESSING":
                 push(`/duels/${id}`);
                 break;
-            case "finished":
+            case "FINISHED":
                 push(`/duels/${id}/summary`);
                 break;
-            case "results":
-                push(`/duels/${id}/result?round=${state.round}`);
-                break;
-            default:
+            case "RESULTS":
+                push(`/duels/${id}/result`);
                 break;
         }
     }

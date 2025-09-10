@@ -2,7 +2,7 @@
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import GamePlay from "@/components/game/challenge/gameplay/gameplay";
 import Loading from "@/components/loading";
-import calcuateOffset from "@/components/time";
+import calculateOffset from "@/components/time";
 import api from "@/utils/api";
 import { useRouter,useParams } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -56,7 +56,7 @@ export default function Page() {
         setUserLat(state.data.lat);
         setUserLng(state.data.lng);
         setScore(state.data.score);
-        const offset = await calcuateOffset(getRound);
+        const offset = await calculateOffset(getRound);
         setOffset(offset);
 
         const cosmetics = await api.get("/account/avatar");

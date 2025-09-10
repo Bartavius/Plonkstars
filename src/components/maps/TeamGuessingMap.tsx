@@ -3,7 +3,7 @@ import MapIcon from "@/components/maps/mapIcon";
 import MapTileLayer from "@/utils/leaflet";
 import { MapContainer, useMapEvents } from "react-leaflet";
 import { useSelector } from "react-redux";
-import "@/components/maps/map.css";
+import "./map.css";
 
 export default function TeamGuessingMap({
     guesses,
@@ -43,7 +43,7 @@ export default function TeamGuessingMap({
                 {Object.keys(plonks).map((key) => {
                     const plonk = plonks[key];
                     const user = users[key];
-                    if (!plonk || !user) return null;
+                    if (!plonk || !user || !plonk.lat || !plonk.lng) return null;
                     return (
                         <MapIcon
                             key={key}
@@ -59,13 +59,13 @@ export default function TeamGuessingMap({
                 {Object.keys(guesses).map((key) => {
                     const guess = guesses[key];
                     const user = users[key];
-                    if (!guess || !user) return null;
+                    if (!guess || !user || !guess.lat || !guess.lng) return null;
                     return (
                         <MapIcon
                             key={key}
                             pos={guess}
                             iconUrl="/PlonkStarsMarker.png"
-                            iconPercent={1}
+                            iconPercent={0.55}
                         />
                     );
                 })}

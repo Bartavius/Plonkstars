@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import api from "@/utils/api";
 import GamePanel from "@/components/game/GamePanel";
 import "@/app/game.css";
-import "./gameplay.css";
 import BasicMapWithMarker from "@/components/maps/BasicMapWithMarker";
 
 const CombinedMap = dynamic(() => import("@/components/maps/CombinedMap"), {
@@ -58,7 +57,7 @@ export default function GamePlay({
   const params = useParams();
   const matchId = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  const backToStart = () => {
+  function backToStart() {
     setReload((prev) => prev + 1);
   }
 
@@ -109,15 +108,16 @@ export default function GamePlay({
 
   return (
     <div color="bg-dark">
-      <GamePanel
-        time={time}
-        timeLimit={timeLimit}
-        timeoutFunction={onTimeout}
-        offset={offset}
-        totalScore={totalScore}
-        roundNumber={roundNumber}
-      />
-      <div className="relative min-h-[90vh] min-w-full">
+      <div className="absolute">
+        <GamePanel
+          time={time}
+          timeLimit={timeLimit}
+          timeoutFunction={onTimeout}
+          offset={offset}
+          display={[{key:"SCORE",value:totalScore.toString()},{key:"ROUND", value:roundNumber.toString()}]}
+        />
+      </div>
+      <div className="streetview-map-container">
         <CombinedMap
           correctLat={correctLat}
           correctLng={correctLng}

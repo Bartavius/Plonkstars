@@ -34,15 +34,17 @@ export default function CombinedMap({
       <div className={`${NMPZ ? "NMPZ" : ""} street-view-container`} key={reload}>
         <StreetView lat={correctLat} lng={correctLng}/>
       </div>
-      <div style={{ position: "absolute", bottom: "1.5%", right: "0.8%" }}>
-        <div
-          className={`game-map-wrapper ${isHovered ? "hovered" : ""}`}
-          onMouseEnter={handleMouseEnterMap}
-          onMouseLeave={handleMouseLeaveMap}
-        >
-          {map}
+      {map &&
+        <div style={{ position: "absolute", bottom: "1.5%", right: "0.8%" }}>
+          <div
+            className={`game-map-wrapper ${isHovered ? "hovered" : ""}`}
+            onMouseEnter={handleMouseEnterMap}
+            onMouseLeave={handleMouseLeaveMap}
+          >
+            {map}
+          </div>
         </div>
-      </div>
+      }
     </div>
   );
 }

@@ -1,4 +1,4 @@
-export default async function calcuateOffset(action: () => Promise<any>) {
+export default async function calculateOffset(action: () => Promise<any>) {
     const start = Date.now();
     const res = await action();
     if (!res || !res.data || !res.data.now) {

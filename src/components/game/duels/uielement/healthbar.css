@@ -1,10 +1,20 @@
-.duels-health-bar{
+.duels-health-bar-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: left;
     width: 100%;
     height: 100%;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.duels-health-bar{
+    width: 100%;
+    height: 80%;
     position: relative;
-    filter: brightness(0.9);
-    border-radius: 0.5rem;
-    background-color:var(--darker-blue);
+    border-radius: 0rem 0.5rem 0.5rem 0.5rem;
+    background-color:var(--darkest-blue);
     padding: 3px;
 }
 
@@ -14,6 +24,7 @@
     border-radius: 0.5rem;
     z-index: 1;
 }
+
 .duels-health-bar-hp{
     top: 0;
     position: absolute;
@@ -27,4 +38,27 @@
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
     font-weight: bold;
     z-index: 2;
+}
+
+.duels-health-bar-damage{
+    color: var(--plonk-stars-red);
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 1rem;
+    text-shadow:
+        0 0 5px #ff1a1a,
+        0 0 10px #ff1a1a,
+        0 0 20px #ff4d4d,
+        0 0 40px #ff6666;
+}
+
+.duels-health-bar-name{
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    background-color:var(--darkest-blue);
+    font-size: 0.5rem;
+    height: 20%;
+    display: inline-block;    
+    width: auto;
+    border-radius: 0.5rem 1rem 0 0;
 }

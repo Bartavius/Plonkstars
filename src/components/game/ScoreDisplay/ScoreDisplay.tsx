@@ -1,32 +1,30 @@
 import "./ScoreDisplay.css"
 const ScoreDisplay = ({
-    totalScore,
-    roundNumber,
+    display,
 }: {
-    totalScore: number;
-    roundNumber: number;
+    display: [{key:string,value:string}, {key:string,value:string}]
 }) => {
     return (
         <div className="score-wrapper">
             <div className="score-box">
                 <div className="text-center inline p-6">
                     <div className="text-red font-bold">
-                        <b>SCORE</b>
+                        <b>{display[0].key}</b>
                     </div>
                     <div>
                         <b className="text-2xl text-white">
-                            {totalScore}
+                            {display[0].value}
                         </b>
                     </div>
                 </div>
 
                 <div className="text-center inline p-6">
                     <div className="text-red font-bold">
-                        <b>ROUND</b>
+                        <b>{display[1].key}</b>
                     </div>
                     <div>
                         <b className="text-2xl text-white">
-                            {roundNumber}
+                            {display[1].value}
                         </b>
                     </div>
                 </div>
