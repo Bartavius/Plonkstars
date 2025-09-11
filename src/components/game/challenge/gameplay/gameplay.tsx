@@ -108,7 +108,7 @@ export default function GamePlay({
 
   return (
     <div color="bg-dark">
-      <div className="absolute w-full h-full">
+      <div className="absolute w-full">
         <GamePanel
           time={time}
           timeLimit={timeLimit}
