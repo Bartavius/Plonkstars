@@ -108,13 +108,15 @@ export default function GamePlay({
 
   return (
     <div color="bg-dark">
-      <GamePanel
-        time={time}
-        timeLimit={timeLimit}
-        timeoutFunction={onTimeout}
-        offset={offset}
-        display={[{key:"SCORE",value:totalScore.toString()},{key:"ROUND", value:roundNumber.toString()}]}
-      />
+      <div className="absolute w-full h-full">
+        <GamePanel
+          time={time}
+          timeLimit={timeLimit}
+          timeoutFunction={onTimeout}
+          offset={offset}
+          display={[{key:"SCORE",value:totalScore.toString()},{key:"ROUND", value:roundNumber.toString()}]}
+        />
+      </div>
       <div className="streetview-map-container">
         <CombinedMap
           correctLat={correctLat}
