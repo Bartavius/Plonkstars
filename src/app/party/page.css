@@ -274,12 +274,12 @@
     text-align: center;
     width: 100%;
     font-size: 1.2rem;
-    -webkit-text-stroke: 2px black;
+    /* -webkit-text-stroke: 2px black;
     text-shadow:
         2px 2px 0 black,
         -2px 2px 0 black,
         2px -2px 0 black,
-        -2px -2px 0 black;
+        -2px -2px 0 black; */
 }
 
 .party-page-footer-content-left{
