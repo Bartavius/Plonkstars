@@ -180,7 +180,7 @@ export default function AvatarCustom({
             ))}
           </div>
 
-          <div className="flex w-full bg-red rounded-lg p-3">
+          <div className="flex w-full bg-red rounded-lg p-3 max-h-[70vh]">
             {renderTabContent(selectedTab)}
           </div>
 
