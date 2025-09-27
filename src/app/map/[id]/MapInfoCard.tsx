@@ -153,7 +153,7 @@ export default function MapInfoCard({
                 </div>
             }
         </div>
-        <div className="map-info-creator">Made by: <span className="map-info-creator-name">{stats.creator.username}</span></div>
+        <div className="map-info-creator">Made by: <span className="map-info-creator-name">{stats.creator}</span></div>
         <div className="map-info-description-button">
             {description && !editingDescription &&
                 <div className="map-info-description">

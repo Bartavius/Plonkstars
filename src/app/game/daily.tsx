@@ -76,12 +76,12 @@ export default function Daily({
             </div>
             <button
                 disabled={loading}
-                className={`${daily.finished ? "bg-yellow":"game-setup-btn"} w-full py-2 rounded-lg font-semibold dark-hover-button ${
+                className={`${daily.state == "FINISHED" ? "bg-yellow":"game-setup-btn"} w-full py-2 rounded-lg font-semibold dark-hover-button ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={playDaily}
             >
-                {daily.finished?"Leaderboard":daily.playing?"Continue":"Play"}
+                {daily.state == "FINISHED"?"Leaderboard":daily.state == "FINISHED" || daily.state == "GUESSING" ?"Continue":"Play"}
             </button>
             </>:<div className="w-full h-full flex justify-center items-center">Loading...</div>
             }

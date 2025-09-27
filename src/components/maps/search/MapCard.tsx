@@ -4,7 +4,7 @@ import colorGradient from "@/components/colorGradient";
 import "./MapSearch.css";
 interface MapInfo{
     name:String,
-    creator:{username:String}
+    creator:String,
     average_score:number,
     average_generation_time:number,
     total_guesses:number
@@ -49,7 +49,7 @@ const MapCard = ({
                 {map.name}
             </div>
             <div className="map-creator">
-                {map.creator.username}                             
+                {map.creator}                             
             </div>
         </div>
 

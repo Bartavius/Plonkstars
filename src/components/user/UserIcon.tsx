@@ -14,7 +14,10 @@ export default function UserIcon({
     const body = data.body;
   
     return (
-      <div className={className ? className : "w-full h-full"}>
+      <div 
+        className={`${className ? className : "w-full h-full"}`}
+        
+      >
         <div className="relative flex justify-center items-center w-full h-full">
           {/* Base Avatar */}
           <img

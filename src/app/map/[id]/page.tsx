@@ -173,28 +173,29 @@ export default function MapInfoPage(){
     } : {user:"N/A",score:"N/A",distance:-1,time:-1,rounds:"N/A"};
 
     
-    const topGuesses = stats.other.top_guesses ?? {user:{username:"N/A"},stat:"N/A"};
-    const fastestnk = stats.other.fastest_5k ?? stats.other.fastest_nk ?? {user:{username:"N/A"},stat:-1};
+    const topGuesses = stats.other.top_guesses ?? {user:"N/A",stat:"N/A"};
+    const fastestnk = stats.other.fastest_5k ?? stats.other.fastest_nk ?? {user:"N/A",stat:-1};
     const most_5ks = stats.other.most_5ks;
-    const bestScore = stats.other.highest_score ?? {user:{username:"N/A"},stat:"N/A"};
+    const bestScore = stats.other.highest_score ?? {user:"N/A",stat:"N/A"};
 
+    console.log(topGuesses)
     const otherUserStats = {
         name: "Other User Stats",
         cols: [
             {
                 name: "Miscellaneous Stats",
                 items: [
-                    { icon: <BsCapsule/>, title: `Most Addicted: ${topGuesses.user.username}`, stat: topGuesses.stat + (stats.other.top_guesses ? " plonks" : "")},
+                    { icon: <BsCapsule/>, title: `Most Addicted: ${topGuesses.user}`, stat: topGuesses.stat + (stats.other.top_guesses ? " plonks" : "")},
                     { icon: <Md5K/>, title: "Number of 5ks", stat:stats.other["5ks"]},
                     (most_5ks ?
                         (
-                            { icon: <FaMedal/>, title: `Most 5ks: ${most_5ks.user.username}`, stat: most_5ks.stat }
+                            { icon: <FaMedal/>, title: `Most 5ks: ${most_5ks.user}`, stat: most_5ks.stat }
                         ) :
                         (
-                            { icon: <CgRowFirst/>, title: `Best Score: ${fastestnk.user.username}`, stat: bestScore.stat }
+                            { icon: <CgRowFirst/>, title: `Best Score: ${fastestnk.user}`, stat: bestScore.stat }
                         )
                     ),
-                    {icon: <FaRunning/>, title: `Fastest ${most_5ks || bestScore.stat === "N/A" ? "5k" : (Math.floor(bestScore.stat/1000) === 0 ? "Guess" : `${Math.floor(bestScore.stat/1000)}k`)}: ${fastestnk.user.username}`, ...timeString(fastestnk.stat)}
+                    {icon: <FaRunning/>, title: `Fastest ${most_5ks || bestScore.stat === "N/A" ? "5k" : (Math.floor(bestScore.stat/1000) === 0 ? "Guess" : `${Math.floor(bestScore.stat/1000)}k`)}: ${fastestnk.user}`, ...timeString(fastestnk.stat)}
                 ] 
             },
             {

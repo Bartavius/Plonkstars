@@ -40,13 +40,12 @@ export default function challengePage() {
     if (!data){
         return <Loading/>
     }
-    const host = data.host;
     const rules = data.rules;
     const map = data.map;
 
     return (
         <div className="centered-elements">
-            <div className="challenge-title">You got challenged by {host.username}</div>
+            <div className="challenge-title">You got challenged by {data.host}</div>
             <div className="session-info-box">   
                 <MapCard map={map} onClick={()=>{setLoading(true); router.push(`/map/${map.id}`)}}/>
                 <div className="challenge-text">Rounds: {rules.rounds}</div>
