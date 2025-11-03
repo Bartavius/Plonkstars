@@ -1,0 +1,10 @@
+.duels-results-tooltips-name{
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.outlined-text {
+    font-weight: 800;
+    -webkit-text-stroke: 0.25px grey;
+}

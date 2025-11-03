@@ -9,9 +9,15 @@ export default function UserIcon({
       data = data.user_cosmetics;
     }
 
+    function getColor(color: number) {
+        return `#${color.toString(16).padStart(6, "0")}`
+    }
+
     const face = data.face;
     const hat = data.hat;
     const body = data.body;
+    const teamColor = data.team_color ? getColor(data.team_color) : undefined;
+    
   
     return (
       <div 
@@ -23,10 +29,13 @@ export default function UserIcon({
           <img
             src="/PlonkStarsAvatar.png"
             style={{
-              filter: `hue-rotate(${data.hue}deg) saturate(${data.saturation}%) brightness(${data.brightness}%)`,
-            }}
+    filter: `hue-rotate(${data.hue}deg) saturate(${data.saturation}%) brightness(${data.brightness}%) ${teamColor ? `
+      drop-shadow(0px 0px 1px ${teamColor})
+      drop-shadow(0px 0px 2px ${teamColor})
+    ` : ""}`,
+  }}
             alt=""
-            className="w-full h-full"
+            className="w-full h-full pixelated"
           />
   
           {/* faces */}
@@ -42,7 +51,7 @@ export default function UserIcon({
               <img
                 src={`/cosmetics/FACE/${face.image}`}
                 alt={face.item_name}
-                className="object-contain w-full h-full"
+                className="object-contain w-full h-full pixelated"
               />
             </div>
           )}
@@ -60,7 +69,7 @@ export default function UserIcon({
               <img
                 src={`/cosmetics/BODY/${body.image}`}
                 alt={body.item_name}
-                className="object-contain w-full h-full"
+                className="object-contain w-full h-full pixelated"
               />
             </div>
           )}
@@ -78,7 +87,7 @@ export default function UserIcon({
               <img
                 src={`/cosmetics/HAT/${hat.image}`}
                 alt={hat.item_name}
-                className="object-contain w-full h-full"
+                className="object-contain w-full h-full pixelated"
               />
             </div>
           )}

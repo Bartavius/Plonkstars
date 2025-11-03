@@ -70,7 +70,7 @@ export default function DuelsMapResult({
                                 <MapIcon
                                     key={k}
                                     pos={guess}
-                                    customize={users[guess.user].user_cosmetics}
+                                    customize={{...users[guess.user].user_cosmetics,team_color:teams[team]?.color}}
                                     iconUrl="/PlonkStarsAvatar.png"
                                     iconPercent={1.25}
                                 >
@@ -83,7 +83,7 @@ export default function DuelsMapResult({
                             teamGuesses[team][i].length > 0 &&
                                 <MapIcon
                                     pos={teamGuesses[team][i][0]}
-                                    customize={users[teamGuesses[team][i][0].user].user_cosmetics}
+                                    customize={{...users[teamGuesses[team][i][0].user].user_cosmetics,team_color:teams[team]?.color}}
                                     iconUrl="/PlonkStarsAvatar.png"
                                     iconPercent={1.25}
                                 >

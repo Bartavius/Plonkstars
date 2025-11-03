@@ -14,7 +14,7 @@
     height: 80%;
     position: relative;
     border-radius: 0rem 0.5rem 0.5rem 0.5rem;
-    background-color:var(--darkest-blue);
+    /* background-color:var(--darkest-blue); */
     padding: 3px;
 }
 
@@ -55,7 +55,7 @@
 .duels-health-bar-name{
     padding-left: 0.25rem;
     padding-right: 0.25rem;
-    background-color:var(--darkest-blue);
+    /* background-color:var(--darkest-blue); */
     font-size: 0.5rem;
     height: 20%;
     display: inline-block;    
