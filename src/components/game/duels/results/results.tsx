@@ -3,6 +3,8 @@ import DuelsUIOverlay from "../uielement/mapUIOverlay";
 import "@/app/game.css"
 import "../duels.css"
 import "./results.css"
+import GuessFooter from "./teamGuessFooter";
+import { use, useEffect, useState } from "react";
 
 export default function DuelsResults({
     teamGuesses,
@@ -14,6 +16,8 @@ export default function DuelsResults({
     multi,
     thisUser,
     teamHP,
+    timeOffset,
+    nextRoundTime
 }:{
     teamGuesses:{[key:string]:any},
     location:{lat:number,lng:number},
@@ -24,7 +28,19 @@ export default function DuelsResults({
     multi:number,
     thisUser: string,
     teamHP: {[key: string]: {hp:number,prev_hp:number}},
+    timeOffset: number,
+    nextRoundTime: Date,
 }){
+    const [timeLeft, setTimeLeft] = useState<number>(Math.max(0,nextRoundTime.getTime() - (new Date().getTime() + timeOffset)));
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const now = new Date().getTime() + timeOffset;
+            setTimeLeft(Math.max(0,nextRoundTime.getTime() - now)/1000);
+        }, 100);
+        return () => clearInterval(interval);
+    },[])
+
     const guesses = Object.keys(teamGuesses).reduce((acc,teamId:string) => {
         acc[teamId] = [teamGuesses[teamId]]
         return acc
@@ -97,15 +113,20 @@ export default function DuelsResults({
                     createTooltips={createTooltips}
                 />
             </div>
-            <div className="footer-grid">
-                <div>
-                    a
+            <div className="duels-results-footer-grid">
+                <div className="duels-results-footer-item col-span-2">
+                    <GuessFooter team={teams[leftTeam]} bestGuess={teamGuesses[leftTeam][0]} bestGuessUserCosmetics={users[teamGuesses[leftTeam][0]?.user]?.user_cosmetics}/>
                 </div>
-                <div>
-                    a
+                <div className="duels-results-footer-item-center">
+                    <div className="duels-results-footer-timer-header">
+                        Next Round in: 
+                    </div>
+                    <div className="duels-results-footer-timer">
+                        {Math.round(timeLeft)}
+                    </div>
                 </div>
-                <div>
-                    a
+                <div className="duels-results-footer-item col-span-2">
+                    <GuessFooter team={teams[rightTeam]} bestGuess={teamGuesses[rightTeam][0]} bestGuessUserCosmetics={users[teamGuesses[rightTeam][0]?.user]?.user_cosmetics}/>
                 </div>
             </div>
         </div>
