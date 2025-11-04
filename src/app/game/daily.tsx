@@ -35,7 +35,6 @@ export default function Daily({
         router.push(`/game/${daily.id}/join`);
       }
 
-    console.log(daily)
 
     return (
         <div className="w-full px-4 relative">

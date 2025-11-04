@@ -32,7 +32,7 @@ export default function DuelsUIOverlay({
     rightTeam: string,
 
 }) {
-    const thisTeam = users[thisUser].team ?? Object.keys(teams).reduce((bestTeam: string | undefined, team) => {
+    const thisTeam = users[thisUser]?.team ?? Object.keys(teams).reduce((bestTeam: string | undefined, team) => {
         if(!bestTeam){
             return team;
         }

@@ -57,8 +57,6 @@ export default function PartyPage() {
             },
             message:(data)=>console.log(data),
             add_user:(data)=>{
-                console.log("User added", data);
-                console.log(users);
                 setUsers((prev:any) => ({
                     ...prev,
                     [data.username]: data,
@@ -144,7 +142,6 @@ export default function PartyPage() {
             return acc;
         }, {});
         setUsers(members);
-        console.log(members);
         setHost(users.data.host);
         setThisUser(users.data.this);
         const rules = await api.get(`/party/rules?code=${code}`);

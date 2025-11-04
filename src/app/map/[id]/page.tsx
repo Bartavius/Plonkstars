@@ -178,7 +178,6 @@ export default function MapInfoPage(){
     const most_5ks = stats.other.most_5ks;
     const bestScore = stats.other.highest_score ?? {user:"N/A",stat:"N/A"};
 
-    console.log(topGuesses)
     const otherUserStats = {
         name: "Other User Stats",
         cols: [

@@ -74,8 +74,6 @@ export default function DuelsResults({
     };
 
 
-    console.log(teamGuesses[leftTeam],teamGuesses[rightTeam]);
-    console.log(users);
 
     return (
         <div>
@@ -87,7 +85,7 @@ export default function DuelsResults({
                 users={users} 
                 thisUser={thisUser} 
                 teamHP={teamHP} 
-                leftTeam={thisTeam} 
+                leftTeam={leftTeam} 
                 rightTeam={rightTeam}
             />
             <div className="duels-results-map-container">

@@ -26,7 +26,6 @@ export default function DuelsSummaryPage() {
             setState(state.data.state);
 
             const res = await api.get(`/game/summary?id=${id}`);
-            console.log(res.data);
             setLocations(res.data.rounds);
 
             const teams = res.data.teams.reduce((acc: any, item: any) => {
@@ -71,8 +70,6 @@ export default function DuelsSummaryPage() {
     if(loading) {
         return <Loading/>;
     }
-    console.log(teamGuesses);
-    console.log(teamHP);
     return (
         <ProtectedRoutes>
             <DuelsSummary

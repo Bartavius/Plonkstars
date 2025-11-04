@@ -31,7 +31,6 @@ export default function DuelsResultsPage() {
             setState(state.data.state);
 
             const res = await api.get(`/game/results?id=${id}`);
-            console.log(res.data);
             setLocation({lat:res.data.lat,lng:res.data.lng});
             setStartHP(res.data.start_hp);
             setRoundNumber(res.data.round_number);
@@ -84,8 +83,6 @@ export default function DuelsResultsPage() {
     if (loading) {
         return <Loading/>
     }
-
-    console.log({teamGuesses,location,users,teams,startHP,roundNumber,thisUser,teamHP,multi});
 
     return (
         <ProtectedRoutes>
