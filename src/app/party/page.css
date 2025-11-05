@@ -451,6 +451,7 @@
     violet,
     red
   );
+  background-color: var(--color-green);
   background-size: 400% 100%;
   animation: rainbow 8s linear infinite;
   cursor: pointer;
