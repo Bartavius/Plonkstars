@@ -15,7 +15,9 @@ const errorSlice = createSlice({
     initialState,
     reducers: {
         setError(state, action: PayloadAction<string>) {
-            state.error = action.payload;
+            if(state.error === undefined){
+                state.error = action.payload;
+            }
         },
         clearError(state) {
             state.error = undefined;

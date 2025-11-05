@@ -28,11 +28,12 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         dispatch(clearError());
-        dispatch(clearBlockedURL());
     },[dispatch])
 
+    console.log("Blocked URL:", blockedURL);
     useEffect(() => {
         if (isAuthenticated) {
+            dispatch(clearBlockedURL());
             router.push(blockedURL);
         }
     },[isAuthenticated])

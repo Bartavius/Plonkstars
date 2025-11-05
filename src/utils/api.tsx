@@ -29,10 +29,10 @@ api.interceptors.response.use(
     if (error.response?.status === 403 && error.response?.data?.error === "login required") {
       const attemptedUrl = window.location.pathname;
       if(store.getState().auth.isAuthenticated) {
-        store.dispatch(setError("Session expired."));
+        store.dispatch(setError("Session expired"));
       }
       else{
-        store.dispatch(setError("Login required."));
+        store.dispatch(setError("Login required"));
       }
       store.dispatch(setBlockedURL(attemptedUrl)); 
       store.dispatch(logout());
