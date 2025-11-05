@@ -5,6 +5,7 @@ import MapSearch from "@/components/maps/search/MapSearch"
 import { useState } from "react";
 import "./page.css";
 import api from "@/utils/api";
+import ProtectedRoutes from "../ProtectedRoutes";
 
 export default function MapMainPage() {
     const [loading, setLoading] = useState<boolean>(false);
@@ -30,7 +31,7 @@ export default function MapMainPage() {
 
 
     return (
-        <div>
+        <ProtectedRoutes>
             <div className="navbar-buffer"/>
             <div className="map-page-header">Create a Map</div>
             <div className="search-bar-wrapper p-4">
@@ -61,6 +62,6 @@ export default function MapMainPage() {
             </div>
             <div className="map-page-header">Map Search</div>
             <MapSearch mapSelect={mapSelect}/>
-        </div>
+        </ProtectedRoutes>
     )
 }

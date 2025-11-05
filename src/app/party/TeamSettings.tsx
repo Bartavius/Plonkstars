@@ -19,6 +19,7 @@ export default function TeamSettings({
     const [name, setName] = useState<string>(teamInfo.name);
 
     const nameRef = useRef<HTMLInputElement | null>(null);
+    const numColors = (16**6 + 1);
     
     async function saveChanges() {
         await api.post(`/party/teams/update`, {...localSettings, name: name.trim()});
@@ -95,7 +96,10 @@ export default function TeamSettings({
                         onChange={(e) => setLocalSettings({...localSettings, color: parseInt(e.target.value.slice(1), 16)})}
                         className="party-page-team-settings-color-picker" 
                     />
-                    <button className="party-page-team-button party-page-team-settings-color-reset" onClick={() => setLocalSettings({...localSettings, color:teamInfo.color})}>Reset Color</button>
+                    <div className="party-page-team-settings-color-buttons">
+                        <button className="party-page-team-button party-page-team-settings-color-random" onClick={() => setLocalSettings({...localSettings, color: Math.floor(Math.random() * numColors)})}>Random Color</button>
+                        <button className="party-page-team-button party-page-team-settings-color-reset" onClick={() => setLocalSettings({...localSettings, color:teamInfo.color})}>Reset Color</button>
+                    </div>
                 </div>
             </div>
             <div className="party-page-team-settings-buttons">

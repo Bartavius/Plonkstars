@@ -7,6 +7,7 @@ import "../page.css";
 import "./page.css";
 import api from "@/utils/api";
 import Loading from "@/components/loading";
+import ProtectedRoutes from "@/app/ProtectedRoutes";
 
 export default function DeletePage(){
     const [loading,setLoading] = useState(false); 
@@ -51,7 +52,8 @@ export default function DeletePage(){
     }
     
     return (
-        <div className="relative h-[80vh]">
+        <ProtectedRoutes>
+            <div className="relative h-[80vh]">
                 <div className="navbar-buffer"/>
                 <button disabled={loading} className="map-search-back-button" onClick={goBack}>
                     <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
@@ -67,6 +69,7 @@ export default function DeletePage(){
                         {data.name === input && <button className="delete-map-button" onClick={deleteMap} disabled={loading}>Delete Map</button>}
                     </div>
                 </div>
-        </div>
+            </div>
+        </ProtectedRoutes>
     )
 }

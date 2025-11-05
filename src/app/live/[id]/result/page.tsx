@@ -74,7 +74,7 @@ export default function GameResultPage() {
 
 
   if (preload) {
-    return <Loading />;
+    return <ProtectedRoutes><Loading /></ProtectedRoutes>
   }
 
   const centerText = isHost ? (loading?<div>Loading next round...</div>:undefined) : <div>Waiting for host...</div>

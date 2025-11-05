@@ -7,6 +7,7 @@ import { CosmeticTiers } from "@/types/CosmeticTiers";
 import api from "@/utils/api";
 import { useEffect, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
+import ProtectedRoutes from "@/app/ProtectedRoutes";
 
 export default function Page() {
   const [message, _setMessage] = useState<React.ReactNode>();
@@ -53,10 +54,10 @@ export default function Page() {
     fetchCrates();
   },[]);
 
-  if (!crates) return <Loading />;
+  if (!crates) return <ProtectedRoutes><Loading /></ProtectedRoutes>;
 
   return (
-    <div>
+    <ProtectedRoutes>
       <div className="navbar-buffer" />
       <Popup update={update} type={type === "success" ? null: type}>
         {message}
@@ -112,7 +113,7 @@ export default function Page() {
           ))}
         </div>
       </div>
-    </div>
+    </ProtectedRoutes>
   );
 }
 

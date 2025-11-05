@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setPartyCode } from "@/redux/partySlice";
 import { setError } from "@/redux/errorSlice";
 import joinParty from "./join";
+import ProtectedRoutes from "@/app/ProtectedRoutes";
 
 export default function JoinParty() {
     const searchParams = useSearchParams();
@@ -23,5 +24,5 @@ export default function JoinParty() {
         });
     },[])
 
-    return <Loading/>
+    return <ProtectedRoutes><Loading/></ProtectedRoutes>
 }

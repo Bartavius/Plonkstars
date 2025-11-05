@@ -99,7 +99,7 @@ export default function SummaryPage() {
   }, [isHost]);
 
   if (!data || isHost === undefined) {
-    return <Loading/>;
+    return <ProtectedRoutes><Loading /></ProtectedRoutes>;
   }
 
   return (

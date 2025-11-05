@@ -19,6 +19,7 @@ import StatBox from "./StatBox";
 import Loading from "@/components/loading";
 import { BsCapsule } from "react-icons/bs";
 import MapInfoCard from "./MapInfoCard";
+import ProtectedRoutes from "@/app/ProtectedRoutes";
 
 interface Location {
     lat:number,
@@ -102,7 +103,7 @@ export default function MapInfoPage(){
 
 
     if (!stats || permission === undefined) {
-        return <Loading/>;
+        return <ProtectedRoutes><Loading/></ProtectedRoutes>;
     }
 
     const mapStats = stats.map_stats
@@ -211,36 +212,38 @@ export default function MapInfoPage(){
     }
 
     return (
-        <div className="relative">
-            <div className="navbar-buffer"/>
-            <button disabled={loading} className="map-search-back-button" onClick={goBack}>
-                <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
-            </button>
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-                className="map-info-card-wrapper"
-            >
-                <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
-                    <button disabled={loading} className="map-leaderboard-button map-info-button dark-hover-button gray-disabled" onClick={mapLeaderboard}>
-                        <FaMedal className="map-info-button-icon"/>
-                        Leaderboard
-                    </button>
-                </MapInfoCard>
-            </motion.div>
-            <StatBox mapStats={displayMapStats}/>
-            <StatBox mapStats={displayUserStats}/>
-            <StatBox mapStats={otherUserStats}/>
-            <div className="map-info-container">
-                <div className="map-info-box">
-                    <div className="map-info-header">Map Preview</div> 
-                    <div className="map-preview-container">
-                        {!bounds && <div className="h-[60vh] relative"><Loading/></div>}
-                        {bounds && <MapPreview bounds={bounds} iconClick={true}/>}
+        <ProtectedRoutes>
+            <div className="relative">
+                <div className="navbar-buffer"/>
+                <button disabled={loading} className="map-search-back-button" onClick={goBack}>
+                    <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
+                </button>
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1 }}
+                    className="map-info-card-wrapper"
+                >
+                    <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
+                        <button disabled={loading} className="map-leaderboard-button map-info-button dark-hover-button gray-disabled" onClick={mapLeaderboard}>
+                            <FaMedal className="map-info-button-icon"/>
+                            Leaderboard
+                        </button>
+                    </MapInfoCard>
+                </motion.div>
+                <StatBox mapStats={displayMapStats}/>
+                <StatBox mapStats={displayUserStats}/>
+                <StatBox mapStats={otherUserStats}/>
+                <div className="map-info-container">
+                    <div className="map-info-box">
+                        <div className="map-info-header">Map Preview</div> 
+                        <div className="map-preview-container">
+                            {!bounds && <div className="h-[60vh] relative"><Loading/></div>}
+                            {bounds && <MapPreview bounds={bounds} iconClick={true}/>}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </ProtectedRoutes>
     );
 }

@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import api from "@/utils/api";
 import Loading from "@/components/loading";
 import MapInfoCard from "../MapInfoCard";
+import ProtectedRoutes from "@/app/ProtectedRoutes";
 
 export default function MapLeaderboardPage(){
     const [stats, setStats] = useState<any>();
@@ -50,32 +51,34 @@ export default function MapLeaderboardPage(){
     }
 
     return (
-        <div className="relative">
-            <div className="navbar-buffer"/>
-            <button disabled={loading} className="map-search-back-button" onClick={goBack}>
-                <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
-            </button>
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-                className="map-info-card-wrapper"
-            >
-                <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
-                    <button disabled={loading} className="map-leaderboard-button map-info-button dark-hover-button gray-disabled" onClick={mapStats}>
-                        <IoIosStats className="map-info-button-icon"/>
-                        Stats
-                    </button>
-                </MapInfoCard>
-            </motion.div>
-            <div className="title-header-wrapper">
-                <div className="title-header">Leaderboard</div>
-            </div>
-            <div className="map-leaderboard-wrapper">
-                <div className="map-leaderboard-box relative">
-                    <MapLeaderboard mapID={mapID.toString()}/>
+        <ProtectedRoutes>
+            <div className="relative">
+                <div className="navbar-buffer"/>
+                <button disabled={loading} className="map-search-back-button" onClick={goBack}>
+                    <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
+                </button>
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1 }}
+                    className="map-info-card-wrapper"
+                >
+                    <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
+                        <button disabled={loading} className="map-leaderboard-button map-info-button dark-hover-button gray-disabled" onClick={mapStats}>
+                            <IoIosStats className="map-info-button-icon"/>
+                            Stats
+                        </button>
+                    </MapInfoCard>
+                </motion.div>
+                <div className="title-header-wrapper">
+                    <div className="title-header">Leaderboard</div>
+                </div>
+                <div className="map-leaderboard-wrapper">
+                    <div className="map-leaderboard-box relative">
+                        <MapLeaderboard mapID={mapID.toString()}/>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ProtectedRoutes>
     )
 }

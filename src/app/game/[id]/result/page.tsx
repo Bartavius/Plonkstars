@@ -59,7 +59,7 @@ export default function GameResultPage() {
   }
 
   if (preloading || loading) {
-    return <Loading />;
+    return <ProtectedRoutes><Loading /></ProtectedRoutes>;
   }
 
   return (
