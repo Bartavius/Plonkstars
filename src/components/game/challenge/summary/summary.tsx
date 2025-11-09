@@ -118,6 +118,7 @@ export default function Summary({
               users: leaderboard? displayedGuesses[index]: [userDisplay[index]],
             };
           })}
+          user={user}
           height={mapHeight}
         />
       </div>
