@@ -51,7 +51,7 @@ export default function UserIcon({
               <img
                 src={`/cosmetics/FACE/${face.image}`}
                 alt={face.item_name}
-                className="object-contain w-full h-full pixelated"
+                className="object-contain w-full h-full pixelated aspect-square"
               />
             </div>
           )}
@@ -69,7 +69,7 @@ export default function UserIcon({
               <img
                 src={`/cosmetics/BODY/${body.image}`}
                 alt={body.item_name}
-                className="object-contain w-full h-full pixelated"
+                className="object-contain w-full h-full pixelated aspect-square"
               />
             </div>
           )}
@@ -87,7 +87,7 @@ export default function UserIcon({
               <img
                 src={`/cosmetics/HAT/${hat.image}`}
                 alt={hat.item_name}
-                className="object-contain w-full h-full pixelated"
+                className="object-contain w-full h-full pixelated aspect-square"
               />
             </div>
           )}

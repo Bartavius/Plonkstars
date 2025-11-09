@@ -290,7 +290,7 @@ input[type="range"].slider::-moz-range-thumb {
   cursor: pointer;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .avatar-customizer-container {
     flex-direction: column;
     gap: 20px;

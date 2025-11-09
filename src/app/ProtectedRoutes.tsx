@@ -2,7 +2,7 @@
 import { setBlockedURL, setError } from "@/redux/errorSlice";
 import { isAuthenticated, isDemo } from "@/utils/auth";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export default function ProtectedRoutes({
     children, 
@@ -15,7 +15,7 @@ export default function ProtectedRoutes({
     const demo = isDemo();
     const dispatch = useDispatch();
     const router = useRouter();
-    if (isAuthenticated() === false || (allowDemo === false && demo)) {
+    if (isAuth === false || (allowDemo === false && demo)) {
         if ((allowDemo === false && demo)){
             dispatch(setError("Login to access this feature"));
         }
