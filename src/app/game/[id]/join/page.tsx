@@ -38,7 +38,7 @@ export default function JoinGame() {
         joinGame();
     }, []);
     return (
-        <ProtectedRoutes>
+        <ProtectedRoutes allowDemo={true}>
             <Loading/>
         </ProtectedRoutes>
     );

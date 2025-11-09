@@ -20,6 +20,7 @@ import Loading from "@/components/loading";
 import { BsCapsule } from "react-icons/bs";
 import MapInfoCard from "./MapInfoCard";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
+import { isDemo } from "@/utils/auth";
 
 interface Location {
     lat:number,
@@ -40,14 +41,21 @@ export default function MapInfoPage(){
     const [topScore, setTopScore] = useState<any>();
     const [permission, setPermission] = useState<number>(0);
 
+
+    const demo = isDemo();
     const mapID = params.id;
 
     const getMapInfo = async () => {
         try {
             const stats = await api.get(`/map/stats?id=${mapID}`);
             setStats(stats.data);
-            const permission = await api.get(`/map/edit?id=${mapID}`);
-            setPermission(permission.data.permission);
+            if (demo){
+                setPermission(0);
+            }
+            else{
+                const permission = await api.get(`/map/edit?id=${mapID}`);
+                setPermission(permission.data.permission);
+            }
 
             const response = await api.get(`/map/leaderboard?id=${mapID}&page=1&per_page=1`);
             if (response.data.data.length !== 0) {
@@ -103,7 +111,7 @@ export default function MapInfoPage(){
 
 
     if (!stats || permission === undefined) {
-        return <ProtectedRoutes><Loading/></ProtectedRoutes>;
+        return <ProtectedRoutes allowDemo={true}><Loading/></ProtectedRoutes>;
     }
 
     const mapStats = stats.map_stats
@@ -212,7 +220,7 @@ export default function MapInfoPage(){
     }
 
     return (
-        <ProtectedRoutes>
+        <ProtectedRoutes allowDemo={true}>
             <div className="relative">
                 <div className="navbar-buffer"/>
                 <button disabled={loading} className="map-search-back-button" onClick={goBack}>
@@ -232,7 +240,7 @@ export default function MapInfoPage(){
                     </MapInfoCard>
                 </motion.div>
                 <StatBox mapStats={displayMapStats}/>
-                <StatBox mapStats={displayUserStats}/>
+                <StatBox mapStats={displayUserStats} demoBlur={true} demo={demo}/>
                 <StatBox mapStats={otherUserStats}/>
                 <div className="map-info-container">
                     <div className="map-info-box">

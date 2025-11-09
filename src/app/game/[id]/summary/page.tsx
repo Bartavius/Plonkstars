@@ -12,6 +12,8 @@ import Popup from "@/components/Popup";
 import { CgCopy } from "react-icons/cg";
 import { FaMedal } from "react-icons/fa";
 import { IoIosStats } from "react-icons/io";
+import { isDemo } from "@/utils/auth";
+import LoginTooltipWrapper from "@/components/LoginTooltipWrapper";
 
 interface Location {
   lat: number;
@@ -32,6 +34,9 @@ export default function SummaryPage() {
   const params = useParams();
   const router = useRouter();
   const challengeLink = `${window.location.origin}/game/${params.id}/challenge`;
+
+  const demo = isDemo();
+  const demoAvatar = useSelector((state: any) => state.demoAvatar);
 
 
   const startNewGame = async () => {
@@ -70,8 +75,13 @@ export default function SummaryPage() {
         setUser(res.data.this_user);
         setData(res.data);
 
-        const isHost = await api.get(`/session/host?id=${params.id}`);
-        setIsHost(isHost.data.is_host);
+        if (demo) {
+          setIsHost(true);
+        }
+        else {
+          const isHost = await api.get(`/session/host?id=${params.id}`);
+          setIsHost(isHost.data.is_host);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -99,16 +109,21 @@ export default function SummaryPage() {
   }, [isHost]);
 
   if (!data || isHost === undefined) {
-    return <ProtectedRoutes><Loading /></ProtectedRoutes>;
+    return <ProtectedRoutes allowDemo={true}><Loading /></ProtectedRoutes>;
   }
-
+ 
   return (
-    <ProtectedRoutes>
+    <ProtectedRoutes allowDemo={true}>
       <Popup update={update}>
         {update=== 0? undefined: "Link Copied"}
       </Popup>
       <div className="summary-container">
-        <Summary locations={locations} data={data.users} user={user} leaderboard={leaderboard}>
+        <Summary 
+          locations={locations} 
+          data={data.users.map((((user:any) => user.user.username === 'demo' && demo ? {...user, user: {...user.user, user_cosmetics: demoAvatar}} : user)))} 
+          user={user} 
+          leaderboard={leaderboard}
+        >
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
               {isHost &&
@@ -141,14 +156,16 @@ export default function SummaryPage() {
                 {challengeLink}
               </div>
               {!showLink && 
-              <button className={`link-button`} onClick={()=>setShowLink(true)} title="Challenge Link">
-                <ImLink/>
-              </button>
+                <LoginTooltipWrapper demo={demo} message="Create an account to challenge your friends!">
+                  <button disabled={demo} className={`link-button`} onClick={()=>setShowLink(true)} title="Challenge Link">
+                    <ImLink/>
+                  </button>
+                </LoginTooltipWrapper>
               }
               {showLink &&
-              <button className={`link-button copy-link-button`} onClick={copyLink} title="Copy Link">
-                <CgCopy/>
-              </button>
+                <button className={`link-button copy-link-button`} onClick={copyLink} title="Copy Link">
+                  <CgCopy/>
+                </button>
               }
               {isHost ?
                 <button className="ml-1 btn-primary" onClick={startNewGame}>

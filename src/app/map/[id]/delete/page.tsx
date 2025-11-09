@@ -48,7 +48,7 @@ export default function DeletePage(){
     },[]);
 
     if(!data){
-        return <Loading/>;
+        return <ProtectedRoutes><Loading/></ProtectedRoutes>;
     }
     
     return (

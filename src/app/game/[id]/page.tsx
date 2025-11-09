@@ -4,8 +4,10 @@ import GamePlay from "@/components/game/challenge/gameplay/gameplay";
 import Loading from "@/components/loading";
 import calculateOffset from "@/components/time";
 import api from "@/utils/api";
+import { isDemo } from "@/utils/auth";
 import { useRouter,useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
+import { useSelector } from "react-redux";
 
 export default function Page() {
   const [data,setData] = useState<any>();
@@ -19,6 +21,8 @@ export default function Page() {
   const router = useRouter();
   const params = useParams();
   const id = params.id;
+  const demo = isDemo();
+  const demoAvatar = useSelector((state:any) => state.demoAvatar);
 
   async function pushCorrect(data:any){
     if (data.state === "RESULTS") {
@@ -59,8 +63,14 @@ export default function Page() {
         const offset = await calculateOffset(getRound);
         setOffset(offset);
 
-        const cosmetics = await api.get("/account/avatar");
-        setCosmetics(cosmetics.data.user_cosmetics);
+        
+        if(demo){
+          setCosmetics(demoAvatar);
+        }
+        else{
+          const cosmetics = await api.get("/account/avatar");
+          setCosmetics(cosmetics.data.user_cosmetics);
+        }
 
         setLoading(false);
       } catch (err: any) {
@@ -77,11 +87,11 @@ export default function Page() {
   }, []);
 
   if (loading) {
-    return <ProtectedRoutes><Loading /></ProtectedRoutes>;
+    return <ProtectedRoutes allowDemo={true}><Loading /></ProtectedRoutes>;
   }
 
   return (
-    <ProtectedRoutes>
+    <ProtectedRoutes allowDemo={true}>
       <GamePlay 
         userLat={userLat}
         userLng={userLng}

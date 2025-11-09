@@ -198,7 +198,7 @@ export default function PartyPage() {
         setMessage("Copied Party Link","info");
     }
 
-    function setSingleRules(key: string, value: any) {
+    function setSingleRule(key: string, value: any) {
         setLocalRules((prev: any) => ({
             ...prev,
             [key]: value
@@ -240,7 +240,7 @@ export default function PartyPage() {
     }, []);
 
     if (loading) {
-        return <Loading/>
+        return <ProtectedRoutes><Loading/></ProtectedRoutes>
     }
 
     const displayRules = {
@@ -310,7 +310,7 @@ export default function PartyPage() {
                                     data={data}
                                     value={localRules ? localRules[data.key] : undefined}
                                     setError={(error) => setMessage(error,"error")}
-                                    setInput={(input: any) => setSingleRules(data.key, input)}
+                                    setInput={(input: any) => setSingleRule(data.key, input)}
                                     editable={isHost}
                                 />
                             </div>

@@ -323,3 +323,7 @@
     color: var(--plonk-stars-red);
     cursor: pointer;
 }
+
+.map-stat-box-blurred {
+    filter: blur(8px);
+}

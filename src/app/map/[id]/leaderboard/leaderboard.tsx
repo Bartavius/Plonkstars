@@ -8,6 +8,7 @@ import api from "@/utils/api";
 import { FaArrowRight } from "react-icons/fa";
 
 import "./page.css";
+import { isDemo } from "@/utils/auth";
 
 export default function MapLeaderboard({ mapID }: { mapID: string }) {
   const [leaderboard, setLeaderboard] = useState<any[]>();
@@ -18,6 +19,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
   const resultsPerPage = 20;
 
   const router = useRouter();
+  const demo = isDemo();
 
   const distanceString = (distance: number) => {
     if (distance < 0) return "N/A";
@@ -40,7 +42,8 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
 
   const getLeaderboard = async () => {
     try {
-      const user = await api.get("/account/avatar");
+
+      const user = demo? {data:{username:"demo"}} : await api.get("/account/avatar");
 
       const response = await api.get(
         `/map/leaderboard?id=${mapID}&per_page=${resultsPerPage}&page=${page}&nmpz=${NMPZ}`
@@ -106,6 +109,7 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
         data={leaderboard}
         onClickRow={topGame}
       />
+      
       <div className="flex justify-between">
         {page != 1 ? (
           <button onClick={() => setPage(page - 1)} className="btn next-button">
@@ -122,6 +126,9 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
           <div></div>
         )}
       </div>
+      {
+        demo && <div className="map-leaderboard-demo-text">Login to get on the leaderboard</div>
+      }
     </div>
   );
 }

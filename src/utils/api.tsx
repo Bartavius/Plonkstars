@@ -1,9 +1,8 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
-import { logout } from '@/redux/authSlice';
 import { redirect } from 'next/navigation';
 import { setBlockedURL, setError } from '@/redux/errorSlice';
 import { store } from '@/redux/store';
+import { logout, isAuthenticated, getToken, isDemo } from '@/utils/auth';
 
 
 const api = axios.create({
@@ -11,9 +10,14 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = Cookies.get('authToken');
+  const token = getToken();
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    if (token === 'demo') {
+      config.headers.Authorization = 'demo';
+    }
+    else {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
   return config;
 }, (error) => {
@@ -28,14 +32,17 @@ api.interceptors.response.use(
     // Check for 403 status
     if (error.response?.status === 403 && error.response?.data?.error === "login required") {
       const attemptedUrl = window.location.pathname;
-      if(store.getState().auth.isAuthenticated) {
+      if(isAuthenticated()) {
+        if(isDemo()){
+          store.dispatch(setError("Login to access this feature"));
+        }
         store.dispatch(setError("Session expired"));
       }
       else{
         store.dispatch(setError("Login required"));
       }
       store.dispatch(setBlockedURL(attemptedUrl)); 
-      store.dispatch(logout());
+      logout();
       redirect("/account/login");
     }
 

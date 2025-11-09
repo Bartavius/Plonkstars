@@ -60,7 +60,7 @@ export default function Results({
   }, []);
 
   const thisUser = users.find(
-    (user: any) => user.user.username === this_user.username
+    (user: any) => user.user.username === this_user
   );
 
   const distanceString = (distance: number) => {

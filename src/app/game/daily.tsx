@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import DailyTimer from "./DailyTimer";
 import calculateOffset from "@/components/time";
+import { isDemo } from "@/utils/auth";
+import LoginTooltipWrapper from "@/components/LoginTooltipWrapper";
 
 export default function Daily({
     loading,
@@ -11,6 +13,7 @@ export default function Daily({
     loading:boolean
     setLoading: (loading:boolean) => void
 }) {
+    const demo = isDemo();
     const [daily, setDaily] = useState<any>()
     const [offset, setOffset] = useState<number|undefined>(undefined);
     const router = useRouter();
@@ -31,6 +34,10 @@ export default function Daily({
     
       async function playDaily() {
         if (!daily) return;
+        if (demo) {
+            alert("Demo users cannot play the daily challenge.");
+            return;
+        }
         setLoading(true);
         router.push(`/game/${daily.id}/join`);
       }
@@ -39,21 +46,18 @@ export default function Daily({
     return (
         <div className="w-full px-4 relative">
             <h2 className="text-xl font-semibold mb-2 text-center">
-            Daily Challenge
+                Daily Challenge
             </h2>
             { daily && offset != undefined ? 
             <>
             <div className="text-center mb-2 text-lg font-semibold text-white"><DailyTimer time={daily.next} onFinish={fetchDaily} offset={offset}/></div>
-            <label
+            <div
                 className="block mb-2 text-white"
-                htmlFor="map-search-bar"
             >
                 Map Name
-            </label>
+            </div>
             <button
-                className={`bg-dark w-full py-2 rounded-lg font-semibold mb-4 dark-hover-button ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className="bg-dark w-full py-2 rounded-lg font-semibold mb-4 dark-hover-button"
                 disabled={loading}
                 onClick={() => router.push(`/map/${daily.map.id}`)}
             >
@@ -73,15 +77,15 @@ export default function Daily({
             >
                 <b>NMPZ: {daily.rules.NMPZ ? "Yes": "No"}</b>
             </div>
-            <button
-                disabled={loading}
-                className={`${daily.state == "FINISHED" ? "bg-yellow":"game-setup-btn"} w-full py-2 rounded-lg font-semibold dark-hover-button ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-                onClick={playDaily}
-            >
-                {daily.state == "FINISHED"?"Leaderboard":daily.state == "FINISHED" || daily.state == "GUESSING" ?"Continue":"Play"}
-            </button>
+            <LoginTooltipWrapper message="Login to play the daily challenge" demo={demo} className="w-full">
+                <button
+                    disabled={loading || demo}
+                    className={`${daily.state == "FINISHED" ? "bg-yellow":"game-setup-btn"} w-full py-2 rounded-lg font-semibold dark-hover-button`}
+                    onClick={playDaily}
+                >
+                    {daily.state == "FINISHED"?"Leaderboard":daily.state == "FINISHED" || daily.state == "GUESSING" ?"Continue":"Play"}
+                </button>
+            </LoginTooltipWrapper>
             </>:<div className="w-full h-full flex justify-center items-center">Loading...</div>
             }
         </div>

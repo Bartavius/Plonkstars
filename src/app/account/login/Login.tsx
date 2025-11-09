@@ -2,41 +2,41 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, loginFailure } from '@/redux/authSlice';
 import api from '@/utils/api'; 
-import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
 import { useRouter } from "next/navigation";
 import { Sigmar } from "next/font/google";
 import { clearBlockedURL, clearError } from '@/redux/errorSlice';
+import { isAuthenticated,isDemo,login } from '@/utils/auth';
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
-const formTitle = `${sigmar.className} text-white text-4xl`
 
 const Login: React.FC = () => {
     const dispatch = useDispatch();
     const router = useRouter();
     
-    const { isAuthenticated } = useSelector((state: any) => state.auth);
-    const reduxError = useSelector((state:any) => state.error);    
+    const isAuth = isAuthenticated();
+    const demo = isDemo();
+    const reduxError = useSelector((state:any) => state.error);
+    const blockedURL = reduxError.loginRequiredUrl ?? "/";
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [buttonEnabled,setButtonEnabled] = useState(true);
     const [error, setError] = useState<string | undefined>(reduxError.error);
-    const [blockedURL, setBlockedURL] = useState<string>(reduxError.loginRequiredUrl??"/");
+
+    
 
     useEffect(() => {
         dispatch(clearError());
     },[dispatch])
 
-    console.log("Blocked URL:", blockedURL);
     useEffect(() => {
-        if (isAuthenticated) {
+        if (isAuth && !demo) {
             dispatch(clearBlockedURL());
             router.push(blockedURL);
         }
-    },[isAuthenticated])
+    },[isAuth, demo])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,22 +47,14 @@ const Login: React.FC = () => {
                 const response = await api.post('/account/login', {
                     username,
                     password,
-                });
-
+                });        
+                
                 const token = response.data.token;
-        
-                Cookies.set('authToken', token, {
-                    expires: 30,
-                    secure: true,
-                    sameSite: 'Strict',
-                });
-
-                dispatch(loginSuccess(token));
+                login(token);
                 router.push(blockedURL)
             }
         } catch (err: any) {
             setError(err.response?.data?.error || 'Login failed');
-            dispatch(loginFailure(err.response?.data?.error || 'Login failed'));
             setButtonEnabled(true);
         }
     };
@@ -76,7 +68,7 @@ const Login: React.FC = () => {
                 className="w-full max-w-md p-6 form-window shadow-lg rounded-2xl"
             >
             <div className="text-center mb-6">
-                <h2 className={formTitle}>Login</h2>
+                <h2 className={`${sigmar.className} text-white text-4xl`}>Login</h2>
             </div>
             {error && (
                 <motion.div
@@ -113,7 +105,16 @@ const Login: React.FC = () => {
                     />
                 </div>
                 <div className={`${sigmar.className} text-white`}>
-                    To create an account: <a href="/account/register" className='link'>Register here</a>
+                    To create an account:{" "}
+                    <a 
+                        onClick={(e) => {
+                            e.preventDefault(); 
+                            router.push('/account/register');
+                        }} 
+                        className='link'
+                    >
+                        Register here
+                    </a>
                 </div>
                 <button
                     type="submit"
@@ -123,13 +124,21 @@ const Login: React.FC = () => {
                     Sign In
                 </button>
             </form>
-            <div className={`${sigmar.className} text-white/50 text-sm mt-5ç`}>
-                    If you're just looking to try things out, you can login using our demo account,
-                    <br />
-                    <br /> 
-                    <p>username: demo</p>
-                    <p>password: demo</p>
-                </div>      
+            <div className={`${sigmar.className} text-center text-xl`}>
+                OR
+            </div>
+            <div className="text-center">
+                <a
+                    onClick={(e) => {
+                        e.preventDefault();
+                        login('demo');
+                        router.push('/');
+                    }}
+                    className={`${sigmar.className} link`}
+                >
+                    Play without an account
+                </a>
+            </div>
         </motion.div>
     </div>
   );

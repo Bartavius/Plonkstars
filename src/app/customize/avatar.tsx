@@ -8,6 +8,9 @@ import HatSelection from "./selection/hat";
 import BodySelection from "./selection/body";
 import FaceSelection from "./selection/face";
 import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
+import { isDemo } from "@/utils/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { setColor } from "@/redux/demoAvatarSlice";
 
 
 enum Tabs {
@@ -26,37 +29,44 @@ export default function AvatarCustom({
   setMessage: (message: React.ReactNode) => void;
   setType: (type: string) => void;
 }) {
+  const userDemoAvatar = {...useSelector((state:any) => state.demoAvatar), face: null, body: null, hat: null};
   const [userIconDefault, setUserIconDefault] = useState<UserIconCosmetics>({
-    hue: 0,
-    saturation: 150,
-    brightness: 100,
-    face: null,
-    body: null,
-    hat: null,
+    ...userDemoAvatar,
   });
+
   const [userIcon, setUserIcon] = useState<UserIconCosmetics>({
-    hue: userIconDefault.hue,
-    saturation: userIconDefault.saturation,
-    brightness: userIconDefault.brightness,
-    face: userIconDefault.face,
-    body: userIconDefault.body,
-    hat: userIconDefault.hat,
+    ...userIconDefault
   });
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState<Tabs>(Tabs.COLORS);
 
+  const demo = isDemo();
+  const dispatch = useDispatch();
   const saveAvatarChanges = async () => {
-    try {
-      const response = await api.put("/cosmetics/customize", userIcon);
-      setType('success');
-      setMessage(response.data.message);
-    } catch (error: any) {
-      setType('error');
-      if (error.response && error.response.data && error.response.data.error) {
-        
-        setMessage(`${error.response.data.error}`);
-      } else {
-        setMessage("Failed to save avatar changes. Please try again.");
+    if (demo) {
+      console.log(userIcon);
+      if(userIcon.face == null && userIcon.body === null && userIcon.hat === null){
+        dispatch(setColor(userIcon));
+        setType('success');
+        setMessage("Avatar changes saved");
+      }
+      else{
+        setType('error');
+        setMessage("Cannot use cosmetics in demo mode.");
+      }
+    }else{
+      try {
+        const response = await api.put("/cosmetics/customize", userIcon);
+        setType('success');
+        setMessage(response.data.message);
+      } catch (error: any) {
+        setType('error');
+        if (error.response && error.response.data && error.response.data.error) {
+          
+          setMessage(`${error.response.data.error}`);
+        } else {
+          setMessage("Failed to save avatar changes. Please try again.");
+        }
       }
     }
   };
@@ -121,9 +131,13 @@ export default function AvatarCustom({
 
     const fetchEquippedCosmetics = async () => {
       try {
-        const response = await api.get("/account/avatar");
-        const profile = response.data;
-        const data = profile.user_cosmetics;
+        let data;
+        if (demo) {
+          data = userDemoAvatar;
+        } else {
+          const response = await api.get("/account/avatar");
+          data = response.data.user_cosmetics;
+        }
         
         setUserIconDefault({
           hue: data.hue,

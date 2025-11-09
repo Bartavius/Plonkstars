@@ -3,6 +3,9 @@ import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { useRouter } from "next/navigation";
 import { Sigmar } from "next/font/google";
+import { isAuthenticated, isDemo } from '@/utils/auth';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearBlockedURL } from '@/redux/errorSlice';
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
@@ -13,7 +16,18 @@ const Register = () => {
     const [error, setError] = useState<string | null>(null);
     const [buttonEnabled,setButtonEnabled] = useState(true);
     const router = useRouter();
+    const dispatch = useDispatch();
     
+    const isAuth = isAuthenticated();
+    const demo = isDemo();
+
+    const reduxError = useSelector((state:any) => state.error);
+    const blockedURL = reduxError.loginRequiredUrl ?? "/";
+    
+    if (isAuth && !demo) {
+        dispatch(clearBlockedURL());
+        router.push(blockedURL);
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -101,7 +115,16 @@ const Register = () => {
                     </button>
                 </form>
                 <div className={`${sigmar.className} text-white`}>
-                    Already have an account? <a href="/account/login" className='link'>Login here</a>
+                    Already have an account?{" "}
+                    <a 
+                        onClick={(e) => {
+                            e.preventDefault(); 
+                            router.push('/account/login');
+                        }} 
+                        className='link'
+                    >
+                        Login here
+                    </a>
                 </div>
             </motion.div>
         </div>

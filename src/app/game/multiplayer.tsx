@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import joinParty from "@/app/party/join/join";
+import LoginTooltipWrapper from "@/components/LoginTooltipWrapper";
+import { isDemo } from "@/utils/auth";
 
 export default function Multiplayer({
     loading,
@@ -17,6 +19,8 @@ export default function Multiplayer({
     const [input, setInput] = useState<string[]>(["","","",""]);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [isFocused, setIsFocused] = useState(false);
+
+    const demo = isDemo();
 
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -100,15 +104,15 @@ export default function Multiplayer({
             <div className="flex flex-col w-full">
                 <div className="gap-2 flex flex-col items-center w-full mb-10">
                     <div>Start your own party: </div>
-                    <button 
-                        className={`game-setup-btn w-full py-2 rounded-lg font-semibold ${
-                            loading ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
-                        disabled={loading}
-                        onClick={createParty}
-                    >
-                        Create Party
-                    </button>
+                    <LoginTooltipWrapper message="Login to create a party" demo={demo} className="w-full">
+                        <button 
+                            className="game-setup-btn w-full py-2 rounded-lg font-semibold"
+                            disabled={demo || loading}
+                            onClick={createParty}
+                        >
+                            Create Party
+                        </button>
+                    </LoginTooltipWrapper>
                 </div>
                 <div className="gap-2 flex flex-col items-center w-full">
                     <div>Join an existing party: </div>
@@ -122,6 +126,7 @@ export default function Multiplayer({
                        {Array.from({ length: 4 }).map((_, i) => (
                             <input
                                 key={i}
+                                id={`party-code-${i}`}
                                 type="text"
                                 ref={(el) => { inputRefs.current[i] = el; }}
                                 maxLength={1}
@@ -143,7 +148,9 @@ export default function Multiplayer({
                             />
                         ))}
                     </div>
-                    <button className="form-button-general" onClick={joinPartyButton} disabled={loading}>Join Party</button>
+                    <LoginTooltipWrapper message="Login to join a party" demo={demo}>
+                        <button disabled={demo || loading} className="form-button-general" onClick={joinPartyButton}>Join Party</button>
+                    </LoginTooltipWrapper>
                 </div>
             </div>
         </div>

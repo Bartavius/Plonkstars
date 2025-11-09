@@ -16,11 +16,8 @@ import constants from "@/app/constants.json";
 import Popup from "@/components/Popup";
 import Multiplayer from "./multiplayer";
 import Daily from "./daily";
-
-const MIN_ROUNDS = constants.ROUND_MIN_ROUNDS;
-const MAX_ROUNDS = constants.ROUND_MAX_ROUNDS;
-const MIN_TIME = constants.ROUND_MIN_TIME;
-const MAX_TIME = constants.ROUND_MAX_TIME;
+import UserInput from "@/components/party/userInput";
+import Loading from "@/components/loading";
 
 export default function Game() {
   const router = useRouter();
@@ -30,53 +27,53 @@ export default function Game() {
   const errorState = useSelector((state: any) => state.error).error;
 
   const [mapName, setMapName] = useState<string>(lastSetting.mapName);
-  const [mapId, setMapId] = useState<string>(lastSetting.mapId);
-  const [rounds, setRounds] = useState<number>(lastSetting.rounds);
-  const [time, setTime] = useState<number>(lastSetting.seconds);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError_] = useState<string | undefined>(errorState);
-  const [NMPZ, setNMPZ] = useState<boolean>(lastSetting.NMPZ);
   const [update, setUpdate] = useState<number>(0);
+  const [rulesConfig, setRulesConfig] = useState<any>(undefined);
+  const [rules, setRules] = useState<any>(lastSetting);
 
   function setError(error: string) {
     setError_(error);
     setUpdate((prev) => prev + 1);
   }
+
+  useEffect(() => {
+    async function fetchRules(){
+      try {
+        const response = await api.get("/game/rules/config");
+        const responseData = response.data;
+        const nmpz = responseData.filter((rule:any) => rule.key === "nmpz")[0];
+        nmpz.name = <span title="No moving, No panning, No zooming"><b>NMPZ</b><FaQuestionCircle className="ml-2 inline" /></span>;
+        setRulesConfig(responseData);
+        if (lastSetting.map_id === undefined) {
+          const defaultRules = await api.get("/session/default");
+          dispatch(setGameSettings(defaultRules.data));
+          setMapName(defaultRules.data.mapName);
+          setRules(defaultRules.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch rules config:", err);
+      } 
+    };
+    fetchRules();
+  }, []);
+
   useEffect(() => {
     dispatch(clearError());
   }, [dispatch]);
-
-  useEffect(() => {
-    setMapName(lastSetting.mapName);
-    setMapId(lastSetting.mapId);
-    setRounds(lastSetting.rounds);
-    setTime(lastSetting.seconds);
-    setNMPZ(lastSetting.NMPZ);
-  }, [lastSetting]);
 
   const startGame = async (event: React.FormEvent) => {
     event.preventDefault();
     {
       !loading && setLoading(true);
       try {
-        const checkInfRounds =
-          rounds < MIN_ROUNDS || rounds >= MAX_ROUNDS + 1 ? MIN_ROUNDS : rounds;
-        const checkInfTime =
-          time < MIN_TIME || time >= MAX_TIME + 1 ? -1 : time;
-        const response = await api.post("/game/create", {
-          rounds: checkInfRounds,
-          time: checkInfTime,
-          map_id: mapId,
-          nmpz: NMPZ,
-        });
+        const response = await api.post("/game/create", rules);
         dispatch(
           setGameSettings({
+            ...rules,
             mapName: mapName,
-            mapId: mapId,
-            seconds: checkInfTime,
-            rounds: checkInfRounds,
-            NMPZ: NMPZ,
           })
         );
         const { id } = response.data;
@@ -89,14 +86,27 @@ export default function Game() {
     }
   };
 
+  const setSingleRule = (key:string, value:any) =>{
+    setRules((prevRules:any) => ({
+      ...prevRules,
+      [key]: value
+    }));
+
+  }
+
   const addMap = (id: string, name: string) => {
     setIsModalOpen(false);
-    setMapId(id);
+    setSingleRule("map_id", id);
     setMapName(name);
   };
 
+  if(!rules.map_id || !rulesConfig){
+    return <ProtectedRoutes allowDemo={true}><Loading/></ProtectedRoutes>
+  }
+  
+
   return (
-    <ProtectedRoutes>
+    <ProtectedRoutes allowDemo={true}>
       <div className="relative">
       <div className="navbar-buffer md:h-0" />
         <div className="flex items-center justify-center min-h-screen text-white p-6 w-full h-full">
@@ -107,16 +117,13 @@ export default function Game() {
                 Singleplayer
               </h2>
               <div className="mb-4 relative">
-                <label
+                <div
                   className="block mb-2 text-white"
-                  htmlFor="map-search-bar"
                 >
                   Map Name
-                </label>
+                </div>
                 <button
-                  className={`game-setup-btn w-full py-2 rounded-lg font-semibold ${
-                    loading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className="game-setup-btn w-full py-2 rounded-lg font-semibold"
                   disabled={loading}
                   onClick={() => {
                     !loading && setIsModalOpen(true);
@@ -125,61 +132,24 @@ export default function Game() {
                   <FaMagnifyingGlass className="inline" /> {mapName}
                 </button>
               </div>
-              <div className="mb-4">
-                <label className="block mb-2 text-white" htmlFor="round-range">
-                  No. of Rounds: {rounds}
-                </label>
-                <input
-                  className="focus:outline-none input-field cursor-pointer"
-                  style={{ padding: "0px" }}
-                  type="range"
-                  id="round-range"
-                  min={MIN_ROUNDS}
-                  max={MAX_ROUNDS}
-                  step="1"
-                  value={rounds}
-                  onChange={(e) => setRounds(Number(e.target.value))}
-                />
-              </div>
-              <div className="mb-6">
-                <label className="block mb-2 text-white" htmlFor="time-range">
-                  Time Limit:{" "}
-                  {time >= MAX_TIME + 1 || time == -1 ? "Infinite" : `${time}s`}
-                </label>
-                <input
-                  className="text-dark focus:outline-none input-field cursor-pointer"
-                  style={{ padding: "0px" }}
-                  type="range"
-                  id="time-range"
-                  min={MIN_TIME}
-                  max={MAX_TIME + 1}
-                  step="1"
-                  value={time == -1 ? MAX_TIME + 1 : time}
-                  onChange={(e) => setTime(Number(e.target.value))}
-                />
-              </div>
-              <div className="mb-6">
-                <input
-                  type="checkbox"
-                  name="NMPZ-toggle"
-                  id="NMPZ-toggle"
-                  checked={NMPZ}
-                  className="mr-2 cursor-pointer"
-                  onChange={(e) => setNMPZ(e.target.checked)}
-                />
-                <label
-                  htmlFor="NMPZ-toggle"
-                  title="No moving, No panning, No zooming"
-                >
-                  <b>NMPZ</b>
-                  <FaQuestionCircle className="ml-2 inline" />
-                </label>
-              </div>
+              {
+                rulesConfig && rulesConfig.map((data:any) => (
+                  <div className="mb-6" key={data.key}>
+                    <UserInput
+                      key={data.key}
+                      inputType={data.display}
+                      data={data}
+                      value={rules ? rules[data.key] : undefined}
+                      setError={setError}
+                      setInput={(input: any) => setSingleRule(data.key, input)}
+                      editable={true}
+                    />
+                  </div>
+                ))
+              }
               <button
                 disabled={loading}
-                className={`game-setup-btn w-full py-2 rounded-lg font-semibold ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className="game-setup-btn w-full py-2 rounded-lg font-semibold"
                 onClick={startGame}
               >
                 Start Game

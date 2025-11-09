@@ -183,7 +183,7 @@ export default function EditMapPage() {
         router.push(`/map/${MAPID}`);
     }
 
-    if(loading) return <Loading/>;
+    if(loading) return <ProtectedRoutes><Loading/></ProtectedRoutes>;
 
     return (
         <ProtectedRoutes>
