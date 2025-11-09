@@ -128,16 +128,16 @@ const Login: React.FC = () => {
                 OR
             </div>
             <div className="text-center">
-                <a
+                <button
                     onClick={(e) => {
                         e.preventDefault();
                         login('demo');
                         router.push('/');
                     }}
-                    className={`${sigmar.className} link`}
+                    className={`${sigmar.className} form-button-general ${buttonEnabled? `form-button-selected` : `form-button-not-selected`} w-full`}
                 >
                     Play without an account
-                </a>
+                </button>
             </div>
         </motion.div>
     </div>

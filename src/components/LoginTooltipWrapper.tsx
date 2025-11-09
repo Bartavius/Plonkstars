@@ -15,7 +15,6 @@ export default function LoginTooltipWrapper({
         return <>{children}</>;
     }
 
-    // Dynamically set tooltip position classes
     const tooltipPositionClasses =
         position === "top"
             ? "bottom-full mb-2"
@@ -25,12 +24,10 @@ export default function LoginTooltipWrapper({
 
     return (
         <div className={`relative group cursor-not-allowed ${className ? className : ""}`}>
-            {/* Children with blur + dim on hover */}
             <div className="transition-all duration-200 group-hover:blur-sm group-hover:brightness-75">
                 {children}
             </div>
 
-            {/* Tooltip */}
             <div
                 className={`
                     absolute ${tooltipPositionClasses} left-1/2 -translate-x-1/2
@@ -43,7 +40,6 @@ export default function LoginTooltipWrapper({
                 {message}
             </div>
 
-            {/* Overlay to block clicks */}
             <div className="absolute inset-0 bg-transparent cursor-not-allowed" />
         </div>
     );
