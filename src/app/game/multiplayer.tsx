@@ -41,20 +41,12 @@ export default function Multiplayer({
             setSelectedIndex(i + 1);
         } else if (e.key === "Enter") {
             joinPartyButton();
-        }
-    };
-
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
-        const val = e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
-
-        if (!val) return;
-
-        const newInput = [...input];
-        newInput[index] = val[0];
-        setInput(newInput);
-
-        if (index < 3) {
-            setSelectedIndex(index + 1);
+        } else if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
+            newLetters[i] = e.key.toUpperCase();
+            setInput(newLetters);
+            if (i < 3) {
+                setSelectedIndex(i + 1);
+            }
         }
     };
 
@@ -132,7 +124,6 @@ export default function Multiplayer({
                                 maxLength={1}
                                 value={input[i]}
                                 onPaste={handlePaste}
-                                onChange={(e) => handleChange(e, i)}
                                 onKeyDown={(e) => handleKeyDown(e, i)}
                                 onFocus={() => setSelectedIndex(i)}
                                 className={`w-12 h-12 border-2 text-center text-2xl rounded bg-light text-dark
