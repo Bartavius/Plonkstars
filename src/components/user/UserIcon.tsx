@@ -21,10 +21,10 @@ export default function UserIcon({
   
     return (
       <div 
-        className={`${className ? className : "w-full h-full"} aspect-square`}
+        className={`${className ? className : "w-full h-full"}`}
         
       >
-        <div className="relative flex justify-center items-center w-full h-full">
+        <div className="relative flex justify-center items-center max-w-full max-h-full aspect-square">
           {/* Base Avatar */}
           <img
             src="/PlonkStarsAvatar.png"
