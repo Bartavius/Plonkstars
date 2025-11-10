@@ -21,7 +21,7 @@ export default function UserIcon({
   
     return (
       <div 
-        className={`${className ? className : "w-full h-full"}`}
+        className={`${className ? className : "w-full h-full"} aspect-square`}
         
       >
         <div className="relative flex justify-center items-center w-full h-full">
