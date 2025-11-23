@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import useDuelsSocket from "../../duelsSocket";
 import DuelsSummary from "@/components/game/duels/summary/summary";
 
+// http://localhost:3000/duels/c30c33d3-0578-4e6e-adec-13a4640a14f3/summary
+
 export default function DuelsSummaryPage() {
     const router = useRouter();
     const [locations, setLocations] = useState<{lat:number,lng:number}[]>([]);
@@ -79,9 +81,5 @@ export default function DuelsSummaryPage() {
                 locations={locations}
             />
         </ProtectedRoutes>
-        
-        // <div className="flex items-center justify-center w-full h-full">
-        //     <button onClick={() => router.push("/party")}>Go Back</button>
-        // </div>
     )
 }

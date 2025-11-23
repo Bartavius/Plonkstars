@@ -135,7 +135,7 @@ export default function Multiplayer({
                                 autoComplete="off"
                                 autoCorrect="off"
                                 spellCheck={false}
-
+                                readOnly={true}
                             />
                         ))}
                     </div>

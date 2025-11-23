@@ -25,7 +25,7 @@ import ProtectedRoutes from "../ProtectedRoutes";
 const modes = ["Live","Duels"]
 
 export default function PartyPage() {
-    const [users, setUsers] = useState<any>();
+    const [users, setUsers] = useState<any>({});
     const [host, setHost] = useState<string>("");
     const [thisUser, setThisUser] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(true);
@@ -59,7 +59,10 @@ export default function PartyPage() {
             add_user:(data)=>{
                 setUsers((prev:any) => ({
                     ...prev,
-                    [data.username]: data,
+                    [data.username]: {
+                        ...data,
+                        in_lobby: prev[data.username]?.in_lobby || false,
+                    },
                 }));
             },
             remove_user: (data) => {
@@ -68,6 +71,15 @@ export default function PartyPage() {
                     delete prevCopy[data.username];
                     return prevCopy;
                 });
+            },
+            join_lobby:(data)=>{
+                setUsers((prev:any) => ({
+                    ...prev,
+                    [data.user]: {
+                        ...prev[data.user]??{},
+                        in_lobby: true
+                    }
+                }));
             },
             add_team:(data)=>{
                 setTeams((prev:any) => ({

@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, useState } from "react";
 import "./Modal.css";
 
 interface ModalProps {
@@ -9,20 +9,29 @@ interface ModalProps {
 
 const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [clickedOutside, setClickedOutside] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleBackgroundMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     // If the user clicked directly on the backdrop, close the modal
     if (e.target === modalRef.current) {
-      onClose();
+      setClickedOutside(true);
     }
   };
+
+  const handleBackgroundMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === modalRef.current && clickedOutside) {
+      onClose();
+    }
+    setClickedOutside(false);
+  }
 
   return (
     <div 
       ref={modalRef}
-      onClick={handleBackgroundClick}
+      onMouseDown={handleBackgroundMouseDown}
+      onMouseUp={handleBackgroundMouseUp}
       style={{ zIndex: 100 }}
       className="fixed inset-0 bg-black bg-opacity-50 flex justify-center flex-col items-center"
     >

@@ -18,7 +18,7 @@ export default function TeamDisplay({
     setMessage,
 }:{
     code:string,
-    users:{[key:string]:{username:string,user_cosmetics:any}},
+    users:{[key:string]:{username:string,user_cosmetics:any, in_lobby:boolean}},
     host:string,
     thisUser:string,
     teams: {[key:string]:Team},
@@ -115,7 +115,7 @@ export default function TeamDisplay({
                         <div className="party-page-user-list">
                             {spectators.map((username) => 
                                 <div key={username} className="party-page-user-card">
-                                    <UserCard data={users[username]} className={`user-card-style ${username === thisUser? "user-card-outline":""} ${username === host? "user-card-gold-name":""}`}>
+                                    <UserCard data={users[username]} className={`user-card-style ${username === thisUser? "user-card-outline":""} ${username === host? "user-card-gold-name":""} ${!users[username].in_lobby ? "party-page-user-card-not-in-lobby" : ""}`}>
                                         <div className="party-user-buttons">
                                             {username !== host && thisUser === host && 
                                                 <button 

@@ -76,6 +76,10 @@
     min-width: 8vw;
 }
 
+.party-page-user-card-not-in-lobby{
+    opacity: 0.5;
+}
+
 .user-card-style{
     box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
 }

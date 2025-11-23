@@ -11,6 +11,7 @@ import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
 import { isDemo } from "@/utils/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { setColor } from "@/redux/demoAvatarSlice";
+import { useRouter } from "next/navigation";
 
 
 enum Tabs {
@@ -42,6 +43,7 @@ export default function AvatarCustom({
 
   const demo = isDemo();
   const dispatch = useDispatch();
+  const router = useRouter();
   const saveAvatarChanges = async () => {
     if (demo) {
       console.log(userIcon);
@@ -173,6 +175,9 @@ export default function AvatarCustom({
   return (
     <div className="settings-box">
       <div className="settings-label">Avatar Customization</div>
+      <div className="mb-4 text-center text-sm font-semibold text-gray-600">
+        To buy cosmetics, go to the <a className="link" onClick={() => router.push("/shop")}>Shop</a> page.
+      </div>
       <div className="avatar-customizer-container">
         <div className="avatar-preview">
           <UserIcon data={userIcon} className="avatar-icon" />

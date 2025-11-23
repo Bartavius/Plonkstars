@@ -123,6 +123,11 @@ body {
 .bg-dark {
   background-color: var(--darker-blue);
 }
+
+.bg-darkest {
+  background-color: var(--darkest-blue);
+}
+
 .bg-light {
   background-color: var(--lighter-blue);
 }
