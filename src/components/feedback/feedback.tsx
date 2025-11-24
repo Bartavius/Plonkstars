@@ -38,8 +38,8 @@ export default function FeedbackComponent(){
                 <div className="p-4">
                     <h2 className="text-2xl font-bold mb-4 text-center">We value your feedback!</h2>
                     <p className="mb-4">
-                        If you find a bug or want a feature request please put it below. 
-                        If you are logged in and your feedback is useful for the development team, you will be rewarded with Plonk Stars coins!
+                        If you find a bug or want to request a feature please put it below. 
+                        If you are logged in and your feedback is useful for the development team you will be rewarded with Plonk Stars coins!
                         Coins can be used to purchase cosmetics in-game in the <a className="link" onClick={() => router.push("/shop")}>shop</a>. (This page is very scuffed at the moment, we'll improve it later) 
                         Thank you for helping us improve Plonk Stars!
                     </p>
