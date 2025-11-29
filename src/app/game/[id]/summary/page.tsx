@@ -43,9 +43,9 @@ export default function SummaryPage() {
     try {
       const response = await api.post("/game/create", {
         rounds: previousGame.rounds,
-        time: previousGame.seconds,
-        map_id: previousGame.mapId,
-        nmpz: previousGame.NMPZ,
+        time: previousGame.time,
+        map_id: previousGame.map_id,
+        nmpz: previousGame.nmpz,
       });
       const { id } = response.data;
       router.push(`/game/${id}/join`);
