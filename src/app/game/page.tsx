@@ -183,10 +183,10 @@ export default function Game() {
         </Modal>
 
         {!isHowToPlayOpen &&
-          <div className="fixed bottom-4 right-4 z-50">
+          <div className="fixed bottom-4 right-8 z-50">
             <button
               className="
-                bg-red text-white px-4 py-2 rounded-lg shadow-lg 
+                bg-red text-white px-4 py-2 text-lg font-semibold rounded-lg shadow-lg 
                 game-setup-btn transition
               "
               onClick={() => setIsHowToPlayOpen(true)}
