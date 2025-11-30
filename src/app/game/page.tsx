@@ -12,12 +12,12 @@ import { setGameSettings } from "@/redux/gameSlice";
 import ProtectedRoutes from "../ProtectedRoutes";
 import { clearError } from "@/redux/errorSlice";
 import { FaQuestionCircle } from "react-icons/fa";
-import constants from "@/app/constants.json";
 import Popup from "@/components/Popup";
 import Multiplayer from "./multiplayer";
 import Daily from "./daily";
 import UserInput from "@/components/party/userInput";
 import Loading from "@/components/loading";
+import HowToPlayModal from "@/components/game/HowToPlayModal";
 
 export default function Game() {
   const router = useRouter();
@@ -33,6 +33,7 @@ export default function Game() {
   const [update, setUpdate] = useState<number>(0);
   const [rulesConfig, setRulesConfig] = useState<any>(undefined);
   const [rules, setRules] = useState<any>(lastSetting);
+  const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false);
 
   function setError(error: string) {
     setError_(error);
@@ -180,6 +181,21 @@ export default function Game() {
           </div>
           <MapSearch mapSelect={addMap} pageSize={12} bodySize="60vh" />
         </Modal>
+
+        {!isHowToPlayOpen &&
+          <div className="fixed bottom-4 right-4 z-50">
+            <button
+              className="
+                bg-red text-white px-4 py-2 rounded-lg shadow-lg 
+                game-setup-btn transition
+              "
+              onClick={() => setIsHowToPlayOpen(true)}
+            >
+              How to Play
+            </button>
+          </div>
+        }
+        <HowToPlayModal onClose={() => setIsHowToPlayOpen(false)} open={isHowToPlayOpen}/>
       </div>
     </ProtectedRoutes>
   );

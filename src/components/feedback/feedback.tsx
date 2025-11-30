@@ -36,12 +36,12 @@ export default function FeedbackComponent(){
             </div>
             <Modal isOpen={open} onClose={() => setOpen(false)}>
                 <div className="p-4">
-                    <h2 className="text-2xl font-bold mb-4 text-center">We value your feedback!</h2>
-                    <p className="mb-4">
+                    <h2 className="text-2xl font-bold mb-2 text-center">We value your feedback!</h2>
+                    <p className="mb-4 text-light text-sm">
                         If you find a bug or want to request a feature please put it below. 
                         If you are logged in and your feedback is useful for the development team you will be rewarded with Plonk Stars coins!
                         Coins can be used to purchase cosmetics in-game in the <a className="link" onClick={() => router.push("/shop")}>shop</a>. (This page is very scuffed at the moment, we'll improve it later) 
-                        Thank you for helping us improve Plonk Stars!
+                        <br/><br/>Thank you for helping us improve Plonk Stars!
                     </p>
                     <textarea 
                         className="w-full text-dark p-2 border-2 rounded-lg h-64 resize-none" 

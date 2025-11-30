@@ -156,6 +156,10 @@ body {
   color: var(--darker-blue);
 }
 
+.text-light {
+  color: var(--lightest-blue);
+}
+
 .text-white {
   color: var(--plonk-stars-white);
 }
