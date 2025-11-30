@@ -23,7 +23,7 @@ export default function FeedbackComponent(){
     return (
         <div>
             <Popup update={update} type="success">{popupMessage}</Popup>
-            <div className="fixed bottom-4 right-4 z-50">
+            {!open && <div className="fixed bottom-4 right-4 z-50">
                 <button
                     className="
                     bg-darkest text-white px-4 py-2 mr-2 rounded-lg shadow-lg 
@@ -34,6 +34,7 @@ export default function FeedbackComponent(){
                     Give us Feedback or Report a Bug!
                 </button>
             </div>
+            }
             <Modal isOpen={open} onClose={() => setOpen(false)}>
                 <div className="p-4">
                     <h2 className="text-2xl font-bold mb-2 text-center">We value your feedback!</h2>

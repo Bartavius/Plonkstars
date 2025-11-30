@@ -22,7 +22,7 @@ export default function HowToPlayModal(
                         <div className="how-to-play-step-description">
                             Look at your surroundings to get clues about your location. 
                             Identify landmarks, signs, vegetation, and other features that can help you figure out where you are.
-                            Text to blurry to see? No worries! Scroll to change the zoom level. 
+                            Text to small to read? No worries! Scroll to change the zoom level. 
                             There is a time limit for each round, so try to gather information quickly!
                         </div>
                     </div>
