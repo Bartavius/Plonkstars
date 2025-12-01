@@ -130,12 +130,12 @@ export default function Multiplayer({
                                 focus:outline-none caret-transparent focus:ring-0 ${
                                 i === selectedIndex ? "border-blue-500 bg-blue-100" : "border-gray-300"
                                 }`}
+                                onChange={()=>{}}
                                 inputMode="text"
                                 pattern="[A-Za-z]"
                                 autoComplete="off"
                                 autoCorrect="off"
                                 spellCheck={false}
-                                readOnly={true}
                             />
                         ))}
                     </div>
