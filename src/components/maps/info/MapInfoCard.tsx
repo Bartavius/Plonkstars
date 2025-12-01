@@ -148,7 +148,7 @@ export default function MapInfoCard({
             }
             {editingName && 2 <= permission &&
                 <div className="map-name-editing">
-                    <input className="map-name-edit-textbox" defaultValue={name} onChange={(e) => setName(e.target.value)} maxLength={maxNameLength} ref={nameRef} onKeyDown={nameKeyListener}/>
+                    <input id="map-title-editor" className="map-name-edit-textbox" defaultValue={name} onChange={(e) => setName(e.target.value)} maxLength={maxNameLength} ref={nameRef} onKeyDown={nameKeyListener}/>
                     <div className="map-name-editing-footer">
                         <div className="map-name-edit-instruction">Press "Enter" to save or "Esc" to cancel</div>
                         <div className="map-name-char-count">{name.length}/{maxNameLength} characters</div>
@@ -169,7 +169,7 @@ export default function MapInfoCard({
             }
             {editingDescription && 2 <= permission &&
                 <div className="map-info-description-editing">
-                    <textarea className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength} ref={descriptionRef} onKeyDown={descriptionKeyListener}/>                 
+                    <textarea id="map-info-description-editor" className="map-info-description-textbox" defaultValue={stats.description ?? ""} onChange={changeDescription} maxLength={maxDescriptionLength} ref={descriptionRef} onKeyDown={descriptionKeyListener}/>                 
                     <p className="map-description-char-counter">{description ? description.length:0}/{maxDescriptionLength} characters</p>
                     <div className="map-description-editing-footer">
                         <button onClick={descriptionCancel} className="map-description-cancel dark-hover-button gray-disabled" disabled={loading}>Cancel</button>

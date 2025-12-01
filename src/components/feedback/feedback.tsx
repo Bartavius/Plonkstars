@@ -45,6 +45,7 @@ export default function FeedbackComponent(){
                         <br/><br/>Thank you for helping us improve Plonk Stars!
                     </p>
                     <textarea 
+                        id="feedback-textarea"
                         className="w-full text-dark p-2 border-2 rounded-lg h-64 resize-none" 
                         defaultValue={message} 
                         onChange={(e) => setMessage(e.target.value)} 

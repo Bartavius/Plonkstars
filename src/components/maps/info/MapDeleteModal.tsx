@@ -54,7 +54,7 @@ export default function MapDeleteModal({
                     All games, scores, sessions, and bounds associated with the map will be deleted. This action cannot be undone.
                 </div>
                 <div className="delete-map-text">To confirm, type "{name}":</div>
-                <input className="input-field" placeholder={name} onChange={(e)=>{setInput(e.target.value);}}/>
+                <input className="input-field" id="delete-map-confirmation-input" placeholder={name} onChange={(e)=>{setInput(e.target.value);}}/>
                 {name === input && 
                     <div>
                         <div className="delete-map-warning-text">This is your final chance!</div>
