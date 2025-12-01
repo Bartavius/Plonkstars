@@ -150,8 +150,6 @@
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     border-radius: 1rem;
-    margin-right: 0.25rem;
-    margin-left: 0.25rem;
 }
 
 .map-info-button-icon {
@@ -165,6 +163,8 @@
     flex-direction: row;
     width: 100%;
     overflow: hidden;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .play-button {
