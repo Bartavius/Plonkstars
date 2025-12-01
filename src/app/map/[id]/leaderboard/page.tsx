@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
 import Loading from "@/components/loading";
-import MapInfoCard from "../MapInfoCard";
+import MapInfoCard from "@/components/maps/info/MapInfoCard";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import { isDemo } from "@/utils/auth";
 

@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { FaPencilAlt, FaPlay } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
-import "./page.css";
+import "./MapInfoCard.css";
 import "@/app/game.css";
 import { setGameMap } from "@/redux/gameSlice";
 import { TbTrash } from "react-icons/tb";
+import MapDeleteModal from "./MapDeleteModal";
 
 export default function MapInfoCard({ 
     stats,
@@ -29,6 +30,8 @@ export default function MapInfoCard({
     const [name, setName] = useState<string>(stats.name);
     const [editingName, setEditingName] = useState(false);
     const nameRef = useRef<HTMLInputElement | null>(null);
+    
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
     const maxDescriptionLength = 512;
     const maxNameLength = 50;
@@ -135,7 +138,7 @@ export default function MapInfoCard({
 
     return(
     <div className="map-info-card">
-        {3 <= permission && <TbTrash className="map-delete-trash-button" onClick={()=>router.push(`/map/${mapID}/delete`)}/>}
+        {3 <= permission && <TbTrash className="map-delete-trash-button" onClick={() => setDeleteModalOpen(true)}/>}
         <div className="map-info-title">
             {!editingName && 
                 <>{stats.name}</>
@@ -190,6 +193,7 @@ export default function MapInfoCard({
                 {children}
             </div>
         </div>
+        <MapDeleteModal name={stats.name} id={stats.id} isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)}/>
     </div>
     )
 }

@@ -1,40 +1,20 @@
-.centered-elements{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-}
-
 .delete-map-text {
     font-size: 1rem;
     font-weight: bold;
     margin-bottom: 1rem;
+    color: var(lightest-blue);
 }
-
+.delete-map-content{
+    padding: 1rem;
+    background-color: var(--theme-blue);
+    border-radius: 10px;
+}
 .delete-map-title {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 1rem;
     color: white;
-}
-
-.delete-box {
-    width: 70%;
-    padding: 1rem;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--dark-blue);
-    border-color: white;
-    border-width: 2px;
-}
-
-.delete-map-input{
-    color: black;
+    text-align: center;
 }
 
 .delete-map-input-wrapper{
@@ -45,12 +25,19 @@
     justify-content: center;
 }
 
+.delete-map-warning-text{
+    color: var(--plonk-stars-red);
+    font-weight: bold;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
 .delete-map-button{
     margin-top:1rem;
     width:100%;
     padding: 1rem;
     border-radius: 1rem;
-    background-color: red;
+    background-color: var(--plonk-stars-red);
     transition: all 0.3s ease;
     
 }
@@ -62,5 +49,5 @@
 
 .delete-map-button:not(:disabled):hover{
     filter: brightness(75%);
-    transform: scale(1.05);
+    transform: scale(1.01);
 }

@@ -18,7 +18,7 @@ import MapPreview from "@/components/maps/MapPreview";
 import StatBox from "./StatBox";
 import Loading from "@/components/loading";
 import { BsCapsule } from "react-icons/bs";
-import MapInfoCard from "./MapInfoCard";
+import MapInfoCard from "@/components/maps/info/MapInfoCard";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import { isDemo } from "@/utils/auth";
 

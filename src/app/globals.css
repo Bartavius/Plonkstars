@@ -160,10 +160,6 @@ body {
   color: var(--lightest-blue);
 }
 
-.text-white {
-  color: var(--plonk-stars-white);
-}
-
 .text-red {
   color: var(--plonk-stars-red);
 }

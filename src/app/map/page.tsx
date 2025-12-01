@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import MapSearch from "@/components/maps/search/MapSearch"
 import { useState } from "react";
-import "./page.css";
 import api from "@/utils/api";
 import ProtectedRoutes from "../ProtectedRoutes";
 import { isDemo } from "@/utils/auth";
@@ -37,7 +36,7 @@ export default function MapMainPage() {
         <ProtectedRoutes allowDemo={true}>
             <div className="navbar-buffer"/>
             <LoginTooltipWrapper demo={demo} position="bottom" message="Login to create a map">
-                <div className="map-page-header">Create a Map</div>
+                <h2 className="text-center text-white text-4xl">Create a Map</h2>
                 <div className="search-bar-wrapper p-4">
                     <div className="flex">
                         <input
@@ -65,7 +64,7 @@ export default function MapMainPage() {
                     </div>
                 </div>
             </LoginTooltipWrapper>
-            <div className="map-page-header">Map Search</div>
+            <div className="text-center text-white text-4xl">Map Search</div>
             <MapSearch mapSelect={mapSelect}/>
         </ProtectedRoutes>
     )
