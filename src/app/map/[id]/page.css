@@ -145,6 +145,7 @@
     margin-top: 1rem;
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 @media (max-width: 800px) {
