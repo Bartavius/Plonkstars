@@ -41,7 +41,7 @@ export default function MapMainPage() {
                 <div className="search-bar-wrapper p-4">
                     <div className="flex">
                         <input
-                            id="map-search-bar"
+                            id="map-create-bar"
                             className="focus:outline-none focus:ring-2 focus:ring-blue-500 input-field-1 text-dark"
                             type="text"
                             placeholder="Insert a map name..." 

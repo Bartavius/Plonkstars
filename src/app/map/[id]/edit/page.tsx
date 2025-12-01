@@ -187,9 +187,9 @@ export default function EditMapPage() {
 
     return (
         <ProtectedRoutes>
-            <div className="overflow-hidden h-full w-full">
+            <div className="overflow-hidden h-full w-full z-0 relative">
                 <div className="navbar-buffer"/>
-                <div className="h-[80vh] w-full">
+                <div className="h-[80vh] w-full z-0">
                     <MapPreview bounds={bounds} height={80} onSelect={onSelect} selected={selectedBound} user_cosmetics={user?.user_cosmetics}>
                         <MapEvent/>
                         <Rectangle
@@ -237,7 +237,7 @@ export default function EditMapPage() {
                             <div className="bound-weight-display">
                                 <label className="weight-input-wrapper">
                                     <div className="weight-title">Weight</div>
-                                    <input type="number" className="weight-input-box" value={existingBound? selectedBound && selectedBound.weight: weight??""} disabled={existingBound} onChange={(e) => !existingBound && setWeight(e.target.value===""?undefined:parseInt(e.target.value))}/>
+                                    <input id="map-weight-input-box" type="number" className="weight-input-box" value={existingBound? selectedBound && selectedBound.weight: weight??""} disabled={existingBound} onChange={(e) => !existingBound && setWeight(e.target.value===""?undefined:parseInt(e.target.value))}/>
                                 </label>
                             </div>
                             <button onClick={buttonClick} disabled={(selectedBound === undefined) || buttonDisabled} className="game-button edit-right-button">
