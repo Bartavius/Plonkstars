@@ -16,11 +16,7 @@
     "framer-motion": "^12.4.7",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
-<<<<<<< HEAD
     "next": "15.2.8",
-=======
-    "next": "^15.2.6",
->>>>>>> 020435fa3587dbade48441d83253914eb161fda7
     "plonkstars": "file:",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
