@@ -18,7 +18,9 @@ import MapPreview from "@/components/maps/MapPreview";
 import StatBox from "./StatBox";
 import Loading from "@/components/loading";
 import { BsCapsule } from "react-icons/bs";
-import MapInfoCard from "./MapInfoCard";
+import MapInfoCard from "@/components/maps/info/MapInfoCard";
+import ProtectedRoutes from "@/app/ProtectedRoutes";
+import { isDemo } from "@/utils/auth";
 
 interface Location {
     lat:number,
@@ -39,14 +41,21 @@ export default function MapInfoPage(){
     const [topScore, setTopScore] = useState<any>();
     const [permission, setPermission] = useState<number>(0);
 
+
+    const demo = isDemo();
     const mapID = params.id;
 
     const getMapInfo = async () => {
         try {
             const stats = await api.get(`/map/stats?id=${mapID}`);
             setStats(stats.data);
-            const permission = await api.get(`/map/edit?id=${mapID}`);
-            setPermission(permission.data.permission);
+            if (demo){
+                setPermission(0);
+            }
+            else{
+                const permission = await api.get(`/map/edit?id=${mapID}`);
+                setPermission(permission.data.permission);
+            }
 
             const response = await api.get(`/map/leaderboard?id=${mapID}&page=1&per_page=1`);
             if (response.data.data.length !== 0) {
@@ -102,7 +111,7 @@ export default function MapInfoPage(){
 
 
     if (!stats || permission === undefined) {
-        return <Loading/>;
+        return <ProtectedRoutes allowDemo={true}><Loading/></ProtectedRoutes>;
     }
 
     const mapStats = stats.map_stats
@@ -173,10 +182,10 @@ export default function MapInfoPage(){
     } : {user:"N/A",score:"N/A",distance:-1,time:-1,rounds:"N/A"};
 
     
-    const topGuesses = stats.other.top_guesses ?? {user:{username:"N/A"},stat:"N/A"};
-    const fastestnk = stats.other.fastest_5k ?? stats.other.fastest_nk ?? {user:{username:"N/A"},stat:-1};
+    const topGuesses = stats.other.top_guesses ?? {user:"N/A",stat:"N/A"};
+    const fastestnk = stats.other.fastest_5k ?? stats.other.fastest_nk ?? {user:"N/A",stat:-1};
     const most_5ks = stats.other.most_5ks;
-    const bestScore = stats.other.highest_score ?? {user:{username:"N/A"},stat:"N/A"};
+    const bestScore = stats.other.highest_score ?? {user:"N/A",stat:"N/A"};
 
     const otherUserStats = {
         name: "Other User Stats",
@@ -184,17 +193,17 @@ export default function MapInfoPage(){
             {
                 name: "Miscellaneous Stats",
                 items: [
-                    { icon: <BsCapsule/>, title: `Most Addicted: ${topGuesses.user.username}`, stat: topGuesses.stat + (stats.other.top_guesses ? " plonks" : "")},
+                    { icon: <BsCapsule/>, title: `Most Addicted: ${topGuesses.user}`, stat: topGuesses.stat + (stats.other.top_guesses ? " plonks" : "")},
                     { icon: <Md5K/>, title: "Number of 5ks", stat:stats.other["5ks"]},
                     (most_5ks ?
                         (
-                            { icon: <FaMedal/>, title: `Most 5ks: ${most_5ks.user.username}`, stat: most_5ks.stat }
+                            { icon: <FaMedal/>, title: `Most 5ks: ${most_5ks.user}`, stat: most_5ks.stat }
                         ) :
                         (
-                            { icon: <CgRowFirst/>, title: `Best Score: ${fastestnk.user.username}`, stat: bestScore.stat }
+                            { icon: <CgRowFirst/>, title: `Best Score: ${fastestnk.user}`, stat: bestScore.stat }
                         )
                     ),
-                    {icon: <FaRunning/>, title: `Fastest ${most_5ks || bestScore.stat === "N/A" ? "5k" : (Math.floor(bestScore.stat/1000) === 0 ? "Guess" : `${Math.floor(bestScore.stat/1000)}k`)}: ${fastestnk.user.username}`, ...timeString(fastestnk.stat)}
+                    {icon: <FaRunning/>, title: `Fastest ${most_5ks || bestScore.stat === "N/A" ? "5k" : (Math.floor(bestScore.stat/1000) === 0 ? "Guess" : `${Math.floor(bestScore.stat/1000)}k`)}: ${fastestnk.user}`, ...timeString(fastestnk.stat)}
                 ] 
             },
             {
@@ -211,36 +220,38 @@ export default function MapInfoPage(){
     }
 
     return (
-        <div className="relative">
-            <div className="navbar-buffer"/>
-            <button disabled={loading} className="map-search-back-button" onClick={goBack}>
-                <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
-            </button>
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-                className="map-info-card-wrapper"
-            >
-                <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
-                    <button disabled={loading} className="map-leaderboard-button map-info-button dark-hover-button gray-disabled" onClick={mapLeaderboard}>
-                        <FaMedal className="map-info-button-icon"/>
-                        Leaderboard
-                    </button>
-                </MapInfoCard>
-            </motion.div>
-            <StatBox mapStats={displayMapStats}/>
-            <StatBox mapStats={displayUserStats}/>
-            <StatBox mapStats={otherUserStats}/>
-            <div className="map-info-container">
-                <div className="map-info-box">
-                    <div className="map-info-header">Map Preview</div> 
-                    <div className="map-preview-container">
-                        {!bounds && <div className="h-[60vh] relative"><Loading/></div>}
-                        {bounds && <MapPreview bounds={bounds} iconClick={true}/>}
+        <ProtectedRoutes allowDemo={true}>
+            <div className="relative">
+                <div className="navbar-buffer"/>
+                <button disabled={loading} className="map-search-back-button" onClick={goBack}>
+                    <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
+                </button>
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1 }}
+                    className="map-info-card-wrapper"
+                >
+                    <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
+                        <button disabled={loading} className="map-leaderboard-button map-info-button dark-hover-button gray-disabled" onClick={mapLeaderboard}>
+                            <FaMedal className="map-info-button-icon"/>
+                            Leaderboard
+                        </button>
+                    </MapInfoCard>
+                </motion.div>
+                <StatBox mapStats={displayMapStats}/>
+                <StatBox mapStats={displayUserStats} demoBlur={true} demo={demo}/>
+                <StatBox mapStats={otherUserStats}/>
+                <div className="map-info-container">
+                    <div className="map-info-box">
+                        <div className="map-info-header">Map Preview</div> 
+                        <div className="map-preview-container">
+                            {!bounds && <div className="h-[60vh] relative"><Loading/></div>}
+                            {bounds && <MapPreview bounds={bounds} iconClick={true}/>}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </ProtectedRoutes>
     );
 }

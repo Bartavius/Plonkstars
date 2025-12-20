@@ -75,7 +75,7 @@ export default function MapPreview({
                             <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsMarker.png" onClick={onSelect ? () => onSelect(point,false) : undefined}/>
                         }
                         {point == selected && 
-                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.png" onClick={onSelect ? () => onSelect(undefined,false) : undefined} iconPercent={0.2} customize={user_cosmetics}/>
+                            <MapIcon pos={point} clickable={iconClick || onSelect !== undefined} iconUrl="/PlonkStarsAvatar.png" onClick={onSelect ? () => onSelect(undefined,false) : undefined} customize={user_cosmetics} iconPercent={1.25}/>
                         }
                         </div>
                     ))}

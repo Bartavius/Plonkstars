@@ -19,6 +19,7 @@ export default function MapDisplay({setMessage}:{setMessage: (message: React.Rea
         <div className="settings-label">Map Type</div>
         <div className="settings-dropdown">
         <select
+            id="map-layer-selector"
             className="settings-dropdown-select"
             defaultValue={currentMap}
             onChange={(e) =>

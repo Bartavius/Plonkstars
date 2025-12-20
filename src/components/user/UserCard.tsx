@@ -14,7 +14,9 @@ export default function UserCard({
 }){
     return(
         <div className={`user-card-card ${className}`}>
-            <UserIcon data={data.user_cosmetics} className="user-card-user-icon"/>
+            <div className="user-card-user-icon">
+                <UserIcon data={data.user_cosmetics}/>
+            </div>
             <div className="user-card-username">
                 {leader && <FaCrown className="gold-name"/>}{data.username}
             </div>

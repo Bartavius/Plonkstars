@@ -25,7 +25,7 @@ import ProtectedRoutes from "../ProtectedRoutes";
 const modes = ["Live","Duels"]
 
 export default function PartyPage() {
-    const [users, setUsers] = useState<any>();
+    const [users, setUsers] = useState<any>({});
     const [host, setHost] = useState<string>("");
     const [thisUser, setThisUser] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(true);
@@ -57,11 +57,12 @@ export default function PartyPage() {
             },
             message:(data)=>console.log(data),
             add_user:(data)=>{
-                console.log("User added", data);
-                console.log(users);
                 setUsers((prev:any) => ({
                     ...prev,
-                    [data.username]: data,
+                    [data.username]: {
+                        ...data,
+                        in_lobby: prev[data.username]?.in_lobby || false,
+                    },
                 }));
             },
             remove_user: (data) => {
@@ -70,6 +71,15 @@ export default function PartyPage() {
                     delete prevCopy[data.username];
                     return prevCopy;
                 });
+            },
+            join_lobby:(data)=>{
+                setUsers((prev:any) => ({
+                    ...prev,
+                    [data.user]: {
+                        ...prev[data.user]??{},
+                        in_lobby: true
+                    }
+                }));
             },
             add_team:(data)=>{
                 setTeams((prev:any) => ({
@@ -144,7 +154,6 @@ export default function PartyPage() {
             return acc;
         }, {});
         setUsers(members);
-        console.log(members);
         setHost(users.data.host);
         setThisUser(users.data.this);
         const rules = await api.get(`/party/rules?code=${code}`);
@@ -201,7 +210,7 @@ export default function PartyPage() {
         setMessage("Copied Party Link","info");
     }
 
-    function setSingleRules(key: string, value: any) {
+    function setSingleRule(key: string, value: any) {
         setLocalRules((prev: any) => ({
             ...prev,
             [key]: value
@@ -243,7 +252,7 @@ export default function PartyPage() {
     }, []);
 
     if (loading) {
-        return <Loading/>
+        return <ProtectedRoutes><Loading/></ProtectedRoutes>
     }
 
     const displayRules = {
@@ -313,7 +322,7 @@ export default function PartyPage() {
                                     data={data}
                                     value={localRules ? localRules[data.key] : undefined}
                                     setError={(error) => setMessage(error,"error")}
-                                    setInput={(input: any) => setSingleRules(data.key, input)}
+                                    setInput={(input: any) => setSingleRule(data.key, input)}
                                     editable={isHost}
                                 />
                             </div>

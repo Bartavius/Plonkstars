@@ -21,7 +21,7 @@ export default function Settings() {
   }
 
   return (
-    <ProtectedRoutes>
+    <ProtectedRoutes allowDemo={true}>
       <div>
         <div className="navbar-buffer" />
         <Popup update={update} type={type}>

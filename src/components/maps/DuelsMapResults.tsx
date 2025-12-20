@@ -19,7 +19,7 @@ export default function DuelsMapResult({
 }){
     locations.forEach((loc,i) => {
         Object.keys(teamGuesses).forEach((team) => {
-            teamGuesses[team][i].forEach((guess,j,arr) => {
+            teamGuesses[team][i]?.forEach((guess,j,arr) => {
                 let newLng = guess.lng;
                 if (guess.lng - loc.lng > 180) {
                     newLng = guess.lng - 360;
@@ -51,7 +51,7 @@ export default function DuelsMapResult({
                     />
                     {Object.keys(teamGuesses).map((team,j) => (
                         <div key={j}>
-                            {teamGuesses[team][i].length > 0 &&
+                            {teamGuesses[team][i]?.length > 0 &&
                                 <Polyline
                                     interactive={false}
                                     positions={[
@@ -70,7 +70,7 @@ export default function DuelsMapResult({
                                 <MapIcon
                                     key={k}
                                     pos={guess}
-                                    customize={users[guess.user].user_cosmetics}
+                                    customize={{...users[guess.user].user_cosmetics,team_color:teams[team]?.color}}
                                     iconUrl="/PlonkStarsAvatar.png"
                                     iconPercent={1.25}
                                 >
@@ -80,10 +80,10 @@ export default function DuelsMapResult({
                                 </MapIcon>
                             ))
                             :
-                            teamGuesses[team][i].length > 0 &&
+                            teamGuesses[team][i]?.length > 0 &&
                                 <MapIcon
                                     pos={teamGuesses[team][i][0]}
-                                    customize={users[teamGuesses[team][i][0].user].user_cosmetics}
+                                    customize={{...users[teamGuesses[team][i][0].user].user_cosmetics,team_color:teams[team]?.color}}
                                     iconUrl="/PlonkStarsAvatar.png"
                                     iconPercent={1.25}
                                 >

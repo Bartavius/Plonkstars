@@ -67,7 +67,7 @@ export default function DuelsGameplay({
         api.post("/game/plonk", {
             id,
             lng: (((lng % 360) + 540) % 360) - 180,
-            lat,
+            lat: Math.max(-90, Math.min(90, lat)),
         })
     }
 

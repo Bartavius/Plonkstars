@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import ReduxProvider from "./reduxProvider";
-import ReinstateSession from "./reinstateSession";
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -56,7 +55,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <ReinstateSession />
           {children}
         </ReduxProvider>
         {!process.env.NEXT_PUBLIC_TESTING &&

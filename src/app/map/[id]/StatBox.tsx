@@ -1,25 +1,32 @@
 import { motion } from "framer-motion";
 import "./page.css"
 import { JSX } from "react";
+import LoginTooltipWrapper from "@/components/LoginTooltipWrapper";
 
-interface statColumn {
-    name: string;
-    onClick?: () => void;
-    cols:{
-        name: string | JSX.Element;
+const StatBox = ({
+    mapStats,
+    demoBlur = false,
+    demo = false,
+    
+}:{
+    mapStats:{
+        name: string;
         onClick?: () => void;
-        items: {
+        cols:{
+            name: string | JSX.Element;
             onClick?: () => void;
-            icon: any;
-            title: string;
-            stat: number|string|JSX.Element;
-            unit?: string;
+            items: {
+                onClick?: () => void;
+                icon: any;
+                title: string;
+                stat: number|string|JSX.Element;
+                unit?: string;
+            }[];
         }[];
-    }[];
-}
-
-const StatBox = ({mapStats}: 
-    {mapStats: statColumn}) => {
+    }
+    demoBlur?: boolean;
+    demo?: boolean;
+}) => {
     return (
     <div className="map-info-container">
         <div className={`map-info-box ${mapStats.onClick? "dark-hover-button" : ""}`} onClick={mapStats.onClick}>
@@ -36,24 +43,26 @@ const StatBox = ({mapStats}:
                         >
                             {col.name}
                         </motion.div>
-                        <div className="map-stat-grid">
-                            {col.items.map((stat, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 1 + 0.2*index }}
-                                    className={`map-stat-card  ${stat.onClick? "dark-hover-button" : ""}`}
-                                    onClick={stat.onClick}
-                                >
-                                    <div className="map-stat-icon">{stat.icon}</div>
-                                    <div className="map-stat-text">
-                                        <div className="map-stat-title">{stat.title}</div>
-                                        <div className="map-stat-stat">{stat.stat}{stat.unit && <span className="map-stat-unit">{stat.unit}</span>}</div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
+                        <LoginTooltipWrapper demo={demo && demoBlur} message="Login to view your stats" position="center" className="w-full">
+                            <div className={`map-stat-grid ${demoBlur && demo && "map-stat-box-blurred"}`}>
+                                {col.items.map((stat, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 1 + 0.2*index }}
+                                        className={`map-stat-card  ${stat.onClick? "dark-hover-button" : ""}`}
+                                        onClick={stat.onClick}
+                                    >
+                                        <div className="map-stat-icon">{stat.icon}</div>
+                                        <div className="map-stat-text">
+                                            <div className="map-stat-title">{stat.title}</div>
+                                            <div className="map-stat-stat">{stat.stat}{stat.unit && <span className="map-stat-unit">{stat.unit}</span>}</div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </LoginTooltipWrapper>
                     </div>
                 </div>
                 ))}

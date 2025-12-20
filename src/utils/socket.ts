@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import io, {Socket} from "socket.io-client";
-import { useSelector } from "react-redux";
+import { getToken } from "./auth";
 
 
 type SocketEvents = {
@@ -17,7 +17,7 @@ export default function useSocket({
     rooms?: any;
     functions:SocketEvents;
 }){
-    const token = useSelector((state: any) => state.auth.token); 
+    const token = getToken(); 
     const socketRef = useRef<Socket | null>(null);
 
     const memorizedFunctions = Object.keys(functions).toString();

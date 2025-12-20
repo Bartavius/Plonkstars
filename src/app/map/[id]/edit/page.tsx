@@ -12,6 +12,7 @@ import StreetView from "@/components/maps/Streetview";
 import "@/app/game.css";
 import "./page.css";
 import useSocket from "@/utils/socket";
+import ProtectedRoutes from "@/app/ProtectedRoutes";
 
 interface Location {
     id?:number,
@@ -182,68 +183,70 @@ export default function EditMapPage() {
         router.push(`/map/${MAPID}`);
     }
 
-    if(loading) return <Loading/>;
+    if(loading) return <ProtectedRoutes><Loading/></ProtectedRoutes>;
 
     return (
-        <div className="overflow-hidden h-full w-full">
-            <div className="navbar-buffer"/>
-            <div className="h-[80vh] w-full">
-                <MapPreview bounds={bounds} height={80} onSelect={onSelect} selected={selectedBound} user_cosmetics={user?.user_cosmetics}>
-                    <MapEvent/>
-                    <Rectangle
-                        bounds={[[-90,-1000],[90,-180]]}
-                        color="red"
-                        opacity={1}
-                        weight={0}
-                        interactive={false}
-                    />
-                    <Rectangle
-                        bounds={[[-90,180],[90,1000]]}
-                        color="red"
-                        opacity={1}
-                        weight={0}
-                        interactive={false}
-                    />
-                    {selectedBound && "lat" in selectedBound && "lng" in selectedBound && <MapIcon pos={selectedBound} iconUrl={"/PlonkStarsAvatar.png"} customize={user?.user_cosmetics} iconPercent={0.2}/>}
-                    {selectedBound && "start" in selectedBound && "end" in selectedBound &&
+        <ProtectedRoutes>
+            <div className="overflow-hidden h-full w-full z-0 relative">
+                <div className="navbar-buffer"/>
+                <div className="h-[80vh] w-full z-0">
+                    <MapPreview bounds={bounds} height={80} onSelect={onSelect} selected={selectedBound} user_cosmetics={user?.user_cosmetics}>
+                        <MapEvent/>
                         <Rectangle
-                            bounds = {[[selectedBound.start.lat,selectedBound.start.lng],[selectedBound.end.lat,selectedBound.end.lng]]}
-                            color="blue"
-                            weight={0}
+                            bounds={[[-90,-1000],[90,-180]]}
+                            color="red"
                             opacity={1}
+                            weight={0}
+                            interactive={false}
                         />
-                    }
-                </MapPreview>
-                {selectedBound && "lat" in selectedBound && "lng" in selectedBound &&(
-                    <div 
-                        className={`corner-street-view`}
-                    >
-                        <StreetView lat={selectedBound.lat} lng={selectedBound.lng}/>
-                    </div>
-                )}
-            </div>
-            <div className="game-footer w-full">
-                <div className="edit-grid-footer">
-                    <div className="edit-grid-left-elements">
-                        <button onClick={goBack} className="edit-back-button">Back to Map Page</button>
-                    </div>
-                    <div className="edit-grid-middle-elements">
-                        <div>Ctrl/Cmd + Drag: Create bound</div>
-                        <div>Click: Select point</div>
-                    </div>
-                    <div className="edit-grid-right-elements">
-                        <div className="bound-weight-display">
-                            <label className="weight-input-wrapper">
-                                <div className="weight-title">Weight</div>
-                                <input type="number" className="weight-input-box" value={existingBound? selectedBound && selectedBound.weight: weight??""} disabled={existingBound} onChange={(e) => !existingBound && setWeight(e.target.value===""?undefined:parseInt(e.target.value))}/>
-                            </label>
+                        <Rectangle
+                            bounds={[[-90,180],[90,1000]]}
+                            color="red"
+                            opacity={1}
+                            weight={0}
+                            interactive={false}
+                        />
+                        {selectedBound && "lat" in selectedBound && "lng" in selectedBound && <MapIcon pos={selectedBound} iconUrl={"/PlonkStarsAvatar.png"} customize={user?.user_cosmetics} iconPercent={1.25}/>}
+                        {selectedBound && "start" in selectedBound && "end" in selectedBound &&
+                            <Rectangle
+                                bounds = {[[selectedBound.start.lat,selectedBound.start.lng],[selectedBound.end.lat,selectedBound.end.lng]]}
+                                color="blue"
+                                weight={0}
+                                opacity={1}
+                            />
+                        }
+                    </MapPreview>
+                    {selectedBound && "lat" in selectedBound && "lng" in selectedBound &&(
+                        <div 
+                            className={`corner-street-view`}
+                        >
+                            <StreetView lat={selectedBound.lat} lng={selectedBound.lng}/>
                         </div>
-                        <button onClick={buttonClick} disabled={(selectedBound === undefined) || buttonDisabled} className="game-button edit-right-button">
-                            {existingBound? "Remove": "Add"} {selectedBound && "lat" in selectedBound && "lng" in selectedBound ? "Point": "Bound"}
-                        </button>
+                    )}
+                </div>
+                <div className="game-footer w-full">
+                    <div className="edit-grid-footer">
+                        <div className="edit-grid-left-elements">
+                            <button onClick={goBack} className="edit-back-button">Back to Map Page</button>
+                        </div>
+                        <div className="edit-grid-middle-elements">
+                            <div>Ctrl/Cmd + Drag: Create bound</div>
+                            <div>Click: Select point</div>
+                        </div>
+                        <div className="edit-grid-right-elements">
+                            <div className="bound-weight-display">
+                                <label className="weight-input-wrapper">
+                                    <div className="weight-title">Weight</div>
+                                    <input id="map-weight-input-box" type="number" className="weight-input-box" value={existingBound? selectedBound && selectedBound.weight: weight??""} disabled={existingBound} onChange={(e) => !existingBound && setWeight(e.target.value===""?undefined:parseInt(e.target.value))}/>
+                                </label>
+                            </div>
+                            <button onClick={buttonClick} disabled={(selectedBound === undefined) || buttonDisabled} className="game-button edit-right-button">
+                                {existingBound? "Remove": "Add"} {selectedBound && "lat" in selectedBound && "lng" in selectedBound ? "Point": "Bound"}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </ProtectedRoutes>
     );
 }

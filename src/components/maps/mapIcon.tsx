@@ -78,7 +78,7 @@ export default function MapIcon({
           // Create a divIcon with the UserIcon for customization
           const htmlString = ReactDOMServer.renderToString(<UserIcon data={customize} />);
           newIcon = L.divIcon({
-            className: clickable ? "clickable-icon" : "non-clickable-icon",
+            className: `${clickable ? "clickable-icon" : "non-clickable-icon"}`,
             html: htmlString,
             iconSize: calculatedSize,
             iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],

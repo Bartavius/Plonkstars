@@ -77,14 +77,15 @@ export default function GamePlay({
 
   async function setPos(lat: number, lng: number) {
     if (!submitted) {
+      const boundedLat = Math.max(-90, Math.min(90, lat));
       await api.post("/game/plonk", {
         id: matchId,
         lng: (((lng % 360) + 540) % 360) - 180,
-        lat,
+        lat: boundedLat,
       })
-      setLat(lat);
+      setLat(boundedLat);
       setLng(lng);
-      onPlonk && onPlonk(lat,lng);
+      onPlonk && onPlonk(boundedLat,lng);
     }
   }
 

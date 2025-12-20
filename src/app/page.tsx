@@ -4,21 +4,22 @@ import { useRouter } from "next/navigation";
 import Contacts from "./Contacts";
 import { Sigmar } from "next/font/google";
 import Footer from "@/components/footer/Footer";
-import { useSelector } from "react-redux";
+import { isAuthenticated } from "@/utils/auth";
 import "./page.css";
+import FeedbackComponent from "@/components/feedback/feedback";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
 export default function Home() {
   const router = useRouter();
-  const { isAuthenticated } = useSelector((state: any) => state.auth);
 
   const navigateToGame = () => {
-    router.push(`/${isAuthenticated ? "game" : "account/login"}`);
+    router.push(`/${isAuthenticated() ? "game" : "account/login"}`);
   };
 
   return (
     <div className="flex flex-col min-h-screen">
+      <FeedbackComponent />
       <div
         className="relative flex-grow z-10 flex flex-col items-center justify-center gap-8 px-4 text-center pt-24 sm:pt-28 md:pt-32"
         style={{ minHeight: "calc(100vh - 325px)" }}

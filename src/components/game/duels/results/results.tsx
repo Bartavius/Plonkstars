@@ -1,7 +1,10 @@
 import DuelsMapResult from "@/components/maps/DuelsMapResults";
 import DuelsUIOverlay from "../uielement/mapUIOverlay";
+import "@/app/game.css"
 import "../duels.css"
-import { q } from "framer-motion/client";
+import "./results.css"
+import GuessFooter from "./teamGuessFooter";
+import { use, useEffect, useState } from "react";
 
 export default function DuelsResults({
     teamGuesses,
@@ -13,6 +16,8 @@ export default function DuelsResults({
     multi,
     thisUser,
     teamHP,
+    timeOffset,
+    nextRoundTime
 }:{
     teamGuesses:{[key:string]:any},
     location:{lat:number,lng:number},
@@ -23,11 +28,25 @@ export default function DuelsResults({
     multi:number,
     thisUser: string,
     teamHP: {[key: string]: {hp:number,prev_hp:number}},
+    timeOffset: number,
+    nextRoundTime: Date,
 }){
+    const [timeLeft, setTimeLeft] = useState<number>(Math.max(0,nextRoundTime.getTime() - (new Date().getTime() + timeOffset)));
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const now = new Date().getTime() + timeOffset;
+            setTimeLeft(Math.max(0,nextRoundTime.getTime() - now)/1000);
+        }, 100);
+        return () => clearInterval(interval);
+    },[])
+
     const guesses = Object.keys(teamGuesses).reduce((acc,teamId:string) => {
         acc[teamId] = [teamGuesses[teamId]]
         return acc
     },{} as {[key:string]:any});
+
+    Object.keys(users).forEach((u:any) => (users[u].user_cosmetics.user_team_color = teams[users[u].team]?.color));
 
     
     const thisTeam = users[thisUser]?.team
@@ -37,16 +56,41 @@ export default function DuelsResults({
     const leftTeam = thisTeam ?? bestGuess[0];
     const rightTeam = leftTeam !== bestGuess[0] ? bestGuess[0] : (leftTeam !== bestTeam[0] ? bestTeam[0] : bestTeam[1]);
 
+    function getColor(color: number) {
+        return `#${color.toString(16).padStart(6, "0")}`
+    }
 
     function createTooltips(guess:any) {
         const user = users[guess.user];
         if(user){
             return <div>
-                <div><b>{user.username}</b></div>
-                <div>Team: {teams[user.team]?.name}</div>
+                <div className="duels-results-tooltips-name">{user.username}</div>
+                <hr/>
+                <div><b>Team</b>: <span className="outlined-text" style={{color: getColor(teams[user.team]?.color)}}>{teams[user.team]?.name}</span></div>
+                <div><b>Score</b>: {guess.score}</div>
+                <div><b>Distance</b>: {distanceString(guess.distance)}</div>
+                <div><b>Time</b>: {timeString(guess.time)}</div>
             </div>
         }
     }
+
+    function distanceString(distance: number) {
+        const m = distance === undefined ? -1 : Math.round(distance * 1000);
+        const km = Math.round(m / 10) / 100;
+        const userDistance = km > 1 ? km : m;
+        const units = km > 1 ? "km" : "m";
+        return `${userDistance}${units}`;
+    };
+
+    function timeString(time: number){
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.round(time % 60);
+        return minutes > 0
+        ? `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`: `${seconds}s`;
+    };
+
+
+
     return (
         <div>
             <DuelsUIOverlay 
@@ -57,7 +101,7 @@ export default function DuelsResults({
                 users={users} 
                 thisUser={thisUser} 
                 teamHP={teamHP} 
-                leftTeam={thisTeam} 
+                leftTeam={leftTeam} 
                 rightTeam={rightTeam}
             />
             <div className="duels-results-map-container">
@@ -68,6 +112,22 @@ export default function DuelsResults({
                     users={users}
                     createTooltips={createTooltips}
                 />
+            </div>
+            <div className="duels-results-footer-grid">
+                <div className="duels-results-footer-item col-span-2">
+                    <GuessFooter team={teams[leftTeam]} bestGuess={teamGuesses[leftTeam][0]} bestGuessUserCosmetics={users[teamGuesses[leftTeam][0]?.user]?.user_cosmetics}/>
+                </div>
+                <div className="duels-results-footer-item-center">
+                    <div className="duels-results-footer-timer-header">
+                        Next Round in: 
+                    </div>
+                    <div className="duels-results-footer-timer">
+                        {Math.round(timeLeft)}
+                    </div>
+                </div>
+                <div className="duels-results-footer-item col-span-2">
+                    <GuessFooter team={teams[rightTeam]} bestGuess={teamGuesses[rightTeam][0]} bestGuessUserCosmetics={users[teamGuesses[rightTeam][0]?.user]?.user_cosmetics}/>
+                </div>
             </div>
         </div>
     )

@@ -31,7 +31,7 @@ export default function ScoreAccordion({
                   <div className="round-user-name-text">{guess.user.username}</div>
                 </div>
             ),
-            style: user && guess.user.username === user.username && "round-highlight-self-row",
+            style: guess.user.username === user && "round-highlight-self-row",
         };
     });
     return (

@@ -4,10 +4,11 @@ import ProtectedRoutes from "@/app/ProtectedRoutes";
 import Loading from "@/components/loading";
 import { setError } from "@/redux/errorSlice";
 import api from "@/utils/api";
+import { isDemo } from "@/utils/auth";
 import dynamic from "next/dynamic";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Results = dynamic(() => import("@/components/game/challenge/results/results"), {
   ssr: false,
@@ -29,6 +30,9 @@ export default function GameResultPage() {
   const [state, setState] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [preloading, setPreloading] = useState<boolean>(true);
+
+  const demo = isDemo();
+  const demoAvatar = useSelector((state:any) => state.demoAvatar);
 
   useEffect(() => {
     const getResults = async () => {
@@ -59,16 +63,16 @@ export default function GameResultPage() {
   }
 
   if (preloading || loading) {
-    return <Loading />;
+    return <ProtectedRoutes allowDemo={true}><Loading /></ProtectedRoutes>;
   }
 
   return (
-    <ProtectedRoutes>
+    <ProtectedRoutes allowDemo={true}>
       <Suspense fallback={<Loading />}>
         <Results
           onClick={nextRound}
           this_user={data.this_user}
-          users={data.users}
+          users={data.users.map((((user:any) => user.user.username === 'demo' && demo ? {...user, user: {...user.user, user_cosmetics: demoAvatar}} : user)))}
           roundNumber={data.round}
           correct={data.correct}
         />

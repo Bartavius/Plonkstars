@@ -12,10 +12,26 @@ export default function SliderInput({
     value?:any
     editable?: boolean
 }) {
+    const valueDisplay = value === -1 ? <BsInfinity className="inline" /> : value;
+
+    let label;
+    if (data.format) {
+        const parts = data.format.split("<value>");
+        label = (
+            <>
+            {parts[0]}
+            {valueDisplay}
+            {parts[1]}
+            </>
+        );
+    } else {
+        label = valueDisplay;
+    }
+
     return (
         <div className="w-full relative flex flex-col gap-2">
            <label className="block text-white" htmlFor={data.name}>
-                {data.name}: {value === -1 ? <BsInfinity className="inline"/> : value}
+                {data.name}: {label}
             </label>
             <input
                 className="focus:outline-none input-field cursor-pointer"

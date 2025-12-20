@@ -91,3 +91,12 @@
     filter: brightness(80%);
     transform: scale(0.95);
 }
+
+.map-leaderboard-demo-text {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--lighter-blue);
+    font-size: 1rem;
+    width: 100%;
+    font-weight: 700;
+}

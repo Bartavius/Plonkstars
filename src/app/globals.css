@@ -1,7 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); */
 
 :root {
   --lightest-blue     : rgba(201, 233, 238, 1);
@@ -50,7 +50,8 @@ body {
 }
 
 .link:hover {
-text-decoration: underline;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .btn-primary {
@@ -122,6 +123,11 @@ text-decoration: underline;
 .bg-dark {
   background-color: var(--darker-blue);
 }
+
+.bg-darkest {
+  background-color: var(--darkest-blue);
+}
+
 .bg-light {
   background-color: var(--lighter-blue);
 }
@@ -150,8 +156,8 @@ text-decoration: underline;
   color: var(--darker-blue);
 }
 
-.text-white {
-  color: var(--plonk-stars-white);
+.text-light {
+  color: var(--lightest-blue);
 }
 
 .text-red {
@@ -203,4 +209,9 @@ text-decoration: underline;
 
 .pixelated {
   image-rendering: pixelated;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .5;
 }

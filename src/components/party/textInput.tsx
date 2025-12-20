@@ -19,7 +19,6 @@ export default function TextInput({
         }
     },[value]);
 
-
     return (
         <div className="w-full relative flex flex-row gap-2">
             <label

@@ -50,13 +50,13 @@ export default function SummaryPage() {
   }, [params.id]);
 
   if (!data) {
-    return <Loading/>;
+    return <ProtectedRoutes allowDemo={true}><Loading/></ProtectedRoutes>;
   }
 
   return (
-    <ProtectedRoutes>
+    <ProtectedRoutes allowDemo={true}>
       <div className="summary-container">
-        <Summary locations={locations} data={[data]} user={user}>
+        <Summary locations={locations} data={[data]} user={user.username}>
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
               <button className="btn-selected" onClick={goBack}>

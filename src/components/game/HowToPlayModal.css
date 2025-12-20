@@ -1,0 +1,57 @@
+.how-to-play-title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.how-to-play-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.how-to-play-step{
+    
+}
+
+.how-to-play-step-img{
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.how-to-play-step-title{
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+}
+
+.how-to-play-step-description{
+    font-size: 16px;
+    color: var(--lightest-blue);
+}
+
+
+@media (max-width: 600px) {
+    .how-to-play-modal {
+        height: 80vh;
+        overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .how-to-play-step {
+        border-bottom: var(--lightest-blue) 1px solid;
+    }
+    .how-to-play-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .how-to-play-step-title{
+        font-size: 18px;
+    }
+    .how-to-play-step-description{
+        font-size: 12px;
+    }
+}

@@ -7,6 +7,8 @@ import { CosmeticTiers } from "@/types/CosmeticTiers";
 import api from "@/utils/api";
 import { useEffect, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
+import ProtectedRoutes from "@/app/ProtectedRoutes";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [message, _setMessage] = useState<React.ReactNode>();
@@ -14,6 +16,7 @@ export default function Page() {
   const [type, setType] = useState("");
   const [response, setResponse] = useState<Response | null>(null);
   const [crates, setCrates] = useState<Crate[]>();
+  const router = useRouter();
 
   const setMessage = (message: React.ReactNode) => {
     _setMessage(message);
@@ -53,10 +56,10 @@ export default function Page() {
     fetchCrates();
   },[]);
 
-  if (!crates) return <Loading />;
+  if (!crates) return <ProtectedRoutes><Loading /></ProtectedRoutes>;
 
   return (
-    <div>
+    <ProtectedRoutes>
       <div className="navbar-buffer" />
       <Popup update={update} type={type === "success" ? null: type}>
         {message}
@@ -95,8 +98,12 @@ export default function Page() {
       <div className="max-w-xl mx-auto mt-8 font-sans text-gray-900">
         <div className="mb-6 text-center text-3xl font-bold">Shop</div>
 
-        <div className="mb-8 text-center text-lg font-semibold text-gray-700">
+        <div className="mb-4 text-center text-lg font-semibold text-gray-700">
           Coins: {coins} <FaQuestionCircle className="inline" title="Get coins from playing the daily, both placement and score award points!"/>
+        </div>
+
+        <div className="mb-4 text-center text-sm font-semibold text-gray-600">
+          To see your cosmetics, go to the <a className="link" onClick={() => router.push("/customize")}>Customization</a> page.
         </div>
 
         <div className="flex flex-col gap-4">
@@ -112,7 +119,7 @@ export default function Page() {
           ))}
         </div>
       </div>
-    </div>
+    </ProtectedRoutes>
   );
 }
 

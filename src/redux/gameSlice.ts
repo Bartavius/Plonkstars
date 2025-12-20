@@ -1,50 +1,35 @@
-import api from "@/utils/api";
 import { createSlice } from "@reduxjs/toolkit";
-import { unstable_HistoryRouter } from "react-router-dom";
 
 type GameState = {
   mapName: string|undefined;
-  mapId: string|undefined;
-  seconds: number|undefined; // in seconds
+  map_id: string|undefined;
+  time: number|undefined; // in seconds
   rounds: number|undefined;
-  NMPZ: boolean|undefined;
+  nmpz: boolean|undefined;
 };
 
 const initialState: GameState = {
   mapName: undefined,
-  mapId: undefined,
-  seconds: undefined,
+  map_id: undefined,
+  time: undefined,
   rounds: undefined,
-  NMPZ: undefined,
-};
-
-export const fetchInitialState = async (dispatch: any) => {
-  const res = await api.get("/session/default");
-  dispatch(
-    setGameSettings({
-      mapName: res.data.mapName,
-      mapId: res.data.mapId,
-      seconds: res.data.seconds,
-      rounds: res.data.rounds,
-      NMPZ: res.data.NMPZ,
-    })
-  );
+  nmpz: undefined,
 };
 
 const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setGameSettings(state, { payload: { mapName, mapId, seconds, rounds, NMPZ } }) { 
+    setGameSettings(state, { payload: { mapName, map_id, time, rounds, nmpz } }) { 
       state.mapName = mapName;
-      state.mapId = mapId;
-      state.seconds = seconds;
+      state.map_id = map_id;
+      state.time = time;
       state.rounds = rounds;
-      state.NMPZ = NMPZ;
+      state.nmpz = nmpz;
     },
-    setGameMap(state, { payload: { mapName, mapId } }) {
+    setGameMap(state, { payload: { mapName, map_id } }) {
       state.mapName = mapName;
-      state.mapId = mapId;
+      state.map_id = map_id;
     },
 }});
 

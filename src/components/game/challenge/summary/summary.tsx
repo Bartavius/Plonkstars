@@ -44,13 +44,13 @@ export default function Summary({
   const router = useRouter();
 
   const userStats = guesses.map((round) => {
-    return round.find((guess:any) => guess.user.username === user.username);
+    return round.find((guess:any) => guess.user.username === user);
   });
   const userDisplay = displayedGuesses.map((round) => {
-    return round.find((guess:any) => guess.user.username === user.username);
+    return round.find((guess:any) => guess.user.username === user);
   });
   
-  const overallStats = data.find((score:any) => score.user.username === user.username);
+  const overallStats = data.find((score:any) => score.user.username === user);
   function distanceString(distance: number){
     if (distance === undefined) return "N/A";
     const m = Math.round(distance * 1000);
@@ -83,7 +83,7 @@ export default function Summary({
         <div className="user-name-text">{scores.user.username}</div>
       </div>
     );
-    if (scores.user.username === user.username){
+    if (scores.user.username === user){
       map.style = "summary-highlight-self-row";
     }
     return map;
@@ -118,6 +118,7 @@ export default function Summary({
               users: leaderboard? displayedGuesses[index]: [userDisplay[index]],
             };
           })}
+          user={user}
           height={mapHeight}
         />
       </div>

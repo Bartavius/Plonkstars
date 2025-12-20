@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import ProtectedRoutes from "@/app/ProtectedRoutes";
 import DuelsResults from "@/components/game/duels/results/results";
 import Loading from "@/components/loading";
+import calculateOffset from "@/components/time";
 
 export default function DuelsResultsPage() {
     const params = useParams();
@@ -23,15 +24,21 @@ export default function DuelsResultsPage() {
     const [loading, setLoading] = useState(true);
     const [thisUser, setThisUser] = useState<string>("");
     const [multi, setMulti] = useState<number>(0);
+    const [timeOffset, setTimeOffset] = useState<number>(0);
+    const [nextRoundTime, setNextRoundTime] = useState<Date>(new Date());
     
 
+    
     useEffect(() => {
-        async function fetchData() {
+        async function processState(){
             const state = await api.get(`/game/state?id=${id}`)
             setState(state.data.state);
-
+            setNextRoundTime(new Date(state.data.next_round));
+            return state;
+        }
+        async function fetchData() {
+            setTimeOffset(await calculateOffset(processState));
             const res = await api.get(`/game/results?id=${id}`);
-            console.log(res.data);
             setLocation({lat:res.data.lat,lng:res.data.lng});
             setStartHP(res.data.start_hp);
             setRoundNumber(res.data.round_number);
@@ -85,8 +92,6 @@ export default function DuelsResultsPage() {
         return <Loading/>
     }
 
-    console.log({teamGuesses,location,users,teams,startHP,roundNumber,thisUser,teamHP,multi});
-
     return (
         <ProtectedRoutes>
             <DuelsResults
@@ -99,6 +104,8 @@ export default function DuelsResultsPage() {
                 roundNumber={roundNumber}
                 thisUser={thisUser}
                 teamHP={teamHP}
+                timeOffset={timeOffset}
+                nextRoundTime={nextRoundTime}
             />
         </ProtectedRoutes>
     )

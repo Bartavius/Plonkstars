@@ -34,11 +34,7 @@ export default function BasicMapResult({
     return { ...marker, users: newUsers };
   });
 
-  const locations = boundedMarkers.map((marker:any) => [marker.correct, ...marker.users.filter((guess:any)=> (!user || guess.user.username === user.username))]).flat();
-
-  const dottedLine = {
-    
-  };
+  const locations = boundedMarkers.map((marker:any) => [marker.correct, ...marker.users.filter((guess:any)=> (guess.user.username === user))]).flat();
   
   return (
     <div

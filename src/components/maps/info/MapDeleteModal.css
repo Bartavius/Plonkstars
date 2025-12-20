@@ -1,0 +1,53 @@
+.delete-map-text {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(lightest-blue);
+}
+.delete-map-content{
+    padding: 1rem;
+    background-color: var(--theme-blue);
+    border-radius: 10px;
+}
+.delete-map-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: white;
+    text-align: center;
+}
+
+.delete-map-input-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-map-warning-text{
+    color: var(--plonk-stars-red);
+    font-weight: bold;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.delete-map-button{
+    margin-top:1rem;
+    width:100%;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--plonk-stars-red);
+    transition: all 0.3s ease;
+    
+}
+
+.delete-map-button:disabled{
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.delete-map-button:not(:disabled):hover{
+    filter: brightness(75%);
+    transform: scale(1.01);
+}

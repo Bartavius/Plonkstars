@@ -65,7 +65,7 @@ export default function MapSearch({
                     />
                     <button
                         disabled={loading}
-                        className={`btn px-2 rounded-r-md ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                        className="btn px-2 rounded-r-md"
                         onClick={() => {
                             if (loading) return;
                             setPage(1);

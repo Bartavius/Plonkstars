@@ -1,6 +1,6 @@
 'use client';
-import { logout } from "@/redux/authSlice"
 import { setError } from "@/redux/errorSlice";
+import { logout } from "@/utils/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
@@ -14,7 +14,7 @@ export default function Logout() {
     const redirectLink = searchParams.get("redirect");
 
     useEffect(() => {
-        dispatch(logout());
+        logout();
         if (error){
             dispatch(setError(error))
         }

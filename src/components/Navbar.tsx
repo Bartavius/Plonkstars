@@ -2,39 +2,45 @@
 import { Sigmar } from "next/font/google";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import { FiMenu } from "react-icons/fi";
 import "./Navbar.css";
+import { isAuthenticated, isDemo } from "@/utils/auth";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
 export default function NavBar() {
 
   const router = useRouter();
-  const auth = useSelector((state: any) => state.auth.isAuthenticated);
-  let registeredTabs: { tab: string; link: string }[] = [
-    { tab: "home", link: "/" },
-  ];
-  let unregisteredTabs: { tab: string; link: string }[] = [
-    { tab: "home", link: "/" },
+  const auth = isAuthenticated();
+  const demo = isDemo();
+  
+  const registeredTabs = [
+    { tab: "Home", link: "/" },
+    { tab: "Game", link: "/game" },
+    { tab: "Maps", link: "/map" },
+    { tab: "Customizations", link: "/customize" },
+    { tab: "Shop", link: "/shop" },
+    { tab: "Contacts", link: "/#contact" },
+    { tab: "Logout", link: "/account/logout" },
   ];
 
-  if (auth !== null) {
-    registeredTabs = [
-      { tab: "Home", link: "/" },
-      { tab: "Game", link: "/game" },
-      { tab: "Maps", link: "/map" },
-      { tab: "Customizations", link: "/customize" },
-      { tab: "Shop", link: "/shop" },
-      { tab: "Contacts", link: "/#contact" },
-      { tab: "Logout", link: "/account/logout" },
-    ];
-    unregisteredTabs = [
-      { tab: "Home", link: "/" },
-      { tab: "Login", link: "/account/login" },
-      { tab: "Register", link: "/account/register" },
-    ];
-  }
+  const demoTabs = [
+    { tab: "Home", link: "/" },
+    { tab: "Game", link: "/game" },
+    { tab: "Maps", link: "/map" },
+    { tab: "Customizations", link: "/customize" },
+    { tab: "Login", link: "/account/login" },
+    { tab: "Register", link: "/account/register" },
+    { tab: "Contacts", link: "/#contact" },
+  ]
+
+  const unregisteredTabs = [
+    { tab: "Home", link: "/" },
+    { tab: "Login", link: "/account/login" },
+    { tab: "Register", link: "/account/register" },
+    { tab: "Contacts", link: "/#contact" },
+  ];
+  
 
   const params = useParams();
 
@@ -77,7 +83,7 @@ export default function NavBar() {
           </button>
         </div>
         <ul className={`navbar-elements ${isMenuOpen && "navbar-elements-open"}`}>
-          {(auth ? registeredTabs : unregisteredTabs).map((tab) => (
+          {(auth ? (demo? demoTabs: registeredTabs) : unregisteredTabs).map((tab) => (
             <li
               onClick={()=>{
                 router.push(tab.link);
@@ -90,7 +96,7 @@ export default function NavBar() {
                   : ""
               }`}
             >
-              <label>{tab.tab}</label>
+              <div>{tab.tab}</div>
             </li>
             
           ))}

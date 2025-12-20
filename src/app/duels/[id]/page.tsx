@@ -55,21 +55,23 @@ export default function DuelsGamePage() {
             setGuesses(state.data.guess_count);
             setMaxGuesses(state.data.max_guesses);
             setMulti(state.data.multi);
-            setSpectating(state.data.spectator);
+            setSpectating(state.data.spectating);
             setCanGuess(state.data.can_guess);
             setMaxHealth(state.data.start_hp);
 
-            const plonks = state.data.plonks.reduce((acc: any, item: any) => {
-                acc[item.user] = item;
-                return acc;
-            }, {});
-            setTeamPlonks(plonks);
+            if (!state.data.spectating){
+                const plonks = state.data.plonks?.reduce((acc: any, item: any) => {
+                    acc[item.user] = item;
+                    return acc;
+                }, {});
+                setTeamPlonks(plonks);
 
-            const guesses = state.data.guesses.reduce((acc: any, item: any) => {
-                acc[item.user] = item;
-                return acc;
-            },{});
-            setTeamGuesses(guesses)
+                const guesses = state.data.guesses.reduce((acc: any, item: any) => {
+                    acc[item.user] = item;
+                    return acc;
+                },{});
+                setTeamGuesses(guesses)
+            }
 
             const teams = state.data.teams.reduce((acc: any, item: any) => {
                 acc[item.id] = item;
