@@ -18,6 +18,8 @@ export default function DuelsSummaryPage() {
     const [teamHP, setTeamHP] = useState<{[key: string]: any}>({});
     const [loading, setLoading] = useState<boolean>(true);
     const [state, setState] = useState<string>();
+    const [thisUser, setThisUser] = useState<string>("");
+    const [startHP, setStartHP] = useState<number>(0);
 
     const params = useParams();
     const id = typeof params.id === "string" ? params.id : "";
@@ -29,6 +31,7 @@ export default function DuelsSummaryPage() {
 
             const res = await api.get(`/game/summary?id=${id}`);
             setLocations(res.data.rounds);
+            setStartHP(res.data.start_hp);
 
             const teams = res.data.teams.reduce((acc: any, item: any) => {
                 acc[item.team.id] = item.team;
@@ -50,7 +53,7 @@ export default function DuelsSummaryPage() {
 
             const userMap = res.data.teams.reduce((acc: any, item: any) => {
                 item.team.members.forEach((member: string) => {
-                    acc[member] = {"team": item.id};
+                    acc[member] = {"team": item.team.id};
                 });
                 return acc;
             },{});
@@ -63,6 +66,10 @@ export default function DuelsSummaryPage() {
                 userMap[avatar.username] = {...userMap[avatar.username], ...avatar};
             });
             setUsers(userMap);
+
+            const thisUser = await api.get("/account/user");
+            setThisUser(thisUser.data.user);
+
             setLoading(false);
         }
         fetchData();
@@ -76,7 +83,10 @@ export default function DuelsSummaryPage() {
         <ProtectedRoutes>
             <DuelsSummary
                 users={users}
+                thisUser={thisUser}
+                startHP={startHP}
                 teams={teams}
+                teamHP={teamHP}
                 teamGuesses={teamGuesses}
                 locations={locations}
             />

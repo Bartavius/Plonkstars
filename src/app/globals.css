@@ -42,6 +42,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
+  scroll-behavior: smooth;
 }
 
 .link {

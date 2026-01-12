@@ -1,0 +1,41 @@
+.duels-team-box-container{
+    background-color: var(--dark-blue);
+    border: 2px solid var(--plonk-stars-white);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--plonk-stars-white);
+    padding: 1rem;
+}
+
+.duels-team-box-placement{
+    font-size: 1rem;
+    font-weight: bold;
+    -webkit-text-stroke: 0.5px gray;
+}
+
+.duels-team-box-name{
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.duels-team-box-stats{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.duels-team-box-stat-title{
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.duels-team-box-stat-stat{
+    font-size: 1rem;
+    text-align: center;
+}

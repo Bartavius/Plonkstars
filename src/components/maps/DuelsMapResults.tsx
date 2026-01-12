@@ -9,13 +9,15 @@ export default function DuelsMapResult({
     teamGuesses,
     teams,
     users,
-    createTooltips= ((guess) => guess.user)
+    createTooltips= ((guess) => guess.user),
+    showRound = false,
 }:{
     locations:{lat:number,lng:number}[],
     teamGuesses:{[key:string]: {lat:number, lng:number, user:string}[][]},
     teams: {[key:string]:any},
     users: {[key:string]:any},
     createTooltips?: (guess:any) => React.ReactNode,
+    showRound?: boolean,
 }){
     locations.forEach((loc,i) => {
         Object.keys(teamGuesses).forEach((team) => {
@@ -48,7 +50,13 @@ export default function DuelsMapResult({
                         clickable={true}
                         iconUrl="/PlonkStarsMarker.png"
                         iconPercent={1}
-                    />
+                    >
+                        {showRound ? 
+                            <Tooltip direction="top" offset={[0, -30]}>
+                                <b>Round {i + 1}</b>
+                            </Tooltip> : undefined
+                        }
+                    </MapIcon>
                     {Object.keys(teamGuesses).map((team,j) => (
                         <div key={j}>
                             {teamGuesses[team][i]?.length > 0 &&
