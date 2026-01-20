@@ -44,13 +44,17 @@ export default function DuelsTeamSummary({
 
     const winningTeam = teamPlacements[0];
     const thisTeam = users[thisUser]?.team ?? winningTeam;
+    const userIndex = teams[thisTeam].members.indexOf(thisUser);
+
 
     const [displayTeam, _setDisplayTeam] = useState<string>(thisTeam);
-    const [currentTeamPlayerIdx, _setCurrentTeamPlayerIdx] = useState<number>(0);
+    const [currentTeamPlayerIdx, _setCurrentTeamPlayerIdx] = useState<number>(Math.max(userIndex,0));
 
     function setDisplayTeam(teamId: string) {
         _setDisplayTeam(teamId);
-        _setCurrentTeamPlayerIdx(0);
+        const userIndex = teams[teamId].members.indexOf(thisUser);
+
+        _setCurrentTeamPlayerIdx(Math.max(userIndex,0));
         router.push("#team-summary");
     }
 
@@ -160,7 +164,7 @@ export default function DuelsTeamSummary({
                         <div className="duels-team-summary-title-subtext">{getRandomTitle(playerTitles[currentTeamPlayer])}</div>
                     </div>
                     <div className="duels-team-summary-stat">
-                        <div className="duels-team-summary-stat-title">Team Players</div>
+                        <div className="duels-team-summary-stat-title">Team Player{teams[displayTeam].members.length > 1 && "s"}</div>
                         <div className="duels-team-summary-stat-players-container">
                             {teams[displayTeam].members.length > 1 && <BiSolidLeftArrow onClick={leftPlayer} className="dark-hover-button"/>}
                             <div className="duels-team-summary-stats-user-icon">
