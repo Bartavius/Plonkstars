@@ -3,16 +3,19 @@ import DuelsMapResult from "@/components/maps/DuelsMapResults";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import "./summary.css";
-import DuelsTeamBox from "./teamBox";
+import DuelsTeamBox from "./teamSummary/teamBox";
+import DuelsTeamSummary from "./teamSummary/teamSummary";
+import DuelsRoundSummary from "./roundSummary";
 
 export default function DuelsSummary({
     users,
     thisUser,
     teams,
     teamHP,
+    startHP,
     teamGuesses,
     locations,
-    startHP,
+    children,
 }:{
     users: {[key: string]: any},
     thisUser: string,
@@ -21,9 +24,9 @@ export default function DuelsSummary({
     startHP: number,
     teamGuesses: {[key: string]: any},
     locations: {lat:number,lng:number}[],
+    children?: any,
 }){
     const router = useRouter();
-
     const teamPlacements = Object.keys(teams).sort((a,b) => {
         if (teamHP[b].length != teamHP[a].length){
             return teamHP[b].length - teamHP[a].length;
@@ -40,6 +43,21 @@ export default function DuelsSummary({
     const winningTeam = teamPlacements[0];
     const thisTeam = users[thisUser]?.team ?? winningTeam;
 
+    const numRounds = locations.length;
+    const bestGuesses = Array(numRounds).fill(null);
+
+    teamPlacements.forEach((teamId) => {
+        teamGuesses[teamId].forEach((roundGuesses: any, roundIndex: number) => {
+            roundGuesses.forEach((guess: any) => {
+                if (bestGuesses[roundIndex] === null || guess.distance < bestGuesses[roundIndex].distance){
+                    bestGuesses[roundIndex] = guess;
+                }
+            });
+        });
+    });
+
+    console.log(bestGuesses);
+
     const roundsWon = teamPlacements.reduce((acc, teamId) => {
         acc[teamId] = teamHP[teamId].reduce((acc:any, hp, idx) => {
             if (hp == acc[0]) {
@@ -50,11 +68,9 @@ export default function DuelsSummary({
         return acc;
     },{} as {[key: string]: number[]});
 
-    console.log(roundsWon);
 
     const [displayedGuesses, setDisplayedGuesses] = useState<{[key: string]: any}>(teamGuesses);
     const [displayedLocations, setDisplayedLocations] = useState<{lat:number,lng:number}[]>(locations);
-    const [displayTeam, setDisplayTeam] = useState<string>(thisTeam);
     const [displayRound, setDisplayRound] = useState<number | "all">("all");
 
     function getColor(color: number) {
@@ -91,6 +107,9 @@ export default function DuelsSummary({
     }
 
     function selectRound(round: number | "all"){
+        if(round != displayRound){
+            router.push("#duels-map-summary");
+        }
         if (round === "all"){
             setDisplayedGuesses(teamGuesses);
             setDisplayedLocations(locations);
@@ -99,7 +118,9 @@ export default function DuelsSummary({
         else{
             const newGuesses: {[key: string]: any} = {};
             Object.keys(teamGuesses).forEach((teamId) => {
-                newGuesses[teamId] = [teamGuesses[teamId][round]];
+                if (teamGuesses[teamId][round] !== undefined){
+                    newGuesses[teamId] = [teamGuesses[teamId][round]];
+                }
             });
             console.log(newGuesses);
             setDisplayedGuesses(newGuesses);
@@ -110,7 +131,7 @@ export default function DuelsSummary({
 
     return (
         <div>
-            <div className="w-full h-[90dvh]">
+            <div className="w-full h-[90dvh]" id="duels-map-summary">
                 <DuelsMapResult 
                     locations={displayedLocations}
                     teamGuesses={displayedGuesses}
@@ -120,28 +141,17 @@ export default function DuelsSummary({
                     showRound={displayRound === "all"}
                 />
             </div>
-            <div className="duels-summary-header-container">
-                <div></div>
-                <div className="duels-summary-header">Game Summary</div>
-                <div className="duels-summary-back-to-party-wrapper">
-                    <button className="btn-primary" onClick={() => router.push(`/party`)}>
-                        Back To Party
-                    </button>
-                </div>
-            </div>
-            <div className="duels-team-container">
-                {teamPlacements.map((teamId, placement) => 
-                    <DuelsTeamBox 
-                        key={placement} 
-                        placement={placement + 1} 
-                        teamInfo={teams[teamId]}
-                        teamHP={teamHP[teamId]} 
-                        teamGuesses={teamGuesses[teamId]}
-                        roundsWon={roundsWon[teamId]}
-                        onClick={() => setDisplayTeam(teamId)}
-                    />
-                )}
-            </div>
+            {children}
+            <DuelsTeamSummary 
+                users={users}
+                thisUser={thisUser}
+                teams={teams}
+                teamHP={teamHP}
+                startHP={startHP}
+                teamGuesses={teamGuesses}
+                locations={locations}
+                setDisplayRound={selectRound}
+            />
         </div>
     )
 }

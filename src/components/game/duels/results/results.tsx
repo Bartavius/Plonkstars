@@ -98,8 +98,6 @@ export default function DuelsResults({
                 multi={multi} 
                 maxHealth={startHP} 
                 teams={teams} 
-                users={users} 
-                thisUser={thisUser} 
                 teamHP={teamHP} 
                 leftTeam={leftTeam} 
                 rightTeam={rightTeam}

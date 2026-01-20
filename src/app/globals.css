@@ -216,3 +216,11 @@ button:disabled {
   cursor: not-allowed;
   opacity: .5;
 }
+
+.text-shadow-dark{
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+}
+
+.text-shadow-light{
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+}

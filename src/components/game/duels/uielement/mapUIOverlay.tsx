@@ -1,7 +1,5 @@
-import Timer from "@/components/game/timer/timer";
 import "./mapUIOverlay.css";
 import HealthBar from "./healthbar";
-import { useEffect, useState } from "react";
 import GamePanel from "@/components/game/GamePanel";
 
 export default function DuelsUIOverlay({
@@ -12,8 +10,6 @@ export default function DuelsUIOverlay({
     multi,
     teams,
     teamHP,
-    users,
-    thisUser,
     maxHealth,
     leftTeam,
     rightTeam,
@@ -25,24 +21,11 @@ export default function DuelsUIOverlay({
     multi: number,
     teamHP?: {[key: string]: {hp:number,prev_hp:number}},
     teams: {[key: string]: any},
-    users: {[key: string]: any},
-    thisUser: string,
     maxHealth: number,
     leftTeam: string,
     rightTeam: string,
 
 }) {
-    const thisTeam = users[thisUser]?.team ?? Object.keys(teams).reduce((bestTeam: string | undefined, team) => {
-        if(!bestTeam){
-            return team;
-        }
-        if(teams[bestTeam].hp < teams[team].hp){
-            return team;
-        }
-    },Object.keys(teams)[0]);
-    const teamsToDisplay = Object.keys(teams).filter(t => t != thisTeam && teams[t].hp > 0);
-    
-    
     return (
         <div className="duels-ui-overlay">
             <GamePanel 
@@ -57,7 +40,6 @@ export default function DuelsUIOverlay({
                         health={teamHP ? teamHP[leftTeam].hp : teams[leftTeam].hp} 
                         maxHealth={maxHealth} 
                         teamInfo={teams[leftTeam]} 
-                        users={users}
                         prevHealth={teamHP&&teamHP[leftTeam].prev_hp}
                     />
                 </div>
@@ -66,7 +48,6 @@ export default function DuelsUIOverlay({
                         health={teamHP ? teamHP[rightTeam].hp : teams[rightTeam].hp} 
                         maxHealth={maxHealth} 
                         teamInfo={teams[rightTeam]} 
-                        users={users}
                         prevHealth={teamHP&&teamHP[rightTeam].prev_hp}
                     />
                 </div>

@@ -5,14 +5,12 @@ export default function HealthBar({
     maxHealth,
     fontSize = "1rem",
     teamInfo,
-    users,
     prevHealth,
 }:{
     health: number;
     maxHealth: number;
     fontSize?: string;
     teamInfo: any,
-    users?: {[key: string]: any};
     prevHealth?: number;
 
 }){
@@ -35,7 +33,7 @@ export default function HealthBar({
 
     return (
         <div className="duels-health-bar-container">
-            <div style={{backgroundColor:color}}className={`duels-health-bar-name ${brightness > 128? "text-": "text-white"}`}>{teamInfo.name}</div>
+            <div style={{backgroundColor:color}}className={`duels-health-bar-name ${brightness > 128? "text-black": "text-white"}`}>{teamInfo.name}</div>
             <div style={{backgroundColor:color}} className="duels-health-bar">
                 <div 
                     className="duels-health-bar-fill" 

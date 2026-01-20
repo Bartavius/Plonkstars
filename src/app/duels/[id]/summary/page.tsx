@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import useDuelsSocket from "../../duelsSocket";
 import DuelsSummary from "@/components/game/duels/summary/summary";
+import "./page.css";
 
 // http://localhost:3000/duels/c30c33d3-0578-4e6e-adec-13a4640a14f3/summary
 
@@ -89,7 +90,17 @@ export default function DuelsSummaryPage() {
                 teamHP={teamHP}
                 teamGuesses={teamGuesses}
                 locations={locations}
-            />
+            >
+                <div className="duels-summary-header-container">
+                    <div></div>
+                    <div className="duels-summary-header">Game Summary</div>
+                    <div className="duels-summary-back-to-party-wrapper">
+                        <button className="btn-primary" onClick={() => router.push(`/party`)}>
+                            Back To Party
+                        </button>
+                    </div>
+                </div>
+            </DuelsSummary>
         </ProtectedRoutes>
     )
 }
