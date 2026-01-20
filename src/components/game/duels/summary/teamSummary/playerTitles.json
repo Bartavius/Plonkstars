@@ -1,0 +1,50 @@
+{
+    "lonely": {
+        "text": "Lonely", 
+        "titles": [
+            "You did everything by yourself! Get some friends ... or not, I don't care.",
+            "You played the game. Good job. Others would be nice tho.",
+            "Being a solo player is tough, but you made it work!",
+            "You are a one-person army. Respect.",
+            "Solo is fun but lonely, welp can't say we expected much.",
+            "You're not depressed are you?",
+            "You carried your team, but also did the worst, thus you are average.",
+            "At least get a bot to join you smh"
+        ]
+    },
+    "mvp": {
+        "text": "MVP", 
+        "titles": [
+            "You really carried the team. Congratulations! W Plonker",
+            "You're the real MVP! Your team couldn't have done it without you",
+            "Look down on your team, you are carrying them. Request a raise",
+            "LMAO look at the others",
+            "Scroll though the team, we've labeled the highest disappointment just for you. :)",
+            "You carried your team I guess, or not, IDK how well you did."
+        ]
+    },
+    "useless": {
+        "text": "Most Useless Player", 
+        "titles": [
+            "Smh Smh ... You really don't want this title, you know?",
+            "Your team relied on you the least. Oof.",
+            "You were dead weight for your team :'(. Try harder next time.",
+            "Your team would have done better without you ... just saying.",
+            "Go watch some Rainbolt, that might help",
+            "You know I'd love to be motivational, but there's little to work with.",
+            "I support all skill levels, just maybe play so solo for a bit."
+        ]
+    },
+    "average": {
+        "text":"Average Player", 
+        "titles": [
+            "You were neither the best nor the worst. Just ... meh ... congrats?",
+            "You played the game. That's something I guess.",
+            "You are not last, you are not first, you are ... average.",
+            "You are the definition of mediocrity. Embrace it!",
+            "You are the human embodiment of 'just okay'.",
+            "... no words. At least you aren't the last, I guess?",
+            "Congrats you can look down on some amount of teammates?"
+        ]
+    }
+}

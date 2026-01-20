@@ -16,6 +16,73 @@
     font-weight: bold;
 }
 
+.duels-team-summary-overall-stats{
+    background-color: var(--theme-blue);
+    border: 2px solid var(--plonk-stars-white);
+    border-radius: 1rem;
+    display: grid;
+    grid-template-columns:  2fr 1fr 2fr;
+    color: var(--plonk-stars-white);
+    padding: 1rem;
+    gap: 2rem;
+    width: 60rem;
+}
+
+.duels-team-summary-title-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.duels-team-summary-title-title{
+    font-size: 1.5rem;
+    font-weight: 1000;
+}
+
+
+.duels-team-summary-title-subtext{
+    font-size: 0.75rem;
+    font-style: italic;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+
+.duels-team-summary-stat{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.duels-team-summary-stat-title{
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.duels-team-summary-stat-players-container{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    align-items: center;
+}
+
+.duels-team-summary-stats-user-icon{
+    margin-top: 1rem;
+    width: 5rem;
+}
+.duels-team-summary-stats-username{
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
 .duels-team-summary-rounds{
     display: flex;
     flex-direction: row;
