@@ -150,6 +150,7 @@ export default function DuelsSummary({
                 startHP={startHP}
                 teamGuesses={teamGuesses}
                 locations={locations}
+                router={router}
                 setDisplayRound={selectRound}
             />
         </div>

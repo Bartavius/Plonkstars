@@ -12,6 +12,7 @@ export default function DuelsTeamSummary({
     startHP,
     teamGuesses,
     locations,
+    router,
     setDisplayRound,
 }:{
     users: {[key: string]: any},
@@ -21,6 +22,7 @@ export default function DuelsTeamSummary({
     startHP: number,
     teamGuesses: {[key: string]: any},
     locations: {lat:number,lng:number}[],
+    router: any,
     setDisplayRound: (round: number | "all") => void,
 }){
     const teamPlacements = Object.keys(teams).sort((a,b) => {
@@ -39,8 +41,12 @@ export default function DuelsTeamSummary({
     const winningTeam = teamPlacements[0];
     const thisTeam = users[thisUser]?.team ?? winningTeam;
 
-    const [displayTeam, setDisplayTeam] = useState<string>(thisTeam);
+    const [displayTeam, _setDisplayTeam] = useState<string>(thisTeam);
 
+    function setDisplayTeam(teamId: string) {
+        _setDisplayTeam(teamId);
+        router.push("#team-summary");
+    }
 
     const numRounds = locations.length;
     const bestGuesses = Array(numRounds).fill(null);
@@ -84,7 +90,7 @@ export default function DuelsTeamSummary({
                     />
                 )}
             </div>
-            <div className="duels-team-summary-container">
+            <div className="duels-team-summary-container" id="team-summary">
                 <div className="duels-team-summary-title">{displayTeamInfo.name} Summary</div>
                 <div className="duels-team-summary-rounds">
                     {displayTeamGuesses.map((guesses:any,round:number) =>
