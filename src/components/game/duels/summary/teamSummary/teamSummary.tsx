@@ -50,6 +50,7 @@ export default function DuelsTeamSummary({
 
     function setDisplayTeam(teamId: string) {
         _setDisplayTeam(teamId);
+        _setCurrentTeamPlayerIdx(0);
         router.push("#team-summary");
     }
 
