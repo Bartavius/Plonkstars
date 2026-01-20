@@ -68,7 +68,7 @@ export default function DuelsTeamRoundSummary({
                 </div>
                 {bestTeamGuess ? 
                 <div className="duels-team-summary-round-guess">
-                    <div className="duels-team-summary-round-guess-title">Team Guess</div>
+                    <div className="duels-team-summary-round-guess-title">Best Team Guess</div>
                     <div className="duels-team-summary-round-guess-user-icon">
                         <UserIcon data={users[bestTeamGuess.user]}/>
                     </div>

@@ -92,6 +92,7 @@ export default function DuelsTeamSummary({
             </div>
             <div className="duels-team-summary-container" id="team-summary">
                 <div className="duels-team-summary-title">{displayTeamInfo.name} Summary</div>
+                
                 <div className="duels-team-summary-rounds">
                     {displayTeamGuesses.map((guesses:any,round:number) =>
                         <DuelsTeamRoundSummary 
