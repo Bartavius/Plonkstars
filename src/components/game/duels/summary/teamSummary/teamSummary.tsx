@@ -163,16 +163,16 @@ export default function DuelsTeamSummary({
                         <div className="duels-team-summary-title-title">{PLAYER_TITLES[playerTitles[currentTeamPlayer]].text}</div>
                         <div className="duels-team-summary-title-subtext">{getRandomTitle(playerTitles[currentTeamPlayer])}</div>
                     </div>
-                    <div className="duels-team-summary-stat">
-                        <div className="duels-team-summary-stat-title duels-team-summary-small-screen-hidden">Team Player{teams[displayTeam].members.length > 1 && "s"}</div>
-                        <div className="duels-team-summary-stat-players-container">
+                    <div className="duels-team-summary-player">
+                        <div className="duels-team-summary-player-title duels-team-summary-small-screen-hidden">Team Player{teams[displayTeam].members.length > 1 && "s"}</div>
+                        <div className="duels-team-summary-player-players-container">
                             {teams[displayTeam].members.length > 1 && <BiSolidLeftArrow onClick={leftPlayer} className="dark-hover-button"/>}
-                            <div className="duels-team-summary-stats-user-icon">
+                            <div className="duels-team-summary-players-user-icon">
                                 <UserIcon data={users[currentTeamPlayer]}/>
                             </div>
                             {teams[displayTeam].members.length > 1 && <BiSolidRightArrow onClick={rightPlayer} className="dark-hover-button"/>}
                         </div>
-                         <div className="duels-team-summary-stats-username">{currentTeamPlayer}</div>
+                         <div className="duels-team-summary-players-username">{currentTeamPlayer}</div>
                     </div>
                 </div>
                 <div className="duels-team-summary-rounds">

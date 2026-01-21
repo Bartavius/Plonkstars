@@ -60,14 +60,14 @@
 }
 
 
-.duels-team-summary-stat{
+.duels-team-summary-player{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.duels-team-summary-stat-title{
+.duels-team-summary-player-title{
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
@@ -76,7 +76,7 @@
     gap: 0.5rem;
 }
 
-.duels-team-summary-stat-players-container{
+.duels-team-summary-player-players-container{
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
@@ -84,11 +84,11 @@
     align-items: center;
 }
 
-.duels-team-summary-stats-user-icon{
+.duels-team-summary-players-user-icon{
     margin-top: 1rem;
     width: 5rem;
 }
-.duels-team-summary-stats-username{
+.duels-team-summary-players-username{
     margin-top: 0.5rem;
     font-size: 1rem;
     font-weight: bold;
