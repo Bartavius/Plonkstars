@@ -25,7 +25,17 @@
     color: var(--plonk-stars-white);
     padding: 1rem;
     gap: 2rem;
-    width: 60rem;
+    width: 80%;
+}
+
+@media (width < 1024px) {
+    .duels-team-summary-overall-stats{
+        grid-template-columns:  1fr;
+        gap: 0.5rem;
+    }
+    .duels-team-summary-small-screen-hidden{
+        display: none !important;
+    }
 }
 
 .duels-team-summary-title-container{

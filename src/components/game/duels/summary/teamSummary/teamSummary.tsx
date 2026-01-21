@@ -164,7 +164,7 @@ export default function DuelsTeamSummary({
                         <div className="duels-team-summary-title-subtext">{getRandomTitle(playerTitles[currentTeamPlayer])}</div>
                     </div>
                     <div className="duels-team-summary-stat">
-                        <div className="duels-team-summary-stat-title">Team Player{teams[displayTeam].members.length > 1 && "s"}</div>
+                        <div className="duels-team-summary-stat-title duels-team-summary-small-screen-hidden">Team Player{teams[displayTeam].members.length > 1 && "s"}</div>
                         <div className="duels-team-summary-stat-players-container">
                             {teams[displayTeam].members.length > 1 && <BiSolidLeftArrow onClick={leftPlayer} className="dark-hover-button"/>}
                             <div className="duels-team-summary-stats-user-icon">
