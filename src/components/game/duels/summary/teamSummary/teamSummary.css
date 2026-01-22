@@ -94,6 +94,38 @@
     font-weight: bold;
 }
 
+.duels-team-summary-player-stats-title{
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.duels-team-summary-player-stats-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 0.5rem;
+}
+
+.duels-team-summary-player-stat{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.duels-team-summary-player-stat-key{
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.duels-team-summary-player-stat-value{
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+}
+
 .duels-team-summary-rounds{
     display: flex;
     flex-direction: row;

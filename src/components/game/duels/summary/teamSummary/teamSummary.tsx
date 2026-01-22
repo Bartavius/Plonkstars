@@ -76,6 +76,7 @@ export default function DuelsTeamSummary({
 
     const numRounds = locations.length;
     const bestGuesses = Array(numRounds).fill(null);
+    const numRoundGuesses = Array(numRounds).fill(0);
 
     teamPlacements.forEach((teamId) => {
         teamGuesses[teamId].forEach((roundGuesses: any, roundIndex: number) => {
@@ -84,6 +85,7 @@ export default function DuelsTeamSummary({
                     bestGuesses[roundIndex] = guess;
                 }
             });
+            numRoundGuesses[roundIndex] += roundGuesses.length;
         });
     });
 
@@ -106,9 +108,6 @@ export default function DuelsTeamSummary({
         });
     });
 
-    console.log(playerValue);
-
-
     const playerTitles: {[key:string]: any} = {};
 
     teams[displayTeam].members.forEach((member: string) => {
@@ -124,7 +123,6 @@ export default function DuelsTeamSummary({
         playerTitles[playersSorted[playersSorted.length - 1]] = "mvp";
     }
     
-    console.log(playerTitles);
     const roundsWon = teamPlacements.reduce((acc, teamId) => {
         acc[teamId] = teamHP[teamId].reduce((acc:any, hp, idx) => {
             if (hp == acc[0]) {
@@ -139,7 +137,35 @@ export default function DuelsTeamSummary({
     const displayTeamGuesses = teamGuesses[displayTeam];
     const displayTeamHP = teamHP[displayTeam];
 
-    const currentTeamPlayer = teams[displayTeam].members[currentTeamPlayerIdx];
+    const currentTeamPlayer = displayTeamInfo.members[currentTeamPlayerIdx];
+    const currentPlayerCumStats = displayTeamGuesses.reduce((acc:any, roundGuesses:any, roundNumber: number) => {
+        const index = roundGuesses.findIndex((g: any) => g.user === currentTeamPlayer);
+        const playerGuess = index !== -1 ? roundGuesses[index] : undefined;
+
+        if (playerGuess) {
+            return {
+                totalRank: acc.totalRank + playerGuess.rank + 1,
+                teamRank: acc.teamRank + index + 1,
+                score: acc.score + playerGuess.score, 
+                time: acc.time + playerGuess.time, 
+                distance: acc.distance + playerGuess.distance
+            };
+        }
+        return {...acc, teamRank: acc.teamRank + roundGuesses.length + 1, totalRank: acc.totalRank + numRoundGuesses[roundNumber] + 1};
+    }, {score: 0, time: 0, distance: 0, totalRank: 0, teamRank: 0});
+
+    const numRoundsPlayed = displayTeamGuesses.length;
+    const currentPlayerAvgStats = {
+        score: currentPlayerCumStats.score / numRoundsPlayed,
+        time: currentPlayerCumStats.time / numRoundsPlayed,
+        distance: currentPlayerCumStats.distance / numRoundsPlayed,
+        teamRank: currentPlayerCumStats.teamRank / numRoundsPlayed,
+        totalRank: currentPlayerCumStats.totalRank / numRoundsPlayed,
+    };
+
+    console.log(currentPlayerAvgStats);
+    const currentPlayerNumBestTeamGuesses = teamGuesses[displayTeam].filter((roundGuesses:any) => {roundGuesses[0]?.user == currentTeamPlayer}).length;
+    const currentPlayerNumBestOverallGuesses = bestGuesses.filter((guess:any) => {guess?.user == currentTeamPlayer}).length;
 
     return (
         <div>
@@ -173,6 +199,27 @@ export default function DuelsTeamSummary({
                             {teams[displayTeam].members.length > 1 && <BiSolidRightArrow onClick={rightPlayer} className="dark-hover-button"/>}
                         </div>
                          <div className="duels-team-summary-players-username">{currentTeamPlayer}</div>
+                    </div>
+                    <div className="duels-team-summary-player-stats">
+                        <div className="duels-team-summary-player-stats-title">Player Stats</div>
+                        <div className="duels-team-summary-player-stats-container">
+                            <div className="duels-team-summary-player-stat">
+                                <div className="duels-team-summary-player-stat-key">Average Score</div>
+                                <div className="duels-team-summary-player-stat-value">{currentPlayerAvgStats.score.toFixed(2)}</div>
+                            </div>
+                            <div className="duels-team-summary-player-stat">
+                                <div className="duels-team-summary-player-stat-key">Average Time</div>
+                                <div className="duels-team-summary-player-stat-value">{currentPlayerAvgStats.time.toFixed(2)}</div>
+                            </div>
+                            <div className="duels-team-summary-player-stat">
+                                <div className="duels-team-summary-player-stat-key">Average Team Rank</div>
+                                <div className="duels-team-summary-player-stat-value">{currentPlayerAvgStats.teamRank.toFixed(2)}</div>
+                            </div>
+                            <div className="duels-team-summary-player-stat">
+                                <div className="duels-team-summary-player-stat-key">Average Global Rank</div>
+                                <div className="duels-team-summary-player-stat-value">{currentPlayerAvgStats.totalRank.toFixed(2)}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="duels-team-summary-rounds">
