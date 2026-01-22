@@ -81,7 +81,7 @@ export default function DuelsTeamSummary({
     teamPlacements.forEach((teamId) => {
         teamGuesses[teamId].forEach((roundGuesses: any, roundIndex: number) => {
             roundGuesses.forEach((guess: any) => {
-                if (bestGuesses[roundIndex] === null || guess.distance < bestGuesses[roundIndex].distance){
+                if (bestGuesses[roundIndex] === null || guess.rank == 1){
                     bestGuesses[roundIndex] = guess;
                 }
             });
@@ -162,10 +162,6 @@ export default function DuelsTeamSummary({
         teamRank: currentPlayerCumStats.teamRank / numRoundsPlayed,
         totalRank: currentPlayerCumStats.totalRank / numRoundsPlayed,
     };
-
-    console.log(currentPlayerAvgStats);
-    const currentPlayerNumBestTeamGuesses = teamGuesses[displayTeam].filter((roundGuesses:any) => {roundGuesses[0]?.user == currentTeamPlayer}).length;
-    const currentPlayerNumBestOverallGuesses = bestGuesses.filter((guess:any) => {guess?.user == currentTeamPlayer}).length;
 
     return (
         <div>

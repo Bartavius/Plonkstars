@@ -56,7 +56,6 @@ export default function DuelsSummary({
         });
     });
 
-    console.log(bestGuesses);
 
     const roundsWon = teamPlacements.reduce((acc, teamId) => {
         acc[teamId] = teamHP[teamId].reduce((acc:any, hp, idx) => {
@@ -122,7 +121,6 @@ export default function DuelsSummary({
                     newGuesses[teamId] = [teamGuesses[teamId][round]];
                 }
             });
-            console.log(newGuesses);
             setDisplayedGuesses(newGuesses);
             setDisplayedLocations([locations[round]]);
             setDisplayRound(round);

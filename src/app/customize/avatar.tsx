@@ -46,7 +46,6 @@ export default function AvatarCustom({
   const router = useRouter();
   const saveAvatarChanges = async () => {
     if (demo) {
-      console.log(userIcon);
       if(userIcon.face == null && userIcon.body === null && userIcon.hat === null){
         dispatch(setColor(userIcon));
         setType('success');
