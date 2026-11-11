@@ -1,5 +1,4 @@
 import { type ReactNode, useRef, useState } from "react";
-import "./modal.css";
 
 interface ModalProps {
   isOpen: boolean;
@@ -38,7 +37,10 @@ function Modal({ isOpen, onClose, children }: ModalProps) {
       className="fixed inset-0 bg-black bg-opacity-50 flex justify-center flex-col items-center"
     >
       <div className="navbar-buffer" />
-      <div className="modal-window" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="bg-dark-blue text-plonk-stars-white rounded-lg p-4 w-[90%]"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className="float-right text-xl font-bold" onClick={onClose}>
           &times;
         </button>

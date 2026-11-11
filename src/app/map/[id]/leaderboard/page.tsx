@@ -13,7 +13,6 @@ import { api } from "@/services/api";
 
 import { MapLeaderboard } from "./_components/leaderboard";
 
-import "@/app/map/[id]/page.css";
 import "./page.css";
 import { Loading } from "@/components/primitives/loading";
 import { MapInfoCard } from "@/features/maps/components/map-info-card";
@@ -70,14 +69,18 @@ export default function MapLeaderboardPage() {
     <ProtectedRoutes allowDemo={true}>
       <div className="relative">
         <div className="navbar-buffer" />
-        <button disabled={loading} className="map-search-back-button" onClick={goBack}>
+        <button
+          disabled={loading}
+          className="absolute ml-12 mt-8 text-[3rem] text-white hover:cursor-pointer hover:[filter:brightness(90%)] disabled:text-[gray]"
+          onClick={goBack}
+        >
           <IoMdArrowRoundBack className="map-search-back dark-hover-button" />
         </button>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="map-info-card-wrapper"
+          className="p-12 flex items-center justify-center w-full"
         >
           <MapInfoCard
             stats={stats}
@@ -87,19 +90,19 @@ export default function MapLeaderboardPage() {
           >
             <button
               disabled={loading}
-              className="map-leaderboard-button map-info-button dark-hover-button gray-disabled"
+              className="bg-leaderboard-yellow flex items-center justify-center flex-row text-[1.5rem] font-bold text-white px-6 rounded-2xl dark-hover-button gray-disabled"
               onClick={mapStats}
             >
-              <IoIosStats className="map-info-button-icon" />
+              <IoIosStats className="text-[1rem] mr-2" />
               Stats
             </button>
           </MapInfoCard>
         </motion.div>
-        <div className="title-header-wrapper">
-          <div className="title-header">Leaderboard</div>
+        <div className="flex justify-center items-center w-full h-full">
+          <div className="pt-4 text-white text-[2rem] font-bold">Leaderboard</div>
         </div>
-        <div className="map-leaderboard-wrapper">
-          <div className="map-leaderboard-box relative">
+        <div className="flex justify-center items-center">
+          <div className="w-[90%] bg-dark-blue rounded-2xl p-4 relative">
             <MapLeaderboard mapID={mapID.toString()} />
           </div>
         </div>

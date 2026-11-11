@@ -53,7 +53,7 @@ function MapPreview({
 
   return (
     <div
-      className="leaflet-container-result-wrapper map-result-container"
+      className="w-full h-[90vh] overflow-hidden max-[720px]:h-[80vh] max-[720px]:z-[1000] max-[720px]:transition-[transform] max-[720px]:duration-300 max-[720px]:ease-[ease-in-out] max-[720px]:origin-bottom-right relative z-0 max-[720px]:top-[-5vh]"
       style={height ? { height: `${height}vh` } : undefined}
     >
       <MapContainer

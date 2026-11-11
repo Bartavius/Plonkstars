@@ -78,7 +78,7 @@ function Daily({ loading, setLoading }: DailyProps) {
           >
             <button
               disabled={loading || demo}
-              className={`${daily.state == "FINISHED" ? "bg-yellow" : "game-setup-btn"} w-full py-2 rounded-lg font-semibold dark-hover-button`}
+              className={`${daily.state == "FINISHED" ? "bg-yellow" : "game-setup-btn bg-plonk-stars-red text-plonk-stars-white hover:[filter:brightness(90%)]"} w-full py-2 rounded-lg font-semibold dark-hover-button`}
               onClick={playDaily}
             >
               {daily.state == "FINISHED"

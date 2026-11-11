@@ -18,7 +18,6 @@ import { PiMapPinAreaBold } from "react-icons/pi";
 import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { isDemo } from "@/features/auth/services/session";
 import { api } from "@/services/api";
-import "./page.css";
 import { MapPreview } from "@/features/maps/components/map-preview";
 
 import { StatBox } from "./_components/stat-box";
@@ -272,14 +271,18 @@ export default function MapInfoPage() {
     <ProtectedRoutes allowDemo={true}>
       <div className="relative">
         <div className="navbar-buffer" />
-        <button disabled={loading} className="map-search-back-button" onClick={goBack}>
+        <button
+          disabled={loading}
+          className="absolute ml-12 mt-8 text-[3rem] text-white hover:cursor-pointer hover:[filter:brightness(90%)] disabled:text-[gray]"
+          onClick={goBack}
+        >
           <IoMdArrowRoundBack className="map-search-back dark-hover-button" />
         </button>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="map-info-card-wrapper"
+          className="p-12 flex items-center justify-center w-full"
         >
           <MapInfoCard
             stats={stats}
@@ -289,10 +292,10 @@ export default function MapInfoPage() {
           >
             <button
               disabled={loading}
-              className="map-leaderboard-button map-info-button dark-hover-button gray-disabled"
+              className="bg-leaderboard-yellow flex items-center justify-center flex-row text-[1.5rem] font-bold text-white px-6 rounded-2xl dark-hover-button gray-disabled"
               onClick={mapLeaderboard}
             >
-              <FaMedal className="map-info-button-icon" />
+              <FaMedal className="text-[1rem] mr-2" />
               Leaderboard
             </button>
           </MapInfoCard>
@@ -300,10 +303,10 @@ export default function MapInfoPage() {
         <StatBox mapStats={displayMapStats} />
         <StatBox mapStats={displayUserStats} demoBlur={true} demo={demo} />
         <StatBox mapStats={otherUserStats} />
-        <div className="map-info-container">
-          <div className="map-info-box">
-            <div className="map-info-header">Map Preview</div>
-            <div className="map-preview-container">
+        <div className="p-4 flex flex-col items-center justify-center w-full overflow-hidden">
+          <div className="w-[90%] rounded-2xl grow bg-dark-blue flex-col items-center justify-center flex border-4 border-white overflow-hidden">
+            <div className="pt-4 text-white text-[2rem] font-bold">Map Preview</div>
+            <div className="flex justify-center items-center w-full p-8 z-0">
               {!bounds && (
                 <div className="h-[60vh] relative">
                   <Loading />

@@ -11,7 +11,7 @@ interface GamePanelProps {
 
 function GamePanel({ time, timeLimit, timeoutFunction, display, offset = 0 }: GamePanelProps) {
   return (
-    <div className="game-panel">
+    <div className="relative w-full pointer-events-none">
       <div className="score-wrapper">
         <ScoreDisplay display={display} />
       </div>

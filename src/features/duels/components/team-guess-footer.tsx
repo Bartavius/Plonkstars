@@ -29,16 +29,16 @@ function GuessFooter({ team, bestGuess, bestGuessUserCosmetics }: GuessFooterPro
 
   return (
     <div
-      className="duels-results-footer-guess-display"
+      className="w-[90%] h-[80%] rounded-2xl py-1 px-2 flex justify-between"
       style={{ backgroundColor: getColor(team.color), color: textColor }}
     >
       {bestGuess && <UserIcon data={bestGuessUserCosmetics!} className="w-[100px]" />}
-      <div className={`duels-results-footer-guess-display-item`}>
-        <div className="duels-results-footer-guess-display-header">User</div>
+      <div className={`w-full h-full text-center`}>
+        <div className="w-full font-[1000]">User</div>
         {user}
       </div>
-      <div className="duels-results-footer-guess-display-item">
-        <div className="duels-results-footer-guess-display-header">Score</div>
+      <div className="w-full h-full text-center">
+        <div className="w-full font-[1000]">Score</div>
         {score}
       </div>
     </div>

@@ -22,8 +22,8 @@ function MapResolution({ setMessage }: MapResolutionProps) {
   }
 
   return (
-    <div className="settings-box">
-      <div className="settings-label">Minimap Resolution</div>
+    <div className="m-4 w-4/5 p-4 rounded-2xl flex flex-col items-center justify-center bg-dark-blue border-white border-2">
+      <div className="text-[1.5rem] font-bold mb-[5px]">Minimap Resolution</div>
       <label className="block mb-2 text-white" htmlFor="resolution-range">
         Zoom: {resolution}
       </label>
@@ -51,7 +51,7 @@ function MapResolution({ setMessage }: MapResolutionProps) {
           />
         </MapContainer>
       </div>
-      <div className="resolution-map-buffer" />
+      <div className="w-full h-[35vh]" />
       <button className="form-button-selected mt-2" onClick={saveResolution}>
         Save Changes
       </button>

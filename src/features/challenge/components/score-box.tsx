@@ -26,10 +26,10 @@ function ScoreBox({ data }: ScoreBoxProps) {
       : `${seconds}s`;
   }
   return (
-    <div className="summary-score-box">
-      <div className="summary-score-text">{data.score}</div>
-      <div className="summary-other-stats">{distanceString(data.distance)}</div>
-      <div className="summary-other-stats">{timeString(data.time)}</div>
+    <div className="flex justify-center flex-col items-center w-full">
+      <div className="text-[1rem] font-bold">{data.score}</div>
+      <div className="text-[0.75rem] text-[gray]">{distanceString(data.distance)}</div>
+      <div className="text-[0.75rem] text-[gray]">{timeString(data.time)}</div>
     </div>
   );
 }

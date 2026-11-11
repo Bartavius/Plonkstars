@@ -60,16 +60,16 @@ function MapLeaderboard({ mapID }: MapLeaderboardProps) {
       setLeaderboard(
         response.data.data.map((row) => ({
           heading: (
-            <div className="leaderboard-rank-box">
+            <div className="flex [justify-content:left] items-center gap-[4px] whitespace-nowrap">
               <div className="rank-number-text">#{row.rank}</div>
-              <div className="user-name-text">{row.user.username}</div>
+              <div className="text-lightest-blue text-[1rem] h-full">{row.user.username}</div>
             </div>
           ),
           rounds: row.rounds,
           average_score: row.average_score.toFixed(2),
           average_distance: distanceString(row.average_distance),
           average_time: timeString(row.average_time),
-          style: row.user.username === user.data.username ? "leaderboard-highlight-self-row" : "",
+          style: row.user.username === user.data.username ? "bg-theme-blue" : "",
         })),
       );
       setHasNext(page < response.data.pages);
@@ -105,7 +105,7 @@ function MapLeaderboard({ mapID }: MapLeaderboardProps) {
   return (
     <div>
       <button
-        className={`mr-2 nmpz-toggle-btn ${NMPZ ? "toggled" : ""}`}
+        className={`mr-2 nmpz-toggle-btn py-[5px] px-[15px] text-[16px] font-bold text-plonk-stars-white bg-darker-blue border-none rounded-[8px] cursor-pointer transition-all duration-300 ease-[ease] shadow-[0_4px_6px_rgba(0,0,0,0.1)] float-right hover:bg-darkest-blue active:bg-pastel-dark-blue active:scale-95 ${NMPZ ? "toggled" : ""}`}
         name="nmpz-leaderboard-toggle"
         id="nmpz-leaderboard-toggle"
         onClick={() => {
@@ -117,7 +117,7 @@ function MapLeaderboard({ mapID }: MapLeaderboardProps) {
       </button>
       <Table
         rowHeader="heading"
-        className="leaderboard-table"
+        className="leaderboard-table w-full text-white"
         headers={headers}
         data={leaderboard}
         onClickRow={topGame}
@@ -139,7 +139,11 @@ function MapLeaderboard({ mapID }: MapLeaderboardProps) {
           <div></div>
         )}
       </div>
-      {demo && <div className="map-leaderboard-demo-text">Login to get on the leaderboard</div>}
+      {demo && (
+        <div className="mt-4 text-center text-lighter-blue text-[1rem] w-full font-bold">
+          Login to get on the leaderboard
+        </div>
+      )}
     </div>
   );
 }

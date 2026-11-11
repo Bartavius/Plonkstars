@@ -105,7 +105,7 @@ function Results({ onClick, this_user, users, roundNumber, correct, centerText }
           ]}
         />
       </div>
-      <div className="map-result-container min-h-[90vh] min-w-full">
+      <div className="relative z-0 max-[720px]:top-[-5vh] min-h-[90vh] min-w-full">
         <div>
           <BasicMapResult
             markers={[
@@ -121,13 +121,13 @@ function Results({ onClick, this_user, users, roundNumber, correct, centerText }
           />
         </div>
       </div>
-      <div className="game-footer w-full">
+      <div className="text-[#ffffff] flex h-[10vh] w-full items-center">
         <div className="grid grid-cols-3 gap-4 w-full">
           <div className="flex justify-between items-center">
             <ScoreAccordion open={open} guesses={users} className="absolute" user={this_user} />
 
             <button
-              className="accordion-toggle dark-hover-button gray-disabled"
+              className="bg-leaderboard-yellow p-2 text-white border-none rounded-2xl cursor-pointer m-4 flex flex-row items-center gap-1 dark-hover-button gray-disabled"
               onClick={() => setOpen(!open)}
             >
               <FaMedal />
@@ -142,9 +142,13 @@ function Results({ onClick, this_user, users, roundNumber, correct, centerText }
               </div>
             </div>
           </div>
-          <div className="game-footer-element w-full">
+          <div className="h-[10vh] flex justify-center items-center w-full">
             {centerText ?? (
-              <button onClick={onClick} style={{ zIndex: 2 }} className="game-button">
+              <button
+                onClick={onClick}
+                style={{ zIndex: 2 }}
+                className="h-[70%] w-full bg-plonk-stars-red justify-center items-center text-plonk-stars-white border border-solid border-plonk-stars-white transition-all duration-150 ease-[ease-in-out] rounded-[2rem] [&:not(:disabled)]:hover:-translate-y-[0.1rem] [&:not(:disabled)]:hover:[scale:1.03] [&:not(:disabled)]:hover:bg-plonk-stars-red [&:not(:disabled)]:hover:text-plonk-stars-white [&:not(:disabled)]:hover:border [&:not(:disabled)]:hover:border-solid [&:not(:disabled)]:hover:border-plonk-stars-white disabled:opacity-50 disabled:![background:#000] disabled:cursor-not-allowed"
+              >
                 <b>Next Round</b>
               </button>
             )}

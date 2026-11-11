@@ -1,5 +1,4 @@
 import { colorGradient } from "@/lib/color-gradient";
-import "./healthbar.css";
 
 import type { DuelsTeam } from "../types/duels-team";
 interface HealthBarProps {
@@ -28,24 +27,34 @@ function HealthBar({ health, maxHealth, fontSize = "1rem", teamInfo, prevHealth 
   const color = getColor(teamInfo.color);
 
   return (
-    <div className="duels-health-bar-container">
+    <div className="flex flex-col [align-items:start] [justify-content:left] w-full h-full">
       <div
         style={{ backgroundColor: color }}
-        className={`duels-health-bar-name ${brightness > 128 ? "text-black" : "text-white"}`}
+        className={`px-1 text-[0.5rem] h-[20%] inline-block w-auto rounded-[0.5rem_1rem_0_0] ${brightness > 128 ? "text-black" : "text-white"}`}
       >
         {teamInfo.name}
       </div>
-      <div style={{ backgroundColor: color }} className="duels-health-bar">
+      <div
+        style={{ backgroundColor: color }}
+        className="w-full h-[80%] relative rounded-[0rem_0.5rem_0.5rem_0.5rem] p-[3px]"
+      >
         <div
-          className="duels-health-bar-fill"
+          className="relative h-full rounded-lg z-[1]"
           style={{
             backgroundColor: colorGradient({ percent: healthPercentage }),
             width: `${healthPercentage * 100}%`,
           }}
         />
-        <div className="duels-health-bar-hp" style={{ fontSize }}>
+        <div
+          className="top-0 absolute text-white w-full h-full flex text-center items-center justify-center [text-shadow:0_0_3px_rgba(0,0,0,0.7)] font-bold z-[2]"
+          style={{ fontSize }}
+        >
           {health}{" "}
-          {healthLost !== 0 && <div className="duels-health-bar-damage">-{healthLost}</div>}
+          {healthLost !== 0 && (
+            <div className="text-plonk-stars-red text-[0.75rem] font-bold p-4 [text-shadow:0_0_5px_#ff1a1a,0_0_10px_#ff1a1a,0_0_20px_#ff4d4d,0_0_40px_#ff6666]">
+              -{healthLost}
+            </div>
+          )}
         </div>
       </div>
     </div>
