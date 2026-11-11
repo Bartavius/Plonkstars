@@ -3,20 +3,23 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { DuelsMapResult } from "@/features/maps/components/duels-map-results";
+import type { DuelsGuess, DuelsSummaryGuess } from "@/features/duels/types/duels-guess";
+import type { DuelsTeam } from "@/features/duels/types/duels-team";
+import type { DuelsUser } from "@/features/duels/types/duels-user";
 
 import { DuelsRoundSummary } from "./round-summary";
 import "./summary.css";
 import { DuelsTeamBox } from "./team-box";
 import { DuelsTeamSummary } from "./team-summary";
 interface DuelsSummaryProps {
-  users: { [key: string]: any };
+  users: Record<string, DuelsUser>;
   thisUser: string;
-  teams: { [key: string]: any };
+  teams: Record<string, DuelsTeam>;
   teamHP: { [key: string]: number[] };
   startHP: number;
-  teamGuesses: { [key: string]: any };
+  teamGuesses: Record<string, DuelsSummaryGuess[][]>;
   locations: { lat: number; lng: number }[];
-  children?: any;
+  children?: React.ReactNode;
 }
 
 function DuelsSummary({
@@ -49,8 +52,8 @@ function DuelsSummary({
   const bestGuesses = Array(numRounds).fill(null);
 
   teamPlacements.forEach((teamId) => {
-    teamGuesses[teamId].forEach((roundGuesses: any, roundIndex: number) => {
-      roundGuesses.forEach((guess: any) => {
+    teamGuesses[teamId].forEach((roundGuesses, roundIndex) => {
+      roundGuesses.forEach((guess) => {
         if (bestGuesses[roundIndex] === null || guess.distance < bestGuesses[roundIndex].distance) {
           bestGuesses[roundIndex] = guess;
         }
@@ -58,23 +61,21 @@ function DuelsSummary({
     });
   });
 
-  const roundsWon = teamPlacements.reduce(
-    (acc, teamId) => {
-      acc[teamId] = teamHP[teamId].reduce(
-        (acc: any, hp, idx) => {
-          if (hp == acc[0]) {
-            acc[1].push(idx);
-          }
-          return [hp, acc[1]];
-        },
-        [startHP, []],
-      )[1];
-      return acc;
-    },
-    {} as { [key: string]: number[] },
-  );
+  const roundsWon = teamPlacements.reduce<Record<string, number[]>>((acc, teamId) => {
+    acc[teamId] = teamHP[teamId].reduce<[number, number[]]>(
+      (acc, hp, idx) => {
+        if (hp == acc[0]) {
+          acc[1].push(idx);
+        }
+        return [hp, acc[1]];
+      },
+      [startHP, []],
+    )[1];
+    return acc;
+  }, {});
 
-  const [displayedGuesses, setDisplayedGuesses] = useState<{ [key: string]: any }>(teamGuesses);
+  const [displayedGuesses, setDisplayedGuesses] =
+    useState<Record<string, DuelsSummaryGuess[][]>>(teamGuesses);
   const [displayedLocations, setDisplayedLocations] =
     useState<{ lat: number; lng: number }[]>(locations);
   const [displayRound, setDisplayRound] = useState<number | "all">("all");
@@ -99,7 +100,7 @@ function DuelsSummary({
       : `${seconds}s`;
   }
 
-  function createTooltips(guess: any) {
+  function createTooltips(guess: DuelsGuess) {
     const user = users[guess.user];
     if (user) {
       return (
@@ -135,7 +136,7 @@ function DuelsSummary({
       setDisplayedLocations(locations);
       setDisplayRound("all");
     } else {
-      const newGuesses: { [key: string]: any } = {};
+      const newGuesses: Record<string, DuelsSummaryGuess[][]> = {};
       Object.keys(teamGuesses).forEach((teamId) => {
         if (teamGuesses[teamId][round] !== undefined) {
           newGuesses[teamId] = [teamGuesses[teamId][round]];

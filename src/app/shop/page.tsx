@@ -10,6 +10,7 @@ import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import type { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
 import type { CosmeticTiers } from "@/features/cosmetics/types/cosmetic-tiers";
 import { api } from "@/services/api";
+import { getErrorResponse } from "@/services/api-error";
 
 export default function Page() {
   const [message, _setMessage] = useState<React.ReactNode>();
@@ -40,8 +41,9 @@ export default function Page() {
       setResponse(response.data);
       setType("success");
       setUpdate((prev) => prev + 1);
-    } catch (err: any) {
-      const errorMsg = err.response?.data?.message || "Failed to purchase crate. Please try again.";
+    } catch (err) {
+      const errorMsg =
+        getErrorResponse(err)?.data?.message || "Failed to purchase crate. Please try again.";
       setMessage(errorMsg);
       setType("error");
     }

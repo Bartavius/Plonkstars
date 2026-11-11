@@ -17,9 +17,10 @@ import "@/app/map/[id]/page.css";
 import "./page.css";
 import { Loading } from "@/components/primitives/loading";
 import { MapInfoCard } from "@/features/maps/components/map-info-card";
+import type { MapStats } from "@/features/maps/types/map-stats";
 
 export default function MapLeaderboardPage() {
-  const [stats, setStats] = useState<any>();
+  const [stats, setStats] = useState<MapStats>();
   const [loading, setLoading] = useState<boolean>();
   const [permission, setPermission] = useState<number>(0);
   const mapID = useParams().id ?? "";
@@ -39,7 +40,7 @@ export default function MapLeaderboardPage() {
 
   const getMapInfo = async () => {
     try {
-      const stats = await api.get(`/map/stats?id=${mapID}`);
+      const stats = await api.get<MapStats>(`/map/stats?id=${mapID}`);
       setStats(stats.data);
       if (demo) {
         setPermission(0);

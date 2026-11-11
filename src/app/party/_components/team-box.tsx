@@ -2,10 +2,11 @@ import { GiBootStomp, GiExitDoor } from "react-icons/gi";
 
 import type { Team } from "@/app/party/_types/team";
 import { api } from "@/services/api";
+import type { PartyMember } from "@/app/party/_types/party-member";
 
 import { UserCard } from "./user-card";
 interface TeamBoxProps {
-  users: { [key: string]: { username: string; user_cosmetics: any } };
+  users: Record<string, PartyMember>;
   info: Team;
   thisUser: string;
   host: string;

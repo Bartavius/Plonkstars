@@ -1,9 +1,10 @@
 import { FaCrown } from "react-icons/fa";
 
 import { UserIcon } from "@/features/user/components/user-icon";
+import type { PartyMember } from "@/app/party/_types/party-member";
 import "./user-card.css";
 interface UserCardProps {
-  data: any;
+  data: Pick<PartyMember, "username" | "user_cosmetics">;
   className?: string;
   leader?: boolean;
   children?: React.ReactNode;

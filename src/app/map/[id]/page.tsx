@@ -25,6 +25,11 @@ import { StatBox } from "./_components/stat-box";
 
 import { Loading } from "@/components/primitives/loading";
 import { MapInfoCard } from "@/features/maps/components/map-info-card";
+import type { MapStatHolder, MapStats } from "@/features/maps/types/map-stats";
+import type {
+  MapLeaderboardEntry,
+  MapLeaderboardPage,
+} from "@/app/map/[id]/_types/map-leaderboard";
 
 interface Location {
   lat: number;
@@ -40,9 +45,9 @@ export default function MapInfoPage() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [stats, setStats] = useState<any>();
+  const [stats, setStats] = useState<MapStats>();
   const [bounds, setBounds] = useState<(Location | Bounds)[]>();
-  const [topScore, setTopScore] = useState<any>();
+  const [topScore, setTopScore] = useState<MapLeaderboardEntry>();
   const [permission, setPermission] = useState<number>(0);
 
   const demo = isDemo();
@@ -50,7 +55,7 @@ export default function MapInfoPage() {
 
   const getMapInfo = async () => {
     try {
-      const stats = await api.get(`/map/stats?id=${mapID}`);
+      const stats = await api.get<MapStats>(`/map/stats?id=${mapID}`);
       setStats(stats.data);
       if (demo) {
         setPermission(0);
@@ -59,7 +64,9 @@ export default function MapInfoPage() {
         setPermission(permission.data.permission);
       }
 
-      const response = await api.get(`/map/leaderboard?id=${mapID}&page=1&per_page=1`);
+      const response = await api.get<MapLeaderboardPage>(
+        `/map/leaderboard?id=${mapID}&page=1&per_page=1`,
+      );
       if (response.data.data.length !== 0) {
         setTopScore(response.data.data[0]);
       }
@@ -193,7 +200,7 @@ export default function MapInfoPage() {
       },
       {
         name: "Best Performance",
-        onClick: high && high.session && redirectBestSession,
+        onClick: high && high.session ? redirectBestSession : undefined,
         items: [
           { icon: <FaGlobeAmericas />, title: "Rounds", stat: high.rounds },
           { icon: <GiNetworkBars />, title: "Average Score", stat: roundNumber(high.score, 2) },
@@ -217,7 +224,10 @@ export default function MapInfoPage() {
   const topGuesses = stats.other.top_guesses ?? { user: "N/A", stat: "N/A" };
   const fastestnk = stats.other.fastest_5k ?? stats.other.fastest_nk ?? { user: "N/A", stat: -1 };
   const most_5ks = stats.other.most_5ks;
-  const bestScore = stats.other.highest_score ?? { user: "N/A", stat: "N/A" };
+  const bestScore: MapStatHolder | { user: string; stat: "N/A" } = stats.other.highest_score ?? {
+    user: "N/A",
+    stat: "N/A",
+  };
 
   const otherUserStats = {
     name: "Other User Stats",

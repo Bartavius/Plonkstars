@@ -5,16 +5,19 @@ import { UserIcon } from "@/features/user/components/user-icon";
 import { HealthBar } from "./healthbar";
 import "./team-summary.css";
 import "./healthbar";
+import type { DuelsSummaryGuess } from "../types/duels-guess";
+import type { DuelsTeam } from "../types/duels-team";
+import type { DuelsUser } from "../types/duels-user";
 interface DuelsTeamRoundSummaryProps {
   roundNumber: number;
-  teamInfo: any;
+  teamInfo: DuelsTeam;
   prevHp: number;
   hp: number;
   maxHealth: number;
-  bestGuess: any;
-  bestTeamGuess: any;
-  users: { [key: string]: any };
-  teams: { [key: string]: any };
+  bestGuess: DuelsSummaryGuess | null;
+  bestTeamGuess?: DuelsSummaryGuess;
+  users: Record<string, DuelsUser>;
+  teams: Record<string, DuelsTeam>;
   onClick: () => void;
 }
 
@@ -59,10 +62,10 @@ function DuelsTeamRoundSummary({
             <div className="duels-team-summary-round-guess-stat">
               Team:{" "}
               <span
-                className={`duels-team-summary-round-guess-team ${getBrightness(bestGuessTeam.color) > 128 ? "text-shadow-dark" : "text-shadow-light"}`}
-                style={{ color: getColor(bestGuessTeam.color) }}
+                className={`duels-team-summary-round-guess-team ${getBrightness(bestGuessTeam!.color) > 128 ? "text-shadow-dark" : "text-shadow-light"}`}
+                style={{ color: getColor(bestGuessTeam!.color) }}
               >
-                {bestGuessTeam.name}
+                {bestGuessTeam!.name}
               </span>
             </div>
             <div className="duels-team-summary-round-guess-stat">Score: {bestGuess.score}</div>

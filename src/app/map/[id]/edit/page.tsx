@@ -12,6 +12,7 @@ import { StreetView } from "@/features/maps/components/streetview";
 import "@/app/game.css";
 import { useSocket } from "@/lib/hooks/use-socket";
 import { api } from "@/services/api";
+import type { UserProfile } from "@/features/user/types/user-profile";
 import "./page.css";
 
 interface Location {
@@ -28,6 +29,14 @@ interface Bounds {
   end: Location;
 }
 
+interface BoundsAddedEvent {
+  bounds: (Bounds | Location)[];
+}
+
+interface BoundsRemovedEvent {
+  bounds: number[];
+}
+
 export default function EditMapPage() {
   const [bounds, setBounds] = useState<(Bounds | Location)[]>([]);
   const [selectedBound, setSelectedBound] = useState<Bounds | Location>();
@@ -36,7 +45,7 @@ export default function EditMapPage() {
   const [existingBound, setExistingBound] = useState<boolean>(false);
   const [weight, setWeight] = useState<number>();
   const [connected, setConnected] = useState<boolean>(false);
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<UserProfile>();
   const rectangleClickedRef = useRef(false);
   const MAPID = useParams().id;
   const router = useRouter();
@@ -45,9 +54,9 @@ export default function EditMapPage() {
     namespace: "/map/edit",
     rooms: { id: MAPID?.toString() },
     functions: {
-      add: (data) => setBounds((prevBounds) => [...prevBounds, ...data.bounds]),
-      remove: (data) =>
-        setBounds((prevBounds) => prevBounds.filter((bound) => !data.bounds.includes(bound.id))),
+      add: (data: BoundsAddedEvent) => setBounds((prevBounds) => [...prevBounds, ...data.bounds]),
+      remove: (data: BoundsRemovedEvent) =>
+        setBounds((prevBounds) => prevBounds.filter((bound) => !data.bounds.includes(bound.id!))),
       message: (msg) => setConnected(true),
     },
   });

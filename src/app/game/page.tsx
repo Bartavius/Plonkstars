@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "@/app/game.css";
 import { Modal } from "@/components/primitives/modal";
@@ -17,25 +17,31 @@ import { Loading } from "@/components/primitives/loading";
 import { api } from "@/services/api";
 import { clearError } from "@/store/error-slice";
 import { setGameSettings } from "@/store/game-slice";
+import { useAppSelector } from "@/store/use-app-selector";
+import type { RuleConfig } from "@/features/game/types/rule-config";
+import type { RuleInputValue } from "@/features/game/types/rule-input-value";
+import { getErrorResponse } from "@/services/api-error";
 
 import { Daily } from "./_components/daily";
 import { HowToPlayModal } from "./_components/how-to-play-modal";
 import { Multiplayer } from "./_components/multiplayer";
+import type { GameRules } from "./_types/game-rules";
+import type { GameSettings } from "./_types/game-settings";
 
 export default function Game() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const lastSetting = useSelector((state: any) => state.game);
-  const errorState = useSelector((state: any) => state.error).error;
+  const lastSetting = useAppSelector((state) => state.game);
+  const errorState = useAppSelector((state) => state.error).error;
 
-  const [mapName, setMapName] = useState<string>(lastSetting.mapName);
+  const [mapName, setMapName] = useState<string | undefined>(lastSetting.mapName);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError_] = useState<string | undefined>(errorState);
   const [update, setUpdate] = useState<number>(0);
-  const [rulesConfig, setRulesConfig] = useState<any>(undefined);
-  const [rules, setRules] = useState<any>(lastSetting);
+  const [rulesConfig, setRulesConfig] = useState<RuleConfig[]>();
+  const [rules, setRules] = useState<GameRules>(lastSetting);
   const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false);
 
   function setError(error: string) {
@@ -46,9 +52,9 @@ export default function Game() {
   useEffect(() => {
     async function fetchRules() {
       try {
-        const response = await api.get("/game/rules/config");
+        const response = await api.get<RuleConfig[]>("/game/rules/config");
         const responseData = response.data;
-        const nmpz = responseData.filter((rule: any) => rule.key === "nmpz")[0];
+        const nmpz = responseData.filter((rule) => rule.key === "nmpz")[0];
         nmpz.name = (
           <span title="No moving, No panning, No zooming">
             <b>NMPZ</b>
@@ -57,7 +63,7 @@ export default function Game() {
         );
         setRulesConfig(responseData);
         if (lastSetting.map_id === undefined) {
-          const defaultRules = await api.get("/session/default");
+          const defaultRules = await api.get<GameSettings>("/session/default");
           dispatch(setGameSettings(defaultRules.data));
           setMapName(defaultRules.data.mapName);
           setRules(defaultRules.data);
@@ -88,15 +94,15 @@ export default function Game() {
         const { id } = response.data;
 
         router.push(`/game/${id}/join`);
-      } catch (err: any) {
-        setError(err.response?.data?.error || "Error starting game");
+      } catch (err) {
+        setError(getErrorResponse(err)?.data?.error || "Error starting game");
         setLoading(false);
       }
     }
   };
 
-  const setSingleRule = (key: string, value: any) => {
-    setRules((prevRules: any) => ({
+  const setSingleRule = (key: keyof GameRules, value: RuleInputValue) => {
+    setRules((prevRules) => ({
       ...prevRules,
       [key]: value,
     }));
@@ -137,7 +143,7 @@ export default function Game() {
                 </button>
               </div>
               {rulesConfig &&
-                rulesConfig.map((data: any) => (
+                rulesConfig.map((data) => (
                   <div className="mb-6" key={data.key}>
                     <UserInput
                       key={data.key}
@@ -145,7 +151,7 @@ export default function Game() {
                       data={data}
                       value={rules ? rules[data.key] : undefined}
                       setError={setError}
-                      setInput={(input: any) => setSingleRule(data.key, input)}
+                      setInput={(input) => setSingleRule(data.key, input)}
                       editable={true}
                     />
                   </div>

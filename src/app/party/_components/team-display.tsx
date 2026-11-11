@@ -12,9 +12,10 @@ import { TeamBox } from "./team-box";
 
 import "@/app/party/page.css";
 import { Modal } from "@/components/primitives/modal";
+import type { PartyMember } from "@/app/party/_types/party-member";
 interface TeamDisplayProps {
   code: string;
-  users: { [key: string]: { username: string; user_cosmetics: any; in_lobby: boolean } };
+  users: Record<string, PartyMember>;
   host: string;
   thisUser: string;
   teams: { [key: string]: Team };
@@ -62,10 +63,10 @@ function TeamDisplay({
     }
   }, [teams, selectedTeam]);
 
-  const teamMembers = new Set(Object.values(teams).flatMap((team: any) => team.members));
+  const teamMembers = new Set(Object.values(teams).flatMap((team) => team.members));
 
   const spectators = Object.keys(users).filter((username) => !teamMembers.has(username));
-  const team = Object.values(teams).find((team: any) => team.members.includes(thisUser));
+  const team = Object.values(teams).find((team) => team.members.includes(thisUser));
 
   return (
     <div className="party-page-team-content-wrapper" onClick={() => setSelectedTeam(undefined)}>

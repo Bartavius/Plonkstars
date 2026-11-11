@@ -15,9 +15,8 @@ const eslintConfig = [
       // Every if/else/for/while body gets braces, including one-liners.
       curly: ["error", "all"],
       "brace-style": ["error", "1tbs", { allowSingleLine: false }],
-      // Warn for now: existing code has ~250 untyped `any`s to burn down.
-      // New code should use `unknown` plus a narrowing check instead.
-      "@typescript-eslint/no-explicit-any": "warn",
+      // Use `unknown` plus a narrowing check instead of `any`.
+      "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/consistent-type-imports": [
         "error",
         { prefer: "type-imports", fixStyle: "inline-type-imports" },

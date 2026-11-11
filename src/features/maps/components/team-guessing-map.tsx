@@ -1,20 +1,24 @@
 import { MapContainer, useMapEvents } from "react-leaflet";
-import { useSelector } from "react-redux";
+
+import type { DuelsUser } from "@/features/duels/types/duels-user";
+import type { TeamMarker } from "@/features/duels/types/team-marker";
+import type { MapBounds } from "@/features/maps/types/map-bounds";
+import { useAppSelector } from "@/store/use-app-selector";
 
 import { FitBounds } from "./fit-bounds";
 import { MapIcon } from "./map-icon";
 import { MapTileLayer } from "./map-tile-layer";
 import "./map.css";
 interface TeamGuessingMapProps {
-  guesses: { [key: string]: any };
-  plonks: { [key: string]: any };
-  users: { [key: string]: any };
-  mapBounds: any;
+  guesses: Record<string, TeamMarker>;
+  plonks: Record<string, TeamMarker>;
+  users: Record<string, DuelsUser>;
+  mapBounds: MapBounds;
   onClick: (lat: number, lng: number) => void;
 }
 
 function TeamGuessingMap({ guesses, plonks, users, mapBounds, onClick }: TeamGuessingMapProps) {
-  const res = useSelector((state: any) => state.settings.miniMapResolution);
+  const res = useAppSelector((state) => state.settings.miniMapResolution);
 
   const ClickHandler = () => {
     useMapEvents({

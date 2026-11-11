@@ -1,9 +1,12 @@
 import { BsInfinity } from "react-icons/bs";
 import "@/app/game.css";
+
+import type { RuleConfig } from "@/features/game/types/rule-config";
+
 interface SliderInputProps {
-  data: any;
-  setInput: (input: any) => void;
-  value?: any;
+  data: RuleConfig;
+  setInput: (input: number) => void;
+  value?: number;
   editable?: boolean;
 }
 
@@ -26,21 +29,21 @@ function SliderInput({ data, setInput, value, editable = true }: SliderInputProp
 
   return (
     <div className="w-full relative flex flex-col gap-2">
-      <label className="block text-white" htmlFor={data.name}>
+      <label className="block text-white" htmlFor={String(data.name)}>
         {data.name}: {label}
       </label>
       <input
         className="focus:outline-none input-field cursor-pointer"
         style={{ padding: "0px" }}
         type="range"
-        id={data.name}
+        id={String(data.name)}
         min={data.min}
-        max={data.infinity ? data.max + 1 : data.max}
+        max={data.infinity ? data.max! + 1 : data.max}
         step={data.step || 1}
-        value={value === -1 ? data.max + 1 : value}
+        value={value === -1 ? data.max! + 1 : value}
         onChange={(e) => {
           const newValue = Number(e.target.value);
-          setInput(newValue === data.max + 1 ? -1 : newValue);
+          setInput(newValue === data.max! + 1 ? -1 : newValue);
         }}
         disabled={!editable}
       />

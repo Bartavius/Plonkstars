@@ -1,9 +1,10 @@
 "use client";
 
 import { MapContainer, useMapEvents } from "react-leaflet";
-import { useSelector } from "react-redux";
 
 import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import type { MapBounds } from "@/features/maps/types/map-bounds";
+import { useAppSelector } from "@/store/use-app-selector";
 
 import { FitBounds } from "./fit-bounds";
 import "./map.css";
@@ -13,12 +14,12 @@ interface BasicMapWithMarkerProps {
   lat?: number;
   lng?: number;
   setPos: (lat: number, lng: number) => void;
-  mapBounds: any;
+  mapBounds: MapBounds;
   cosmetics?: UserIconCosmetics;
 }
 
 function BasicMapWithMarker({ lat, lng, setPos, mapBounds, cosmetics }: BasicMapWithMarkerProps) {
-  const res = useSelector((state: any) => state.settings.miniMapResolution);
+  const res = useAppSelector((state) => state.settings.miniMapResolution);
 
   const ClickHandler = () => {
     useMapEvents({

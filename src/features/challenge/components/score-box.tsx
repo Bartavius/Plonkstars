@@ -1,10 +1,10 @@
 import "./summary.css";
 interface ScoreBoxProps {
-  data: { score: number; distance: number; time: number };
+  data: { score: number; distance?: number; time?: number };
 }
 
 function ScoreBox({ data }: ScoreBoxProps) {
-  function distanceString(distance: number) {
+  function distanceString(distance: number | undefined) {
     if (distance === undefined) {
       return "N/A";
     }
@@ -15,7 +15,7 @@ function ScoreBox({ data }: ScoreBoxProps) {
     return `${num}${unit}`;
   }
 
-  function timeString(time: number) {
+  function timeString(time: number | undefined) {
     if (time === undefined) {
       return "Timed Out";
     }

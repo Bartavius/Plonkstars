@@ -3,13 +3,13 @@ import io, { type Socket } from "socket.io-client";
 
 import { getToken } from "@/features/auth/services/session";
 
-type SocketEvents = {
-  [event: string]: (...args: any[]) => void;
-};
+// Payloads arrive as untyped JSON; each handler annotates the payload it expects.
+type SocketHandler = (data: never) => void;
+type SocketHandlers = Record<string, SocketHandler>;
 interface UseSocketOptions {
   namespace: string;
-  rooms?: any;
-  functions: SocketEvents;
+  rooms: Record<string, string | undefined>;
+  functions: SocketHandlers;
 }
 
 function useSocket({ namespace, rooms, functions }: UseSocketOptions) {
@@ -33,7 +33,7 @@ function useSocket({ namespace, rooms, functions }: UseSocketOptions) {
       socket.emit("join", { ...rooms, token });
     });
     Object.keys(functions).forEach((event: string) => {
-      socket.on(event, functions[event]);
+      socket.on(event, functions[event] as (...args: unknown[]) => void);
     });
 
     return () => {
@@ -45,4 +45,4 @@ function useSocket({ namespace, rooms, functions }: UseSocketOptions) {
   return socketRef;
 }
 
-export { useSocket };
+export { useSocket, type SocketHandlers };

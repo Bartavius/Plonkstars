@@ -1,7 +1,7 @@
 import "./table.css";
 interface TableProps {
-  headers: any;
-  data: any[];
+  headers: Record<string, React.ReactNode>;
+  data: Record<string, React.ReactNode>[];
   onClickRow?: (row: number) => void;
   onClickHeader?: (col: number) => void;
   rowHeader?: string;

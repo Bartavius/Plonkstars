@@ -35,8 +35,9 @@ needs it.
 - **Concise over clever, and concise over defensive.** Delete dead branches, single-use
   wrappers, and speculative abstraction.
 - **Pin dependencies to exact versions.** No `^`, `~`, or `latest`.
-- **Type the boundaries**: props, API responses, route params. No new `any`; use
-  `unknown` plus a narrowing check. The existing `any`s are lint warnings to burn down.
+- **Type the boundaries**: props, API responses, route params. API and socket shapes
+  mirror the backend's serializers. No `any` (an ESLint error); use `unknown` plus a
+  narrowing check.
 - Every `if`/`else`/loop body gets braces (enforced by ESLint).
 - **Named exports only**, except the default export Next requires from `page.tsx` and
   `layout.tsx`. Components and hooks end with `export { Name };`; plain functions in

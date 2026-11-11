@@ -7,6 +7,7 @@ import { isDemo } from "@/features/auth/services/session";
 import { joinParty } from "@/features/party/services/join-party";
 import { api } from "@/services/api";
 import { setPartyCode } from "@/store/party-slice";
+import { getErrorResponse } from "@/services/api-error";
 interface MultiplayerProps {
   loading: boolean;
   setLoading: (loading: boolean) => void;
@@ -62,8 +63,8 @@ function Multiplayer({ loading, setLoading, setError }: MultiplayerProps) {
       dispatch(setPartyCode(code));
       setLoading(true);
       router.push(`/party`);
-    } catch (err: any) {
-      setError(err.response?.data?.error || "Could not create party");
+    } catch (err) {
+      setError(getErrorResponse(err)?.data?.error || "Could not create party");
       setLoading(false);
     }
   }

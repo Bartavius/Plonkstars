@@ -6,6 +6,8 @@ import { Loading } from "@/components/primitives/loading";
 import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { Summary } from "@/features/challenge/components/summary";
 import { api } from "@/services/api";
+import type { MapBestGame } from "@/app/map/[id]/best/_types/map-best-game";
+import type { UserProfile } from "@/features/user/types/user-profile";
 
 interface Location {
   lat: number;
@@ -15,8 +17,8 @@ interface Location {
 export default function SummaryPage() {
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
   const [locations, setLocations] = useState<Location[]>([]);
-  const [data, setData] = useState<any>();
-  const [user, setUser] = useState<any>();
+  const [data, setData] = useState<MapBestGame>();
+  const [user, setUser] = useState<UserProfile>();
 
   const searchParams = useSearchParams();
   const params = useParams();
@@ -37,7 +39,7 @@ export default function SummaryPage() {
     }
     const fetchGuesses = async () => {
       try {
-        const res = await api.get(
+        const res = await api.get<MapBestGame>(
           `/map/leaderboard/game?id=${MAPID}${searchParams.get("user") ? `&user=${searchParams.get("user")}` : ""}${searchParams.get("nmpz") ? `&nmpz=${searchParams.get("nmpz")}` : ""}`,
         );
 
@@ -62,7 +64,7 @@ export default function SummaryPage() {
   return (
     <ProtectedRoutes allowDemo={true}>
       <div className="summary-container">
-        <Summary locations={locations} data={[data]} user={user.username}>
+        <Summary locations={locations} data={[data]} user={user!.username}>
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
               <button className="btn-selected" onClick={goBack}>

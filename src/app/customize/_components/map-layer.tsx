@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { tileLayers } from "@/features/maps/lib/tile-layers";
 import { setMapType } from "@/store/settings-slice";
+import { useAppSelector } from "@/store/use-app-selector";
 interface MapDisplayProps {
   setMessage: (message: React.ReactNode) => void;
 }
 
 function MapDisplay({ setMessage }: MapDisplayProps) {
-  const mapNumber = useSelector((state: any) => state.settings.mapNumber);
+  const mapNumber = useAppSelector((state) => state.settings.mapNumber);
   const [currentMap, setCurrentMap] = useState<number>(mapNumber);
   const dispatch = useDispatch();
 
@@ -28,7 +29,7 @@ function MapDisplay({ setMessage }: MapDisplayProps) {
           defaultValue={currentMap}
           onChange={(e) => setCurrentMap(parseInt((e.target as HTMLSelectElement).value))}
         >
-          {tileLayers.map((mapValue: any, index: number) => (
+          {tileLayers.map((mapValue, index) => (
             <option key={index} value={index}>
               {mapValue.name}
             </option>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 interface DailyTimerProps {
-  time: Date;
+  time: string;
   offset?: number;
   onFinish: () => void;
 }

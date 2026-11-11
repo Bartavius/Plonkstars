@@ -10,6 +10,8 @@ import { MapCard } from "./map-card";
 
 import "./map-search.css";
 import { Loading } from "@/components/primitives/loading";
+import type { MapSearchResponse } from "@/features/maps/types/map-search-response";
+import type { MapSummary } from "@/features/maps/types/map-summary";
 interface MapSearchProps {
   mapSelect: (id: string, name: string) => void;
   pageSize?: number;
@@ -23,7 +25,7 @@ function MapSearch({ mapSelect, pageSize, bodySize, editable = false }: MapSearc
   const [input, setInput] = useState("");
   const [mapName, setMapName] = useState("");
   const [hasNext, setHasNext] = useState(false);
-  const [maps, setMaps] = useState([]);
+  const [maps, setMaps] = useState<MapSummary[]>([]);
 
   if (!pageSize) {
     pageSize = 24;
@@ -32,7 +34,7 @@ function MapSearch({ mapSelect, pageSize, bodySize, editable = false }: MapSearc
   const query = async () => {
     if (!loading) {
       setLoading(true);
-      const res = await api.get(
+      const res = await api.get<MapSearchResponse>(
         `/map/search?name=${mapName}&page=${page}&per_page=${pageSize}${editable ? "&editable=true" : ""}`,
       );
       setMaps(res.data.maps);
@@ -95,7 +97,7 @@ function MapSearch({ mapSelect, pageSize, bodySize, editable = false }: MapSearc
         {!loading && (
           <div className="mx-10">
             <ul className="results-grid">
-              {maps.map((map: any, index) => (
+              {maps.map((map, index) => (
                 <li key={index}>
                   <MapCard map={map} onClick={() => mapSelect(map.id, map.name)} />
                 </li>

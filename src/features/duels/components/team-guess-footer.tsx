@@ -1,9 +1,13 @@
 import { UserIcon } from "@/features/user/components/user-icon";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
 import "./results.css";
+
+import type { DuelsGuess } from "../types/duels-guess";
+import type { DuelsTeam } from "../types/duels-team";
 interface GuessFooterProps {
-  team: any;
-  bestGuess?: any;
-  bestGuessUserCosmetics?: any;
+  team: DuelsTeam;
+  bestGuess?: DuelsGuess;
+  bestGuessUserCosmetics?: UserIconCosmetics;
 }
 
 function GuessFooter({ team, bestGuess, bestGuessUserCosmetics }: GuessFooterProps) {
@@ -28,7 +32,7 @@ function GuessFooter({ team, bestGuess, bestGuessUserCosmetics }: GuessFooterPro
       className="duels-results-footer-guess-display"
       style={{ backgroundColor: getColor(team.color), color: textColor }}
     >
-      {bestGuess && <UserIcon data={bestGuessUserCosmetics} className="w-[100px]" />}
+      {bestGuess && <UserIcon data={bestGuessUserCosmetics!} className="w-[100px]" />}
       <div className={`duels-results-footer-guess-display-item`}>
         <div className="duels-results-footer-guess-display-header">User</div>
         {user}

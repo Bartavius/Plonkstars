@@ -11,9 +11,11 @@ import "./page.css";
 import "@/app/game.css";
 import { Loading } from "@/components/primitives/loading";
 import { MapCard } from "@/features/maps/components/map-card";
+import { getErrorResponse } from "@/services/api-error";
+import type { SessionInfo } from "@/app/game/_types/session-info";
 
 export default function ChallengePage() {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<SessionInfo>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const sessionID = useParams().id;
@@ -22,14 +24,14 @@ export default function ChallengePage() {
 
   async function getData() {
     try {
-      const res = await api.get(`/session/info?id=${sessionID}`);
+      const res = await api.get<SessionInfo>(`/session/info?id=${sessionID}`);
       if (res.data.state === "FINISHED") {
         router.push(`/game/${sessionID}/summary`);
         return;
       }
       setData(res.data);
-    } catch (error: any) {
-      dispatch(setError(error?.response?.data?.error ?? "Session not found"));
+    } catch (error) {
+      dispatch(setError(getErrorResponse(error)?.data?.error ?? "Session not found"));
       router.push("/game");
     }
   }

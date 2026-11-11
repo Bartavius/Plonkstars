@@ -15,6 +15,9 @@ import { ScoreAccordion } from "./score-accordion";
 import { Popup } from "@/components/primitives/popup";
 import { Modal } from "@/components/primitives/modal";
 import { MapSearch } from "@/features/maps/components/map-search";
+import type { RoundResultUser } from "@/features/challenge/types/round-results";
+import type { LatLng } from "@/features/maps/types/lat-lng";
+import { getErrorResponse } from "@/services/api-error";
 
 const BasicMapResult = dynamic(
   () => import("@/features/maps/components/basic-map-result").then((m) => m.BasicMapResult),
@@ -24,10 +27,10 @@ const BasicMapResult = dynamic(
 );
 interface ResultsProps {
   onClick: () => void;
-  this_user: any;
-  users: any;
+  this_user: string;
+  users: RoundResultUser[];
   roundNumber: number;
-  correct: any;
+  correct: LatLng;
   centerText?: React.ReactNode;
 }
 
@@ -59,7 +62,7 @@ function Results({ onClick, this_user, users, roundNumber, correct, centerText }
     };
   }, []);
 
-  const thisUser = users.find((user: any) => user.user.username === this_user);
+  const thisUser = users.find((user) => user.user.username === this_user)!;
 
   const distanceString = (distance: number) => {
     const m = distance === undefined ? -1 : Math.round(distance * 1000);
@@ -84,8 +87,8 @@ function Results({ onClick, this_user, users, roundNumber, correct, centerText }
         weight: 1,
       });
       setMessage("Successfully added the location!", "success");
-    } catch (error: any) {
-      setMessage(error.response.data.error || "Failed to add the location.", "error");
+    } catch (error) {
+      setMessage(getErrorResponse(error)!.data.error || "Failed to add the location.", "error");
     }
     setIsModalOpen(false);
   }
@@ -107,7 +110,7 @@ function Results({ onClick, this_user, users, roundNumber, correct, centerText }
           <BasicMapResult
             markers={[
               {
-                users: users.map((user: any) => ({
+                users: users.map((user) => ({
                   ...user.guess,
                   user: user.user,
                 })),

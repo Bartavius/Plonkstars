@@ -4,6 +4,7 @@ import "./map-ui-overlay.css";
 import { HealthBar } from "./healthbar";
 
 import { GamePanel } from "@/features/game/components/game-panel";
+import type { DuelsTeam } from "../types/duels-team";
 interface DuelsUIOverlayProps {
   time?: Date;
   timeLimit?: number;
@@ -11,7 +12,7 @@ interface DuelsUIOverlayProps {
   roundNumber: number;
   multi: number;
   teamHP?: { [key: string]: { hp: number; prev_hp: number } };
-  teams: { [key: string]: any };
+  teams: Record<string, DuelsTeam & { hp?: number }>;
   maxHealth: number;
   leftTeam: string;
   rightTeam: string;
@@ -43,7 +44,7 @@ function DuelsUIOverlay({
       <div className="health-bars">
         <div className="left-team">
           <HealthBar
-            health={teamHP ? teamHP[leftTeam].hp : teams[leftTeam].hp}
+            health={teamHP ? teamHP[leftTeam].hp : teams[leftTeam].hp!}
             maxHealth={maxHealth}
             teamInfo={teams[leftTeam]}
             prevHealth={teamHP && teamHP[leftTeam].prev_hp}
@@ -51,7 +52,7 @@ function DuelsUIOverlay({
         </div>
         <div className="right-team">
           <HealthBar
-            health={teamHP ? teamHP[rightTeam].hp : teams[rightTeam].hp}
+            health={teamHP ? teamHP[rightTeam].hp : teams[rightTeam].hp!}
             maxHealth={maxHealth}
             teamInfo={teams[rightTeam]}
             prevHealth={teamHP && teamHP[rightTeam].prev_hp}

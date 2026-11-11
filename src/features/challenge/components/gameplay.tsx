@@ -8,6 +8,8 @@ import { GamePanel } from "@/features/game/components/game-panel";
 import "@/app/game.css";
 import { BasicMapWithMarker } from "@/features/maps/components/basic-map-with-marker";
 import { api } from "@/services/api";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import type { MapBounds } from "@/features/maps/types/map-bounds";
 
 const CombinedMap = dynamic(
   () => import("@/features/maps/components/combined-map").then((m) => m.CombinedMap),
@@ -23,8 +25,8 @@ interface GamePlayProps {
   roundNumber: number;
   totalScore: number;
   NMPZ: boolean;
-  mapBounds: any;
-  cosmetics: any;
+  mapBounds: MapBounds;
+  cosmetics?: UserIconCosmetics;
   userLat?: number;
   userLng?: number;
   canGuess?: boolean;
@@ -75,7 +77,7 @@ function GamePlay({
           lng: (((lng % 360) + 540) % 360) - 180,
           id: matchId,
         });
-      } catch (err: any) {}
+      } catch (err) {}
       onGuess && onGuess();
     }
   }

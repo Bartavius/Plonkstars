@@ -25,7 +25,7 @@ function TeamSettings({ teamInfo, setMessage, onClose }: TeamSettingsProps) {
     onClose();
   }
 
-  function nameKeyListener(event: any) {
+  function nameKeyListener(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Escape") {
       setName(localSettings.name);
       setEditingName(undefined);

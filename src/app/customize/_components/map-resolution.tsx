@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "@/app/customize/page.css";
 import { tileLayers } from "@/features/maps/lib/tile-layers";
 import { setMiniMapResolution } from "@/store/settings-slice";
+import { useAppSelector } from "@/store/use-app-selector";
 interface MapResolutionProps {
   setMessage: (message: React.ReactNode) => void;
 }
 
 function MapResolution({ setMessage }: MapResolutionProps) {
-  const res = useSelector((state: any) => state.settings.miniMapResolution);
-  const mapNumber = useSelector((state: any) => state.settings.mapNumber);
+  const res = useAppSelector((state) => state.settings.miniMapResolution);
+  const mapNumber = useAppSelector((state) => state.settings.mapNumber);
 
   const [resolution, setResolution] = useState<number>(Math.log2(res) - 8);
   const dispatch = useDispatch();

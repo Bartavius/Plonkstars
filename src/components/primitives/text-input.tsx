@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+
+import type { RuleConfig } from "@/features/game/types/rule-config";
+
 interface TextInputProps {
-  data: any;
-  setInput: (input: string) => void;
-  value?: any;
+  data: RuleConfig;
+  setInput: (input: string | number) => void;
+  value?: string | number;
   editable?: boolean;
 }
 
 function TextInput({ data, setInput, value, editable = true }: TextInputProps) {
-  const [input, setInputState] = useState(value || "");
+  const [input, setInputState] = useState<string | number>(value || "");
 
   useEffect(() => {
     if (value !== undefined) {
@@ -17,12 +20,12 @@ function TextInput({ data, setInput, value, editable = true }: TextInputProps) {
 
   return (
     <div className="w-full relative flex flex-row gap-2">
-      <label className="block text-white" htmlFor={data.name}>
+      <label className="block text-white" htmlFor={String(data.name)}>
         {data.name}:
       </label>
       <input
         type={data.type === "integer" ? "number" : "text"}
-        id={data.name}
+        id={String(data.name)}
         className="bg-dark text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={input === -1 ? "" : input}
         onChange={(e) => setInputState(e.target.value)}

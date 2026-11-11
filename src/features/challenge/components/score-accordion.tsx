@@ -1,13 +1,14 @@
 import { Table } from "@/components/primitives/table";
 import { UserIcon } from "@/features/user/components/user-icon";
+import type { RoundResultUser } from "@/features/challenge/types/round-results";
 
 import "./results.css";
 import { ScoreBox } from "./score-box";
 interface ScoreAccordionProps {
   open: boolean;
   className?: string;
-  guesses: any[];
-  user?: any;
+  guesses: RoundResultUser[];
+  user?: string;
 }
 
 function ScoreAccordion({ open, className = "", guesses, user }: ScoreAccordionProps) {

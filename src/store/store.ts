@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -30,14 +30,16 @@ const partyPersistConfig = {
   storage: sessionStorage,
 };
 
+const rootReducer = combineReducers({
+  game: persistReducer(gamePersistConfig, gameReducer),
+  settings: persistReducer(settingsPersistConfig, settingsReducer),
+  demoAvatar: persistReducer(demoAvatarPersistConfig, demoAvatarReducer),
+  party: persistReducer(partyPersistConfig, partyReducer),
+  error: errorReducer,
+});
+
 export const store = configureStore({
-  reducer: {
-    game: persistReducer<any>(gamePersistConfig, gameReducer),
-    settings: persistReducer<any>(settingsPersistConfig, settingsReducer),
-    demoAvatar: persistReducer<any>(demoAvatarPersistConfig, demoAvatarReducer),
-    party: persistReducer<any>(partyPersistConfig, partyReducer),
-    error: errorReducer,
-  },
+  reducer: rootReducer,
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -48,3 +50,6 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

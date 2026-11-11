@@ -1,9 +1,11 @@
 import "./team-box.css";
+import type { DuelsSummaryGuess } from "../types/duels-guess";
+import type { DuelsTeam } from "../types/duels-team";
 interface DuelsTeamBoxProps {
   placement: number;
-  teamInfo: any;
+  teamInfo: DuelsTeam;
   teamHP: number[];
-  teamGuesses: any;
+  teamGuesses: DuelsSummaryGuess[][];
   roundsWon: number[];
   onClick?: () => void;
 }
@@ -43,7 +45,7 @@ function DuelsTeamBox({
   const brightness = getBrightness(teamInfo.color) > 128;
   const numWon = roundsWon.length;
   const avgScore =
-    teamGuesses.reduce((acc: number, guesses: any) => acc + (guesses[0]?.score ?? 0), 0) /
+    teamGuesses.reduce<number>((acc, guesses) => acc + (guesses[0]?.score ?? 0), 0) /
     teamGuesses.length;
   return (
     <div

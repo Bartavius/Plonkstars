@@ -1,12 +1,16 @@
+import type { RuleConfig } from "@/features/game/types/rule-config";
+import type { RuleInputValue } from "@/features/game/types/rule-input-value";
+
 import { CheckboxInput } from "./checkbox-input";
 import { SliderInput } from "./slider-input";
 import { TextInput } from "./text-input";
+
 interface UserInputProps {
-  inputType: "input" | "slider" | "checkbox";
-  data: any;
-  value?: any;
+  inputType: RuleConfig["display"];
+  data: RuleConfig;
+  value?: RuleInputValue;
   editable?: boolean;
-  setInput: (data: any) => void;
+  setInput: (value: RuleInputValue) => void;
   setError: (error: string) => void;
 }
 
@@ -18,7 +22,7 @@ function UserInput({
   setInput,
   setError,
 }: UserInputProps) {
-  function setRestrictions(value: any) {
+  function setRestrictions(value: RuleInputValue) {
     if (data.type === "number" && typeof value === "string") {
       try {
         value = parseFloat(value);
@@ -37,7 +41,7 @@ function UserInput({
       }
     }
 
-    if (data.type === "integer" || data.type === "number") {
+    if ((data.type === "integer" || data.type === "number") && typeof value === "number") {
       if (data.min !== undefined && value < data.min && !(data.infinity && value === -1)) {
         setError(`${data.name} cannot be less than ${data.min}`);
         return;
@@ -49,12 +53,28 @@ function UserInput({
     }
     setInput(value);
   }
+  // The backend pairs display with type: checkboxes hold booleans, sliders and inputs numbers.
   return inputType === "input" ? (
-    <TextInput data={data} setInput={setRestrictions} value={value} editable={editable} />
+    <TextInput
+      data={data}
+      setInput={setRestrictions}
+      value={value as string | number | undefined}
+      editable={editable}
+    />
   ) : inputType === "slider" ? (
-    <SliderInput data={data} setInput={setRestrictions} value={value} editable={editable} />
+    <SliderInput
+      data={data}
+      setInput={setRestrictions}
+      value={value as number | undefined}
+      editable={editable}
+    />
   ) : inputType === "checkbox" ? (
-    <CheckboxInput data={data} setInput={setRestrictions} value={value} editable={editable} />
+    <CheckboxInput
+      data={data}
+      setInput={setRestrictions}
+      value={value as boolean | undefined}
+      editable={editable}
+    />
   ) : null;
 }
 

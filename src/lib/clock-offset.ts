@@ -1,4 +1,8 @@
-export async function calculateOffset(action: () => Promise<any>) {
+interface ServerTimeResponse {
+  data?: { now?: string };
+}
+
+export async function calculateOffset(action: () => Promise<ServerTimeResponse | void>) {
   const start = Date.now();
   const res = await action();
   if (!res || !res.data || !res.data.now) {

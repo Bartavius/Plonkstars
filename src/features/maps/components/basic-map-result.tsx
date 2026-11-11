@@ -2,20 +2,22 @@
 
 import { MapContainer, Polyline, Tooltip } from "react-leaflet";
 
+import type { ResultMarker } from "@/features/maps/types/result-marker";
+
 import { FitBounds } from "./fit-bounds";
 import "./map.css";
 import { MapIcon } from "./map-icon";
 import { MapTileLayer } from "./map-tile-layer";
 interface BasicMapResultProps {
-  markers: any;
+  markers: ResultMarker[];
   height?: number;
-  user?: any;
+  user?: string;
 }
 
 function BasicMapResult({ markers, height, user }: BasicMapResultProps) {
-  const boundedMarkers = markers.map((marker: any) => {
+  const boundedMarkers = markers.map((marker) => {
     const newUsers = marker.users
-      .map((user: any) => {
+      .map((user) => {
         if (user.lat === undefined || user.lng === undefined) {
           return;
         }
@@ -28,14 +30,14 @@ function BasicMapResult({ markers, height, user }: BasicMapResultProps) {
         }
         return { ...user, lat: user.lat, lng: newLng };
       })
-      .filter((user: any) => user !== undefined) as { lat: number; lng: number }[];
+      .filter((user) => user !== undefined);
     return { ...marker, users: newUsers };
   });
 
   const locations = boundedMarkers
-    .map((marker: any) => [
+    .map((marker) => [
       marker.correct,
-      ...marker.users.filter((guess: any) => guess.user.username === user),
+      ...marker.users.filter((guess) => guess.user.username === user),
     ])
     .flat();
 
@@ -51,7 +53,7 @@ function BasicMapResult({ markers, height, user }: BasicMapResultProps) {
         className="leaflet-result-map"
       >
         <MapTileLayer size={512} offset={-1} />
-        {boundedMarkers.map((markerObj: any, index: number) => (
+        {boundedMarkers.map((markerObj, index: number) => (
           <div key={index}>
             {markerObj && (
               <MapIcon
@@ -61,7 +63,7 @@ function BasicMapResult({ markers, height, user }: BasicMapResultProps) {
                 iconPercent={1}
               />
             )}
-            {markerObj.users.map((user: any, userIndex: number) => (
+            {markerObj.users.map((user, userIndex: number) => (
               <div key={userIndex}>
                 {user && user.lat && user.lng && (
                   <>

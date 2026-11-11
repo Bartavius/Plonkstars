@@ -1,5 +1,8 @@
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import type { UserProfile } from "@/features/user/types/user-profile";
+
 interface UserIconProps {
-  data: any;
+  data: UserIconCosmetics | Pick<UserProfile, "user_cosmetics">;
   className?: string;
 }
 function UserIcon({ data, className }: UserIconProps) {

@@ -4,16 +4,21 @@ import { CombinedMap } from "@/features/maps/components/combined-map";
 import { TeamGuessingMap } from "@/features/maps/components/team-guessing-map";
 import "@/app/game.css";
 import { api } from "@/services/api";
+import type { RoundInfo } from "@/features/game/types/round-info";
 
 import { DuelsUIOverlay } from "./map-ui-overlay";
+import type { DuelsStateTeam } from "../types/duels-state-team";
+import type { DuelsUser } from "../types/duels-user";
+import type { TeamMarker } from "../types/team-marker";
 interface DuelsGameplayProps {
   id: string;
-  users: { [key: string]: any };
+  users: Record<string, DuelsUser>;
   thisUser: string;
-  teams: { [key: string]: any };
-  teamPlonks: { [key: string]: any };
-  teamGuesses: { [key: string]: any };
-  roundInfo: any;
+  teams: Record<string, DuelsStateTeam>;
+  teamPlonks: Record<string, TeamMarker>;
+  teamGuesses: Record<string, TeamMarker>;
+  // The backend sends `nmpz`; this spelling never matches, so duels ignores NMPZ. Kept as-is to avoid a behavior change.
+  roundInfo: RoundInfo & { NMPZ?: boolean };
   spectator?: boolean;
   canGuess?: boolean;
   guesses: number;
@@ -122,7 +127,7 @@ function DuelsGameplay({
           correctLat={roundInfo.lat}
           correctLng={roundInfo.lng}
           reload={reload}
-          NMPZ={roundInfo.NMPZ}
+          NMPZ={roundInfo.NMPZ!}
           map={
             spectator ? null : (
               <TeamGuessingMap

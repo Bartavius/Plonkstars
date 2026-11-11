@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "@/app/customize/page.css";
 import { isDemo } from "@/features/auth/services/session";
@@ -9,6 +9,8 @@ import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cos
 import { UserIcon } from "@/features/user/components/user-icon";
 import { api } from "@/services/api";
 import { setColor } from "@/store/demo-avatar-slice";
+import { useAppSelector } from "@/store/use-app-selector";
+import { getErrorResponse } from "@/services/api-error";
 
 import { BodySelection } from "./selection/body";
 import { ColorSelection } from "./selection/color";
@@ -30,7 +32,7 @@ interface AvatarCustomProps {
 
 function AvatarCustom({ setMessage, setType }: AvatarCustomProps) {
   const userDemoAvatar = {
-    ...useSelector((state: any) => state.demoAvatar),
+    ...useAppSelector((state) => state.demoAvatar),
     face: null,
     body: null,
     hat: null,
@@ -63,10 +65,11 @@ function AvatarCustom({ setMessage, setType }: AvatarCustomProps) {
         const response = await api.put("/cosmetics/customize", userIcon);
         setType("success");
         setMessage(response.data.message);
-      } catch (error: any) {
+      } catch (error) {
         setType("error");
-        if (error.response && error.response.data && error.response.data.error) {
-          setMessage(`${error.response.data.error}`);
+        const body = getErrorResponse(error)?.data;
+        if (body && body.error) {
+          setMessage(`${body.error}`);
         } else {
           setMessage("Failed to save avatar changes. Please try again.");
         }

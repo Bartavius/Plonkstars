@@ -9,16 +9,18 @@ import { Loading } from "@/components/primitives/loading";
 import "@/app/map/[id]/leaderboard/page.css";
 import { isDemo } from "@/features/auth/services/session";
 import { api } from "@/services/api";
+import type { UserProfile } from "@/features/user/types/user-profile";
+import type { MapLeaderboardPage } from "@/app/map/[id]/_types/map-leaderboard";
 interface MapLeaderboardProps {
   mapID: string;
 }
 
 function MapLeaderboard({ mapID }: MapLeaderboardProps) {
-  const [leaderboard, setLeaderboard] = useState<any[]>();
+  const [leaderboard, setLeaderboard] = useState<Record<string, React.ReactNode>[]>();
   const [page, setPage] = useState<number>(1);
   const [hasNext, setHasNext] = useState<boolean>(false);
   const [NMPZ, setNMPZ] = useState(false);
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<MapLeaderboardPage>();
   const resultsPerPage = 20;
 
   const router = useRouter();
@@ -48,13 +50,15 @@ function MapLeaderboard({ mapID }: MapLeaderboardProps) {
 
   const getLeaderboard = async () => {
     try {
-      const user = demo ? { data: { username: "demo" } } : await api.get("/account/avatar");
+      const user = demo
+        ? { data: { username: "demo" } }
+        : await api.get<UserProfile>("/account/avatar");
 
-      const response = await api.get(
+      const response = await api.get<MapLeaderboardPage>(
         `/map/leaderboard?id=${mapID}&per_page=${resultsPerPage}&page=${page}&nmpz=${NMPZ}`,
       );
       setLeaderboard(
-        response.data.data.map((row: any) => ({
+        response.data.data.map((row) => ({
           heading: (
             <div className="leaderboard-rank-box">
               <div className="rank-number-text">#{row.rank}</div>

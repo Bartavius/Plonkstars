@@ -12,7 +12,7 @@ interface StatBoxProps {
       onClick?: () => void;
       items: {
         onClick?: () => void;
-        icon: any;
+        icon: JSX.Element;
         title: string;
         stat: number | string | JSX.Element;
         unit?: string;

@@ -1,23 +1,41 @@
 import { useState } from "react";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
+import type { useRouter } from "next/navigation";
 
 import { UserIcon } from "@/features/user/components/user-icon";
+import type { DuelsSummaryGuess } from "@/features/duels/types/duels-guess";
+import type { DuelsTeam } from "@/features/duels/types/duels-team";
+import type { DuelsUser } from "@/features/duels/types/duels-user";
 
 import playerTitlesJSON from "./player-titles.json" assert { type: "json" };
 import { DuelsTeamRoundSummary } from "./round-display";
 import { DuelsTeamBox } from "./team-box";
 import "./team-summary.css";
 
-const PLAYER_TITLES = playerTitlesJSON as { [key: string]: any };
+interface PlayerTitle {
+  text: string;
+  titles: string[];
+}
+
+const PLAYER_TITLES: Record<string, PlayerTitle> = playerTitlesJSON;
+
+interface CumulativeStats {
+  score: number;
+  time: number;
+  distance: number;
+  totalRank: number;
+  teamRank: number;
+}
+
 interface DuelsTeamSummaryProps {
-  users: { [key: string]: any };
+  users: Record<string, DuelsUser>;
   thisUser: string;
-  teams: { [key: string]: any };
+  teams: Record<string, DuelsTeam>;
   teamHP: { [key: string]: number[] };
   startHP: number;
-  teamGuesses: { [key: string]: any };
+  teamGuesses: Record<string, DuelsSummaryGuess[][]>;
   locations: { lat: number; lng: number }[];
-  router: any;
+  router: ReturnType<typeof useRouter>;
   setDisplayRound: (round: number | "all") => void;
 }
 
@@ -79,8 +97,8 @@ function DuelsTeamSummary({
   const numRoundGuesses = Array(numRounds).fill(0);
 
   teamPlacements.forEach((teamId) => {
-    teamGuesses[teamId].forEach((roundGuesses: any, roundIndex: number) => {
-      roundGuesses.forEach((guess: any) => {
+    teamGuesses[teamId].forEach((roundGuesses, roundIndex) => {
+      roundGuesses.forEach((guess) => {
         if (bestGuesses[roundIndex] === null || guess.rank == 1) {
           bestGuesses[roundIndex] = guess;
         }
@@ -91,8 +109,8 @@ function DuelsTeamSummary({
 
   const playerValue: { [key: string]: number } = {};
   const numPlayersInTeam = teams[displayTeam].members.length;
-  teamGuesses[displayTeam].forEach((roundGuesses: any, round: number) => {
-    roundGuesses.forEach((guess: any, index: number) => {
+  teamGuesses[displayTeam].forEach((roundGuesses, round) => {
+    roundGuesses.forEach((guess, index) => {
       if (!(guess.user in playerValue)) {
         playerValue[guess.user] = 0;
       }
@@ -107,7 +125,7 @@ function DuelsTeamSummary({
     });
   });
 
-  const playerTitles: { [key: string]: any } = {};
+  const playerTitles: Record<string, string> = {};
 
   teams[displayTeam].members.forEach((member: string) => {
     playerTitles[member] = "average";
@@ -121,30 +139,27 @@ function DuelsTeamSummary({
     playerTitles[playersSorted[playersSorted.length - 1]] = "mvp";
   }
 
-  const roundsWon = teamPlacements.reduce(
-    (acc, teamId) => {
-      acc[teamId] = teamHP[teamId].reduce(
-        (acc: any, hp, idx) => {
-          if (hp == acc[0]) {
-            acc[1].push(idx);
-          }
-          return [hp, acc[1]];
-        },
-        [startHP, []],
-      )[1];
-      return acc;
-    },
-    {} as { [key: string]: number[] },
-  );
+  const roundsWon = teamPlacements.reduce<Record<string, number[]>>((acc, teamId) => {
+    acc[teamId] = teamHP[teamId].reduce<[number, number[]]>(
+      (acc, hp, idx) => {
+        if (hp == acc[0]) {
+          acc[1].push(idx);
+        }
+        return [hp, acc[1]];
+      },
+      [startHP, []],
+    )[1];
+    return acc;
+  }, {});
 
   const displayTeamInfo = teams[displayTeam];
   const displayTeamGuesses = teamGuesses[displayTeam];
   const displayTeamHP = teamHP[displayTeam];
 
   const currentTeamPlayer = displayTeamInfo.members[currentTeamPlayerIdx];
-  const currentPlayerCumStats = displayTeamGuesses.reduce(
-    (acc: any, roundGuesses: any, roundNumber: number) => {
-      const index = roundGuesses.findIndex((g: any) => g.user === currentTeamPlayer);
+  const currentPlayerCumStats = displayTeamGuesses.reduce<CumulativeStats>(
+    (acc, roundGuesses, roundNumber) => {
+      const index = roundGuesses.findIndex((g) => g.user === currentTeamPlayer);
       const playerGuess = index !== -1 ? roundGuesses[index] : undefined;
 
       if (playerGuess) {
@@ -248,7 +263,7 @@ function DuelsTeamSummary({
           </div>
         </div>
         <div className="duels-team-summary-rounds">
-          {displayTeamGuesses.map((guesses: any, round: number) => (
+          {displayTeamGuesses.map((guesses, round) => (
             <DuelsTeamRoundSummary
               key={round}
               roundNumber={round + 1}

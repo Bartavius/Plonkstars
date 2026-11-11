@@ -12,6 +12,7 @@ import { Summary } from "@/features/challenge/components/summary";
 import { api } from "@/services/api";
 import "./page.css";
 import { Popup } from "@/components/primitives/popup";
+import type { GameSummary } from "@/features/challenge/types/game-summary";
 
 interface Location {
   lat: number;
@@ -21,7 +22,7 @@ interface Location {
 export default function SummaryPage() {
   const [locations, setLocations] = useState<Location[]>([]);
   const [user, setUser] = useState<string>("");
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<GameSummary>();
   const [showLink, setShowLink] = useState(false);
   const [update, setUpdate] = useState(0);
   const [leaderboard, setLeaderboard] = useState<boolean>(false);
@@ -41,7 +42,7 @@ export default function SummaryPage() {
     }
     const fetchGuesses = async () => {
       try {
-        const res = await api.get(`/game/summary?id=${params.id}`);
+        const res = await api.get<GameSummary>(`/game/summary?id=${params.id}`);
 
         setLocations(res.data.rounds);
         setUser(res.data.this_user);

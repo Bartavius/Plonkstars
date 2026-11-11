@@ -2,11 +2,13 @@ import { motion } from "framer-motion";
 import { Sigmar } from "next/font/google";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { isAuthenticated, isDemo } from "@/features/auth/services/session";
 import { api } from "@/services/api";
 import { clearBlockedURL } from "@/store/error-slice";
+import { useAppSelector } from "@/store/use-app-selector";
+import { getErrorResponse } from "@/services/api-error";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
@@ -22,7 +24,7 @@ function Register() {
   const isAuth = isAuthenticated();
   const demo = isDemo();
 
-  const reduxError = useSelector((state: any) => state.error);
+  const reduxError = useAppSelector((state) => state.error);
   const blockedURL = reduxError.loginRequiredUrl ?? "/";
 
   if (isAuth && !demo) {
@@ -44,8 +46,12 @@ function Register() {
         });
         router.push("/account/login");
       }
-    } catch (err: any) {
-      setError(err.response?.data?.error || err.message || "Something went wrong");
+    } catch (err) {
+      setError(
+        getErrorResponse(err)?.data?.error ||
+          (err instanceof Error ? err.message : undefined) ||
+          "Something went wrong",
+      );
       setButtonEnabled(true);
     }
   };

@@ -1,10 +1,12 @@
 import { colorGradient } from "@/lib/color-gradient";
 import "./healthbar.css";
+
+import type { DuelsTeam } from "../types/duels-team";
 interface HealthBarProps {
   health: number;
   maxHealth: number;
   fontSize?: string;
-  teamInfo: any;
+  teamInfo: DuelsTeam;
   prevHealth?: number;
 }
 

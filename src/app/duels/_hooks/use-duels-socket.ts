@@ -1,18 +1,19 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useSocket } from "@/lib/hooks/use-socket";
 import { setError } from "@/store/error-slice";
 import { clearPartyCode } from "@/store/party-slice";
+import { useAppSelector } from "@/store/use-app-selector";
+import type { GameStateEvent } from "@/features/game/types/game-state-event";
+import type { PartyLeaveEvent } from "@/features/party/types/party-leave-event";
+import type { SocketHandlers } from "@/lib/hooks/use-socket";
 
-type SocketEvents = {
-  [event: string]: (...args: any[]) => void;
-};
 interface UseDuelsSocketOptions {
   id: string;
-  state: any;
-  functions?: SocketEvents;
+  state?: string;
+  functions?: SocketHandlers;
 }
 
 function useDuelsSocket({ id, state, functions }: UseDuelsSocketOptions) {
@@ -20,7 +21,7 @@ function useDuelsSocket({ id, state, functions }: UseDuelsSocketOptions) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
-  const code = useSelector((state: any) => state.party).code;
+  const code = useAppSelector((state) => state.party).code;
 
   const fullPath = searchParams.toString() ? `${pathname}?${searchParams.toString()}` : pathname;
 
@@ -28,8 +29,8 @@ function useDuelsSocket({ id, state, functions }: UseDuelsSocketOptions) {
     namespace: "/party",
     rooms: { code, id },
     functions: {
-      next: (data) => pushState(data),
-      leave: (data) => {
+      next: (data: GameStateEvent) => pushState(data),
+      leave: (data: PartyLeaveEvent) => {
         dispatch(clearPartyCode());
         dispatch(setError(data?.reason));
         router.push("/game");
@@ -38,7 +39,7 @@ function useDuelsSocket({ id, state, functions }: UseDuelsSocketOptions) {
     },
   });
 
-  function pushState(state: any) {
+  function pushState(state: string | GameStateEvent) {
     if (typeof state !== "string") {
       state = state.state;
     }

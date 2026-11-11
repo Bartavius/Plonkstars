@@ -7,6 +7,7 @@ import { calculateOffset } from "@/lib/clock-offset";
 import { api } from "@/services/api";
 
 import { DailyTimer } from "./daily-timer";
+import type { DailyChallenge } from "../_types/daily-challenge";
 interface DailyProps {
   loading: boolean;
   setLoading: (loading: boolean) => void;
@@ -14,12 +15,12 @@ interface DailyProps {
 
 function Daily({ loading, setLoading }: DailyProps) {
   const demo = isDemo();
-  const [daily, setDaily] = useState<any>();
+  const [daily, setDaily] = useState<DailyChallenge>();
   const [offset, setOffset] = useState<number | undefined>(undefined);
   const router = useRouter();
 
   async function fetchDaily() {
-    const daily = await api.get(`/session/daily`);
+    const daily = await api.get<DailyChallenge>(`/session/daily`);
     setDaily(daily.data);
     return daily;
   }
@@ -82,7 +83,7 @@ function Daily({ loading, setLoading }: DailyProps) {
             >
               {daily.state == "FINISHED"
                 ? "Leaderboard"
-                : daily.state == "FINISHED" || daily.state == "GUESSING"
+                : daily.state == "GUESSING"
                   ? "Continue"
                   : "Play"}
             </button>

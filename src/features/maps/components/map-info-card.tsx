@@ -6,12 +6,13 @@ import { useDispatch } from "react-redux";
 
 import { api } from "@/services/api";
 import { setGameMap } from "@/store/game-slice";
+import type { MapStats } from "@/features/maps/types/map-stats";
 
 import "./map-info-card.css";
 import "@/app/game.css";
 import { MapDeleteModal } from "./map-delete-modal";
 interface MapInfoCardProps {
-  stats: any;
+  stats: MapStats;
   permission: number;
   loading: boolean;
   setLoading: (loading: boolean) => void;
@@ -53,7 +54,7 @@ function MapInfoCard({ stats, permission, loading, setLoading, children }: MapIn
     }
   }, [editingName]);
 
-  const changeDescription = (e: any) => {
+  const changeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length === 0) {
       setDescription(undefined);
     } else {
@@ -89,7 +90,7 @@ function MapInfoCard({ stats, permission, loading, setLoading, children }: MapIn
     router.push(`/map/${mapID}/edit`);
   };
 
-  const descriptionKeyListener = (event: any) => {
+  const descriptionKeyListener = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Escape") {
       descriptionCancel();
     } else if (event.key === "Enter" && !event.shiftKey) {
@@ -114,7 +115,7 @@ function MapInfoCard({ stats, permission, loading, setLoading, children }: MapIn
     setName(stats.name);
   };
 
-  const nameKeyListener = (event: any) => {
+  const nameKeyListener = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Escape") {
       cancelName();
     } else if (event.key === "Enter") {

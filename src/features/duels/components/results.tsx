@@ -7,11 +7,14 @@ import "@/app/game.css";
 import "./duels.css";
 import "./results.css";
 import { GuessFooter } from "./team-guess-footer";
+import type { DuelsGuess } from "../types/duels-guess";
+import type { DuelsTeam } from "../types/duels-team";
+import type { DuelsUser } from "../types/duels-user";
 interface DuelsResultsProps {
-  teamGuesses: { [key: string]: any };
+  teamGuesses: Record<string, DuelsGuess[]>;
   location: { lat: number; lng: number };
-  users: { [key: string]: any };
-  teams: { [key: string]: any };
+  users: Record<string, DuelsUser>;
+  teams: Record<string, DuelsTeam>;
   startHP: number;
   roundNumber: number;
   multi: number;
@@ -46,16 +49,13 @@ function DuelsResults({
     return () => clearInterval(interval);
   }, []);
 
-  const guesses = Object.keys(teamGuesses).reduce(
-    (acc, teamId: string) => {
-      acc[teamId] = [teamGuesses[teamId]];
-      return acc;
-    },
-    {} as { [key: string]: any },
-  );
+  const guesses = Object.keys(teamGuesses).reduce<Record<string, DuelsGuess[][]>>((acc, teamId) => {
+    acc[teamId] = [teamGuesses[teamId]];
+    return acc;
+  }, {});
 
   Object.keys(users).forEach(
-    (u: any) => (users[u].user_cosmetics.user_team_color = teams[users[u].team]?.color),
+    (u) => (users[u].user_cosmetics.user_team_color = teams[users[u].team]?.color),
   );
 
   const thisTeam = users[thisUser]?.team;
@@ -70,7 +70,7 @@ function DuelsResults({
     return `#${color.toString(16).padStart(6, "0")}`;
   }
 
-  function createTooltips(guess: any) {
+  function createTooltips(guess: DuelsGuess) {
     const user = users[guess.user];
     if (user) {
       return (

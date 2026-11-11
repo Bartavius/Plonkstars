@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { UserIcon } from "@/features/user/components/user-icon";
 import "./summary.css";
 import { Table } from "@/components/primitives/table";
+import type { SummaryUser } from "@/features/challenge/types/game-summary";
 
 import { ScoreBox } from "./score-box";
 
@@ -22,9 +23,9 @@ interface Location {
 }
 interface SummaryProps {
   locations: Location[];
-  data: any;
-  user: any;
-  children?: any;
+  data: SummaryUser[];
+  user: string;
+  children?: React.ReactNode;
   mapHeight?: number;
   leaderboard?: boolean;
 }
@@ -39,7 +40,7 @@ function Summary({
 }: SummaryProps) {
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
   const guesses = [...Array(locations.length).keys()].map((index) => {
-    return data.map((u: any) => {
+    return data.map((u) => {
       return { ...u.guesses[index], user: u.user };
     });
   });
@@ -50,13 +51,13 @@ function Summary({
   const router = useRouter();
 
   const userStats = guesses.map((round) => {
-    return round.find((guess: any) => guess.user.username === user);
+    return round.find((guess) => guess.user.username === user)!;
   });
   const userDisplay = displayedGuesses.map((round) => {
-    return round.find((guess: any) => guess.user.username === user);
+    return round.find((guess) => guess.user.username === user)!;
   });
 
-  const overallStats = data.find((score: any) => score.user.username === user);
+  const overallStats = data.find((score) => score.user.username === user)!;
   function distanceString(distance: number) {
     if (distance === undefined) {
       return "N/A";
@@ -79,22 +80,19 @@ function Summary({
       : `${seconds}s`;
   }
 
-  const keys: Record<string, any> = {
+  const keys: Record<string, React.ReactNode> = {
     total: <div className={highlighted === 0 ? "text-white" : ""}>Total</div>,
   };
   const leaderboardHTML =
     leaderboard &&
-    data.map((scores: any, index: number) => {
-      const map = scores.guesses.reduce(
-        (acc: any, guess: any, index: number) => {
-          acc[`Round ${index + 1}`] = <ScoreBox data={guess} />;
-          keys[`Round ${index + 1}`] = (
-            <div className={highlighted === index + 1 ? "text-white" : ""}>Round {index + 1}</div>
-          );
-          return acc;
-        },
-        {} as Record<string, any>,
-      );
+    data.map((scores, index) => {
+      const map = scores.guesses.reduce<Record<string, React.ReactNode>>((acc, guess, index) => {
+        acc[`Round ${index + 1}`] = <ScoreBox data={guess} />;
+        keys[`Round ${index + 1}`] = (
+          <div className={highlighted === index + 1 ? "text-white" : ""}>Round {index + 1}</div>
+        );
+        return acc;
+      }, {});
       const rank = scores.rank ? scores.rank : index + 1;
       map.total = <ScoreBox data={scores} />;
       map.heading = (
@@ -148,7 +146,7 @@ function Summary({
         {children}
         {leaderboard ? (
           <Table
-            data={leaderboardHTML}
+            data={leaderboardHTML || []}
             onClickHeader={clickHeader}
             headers={keys}
             rowHeader="heading"
@@ -178,7 +176,7 @@ function Summary({
               </a>
             </div>
             <ul className="space-y-4 my-5">
-              {userStats.map((guess: any, index: number) => (
+              {userStats.map((guess, index) => (
                 <li key={index}>
                   <a
                     href="#map-summary"

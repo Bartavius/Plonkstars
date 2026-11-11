@@ -4,11 +4,13 @@ import { motion } from "framer-motion";
 import { Sigmar } from "next/font/google";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { isAuthenticated, isDemo, login } from "@/features/auth/services/session";
 import { api } from "@/services/api";
 import { clearBlockedURL, clearError } from "@/store/error-slice";
+import { useAppSelector } from "@/store/use-app-selector";
+import { getErrorResponse } from "@/services/api-error";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
@@ -18,7 +20,7 @@ function Login() {
 
   const isAuth = isAuthenticated();
   const demo = isDemo();
-  const reduxError = useSelector((state: any) => state.error);
+  const reduxError = useAppSelector((state) => state.error);
   const blockedURL = reduxError.loginRequiredUrl ?? "/";
 
   const [username, setUsername] = useState("");
@@ -52,8 +54,8 @@ function Login() {
         login(token);
         router.push(blockedURL);
       }
-    } catch (err: any) {
-      setError(err.response?.data?.error || "Login failed");
+    } catch (err) {
+      setError(getErrorResponse(err)?.data?.error || "Login failed");
       setButtonEnabled(true);
     }
   };

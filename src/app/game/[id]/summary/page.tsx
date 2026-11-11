@@ -5,7 +5,6 @@ import { CgCopy } from "react-icons/cg";
 import { FaMedal } from "react-icons/fa";
 import { ImLink } from "react-icons/im";
 import { IoIosStats } from "react-icons/io";
-import { useSelector } from "react-redux";
 
 import { Loading } from "@/components/primitives/loading";
 import { LoginTooltipWrapper } from "@/features/auth/components/login-tooltip-wrapper";
@@ -15,6 +14,8 @@ import { Summary } from "@/features/challenge/components/summary";
 import { api } from "@/services/api";
 import "./page.css";
 import { Popup } from "@/components/primitives/popup";
+import { useAppSelector } from "@/store/use-app-selector";
+import type { GameSummary } from "@/features/challenge/types/game-summary";
 
 interface Location {
   lat: number;
@@ -23,10 +24,10 @@ interface Location {
 
 export default function SummaryPage() {
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
-  const previousGame = useSelector((state: any) => state.game);
+  const previousGame = useAppSelector((state) => state.game);
   const [locations, setLocations] = useState<Location[]>([]);
   const [user, setUser] = useState<string>("");
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<GameSummary>();
   const [showLink, setShowLink] = useState(false);
   const [update, setUpdate] = useState(0);
   const [leaderboard, setLeaderboard] = useState<boolean>(false);
@@ -37,7 +38,7 @@ export default function SummaryPage() {
   const challengeLink = `${window.location.origin}/game/${params.id}/challenge`;
 
   const demo = isDemo();
-  const demoAvatar = useSelector((state: any) => state.demoAvatar);
+  const demoAvatar = useAppSelector((state) => state.demoAvatar);
 
   const startNewGame = async () => {
     try {
@@ -49,7 +50,7 @@ export default function SummaryPage() {
       });
       const { id } = response.data;
       router.push(`/game/${id}/join`);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
     }
   };
@@ -69,7 +70,7 @@ export default function SummaryPage() {
     }
     const fetchGuesses = async () => {
       try {
-        const res = await api.get(`/game/summary?id=${params.id}`);
+        const res = await api.get<GameSummary>(`/game/summary?id=${params.id}`);
 
         setLocations(res.data.rounds);
         setUser(res.data.this_user);
@@ -121,7 +122,7 @@ export default function SummaryPage() {
       <div className="summary-container">
         <Summary
           locations={locations}
-          data={data.users.map((user: any) =>
+          data={data.users.map((user) =>
             user.user.username === "demo" && demo
               ? { ...user, user: { ...user.user, user_cosmetics: demoAvatar } }
               : user,

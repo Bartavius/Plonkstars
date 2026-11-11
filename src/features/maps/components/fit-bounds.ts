@@ -7,7 +7,7 @@ interface Location {
 }
 interface FitBoundsProps {
   locations: Location[];
-  options?: any;
+  options?: L.FitBoundsOptions;
   summary?: boolean;
 }
 

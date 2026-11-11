@@ -1,9 +1,11 @@
 import { GiExitDoor } from "react-icons/gi";
 
+import type { PartyMember } from "@/app/party/_types/party-member";
+
 import { UserCard } from "./user-card";
 import "@/app/party/page.css";
 interface PlayerDisplayProps {
-  users: { [key: string]: { username: string; user_cosmetics: any; in_lobby: boolean } };
+  users: Record<string, PartyMember>;
   host: string;
   thisUser: string;
   kickUser: (username: string) => void;

@@ -10,16 +10,20 @@ import { Popup } from "@/components/primitives/popup";
 import { UserIcon } from "@/features/user/components/user-icon";
 import { calculateOffset } from "@/lib/clock-offset";
 import { api } from "@/services/api";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import type { RoundInfo } from "@/features/game/types/round-info";
+import type { UserProfile } from "@/features/user/types/user-profile";
+import type { LiveState } from "@/app/live/_types/live-state";
 
 export default function Page() {
-  const [round, setRound] = useState<any>();
-  const [state, setState] = useState<any>();
+  const [round, setRound] = useState<RoundInfo>();
+  const [state, setState] = useState<LiveState>();
   const [guesses, setGuesses] = useState<number>(0);
   const [players, setPlayers] = useState<number>(0);
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
   const [canGuess, setCanGuess] = useState<boolean>(true);
-  const [cosmetics, setCosmetics] = useState<any>(null);
+  const [cosmetics, setCosmetics] = useState<UserIconCosmetics | null>(null);
   const [popupElement, setPopupElement] = useState<React.ReactNode>();
   const [offset, setOffset] = useState<number>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -28,17 +32,17 @@ export default function Page() {
   const id = params.id;
 
   async function getRound() {
-    const response = await api.get(`/game/round?id=${id}`);
+    const response = await api.get<RoundInfo>(`/game/round?id=${id}`);
     setRound(response.data);
     return response;
   }
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const state = await api.get(`/game/state?id=${id}`);
+        const state = await api.get<LiveState>(`/game/state?id=${id}`);
         setCanGuess(!state.data.guessed);
-        setPlayers(state.data.player);
-        setGuesses(state.data.guess);
+        setPlayers(state.data.player!);
+        setGuesses(state.data.guess!);
         setLat(state.data.lat);
         setLng(state.data.lng);
         setState(state.data);
@@ -50,7 +54,7 @@ export default function Page() {
         setCosmetics(cosmetics.data.user_cosmetics);
 
         setLoading(false);
-      } catch (err: any) {
+      } catch (err) {
         console.error(err);
       }
     };
@@ -58,7 +62,7 @@ export default function Page() {
   }, []);
 
   const socketFunctions = {
-    guess: (data: any) => {
+    guess: (data: UserProfile) => {
       setGuesses((prev) => prev + 1);
       setPopupElement(
         <div className="flex flex-col justify-center items-center">
@@ -67,7 +71,7 @@ export default function Page() {
         </div>,
       );
     },
-    join_game: (data: any) => {
+    join_game: (data: UserProfile) => {
       setPlayers((prev) => prev + 1);
       setPopupElement(
         <div className="flex flex-col justify-center items-center">
@@ -105,18 +109,18 @@ export default function Page() {
         userLat={lat}
         userLng={lng}
         canGuess={canGuess}
-        correctLat={round.lat}
-        correctLng={round.lng}
-        time={new Date(round.time)}
-        timeLimit={round.time_limit}
-        roundNumber={round.round}
-        totalScore={state.score}
-        NMPZ={round.nmpz}
-        mapBounds={round.map_bounds}
+        correctLat={round!.lat}
+        correctLng={round!.lng}
+        time={new Date(round!.time!)}
+        timeLimit={round!.time_limit}
+        roundNumber={round!.round}
+        totalScore={state!.score!}
+        NMPZ={round!.nmpz}
+        mapBounds={round!.map_bounds}
         rightFooter={canGuess ? undefined : rightFooter}
         onGuess={() => setCanGuess(false)}
         offset={offset}
-        cosmetics={cosmetics}
+        cosmetics={cosmetics!}
       />
     </ProtectedRoutes>
   );

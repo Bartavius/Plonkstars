@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
 import { BsInfinity } from "react-icons/bs";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { Loading } from "@/components/primitives/loading";
 import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
@@ -27,42 +27,59 @@ import { UserInput } from "@/components/primitives/user-input";
 
 import { PlayerDisplay } from "./_components/player-display";
 import { TeamDisplay } from "./_components/team-display";
+import type { PartyGameState } from "./_types/party-game-state";
+import type { PartyMember } from "./_types/party-member";
+import type { PartyRules } from "./_types/party-rules";
+import type {
+  PartyLobbyJoinEvent,
+  PartyTeamDeleteEvent,
+  PartyTeamUpdateEvent,
+  PartyTeamUserEvent,
+  PartyUserRemovedEvent,
+} from "./_types/party-socket-events";
+import type { PartyUsersResponse } from "./_types/party-users-response";
+import type { RuleConfig, RuleKey } from "@/features/game/types/rule-config";
+import type { RuleInputValue } from "@/features/game/types/rule-input-value";
+import type { PartyLeaveEvent } from "@/features/party/types/party-leave-event";
+import type { UserProfile } from "@/features/user/types/user-profile";
+import { getErrorResponse } from "@/services/api-error";
+import { useAppSelector } from "@/store/use-app-selector";
 
 const modes = ["Live", "Duels"];
 
 export default function PartyPage() {
-  const [users, setUsers] = useState<any>({});
+  const [users, setUsers] = useState<Record<string, PartyMember>>({});
   const [host, setHost] = useState<string>("");
   const [thisUser, setThisUser] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const [rules, setRules] = useState<any>();
-  const [localRules, setLocalRules] = useState<any>();
+  const [rules, setRules] = useState<PartyRules>();
+  const [localRules, setLocalRules] = useState<PartyRules>();
   const [rulesOpen, setRulesOpen] = useState<boolean>(false);
   const [mapOpen, setMapOpen] = useState<boolean>(false);
   const [hoverCode, setHoverCode] = useState<boolean>(false);
   const [type, setType] = useState<string>();
   const [message, _setMessage] = useState<string>();
   const [update, setUpdate] = useState<number>(0);
-  const [state, setState] = useState<any>();
-  const [rulesConfig, setRulesConfig] = useState<any>(null);
+  const [state, setState] = useState<PartyGameState>();
+  const [rulesConfig, setRulesConfig] = useState<RuleConfig[] | null>(null);
   const [modeIndex, setModeIndex] = useState<number>(0);
   const [teams, setTeams] = useState<{ [key: string]: Team }>({});
 
   const dispatch = useDispatch();
-  const code = useSelector((state: any) => state.party).code;
+  const code = useAppSelector((state) => state.party).code;
   const router = useRouter();
 
   const socket = useSocket({
     namespace: "/party",
     rooms: { code: code },
     functions: {
-      leave: (data) => {
+      leave: (data: PartyLeaveEvent) => {
         dispatch(clearPartyCode());
         dispatch(setError(data?.reason));
         router.push("/game");
       },
-      add_user: (data) => {
-        setUsers((prev: any) => ({
+      add_user: (data: UserProfile) => {
+        setUsers((prev) => ({
           ...prev,
           [data.username]: {
             ...data,
@@ -70,30 +87,30 @@ export default function PartyPage() {
           },
         }));
       },
-      remove_user: (data) => {
-        setUsers((prev: any) => {
+      remove_user: (data: PartyUserRemovedEvent) => {
+        setUsers((prev) => {
           const prevCopy = { ...prev };
           delete prevCopy[data.username];
           return prevCopy;
         });
       },
-      join_lobby: (data) => {
-        setUsers((prev: any) => ({
+      join_lobby: (data: PartyLobbyJoinEvent) => {
+        setUsers((prev) => ({
           ...prev,
           [data.user]: {
-            ...(prev[data.user] ?? {}),
+            ...prev[data.user],
             in_lobby: true,
           },
         }));
       },
-      add_team: (data) => {
-        setTeams((prev: any) => ({
+      add_team: (data: Team) => {
+        setTeams((prev) => ({
           ...prev,
           [data.id]: data,
         }));
       },
-      update_team: (data) => {
-        setTeams((prev: any) => ({
+      update_team: (data: PartyTeamUpdateEvent) => {
+        setTeams((prev) => ({
           ...prev,
           [data.id]: {
             ...prev[data.id],
@@ -101,8 +118,8 @@ export default function PartyPage() {
           },
         }));
       },
-      add_team_user: (data) => {
-        setTeams((prev: any) => ({
+      add_team_user: (data: PartyTeamUserEvent) => {
+        setTeams((prev) => ({
           ...prev,
           [data.id]: {
             ...prev[data.id],
@@ -110,23 +127,23 @@ export default function PartyPage() {
           },
         }));
       },
-      remove_team_user: (data) => {
-        setTeams((prev: any) => ({
+      remove_team_user: (data: PartyTeamUserEvent) => {
+        setTeams((prev) => ({
           ...prev,
           [data.id]: {
             ...prev[data.id],
-            members: prev[data.id].members.filter((username: string) => username !== data.username),
+            members: prev[data.id].members.filter((username) => username !== data.username),
           },
         }));
       },
-      delete_team: (data) => {
-        setTeams((prev: any) => {
+      delete_team: (data: PartyTeamDeleteEvent) => {
+        setTeams((prev) => {
           const newTeams = { ...prev };
           delete newTeams[data.id];
           return newTeams;
         });
       },
-      update_rules: (data) => {
+      update_rules: (data: PartyRules) => {
         setRules(data);
         setLocalRules(data);
         setModeIndex(modes.findIndex((item) => item.toLowerCase() === data.type.toLowerCase()));
@@ -142,34 +159,34 @@ export default function PartyPage() {
     setUpdate((prev) => prev + 1);
   }
 
-  async function updateGameState(data: any) {
-    const state = await api.get(`/party/game/state?code=${code}`);
+  async function updateGameState(data: unknown) {
+    const state = await api.get<PartyGameState>(`/party/game/state?code=${code}`);
     setState(state.data);
   }
-  function pushGame(data: any) {
-    router.push(`/${data.type.toLowerCase()}/${data.id}`);
+  function pushGame(data: Pick<PartyGameState, "id" | "type">) {
+    router.push(`/${data.type!.toLowerCase()}/${data.id}`);
   }
   async function fetchData() {
-    const state = await api.get(`/party/game/state?code=${code}`);
+    const state = await api.get<PartyGameState>(`/party/game/state?code=${code}`);
     setState(state.data);
     await api.post(`/party/lobby/join`, { code });
-    const users = await api.get(`/party/users?code=${code}`);
-    const members = users.data.members.reduce((acc: any, item: any) => {
+    const users = await api.get<PartyUsersResponse>(`/party/users?code=${code}`);
+    const members = users.data.members.reduce<Record<string, PartyMember>>((acc, item) => {
       acc[item.username] = item;
       return acc;
     }, {});
     setUsers(members);
     setHost(users.data.host);
     setThisUser(users.data.this);
-    const rules = await api.get(`/party/rules?code=${code}`);
+    const rules = await api.get<PartyRules>(`/party/rules?code=${code}`);
     setRules(rules.data);
     setLocalRules(rules.data);
     setModeIndex(modes.findIndex((item) => item.toLowerCase() === rules.data.type.toLowerCase()));
-    const rulesConfig = await api.get(`/party/rules/config?code=${code}`);
+    const rulesConfig = await api.get<RuleConfig[]>(`/party/rules/config?code=${code}`);
     setRulesConfig(rulesConfig.data);
-    const team = await api.get(`/party/teams?code=${code}`);
+    const team = await api.get<Team[]>(`/party/teams?code=${code}`);
     setTeams(
-      team.data.reduce((acc: any, item: any) => {
+      team.data.reduce<Record<string, Team>>((acc, item) => {
         acc[item.id] = item;
         return acc;
       }, {}),
@@ -196,7 +213,7 @@ export default function PartyPage() {
 
   async function joinGame() {
     await api.post("/party/game/join", { code: code });
-    pushGame(state);
+    pushGame(state!);
   }
 
   async function setMap(id: string, name: string) {
@@ -216,9 +233,9 @@ export default function PartyPage() {
     setMessage("Copied Party Link", "info");
   }
 
-  function setSingleRule(key: string, value: any) {
-    setLocalRules((prev: any) => ({
-      ...prev,
+  function setSingleRule(key: RuleKey, value: RuleInputValue) {
+    setLocalRules((prev) => ({
+      ...prev!,
       [key]: value,
     }));
   }
@@ -228,7 +245,7 @@ export default function PartyPage() {
     setModeIndex(index);
     await api.post("/party/rules", { code, type: modes[index] });
 
-    const rulesConfig = await api.get(`/party/rules/config?code=${code}`);
+    const rulesConfig = await api.get<RuleConfig[]>(`/party/rules/config?code=${code}`);
     setRulesConfig(rulesConfig.data);
   }
 
@@ -244,10 +261,12 @@ export default function PartyPage() {
 
     try {
       fetchData();
-    } catch (err: any) {
+    } catch (err) {
       dispatch(clearPartyCode());
       dispatch(
-        setError(err?.response?.data?.error || "An error occurred while fetching party data."),
+        setError(
+          getErrorResponse(err)?.data?.error || "An error occurred while fetching party data.",
+        ),
       );
       router.push("/game");
     }
@@ -267,9 +286,9 @@ export default function PartyPage() {
   }
 
   const displayRules = {
-    Rounds: rules.rounds === -1 ? <BsInfinity /> : rules.rounds,
-    Time: rules.time === -1 ? <BsInfinity /> : `${rules.time}s`,
-    NMPZ: rules.nmpz ? (
+    Rounds: rules!.rounds === -1 ? <BsInfinity /> : rules!.rounds,
+    Time: rules!.time === -1 ? <BsInfinity /> : `${rules!.time}s`,
+    NMPZ: rules!.nmpz ? (
       <BiSolidCheckboxChecked className="text-green-300 text-xl" />
     ) : (
       <BiSolidCheckboxMinus className="text-red-300 text-xl" />
@@ -312,11 +331,11 @@ export default function PartyPage() {
               <div />
             )}
           </div>
-          {rules.team_type == "solo" ? (
+          {rules!.team_type == "solo" ? (
             <PlayerDisplay users={users} host={host} thisUser={thisUser} kickUser={kickUser} />
-          ) : rules.team_type == "team" ? (
+          ) : rules!.team_type == "team" ? (
             <TeamDisplay
-              code={code}
+              code={code!}
               users={users}
               host={host}
               thisUser={thisUser}
@@ -345,7 +364,7 @@ export default function PartyPage() {
               ))}
             </div>
             <MapCard
-              map={rules.map}
+              map={rules!.map}
               className={`party-page-map ${isHost ? "party-page-map-host" : ""}`}
               onClick={
                 isHost
@@ -358,9 +377,9 @@ export default function PartyPage() {
             />
           </div>
           <div className="party-page-footer-content-right">
-            {state.state === "playing" ? (
-              state.joined ? (
-                <button className="party-page-start-button" onClick={() => pushGame(state)}>
+            {state!.state === "playing" ? (
+              state!.joined ? (
+                <button className="party-page-start-button" onClick={() => pushGame(state!)}>
                   Rejoin Game
                 </button>
               ) : (
@@ -390,7 +409,7 @@ export default function PartyPage() {
         >
           <h2 className="party-page-modal-title">Rules</h2>
           {rulesConfig &&
-            rulesConfig.map((data: any) => (
+            rulesConfig.map((data) => (
               <div className="py-2" key={data.key}>
                 <UserInput
                   key={data.key}
@@ -398,7 +417,7 @@ export default function PartyPage() {
                   data={data}
                   value={localRules ? localRules[data.key] : undefined}
                   setError={(error) => setMessage(error, "error")}
-                  setInput={(input: any) => setSingleRule(data.key, input)}
+                  setInput={(input) => setSingleRule(data.key, input)}
                   editable={isHost}
                 />
               </div>

@@ -1,15 +1,19 @@
 import { MapContainer, Polyline, Tooltip } from "react-leaflet";
 
+import type { DuelsGuess } from "@/features/duels/types/duels-guess";
+import type { DuelsTeam } from "@/features/duels/types/duels-team";
+import type { DuelsUser } from "@/features/duels/types/duels-user";
+
 import { FitBounds } from "./fit-bounds";
 import { MapTileLayer } from "./map-tile-layer";
 import { MapIcon } from "./map-icon";
 import "./map.css";
 interface DuelsMapResultProps {
   locations: { lat: number; lng: number }[];
-  teamGuesses: { [key: string]: { lat: number; lng: number; user: string }[][] };
-  teams: { [key: string]: any };
-  users: { [key: string]: any };
-  createTooltips?: (guess: any) => React.ReactNode;
+  teamGuesses: Record<string, DuelsGuess[][]>;
+  teams: Record<string, DuelsTeam>;
+  users: Record<string, DuelsUser>;
+  createTooltips?: (guess: DuelsGuess) => React.ReactNode;
   showRound?: boolean;
 }
 
