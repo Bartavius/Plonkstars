@@ -1,16 +1,16 @@
 "use client";
 
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import Loading from "@/components/loading";
-import { setError } from "@/redux/errorSlice";
-import api from "@/utils/api";
-import { isDemo } from "@/utils/auth";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import Loading from "@/components/primitives/loading";
+import { setError } from "@/store/error-slice";
+import api from "@/services/api";
+import { isDemo } from "@/features/auth/services/session";
 import dynamic from "next/dynamic";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const Results = dynamic(() => import("@/components/game/challenge/results/results"), {
+const Results = dynamic(() => import("@/features/challenge/components/results"), {
   ssr: false,
 });
 
@@ -22,10 +22,6 @@ export default function GameResultPage() {
   const matchId = params.id;
   const roundNumber = parseInt(searchParams.get("round") || "-1");
 
-  if (roundNumber === -1) {
-    return <div>Invalid round number</div>;
-  }
-
   const [data, setData] = useState<any>();
   const [state, setState] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,6 +31,9 @@ export default function GameResultPage() {
   const demoAvatar = useSelector((state:any) => state.demoAvatar);
 
   useEffect(() => {
+    if (roundNumber === -1) {
+      return;
+    }
     const getResults = async () => {
       try {
         const state = await api.get(`/game/state?id=${matchId}`);
@@ -60,6 +59,10 @@ export default function GameResultPage() {
       await api.post("/game/next", { id: matchId });
       router.push(`/game/${matchId}`);
     }
+  }
+
+  if (roundNumber === -1) {
+    return <div>Invalid round number</div>;
   }
 
   if (preloading || loading) {

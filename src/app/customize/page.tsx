@@ -2,11 +2,11 @@
 
 import "./page.css";
 import { useState } from "react";
-import Popup from "@/components/Popup";
-import MapDisplay from "./mapLayer";
-import AvatarCustom from "./avatar";
-import MapResolution from "./mapResolution";
-import ProtectedRoutes from "../ProtectedRoutes";
+import Popup from "@/components/primitives/popup";
+import MapDisplay from "./_components/map-layer";
+import AvatarCustom from "./_components/avatar";
+import MapResolution from "./_components/map-resolution";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
 import "leaflet/dist/leaflet.css";
 
 

@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import api from "@/utils/api";
+import api from "@/services/api";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import Loading from "@/components/loading";
-import Summary from "@/components/game/challenge/summary/summary";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import Loading from "@/components/primitives/loading";
+import Summary from "@/features/challenge/components/summary";
 
 interface Location {
   lat: number;
@@ -25,8 +25,7 @@ export default function SummaryPage() {
   const goBack = () => {
     if(searchParams.get("user")){
       router.push(`/map/${MAPID}/leaderboard`);
-    }
-    else{
+    } else{
       router.push(`/map/${MAPID}`);
     }
   }

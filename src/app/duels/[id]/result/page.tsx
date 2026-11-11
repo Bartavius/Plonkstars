@@ -1,12 +1,12 @@
 "use client";
 import { useParams,useRouter } from "next/navigation";
-import useDuelsSocket from "../../duelsSocket";
-import api from "@/utils/api";
+import useDuelsSocket from "@/app/duels/_hooks/use-duels-socket";
+import api from "@/services/api";
 import { useEffect, useState } from "react";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import DuelsResults from "@/components/game/duels/results/results";
-import Loading from "@/components/loading";
-import calculateOffset from "@/components/time";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import DuelsResults from "@/features/duels/components/results";
+import Loading from "@/components/primitives/loading";
+import calculateOffset from "@/lib/clock-offset";
 
 export default function DuelsResultsPage() {
     const params = useParams();

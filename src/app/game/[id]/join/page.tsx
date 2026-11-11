@@ -1,9 +1,9 @@
 "use client";
 
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import Loading from "@/components/loading";
-import { setError } from "@/redux/errorSlice";
-import api from "@/utils/api";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import Loading from "@/components/primitives/loading";
+import { setError } from "@/store/error-slice";
+import api from "@/services/api";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -19,17 +19,14 @@ export default function JoinGame() {
             if (state.data.state === "RESULTS") {
                 router.push(`/game/${id}/result?round=${state.data.round}`);
                 return;
-            }
-            else if (state.data.state === "FINISHED") {
+            } else if (state.data.state === "FINISHED") {
                 router.push(`/game/${id}/summary`);
                 return;
-            }
-            else if (state.data.state === "RESTRICTED"){
+            } else if (state.data.state === "RESTRICTED"){
                 dispatch(setError("Host has not finished the game yet"));
                 router.push(`/game`);
                 return;
-            }
-            else if (state.data.state === "NOT_STARTED"){
+            } else if (state.data.state === "NOT_STARTED"){
                 await api.post("/game/play", { id }).catch(() => {});
                 await api.post("/game/next", {id});
             }

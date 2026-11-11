@@ -1,6 +1,6 @@
 'use client';
-import { setError } from "@/redux/errorSlice";
-import { logout } from "@/utils/auth";
+import { setError } from "@/store/error-slice";
+import { logout } from "@/features/auth/services/session";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"

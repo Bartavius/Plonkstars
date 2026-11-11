@@ -1,18 +1,18 @@
 "use client";
 
-import api from "@/utils/api";
+import api from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 import { Rectangle, useMap, useMapEvent } from "react-leaflet";
-import MapPreview from "@/components/maps/MapPreview";
-import MapIcon from "@/components/maps/mapIcon";
-import Loading from "@/components/loading";
-import StreetView from "@/components/maps/Streetview";
+import MapPreview from "@/features/maps/components/map-preview";
+import MapIcon from "@/features/maps/components/map-icon";
+import Loading from "@/components/primitives/loading";
+import StreetView from "@/features/maps/components/streetview";
 import "@/app/game.css";
 import "./page.css";
-import useSocket from "@/utils/socket";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
+import useSocket from "@/lib/hooks/use-socket";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
 
 interface Location {
     id?:number,
@@ -70,13 +70,14 @@ export default function EditMapPage() {
     }
 
     async function buttonClick(){
-        if(selectedBound === undefined || buttonDisabled) return;
+        if(selectedBound === undefined || buttonDisabled) {
+return;
+}
         try{
             if(existingBound){
                 const res = await api.delete("/map/edit/bound/remove",{data:{b_id:selectedBound.id,id:MAPID}});
                 !connected && setBounds(bounds.filter((bound) => bound.id != res.data.id));
-            }
-            else{
+            } else{
                 const res = await api.post("/map/edit/bound/add",{...selectedBound,id:MAPID,weight:weight});
                 !connected && setBounds(prevBounds => [...prevBounds, res.data]);
             }
@@ -120,7 +121,9 @@ export default function EditMapPage() {
                 return;
             }
             setExistingBound(false);
-            if(isDraggingRef.current) return;
+            if(isDraggingRef.current) {
+return;
+}
             if(ctrlDragLatLngRef.current){
                 setSelectedBound(normalizeBound({start:ctrlDragLatLngRef.current,end:event.latlng}));  
                 ctrlDragLatLngRef.current = undefined;
@@ -128,8 +131,7 @@ export default function EditMapPage() {
             }
             if(-90 <= event.latlng.lat && event.latlng.lat <= 90 && -180 <= event.latlng.lng && event.latlng.lng <= 180){
                 setSelectedBound(event.latlng);
-            }
-            else{
+            } else{
                 setSelectedBound(undefined);
             }
         });
@@ -183,7 +185,9 @@ export default function EditMapPage() {
         router.push(`/map/${MAPID}`);
     }
 
-    if(loading) return <ProtectedRoutes><Loading/></ProtectedRoutes>;
+    if(loading) {
+return <ProtectedRoutes><Loading/></ProtectedRoutes>;
+}
 
     return (
         <ProtectedRoutes>

@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import api from "@/utils/api";
+import api from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import Loading from "@/components/loading";
-import Summary from "@/components/game/challenge/summary/summary";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import Loading from "@/components/primitives/loading";
+import Summary from "@/features/challenge/components/summary";
 import { ImLink } from "react-icons/im";
 import "./page.css";
-import Popup from "@/components/Popup";
+import Popup from "@/components/primitives/popup";
 import { CgCopy } from "react-icons/cg";
 import { FaMedal } from "react-icons/fa";
 import { IoIosStats } from "react-icons/io";

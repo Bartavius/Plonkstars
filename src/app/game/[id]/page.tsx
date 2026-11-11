@@ -1,10 +1,10 @@
 "use client";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import GamePlay from "@/components/game/challenge/gameplay/gameplay";
-import Loading from "@/components/loading";
-import calculateOffset from "@/components/time";
-import api from "@/utils/api";
-import { isDemo } from "@/utils/auth";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import GamePlay from "@/features/challenge/components/gameplay";
+import Loading from "@/components/primitives/loading";
+import calculateOffset from "@/lib/clock-offset";
+import api from "@/services/api";
+import { isDemo } from "@/features/auth/services/session";
 import { useRouter,useParams } from "next/navigation";
 import { useState, useEffect, use } from "react";
 import { useSelector } from "react-redux";
@@ -28,16 +28,13 @@ export default function Page() {
     if (data.state === "RESULTS") {
       router.push(`/game/${id}/result?round=${data.round}`);
       return true;
-    } 
-    else if (data.state === "FINISHED") {
+    } else if (data.state === "FINISHED") {
       router.push(`/game/${id}/summary`);
       return true;
-    } 
-    else if (data.state === "RESTRICTED") {
+    } else if (data.state === "RESTRICTED") {
       router.push(`/game`);
       return true;
-    }
-    else if (data.state === "NOT_STARTED") {
+    } else if (data.state === "NOT_STARTED") {
       await api.post("/game/play", { id }).catch(() => {});
       await api.post("/game/next", {id});
     }
@@ -66,8 +63,7 @@ export default function Page() {
         
         if(demo){
           setCosmetics(demoAvatar);
-        }
-        else{
+        } else{
           const cosmetics = await api.get("/account/avatar");
           setCosmetics(cosmetics.data.user_cosmetics);
         }

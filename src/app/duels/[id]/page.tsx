@@ -1,14 +1,14 @@
 "use client";
-import DuelsGameplay from "@/components/game/duels/gameplay/gameplay";
+import DuelsGameplay from "@/features/duels/components/gameplay";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
-import Loading from "@/components/loading";
-import api from "@/utils/api";
-import useDuelsSocket from "../duelsSocket";
-import Popup from "@/components/Popup";
-import UserIcon from "@/components/user/UserIcon";
-import calculateOffset from "@/components/time";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
+import Loading from "@/components/primitives/loading";
+import api from "@/services/api";
+import useDuelsSocket from "@/app/duels/_hooks/use-duels-socket";
+import Popup from "@/components/primitives/popup";
+import UserIcon from "@/features/user/components/user-icon";
+import calculateOffset from "@/lib/clock-offset";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
 
 export default function DuelsGamePage() {
 
@@ -110,8 +110,7 @@ export default function DuelsGamePage() {
                     delete prevCopy[data.user];
                     return prevCopy;
                 });
-            }
-            else{
+            } else{
                 setGuesses((prev) => prev + 1);
                 setPopupElement(
                     <div className="flex flex-col justify-center items-center">

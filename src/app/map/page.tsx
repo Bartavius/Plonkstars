@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import MapSearch from "@/components/maps/search/MapSearch"
+import MapSearch from "@/features/maps/components/map-search"
 import { useState } from "react";
-import api from "@/utils/api";
-import ProtectedRoutes from "../ProtectedRoutes";
-import { isDemo } from "@/utils/auth";
-import LoginTooltipWrapper from "@/components/LoginTooltipWrapper";
+import api from "@/services/api";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { isDemo } from "@/features/auth/services/session";
+import LoginTooltipWrapper from "@/features/auth/components/login-tooltip-wrapper";
 
 export default function MapMainPage() {
     const [loading, setLoading] = useState<boolean>(false);
@@ -15,13 +15,17 @@ export default function MapMainPage() {
     const demo = isDemo();
     const router = useRouter();
     const mapSelect = (id: string) => {
-        if (loading) return;
+        if (loading) {
+return;
+}
         router.push(`/map/${id}`); 
     }
 
     const cleanName = (text: string): string => text.replace(/[^\S ]+/g, "");
     const createMap = async () => {
-        if (loading) return;
+        if (loading) {
+return;
+}
         setLoading(true);
         const newName = cleanName(name);
         if (newName.length > 0){

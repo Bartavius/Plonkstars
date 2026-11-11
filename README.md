@@ -16,3 +16,13 @@ Backend - Flask, PostgreSQL
 
 Server-side is hosted on Heroku<br>
 Client-side is hosted on Vercel
+
+## Development
+```
+npm ci
+npm run dev        # local dev server
+npm run lint       # ESLint
+npm run typecheck  # tsc --noEmit
+npm run build      # production build
+```
+Code layout and conventions are in [CLAUDE.md](CLAUDE.md).
