@@ -51,8 +51,7 @@ export default function AvatarCustom({
         dispatch(setColor(userIcon));
         setType('success');
         setMessage("Avatar changes saved");
-      }
-      else{
+      } else{
         setType('error');
         setMessage("Cannot use cosmetics in demo mode.");
       }

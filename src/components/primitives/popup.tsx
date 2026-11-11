@@ -49,7 +49,9 @@ export default function Popup({
   }
 
   function showPopup() {
-    if (show || !children) return;
+    if (show || !children) {
+return;
+}
     clearTimeouts();
 
     setShow(true);

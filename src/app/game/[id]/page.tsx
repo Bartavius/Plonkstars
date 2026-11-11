@@ -28,16 +28,13 @@ export default function Page() {
     if (data.state === "RESULTS") {
       router.push(`/game/${id}/result?round=${data.round}`);
       return true;
-    } 
-    else if (data.state === "FINISHED") {
+    } else if (data.state === "FINISHED") {
       router.push(`/game/${id}/summary`);
       return true;
-    } 
-    else if (data.state === "RESTRICTED") {
+    } else if (data.state === "RESTRICTED") {
       router.push(`/game`);
       return true;
-    }
-    else if (data.state === "NOT_STARTED") {
+    } else if (data.state === "NOT_STARTED") {
       await api.post("/game/play", { id }).catch(() => {});
       await api.post("/game/next", {id});
     }
@@ -66,8 +63,7 @@ export default function Page() {
         
         if(demo){
           setCosmetics(demoAvatar);
-        }
-        else{
+        } else{
           const cosmetics = await api.get("/account/avatar");
           setCosmetics(cosmetics.data.user_cosmetics);
         }

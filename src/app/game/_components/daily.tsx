@@ -33,7 +33,9 @@ export default function Daily({
       },[]);
     
       async function playDaily() {
-        if (!daily) return;
+        if (!daily) {
+return;
+}
         if (demo) {
             alert("Demo users cannot play the daily challenge.");
             return;

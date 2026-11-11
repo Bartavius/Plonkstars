@@ -37,7 +37,9 @@ export default function useSocket({
             socket.emit("join", {...rooms,token});
             console.log("Connected");
         });
-        Object.keys(functions).forEach((event: string) => {socket.on(event, functions[event]);});
+        Object.keys(functions).forEach((event: string) => {
+socket.on(event, functions[event]);
+});
         
         return () => {
             socket.disconnect();

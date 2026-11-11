@@ -77,8 +77,7 @@ export default function SummaryPage() {
 
         if (demo) {
           setIsHost(true);
-        }
-        else {
+        } else {
           const isHost = await api.get(`/session/host?id=${params.id}`);
           setIsHost(isHost.data.is_host);
         }

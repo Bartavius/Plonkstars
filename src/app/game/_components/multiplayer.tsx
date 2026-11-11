@@ -28,14 +28,17 @@ export default function Multiplayer({
     const router = useRouter();
 
     function handleKeyDown(e: React.KeyboardEvent,i:number){
-        if (e.ctrlKey || e.metaKey) return;
+        if (e.ctrlKey || e.metaKey) {
+return;
+}
         const newLetters = [...input];
         if (e.key === "Backspace" && i >= 0) {
             newLetters[i] = "";
             setInput(newLetters);
-            if (i != 0) setSelectedIndex(i - 1);
-        }
-        else if (e.key === "ArrowLeft" && i > 0) {
+            if (i != 0) {
+setSelectedIndex(i - 1);
+}
+        } else if (e.key === "ArrowLeft" && i > 0) {
             setSelectedIndex(i - 1);
         } else if (e.key === "ArrowRight" && i < 3) {
             setSelectedIndex(i + 1);
@@ -51,7 +54,9 @@ export default function Multiplayer({
     };
 
     async function createParty(){
-        if (loading) return;
+        if (loading) {
+return;
+}
         try{
             setLoading(true);
             const res = await api.post("/party/create");
@@ -66,7 +71,9 @@ export default function Multiplayer({
     }
     
     function joinPartyButton(){
-        if (loading) return;
+        if (loading) {
+return;
+}
         joinParty({code:input.join(""),setError,router,dispatch});
     }
 
@@ -84,7 +91,9 @@ export default function Multiplayer({
     }
 
     useEffect(() =>{
-        if (selectedIndex < 0) return;
+        if (selectedIndex < 0) {
+return;
+}
         inputRefs.current[selectedIndex]?.focus();
     },[selectedIndex]);
     
@@ -111,7 +120,9 @@ export default function Multiplayer({
                     <div 
                         tabIndex={0}
                         onFocus={() => setIsFocused(true)}
-                        onBlur={() => {setIsFocused(false),setSelectedIndex(-1)}}
+                        onBlur={() => {
+setIsFocused(false),setSelectedIndex(-1)
+}}
                         onPaste={handlePaste}
                         className="flex mb-2 gap-2 outline-none"
                     >
@@ -120,7 +131,9 @@ export default function Multiplayer({
                                 key={i}
                                 id={`party-code-${i}`}
                                 type="text"
-                                ref={(el) => { inputRefs.current[i] = el; }}
+                                ref={(el) => {
+ inputRefs.current[i] = el; 
+}}
                                 maxLength={1}
                                 value={input[i]}
                                 onPaste={handlePaste}

@@ -76,7 +76,9 @@ export default function Results({
     : undefined;
 
   async function addLocation(id:string,name: string){
-    if (correct === undefined) return;
+    if (correct === undefined) {
+return;
+}
     try {
       const res = await api.post("/map/edit/bound/add", {
         ...correct,

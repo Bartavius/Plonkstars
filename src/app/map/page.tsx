@@ -15,13 +15,17 @@ export default function MapMainPage() {
     const demo = isDemo();
     const router = useRouter();
     const mapSelect = (id: string) => {
-        if (loading) return;
+        if (loading) {
+return;
+}
         router.push(`/map/${id}`); 
     }
 
     const cleanName = (text: string): string => text.replace(/[^\S ]+/g, "");
     const createMap = async () => {
-        if (loading) return;
+        if (loading) {
+return;
+}
         setLoading(true);
         const newName = cleanName(name);
         if (newName.length > 0){

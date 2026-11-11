@@ -75,8 +75,7 @@ export default function TeamDisplay({
                                     e.stopPropagation();
                                     if (selectedTeam === teamId) {
                                         setSelectedTeam(undefined);
-                                    }
-                                    else{
+                                    } else{
                                         setSelectedTeam(teamId);
                                     }
                                 }}

@@ -25,8 +25,7 @@ export default function SummaryPage() {
   const goBack = () => {
     if(searchParams.get("user")){
       router.push(`/map/${MAPID}/leaderboard`);
-    }
-    else{
+    } else{
       router.push(`/map/${MAPID}`);
     }
   }

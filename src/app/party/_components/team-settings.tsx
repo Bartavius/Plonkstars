@@ -31,8 +31,7 @@ export default function TeamSettings({
         if (event.key === "Escape") {
             setName(localSettings.name);
             setEditingName(undefined);
-        }
-        else if (event.key === "Enter") {
+        } else if (event.key === "Enter") {
             setLocalSettings({...localSettings, name: name.trim()});
             setEditingName(undefined);
         }
@@ -47,8 +46,7 @@ export default function TeamSettings({
                 range.setStart(pos.offsetNode, pos.offset);
                 range.setEnd(pos.offsetNode, pos.offset);
             }
-        }
-        else if (document.caretRangeFromPoint) {
+        } else if (document.caretRangeFromPoint) {
             range = document.caretRangeFromPoint(e.clientX, e.clientY);
         }
 
@@ -83,7 +81,7 @@ export default function TeamSettings({
                         <>
                             <input className="party-page-team-settings-name-edit-textbox" defaultValue={localSettings.name} onChange={(e) => setName(e.target.value)} ref={nameRef} maxLength={MAX_NAME_LENGTH} onKeyDown={nameKeyListener}/>
                             <div className="party-page-team-settings-name-editing-footer">
-                                <div className="party-page-team-settings-name-edit-instruction">Press "Enter" to save or "Esc" to cancel</div>
+                                <div className="party-page-team-settings-name-edit-instruction">Press &quot;Enter&quot; to save or &quot;Esc&quot; to cancel</div>
                                 <div className="party-page-team-settings-name-char-count">{name.length}/{MAX_NAME_LENGTH} characters</div>
                             </div>
                         </>

@@ -14,8 +14,7 @@ api.interceptors.request.use((config) => {
   if (token) {
     if (token === 'demo') {
       config.headers.Authorization = 'demo';
-    }
-    else {
+    } else {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
@@ -37,8 +36,7 @@ api.interceptors.response.use(
           store.dispatch(setError("Login to access this feature"));
         }
         store.dispatch(setError("Session expired"));
-      }
-      else{
+      } else{
         store.dispatch(setError("Login required"));
       }
       store.dispatch(setBlockedURL(attemptedUrl)); 

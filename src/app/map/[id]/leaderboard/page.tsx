@@ -38,8 +38,7 @@ export default function MapLeaderboardPage(){
             setStats(stats.data);
             if (demo){
                 setPermission(0);
-            }
-            else{
+            } else{
                 const permission = await api.get(`/map/edit?id=${mapID}`);
                 setPermission(permission.data.permission);
             }

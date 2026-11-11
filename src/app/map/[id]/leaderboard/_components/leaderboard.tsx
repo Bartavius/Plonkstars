@@ -22,7 +22,9 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
   const demo = isDemo();
 
   const distanceString = (distance: number) => {
-    if (distance < 0) return "N/A";
+    if (distance < 0) {
+return "N/A";
+}
     const m = Math.round(distance * 1000);
     const km = Math.round(m / 10) / 100;
     const num = km > 1 ? km : m;
@@ -31,7 +33,9 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
   };
 
   const timeString = (time: number) => {
-    if (time < 0) return "N/A";
+    if (time < 0) {
+return "N/A";
+}
     const minutes = Math.floor(time / 60);
     const seconds = Math.round((time % 60) * 10) / 10;
     return minutes > 0
@@ -70,7 +74,9 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
   };
 
   const topGame = (rowNumber: number) => {
-    if (!data) return;
+    if (!data) {
+return;
+}
     const row = data.data[rowNumber];
     router.push(`/map/${mapID}/best?user=${row.user.username}&nmpz=${NMPZ}`);
   }

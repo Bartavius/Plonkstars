@@ -25,14 +25,15 @@ export default function MapDeleteModal({
             setCountdown(3);
             const timer = setInterval(() => {
                 setCountdown((prev) => {
-                    if (prev > 1) return prev - 1;
+                    if (prev > 1) {
+return prev - 1;
+}
                     clearInterval(timer);
                     return 0;
                 });
             }, 1000);
             return () => clearTimeout(timer);
-        }
-        else{
+        } else{
             setCountdown(-1);
         }
     }, [input === name]);
@@ -42,19 +43,25 @@ export default function MapDeleteModal({
         setDeleting(true);
         try {
             await api.delete("/map/edit/delete", { data: { id: id } });
-        } catch (error) {console.log(error)}
+        } catch (error) {
+console.log(error)
+}
         router.push("/map");
     }
     
     return (
-        <Modal isOpen={isOpen} onClose={() => {setInput(""); setCountdown(-1); onClose();}} >
-            <div className="delete-map-title"> Are you sure you want to delete "{name}"?</div>
+        <Modal isOpen={isOpen} onClose={() => {
+setInput(""); setCountdown(-1); onClose();
+}} >
+            <div className="delete-map-title"> Are you sure you want to delete &quot;{name}&quot;?</div>
             <div className="delete-map-content">
                 <div className="delete-map-text">
                     All games, scores, sessions, and bounds associated with the map will be deleted. This action cannot be undone.
                 </div>
-                <div className="delete-map-text">To confirm, type "{name}":</div>
-                <input className="input-field" id="delete-map-confirmation-input" placeholder={name} onChange={(e)=>{setInput(e.target.value);}}/>
+                <div className="delete-map-text">To confirm, type &quot;{name}&quot;:</div>
+                <input className="input-field" id="delete-map-confirmation-input" placeholder={name} onChange={(e)=>{
+setInput(e.target.value);
+}}/>
                 {name === input && 
                     <div>
                         <div className="delete-map-warning-text">This is your final chance!</div>

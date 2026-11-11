@@ -43,7 +43,9 @@ export default function TeamGuessingMap({
                 {Object.keys(plonks).map((key) => {
                     const plonk = plonks[key];
                     const user = users[key];
-                    if (!plonk || !user || !plonk.lat || !plonk.lng) return null;
+                    if (!plonk || !user || !plonk.lat || !plonk.lng) {
+return null;
+}
                     return (
                         <MapIcon
                             key={key}
@@ -59,7 +61,9 @@ export default function TeamGuessingMap({
                 {Object.keys(guesses).map((key) => {
                     const guess = guesses[key];
                     const user = users[key];
-                    if (!guess || !user || !guess.lat || !guess.lng) return null;
+                    if (!guess || !user || !guess.lat || !guess.lng) {
+return null;
+}
                     return (
                         <MapIcon
                             key={key}

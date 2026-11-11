@@ -31,7 +31,7 @@ export default function HowToPlayModal(
                         <div className="how-to-play-step-title">2. Make a Plonk</div>
                         <div className="how-to-play-step-description">
                             You know where you are? Great! Now hover over the map and click on the location you want to guess.
-                            When you're ready, press the "Submit" button to lock in your answer. If you change your mind, 
+                            When you&apos;re ready, press the &quot;Submit&quot; button to lock in your answer. If you change your mind, 
                             you can always adjust your guess before submitting.
                         </div>
                     </div>
@@ -39,7 +39,7 @@ export default function HowToPlayModal(
                         <img className="how-to-play-step-img" src="HowToPlay/results.png"/>
                         <div className="how-to-play-step-title">3. Get the Results</div>
                         <div className="how-to-play-step-description">
-                            After you make your guess, you'll see how far off you were from the real location.
+                            After you make your guess, you&apos;ll see how far off you were from the real location.
                             The closer you are, the more points you get! Try to get the highest score within the set amount of rounds.
                             Compete with friends or other players to see who has the best geographical knowledge!
                         </div>

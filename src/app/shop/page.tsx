@@ -56,7 +56,9 @@ export default function Page() {
     fetchCrates();
   },[]);
 
-  if (!crates) return <ProtectedRoutes><Loading /></ProtectedRoutes>;
+  if (!crates) {
+return <ProtectedRoutes><Loading /></ProtectedRoutes>;
+}
 
   return (
     <ProtectedRoutes>

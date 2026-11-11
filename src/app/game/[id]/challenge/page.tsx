@@ -11,7 +11,7 @@ import MapCard from "@/features/maps/components/map-card";
 import { BsInfinity } from "react-icons/bs";
 import ProtectedRoutes from "@/features/auth/components/protected-routes";
 
-export default function challengePage() {
+export default function ChallengePage() {
     const [data,setData] = useState<any>(); 
     const [loading,setLoading] = useState<boolean>(false);
 
@@ -49,12 +49,16 @@ export default function challengePage() {
             <div className="centered-elements">
                 <div className="challenge-title">You got challenged by {data.host}</div>
                 <div className="session-info-box">   
-                    <MapCard map={map} onClick={()=>{setLoading(true); router.push(`/map/${map.id}`)}}/>
+                    <MapCard map={map} onClick={()=>{
+setLoading(true); router.push(`/map/${map.id}`)
+}}/>
                     <div className="challenge-text">Rounds: {rules.rounds}</div>
                     <div className="challenge-text">Time: {rules.time === -1? <BsInfinity/>:`${rules.time} seconds`}</div>
                     <div className="challenge-text">NMPZ: {rules.NMPZ ? "Yes" : "No"}</div>
                     <div className="button-wrapper">
-                        <button onClick={()=>{setLoading(true); router.push(`/game/${sessionID}/join`)}} className="game-button" disabled={loading}>{data.state === "NOT_STARTED"?"Play":"Continue"}</button>
+                        <button onClick={()=>{
+setLoading(true); router.push(`/game/${sessionID}/join`)
+}} className="game-button" disabled={loading}>{data.state === "NOT_STARTED"?"Play":"Continue"}</button>
                     </div>
                 </div>
             </div>

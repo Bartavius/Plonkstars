@@ -27,8 +27,7 @@ export default function DuelsSummary({
     const teamPlacements = Object.keys(teams).sort((a,b) => {
         if (teamHP[b].length != teamHP[a].length){
             return teamHP[b].length - teamHP[a].length;
-        }
-        else{
+        } else{
             let index = teamHP[a].length - 1;
             while (teamHP[a][index] === teamHP[b][index] && index >= 0){
                 index -= 1;
@@ -95,8 +94,7 @@ export default function DuelsSummary({
             setDisplayedGuesses(teamGuesses);
             setDisplayedLocations(locations);
             setDisplayRound("all");
-        }
-        else{
+        } else{
             const newGuesses: {[key: string]: any} = {};
             Object.keys(teamGuesses).forEach((teamId) => {
                 newGuesses[teamId] = [teamGuesses[teamId][round]];

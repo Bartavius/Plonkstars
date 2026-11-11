@@ -19,17 +19,14 @@ export default function JoinGame() {
             if (state.data.state === "RESULTS") {
                 router.push(`/game/${id}/result?round=${state.data.round}`);
                 return;
-            }
-            else if (state.data.state === "FINISHED") {
+            } else if (state.data.state === "FINISHED") {
                 router.push(`/game/${id}/summary`);
                 return;
-            }
-            else if (state.data.state === "RESTRICTED"){
+            } else if (state.data.state === "RESTRICTED"){
                 dispatch(setError("Host has not finished the game yet"));
                 router.push(`/game`);
                 return;
-            }
-            else if (state.data.state === "NOT_STARTED"){
+            } else if (state.data.state === "NOT_STARTED"){
                 await api.post("/game/play", { id }).catch(() => {});
                 await api.post("/game/next", {id});
             }

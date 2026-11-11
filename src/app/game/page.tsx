@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import api from "@/services/api";
 import { useEffect, useState } from "react";
 import "@/app/game.css";
@@ -175,9 +176,9 @@ export default function Game() {
           <h2 className="text-xl font-semibold text-center">Select Map</h2>
           <div className="text-center">
             For more info about the maps:{" "}
-            <a href="/map" className="link">
+            <Link href="/map" className="link">
               Click here
-            </a>
+            </Link>
           </div>
           <MapSearch mapSelect={addMap} pageSize={12} bodySize="60vh" />
         </Modal>

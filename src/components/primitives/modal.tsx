@@ -11,7 +11,9 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [clickedOutside, setClickedOutside] = useState(false);
 
-  if (!isOpen) return null;
+  if (!isOpen) {
+return null;
+}
 
   const handleBackgroundMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     // If the user clicked directly on the backdrop, close the modal

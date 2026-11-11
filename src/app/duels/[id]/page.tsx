@@ -110,8 +110,7 @@ export default function DuelsGamePage() {
                     delete prevCopy[data.user];
                     return prevCopy;
                 });
-            }
-            else{
+            } else{
                 setGuesses((prev) => prev + 1);
                 setPopupElement(
                     <div className="flex flex-col justify-center items-center">

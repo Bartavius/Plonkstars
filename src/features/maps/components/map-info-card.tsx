@@ -63,8 +63,7 @@ export default function MapInfoCard({
     const changeDescription = (e:any) => {
         if (e.target.value.length === 0){
             setDescription(undefined);
-        }
-        else{
+        } else{
             setDescription(e.target.value);
         }
     }
@@ -76,8 +75,7 @@ export default function MapInfoCard({
         if(res.status === 200){
             setDescription(newDescription);
             stats.description = description;
-        }
-        else{
+        } else{
             setDescription(stats.description);
         }
         setEditingDescription(false);
@@ -102,8 +100,7 @@ export default function MapInfoCard({
     const descriptionKeyListener = (event:any) => {
         if (event.key === "Escape") {
             descriptionCancel();
-        }
-        else if (event.key === "Enter" && !event.shiftKey) {
+        } else if (event.key === "Enter" && !event.shiftKey) {
             editDescription();
         }
     };
@@ -114,8 +111,7 @@ export default function MapInfoCard({
         if(res.status === 200){
             setName(newName);
             stats.name = newName;
-        }
-        else{
+        } else{
             setName(stats.name);
         }
         setEditingName(false);
@@ -129,8 +125,7 @@ export default function MapInfoCard({
     const nameKeyListener = (event:any) => {
         if (event.key === "Escape") {
             cancelName();
-        }
-        else if (event.key === "Enter") {
+        } else if (event.key === "Enter") {
             editName();
         }
     }
@@ -150,7 +145,7 @@ export default function MapInfoCard({
                 <div className="map-name-editing">
                     <input id="map-title-editor" className="map-name-edit-textbox" defaultValue={name} onChange={(e) => setName(e.target.value)} maxLength={maxNameLength} ref={nameRef} onKeyDown={nameKeyListener}/>
                     <div className="map-name-editing-footer">
-                        <div className="map-name-edit-instruction">Press "Enter" to save or "Esc" to cancel</div>
+                        <div className="map-name-edit-instruction">Press &quot;Enter&quot; to save or &quot;Esc&quot; to cancel</div>
                         <div className="map-name-char-count">{name.length}/{maxNameLength} characters</div>
                     </div>   
                 </div>

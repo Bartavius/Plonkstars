@@ -238,8 +238,7 @@ export default function PartyPage() {
 
         try{
             fetchData();
-        }
-        catch (err: any) {
+        } catch (err: any) {
             dispatch(clearPartyCode());
             dispatch(setError(err?.response?.data?.error || "An error occurred while fetching party data."));
             router.push("/game");
@@ -290,7 +289,9 @@ export default function PartyPage() {
                                 </div>
                             ))}
                         </div>
-                        <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => {setMapOpen(true);setLocalRules(rules);} : undefined} />
+                        <MapCard map={rules.map} className={`party-page-map ${isHost ? "party-page-map-host" : ""}`} onClick={isHost ? () => {
+setMapOpen(true);setLocalRules(rules);
+} : undefined} />
                     </div>
                     <div className="party-page-footer-content-right">
                         {
@@ -311,7 +312,9 @@ export default function PartyPage() {
                     <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
                 </Modal>
                 
-                <Modal isOpen={rulesOpen} onClose={() => {setRulesOpen(false)}}>
+                <Modal isOpen={rulesOpen} onClose={() => {
+setRulesOpen(false)
+}}>
                     <h2 className="party-page-modal-title">Rules</h2>
                     {
                         rulesConfig && rulesConfig.map((data:any) => (

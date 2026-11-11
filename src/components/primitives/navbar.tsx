@@ -1,6 +1,7 @@
 'use client';
 import { Sigmar } from "next/font/google";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import "./navbar.css";
@@ -70,9 +71,9 @@ export default function NavBar() {
     <div className={`navbar ${sigmar.className} ${isMenuOpen ? "open" : ""}`} ref={menuRef}>
       <nav className="nav-header">
         <div className="mx-auto flex justify-between items-center p-4 navbar-primary">
-          <a href="/" className="text-xl font-bold text-gray-200 nav-logo">
+          <Link href="/" className="text-xl font-bold text-gray-200 nav-logo">
             <span className="text-red">Plonk</span>Stars
-          </a>
+          </Link>
           <button
             onClick={toggleMenu}
             className={`text-gray-200 hamburger ${

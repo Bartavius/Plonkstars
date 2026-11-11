@@ -67,7 +67,9 @@ export default function MapSearch({
                         disabled={loading}
                         className="btn px-2 rounded-r-md"
                         onClick={() => {
-                            if (loading) return;
+                            if (loading) {
+return;
+}
                             setPage(1);
                             setMapName(input);
                         }}

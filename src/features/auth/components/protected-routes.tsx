@@ -18,8 +18,7 @@ export default function ProtectedRoutes({
     if (isAuth === false || (allowDemo === false && demo)) {
         if ((allowDemo === false && demo)){
             dispatch(setError("Login to access this feature"));
-        }
-        else{
+        } else{
             dispatch(setError("Login required"));
         }
         dispatch(setBlockedURL(window.location.pathname));

@@ -18,7 +18,9 @@ export default function JoinParty() {
     useEffect(() => {
         joinParty({
             code,
-            setError:(error:string) => {dispatch(setError(error)); router.push("/game")},
+            setError:(error:string) => {
+dispatch(setError(error)); router.push("/game")
+},
             router,
             dispatch
         });

@@ -52,7 +52,9 @@ export default function Summary({
   
   const overallStats = data.find((score:any) => score.user.username === user);
   function distanceString(distance: number){
-    if (distance === undefined) return "N/A";
+    if (distance === undefined) {
+return "N/A";
+}
     const m = Math.round(distance * 1000);
     const km = Math.round(m / 10) / 100;
     const num = km > 1 ? km : m;
@@ -61,7 +63,9 @@ export default function Summary({
   };
 
   function timeString(time: number){
-    if (time === undefined) return "Timed Out";
+    if (time === undefined) {
+return "Timed Out";
+}
     const minutes = Math.floor(time / 60);
     const seconds = Math.round(time % 60);
     return minutes > 0
@@ -96,8 +100,7 @@ export default function Summary({
     if(round < 0){
       setDisplayedGuesses(guesses);
       setDisplayedLocation(locations);
-    }
-    else{
+    } else{
       setDisplayedGuesses([guesses[round]]);
       setDisplayedLocation([locations[round]]);
     }

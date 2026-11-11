@@ -2,8 +2,8 @@ import { CosmeticTiers } from "./cosmetic-tiers";
 import { CosmeticTypes } from "./cosmetic-types";
 
 export interface CosmeticProps {
-    image: String;
-    item_name: String;
+    image: string;
+    item_name: string;
     tier: CosmeticTiers;
     type: CosmeticTypes;
     top_position: number;

@@ -5,7 +5,9 @@ export default function formatGuess({
     data:{score: number, distance: number, time: number}
 }){
     function distanceString(distance: number){
-        if (distance === undefined) return "N/A";
+        if (distance === undefined) {
+return "N/A";
+}
         const m = Math.round(distance * 1000);
         const km = Math.round(m / 10) / 100;
         const num = km > 1 ? km : m;
@@ -14,7 +16,9 @@ export default function formatGuess({
       };
     
     function timeString(time: number){
-        if (time === undefined) return "Timed Out";
+        if (time === undefined) {
+return "Timed Out";
+}
         const minutes = Math.floor(time / 60);
         const seconds = Math.round(time % 60);
         return minutes > 0 ? `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2,"0")}`: `${seconds}s`;

@@ -94,7 +94,9 @@ export default function MapIcon({
 
   }, [iconUrl, iconSize, iconPercent, customize, clickable]);
 
-  if (!icon) return null; // Don't render if icon is not yet loaded
+  if (!icon) {
+return null;
+} // Don't render if icon is not yet loaded
 
   return (
     <Marker

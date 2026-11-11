@@ -69,6 +69,7 @@ const StatBox = ({
             </div>
         </div>
     </div>
-);}
+);
+}
 
 export default StatBox;

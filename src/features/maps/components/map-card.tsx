@@ -3,8 +3,8 @@ import { GiNetworkBars } from "react-icons/gi";
 import colorGradient from "@/lib/color-gradient";
 import "./map-search.css";
 interface MapInfo{
-    name:String,
-    creator:String,
+    name:string,
+    creator:string,
     average_score:number,
     average_generation_time:number,
     total_guesses:number
@@ -33,8 +33,7 @@ const MapCard = ({
                     {r: 255, g: 0, b: 0},  
                 ]
             });
-        }
-        else{
+        } else{
             return colorGradient({
                 percent: percent,
             })

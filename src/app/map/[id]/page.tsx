@@ -51,8 +51,7 @@ export default function MapInfoPage(){
             setStats(stats.data);
             if (demo){
                 setPermission(0);
-            }
-            else{
+            } else{
                 const permission = await api.get(`/map/edit?id=${mapID}`);
                 setPermission(permission.data.permission);
             }
@@ -79,7 +78,9 @@ export default function MapInfoPage(){
     }
 
     const distanceString = (distance:number) => {
-        if(distance < 0) return {stat: "N/A"};
+        if(distance < 0) {
+return {stat: "N/A"};
+}
         const m = Math.round(distance * 1000);
         const km = Math.round(m / 10) / 100;
         const num = km > 1 ? km : m;
@@ -88,7 +89,9 @@ export default function MapInfoPage(){
     }
 
     const timeString = (time:number) => {
-        if(time < 0) return {stat:"N/A"};
+        if(time < 0) {
+return {stat:"N/A"};
+}
         const minutes = Math.floor(time / 60);
         const seconds = Math.round(time % 60 * 10)/10;
         return minutes > 0? {stat:`${minutes.toString().padStart(2,"0")}:${seconds.toFixed(1).padStart(4,"0")}`} : {stat:`${seconds}`,unit:"s"};

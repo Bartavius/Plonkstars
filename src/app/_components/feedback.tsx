@@ -41,7 +41,7 @@ export default function FeedbackComponent(){
                     <p className="mb-4 text-light text-sm">
                         If you find a bug or want to request a feature please put it below. 
                         If you are logged in and your feedback is useful for the development team you will be rewarded with Plonk Stars coins!
-                        Coins can be used to purchase cosmetics in-game in the <a className="link" onClick={() => router.push("/shop")}>shop</a>. (This page is very scuffed at the moment, we'll improve it later) 
+                        Coins can be used to purchase cosmetics in-game in the <a className="link" onClick={() => router.push("/shop")}>shop</a>. (This page is very scuffed at the moment, we&apos;ll improve it later) 
                         <br/><br/>Thank you for helping us improve Plonk Stars!
                     </p>
                     <textarea 

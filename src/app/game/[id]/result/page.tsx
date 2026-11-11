@@ -22,10 +22,6 @@ export default function GameResultPage() {
   const matchId = params.id;
   const roundNumber = parseInt(searchParams.get("round") || "-1");
 
-  if (roundNumber === -1) {
-    return <div>Invalid round number</div>;
-  }
-
   const [data, setData] = useState<any>();
   const [state, setState] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,6 +31,9 @@ export default function GameResultPage() {
   const demoAvatar = useSelector((state:any) => state.demoAvatar);
 
   useEffect(() => {
+    if (roundNumber === -1) {
+      return;
+    }
     const getResults = async () => {
       try {
         const state = await api.get(`/game/state?id=${matchId}`);
@@ -60,6 +59,10 @@ export default function GameResultPage() {
       await api.post("/game/next", { id: matchId });
       router.push(`/game/${matchId}`);
     }
+  }
+
+  if (roundNumber === -1) {
+    return <div>Invalid round number</div>;
   }
 
   if (preloading || loading) {
