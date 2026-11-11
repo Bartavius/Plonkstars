@@ -1,9 +1,9 @@
 "use client";
 
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import Loading from "@/components/loading";
-import { setError } from "@/redux/errorSlice";
-import api from "@/utils/api";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import Loading from "@/components/primitives/loading";
+import { setError } from "@/store/error-slice";
+import api from "@/services/api";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

@@ -1,10 +1,10 @@
 "use client";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import GamePlay from "@/components/game/challenge/gameplay/gameplay";
-import Loading from "@/components/loading";
-import calculateOffset from "@/components/time";
-import api from "@/utils/api";
-import { isDemo } from "@/utils/auth";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import GamePlay from "@/features/challenge/components/gameplay";
+import Loading from "@/components/primitives/loading";
+import calculateOffset from "@/lib/clock-offset";
+import api from "@/services/api";
+import { isDemo } from "@/features/auth/services/session";
 import { useRouter,useParams } from "next/navigation";
 import { useState, useEffect, use } from "react";
 import { useSelector } from "react-redux";

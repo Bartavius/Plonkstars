@@ -1,17 +1,17 @@
 "use client";
 
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import Loading from "@/components/loading";
-import api from "@/utils/api";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import Loading from "@/components/primitives/loading";
+import api from "@/services/api";
 import dynamic from "next/dynamic";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import useLiveSocket from "../../liveSocket";
-import Popup from "@/components/Popup";
-import UserIcon from "@/components/user/UserIcon";
+import useLiveSocket from "@/app/live/_hooks/use-live-socket";
+import Popup from "@/components/primitives/popup";
+import UserIcon from "@/features/user/components/user-icon";
 
-const Results = dynamic(() => import("@/components/game/challenge/results/results"), { ssr: false });
+const Results = dynamic(() => import("@/features/challenge/components/results"), { ssr: false });
 
 export default function GameResultPage() {
   const params = useParams();

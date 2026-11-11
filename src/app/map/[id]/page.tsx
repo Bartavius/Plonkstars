@@ -12,15 +12,15 @@ import { PiMapPinAreaBold } from "react-icons/pi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { CgRowFirst } from "react-icons/cg";
 
-import api from "@/utils/api";
+import api from "@/services/api";
 import "./page.css"
-import MapPreview from "@/components/maps/MapPreview";
-import StatBox from "./StatBox";
-import Loading from "@/components/loading";
+import MapPreview from "@/features/maps/components/map-preview";
+import StatBox from "./_components/stat-box";
+import Loading from "@/components/primitives/loading";
 import { BsCapsule } from "react-icons/bs";
-import MapInfoCard from "@/components/maps/info/MapInfoCard";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import { isDemo } from "@/utils/auth";
+import MapInfoCard from "@/features/maps/components/map-info-card";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { isDemo } from "@/features/auth/services/session";
 
 interface Location {
     lat:number,

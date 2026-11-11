@@ -1,14 +1,14 @@
 "use client";
-import Loading from "@/components/loading";
-import api from "@/utils/api";
+import Loading from "@/components/primitives/loading";
+import api from "@/services/api";
 
 import { useSearchParams,useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setPartyCode } from "@/redux/partySlice";
-import { setError } from "@/redux/errorSlice";
-import joinParty from "./join";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
+import { setPartyCode } from "@/store/party-slice";
+import { setError } from "@/store/error-slice";
+import joinParty from "@/features/party/services/join-party";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
 
 export default function JoinParty() {
     const searchParams = useSearchParams();

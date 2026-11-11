@@ -1,13 +1,13 @@
 "use client";
 
-import Loading from "@/components/loading";
-import Popup from "@/components/Popup";
-import { CosmeticProps } from "@/types/cosmetics/CosmeticProps";
-import { CosmeticTiers } from "@/types/CosmeticTiers";
-import api from "@/utils/api";
+import Loading from "@/components/primitives/loading";
+import Popup from "@/components/primitives/popup";
+import { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
+import { CosmeticTiers } from "@/features/cosmetics/types/cosmetic-tiers";
+import api from "@/services/api";
 import { useEffect, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
 import { useRouter } from "next/navigation";
 
 export default function Page() {

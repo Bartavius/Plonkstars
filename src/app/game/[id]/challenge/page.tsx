@@ -1,15 +1,15 @@
 "use client";
 import { useParams,useRouter } from "next/navigation";
-import { setError } from "@/redux/errorSlice";
+import { setError } from "@/store/error-slice";
 import "./page.css";
 import "@/app/game.css";
 import { useEffect, useState } from "react";
-import Loading from "@/components/loading";
-import api from "@/utils/api";
+import Loading from "@/components/primitives/loading";
+import api from "@/services/api";
 import { useDispatch } from "react-redux";
-import MapCard from "@/components/maps/search/MapCard";
+import MapCard from "@/features/maps/components/map-card";
 import { BsInfinity } from "react-icons/bs";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
 
 export default function challengePage() {
     const [data,setData] = useState<any>(); 

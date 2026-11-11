@@ -1,18 +1,18 @@
 "use client";
 
-import api from "@/utils/api";
+import api from "@/services/api";
 import { useEffect, useRef, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 import { Rectangle, useMap, useMapEvent } from "react-leaflet";
-import MapPreview from "@/components/maps/MapPreview";
-import MapIcon from "@/components/maps/mapIcon";
-import Loading from "@/components/loading";
-import StreetView from "@/components/maps/Streetview";
+import MapPreview from "@/features/maps/components/map-preview";
+import MapIcon from "@/features/maps/components/map-icon";
+import Loading from "@/components/primitives/loading";
+import StreetView from "@/features/maps/components/streetview";
 import "@/app/game.css";
 import "./page.css";
-import useSocket from "@/utils/socket";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
+import useSocket from "@/lib/hooks/use-socket";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
 
 interface Location {
     id?:number,

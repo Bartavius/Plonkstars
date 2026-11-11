@@ -1,17 +1,17 @@
 "use client";
 
-import MapLeaderboard from "./leaderboard";
+import MapLeaderboard from "./_components/leaderboard";
 import { useParams, useRouter } from "next/navigation";
-import "../page.css";
+import "@/app/map/[id]/page.css";
 import "./page.css";
 import { IoIosStats, IoMdArrowRoundBack } from "react-icons/io";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import api from "@/utils/api";
-import Loading from "@/components/loading";
-import MapInfoCard from "@/components/maps/info/MapInfoCard";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import { isDemo } from "@/utils/auth";
+import api from "@/services/api";
+import Loading from "@/components/primitives/loading";
+import MapInfoCard from "@/features/maps/components/map-info-card";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { isDemo } from "@/features/auth/services/session";
 
 export default function MapLeaderboardPage(){
     const [stats, setStats] = useState<any>();

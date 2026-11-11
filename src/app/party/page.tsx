@@ -1,26 +1,26 @@
 "use client";
 import { useState, useEffect } from "react";
-import api from "@/utils/api";
+import api from "@/services/api";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import Loading from "@/components/loading";
+import Loading from "@/components/primitives/loading";
 
 import "./page.css";
-import useSocket from "@/utils/socket";
-import MapCard from "@/components/maps/search/MapCard";
-import Modal from "@/components/Modal";
-import MapSearch from "@/components/maps/search/MapSearch";
-import { clearPartyCode } from "@/redux/partySlice";
+import useSocket from "@/lib/hooks/use-socket";
+import MapCard from "@/features/maps/components/map-card";
+import Modal from "@/components/primitives/modal";
+import MapSearch from "@/features/maps/components/map-search";
+import { clearPartyCode } from "@/store/party-slice";
 import { BsInfinity } from "react-icons/bs";
 import { BiSolidCheckboxChecked, BiSolidCheckboxMinus } from "react-icons/bi";
-import Popup from "@/components/Popup";
-import { setError } from "@/redux/errorSlice";
-import UserInput from "@/components/party/userInput";
+import Popup from "@/components/primitives/popup";
+import { setError } from "@/store/error-slice";
+import UserInput from "@/components/primitives/user-input";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
-import PlayerDisplay from "./PlayerDisplay";
-import TeamDisplay from "./TeamDisplay";
-import { Team } from "./structs";
-import ProtectedRoutes from "../ProtectedRoutes";
+import PlayerDisplay from "./_components/player-display";
+import TeamDisplay from "./_components/team-display";
+import { Team } from "./_types/team";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
 
 const modes = ["Live","Duels"]
 

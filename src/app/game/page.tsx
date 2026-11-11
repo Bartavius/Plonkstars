@@ -1,23 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import api from "../../utils/api";
+import api from "@/services/api";
 import { useEffect, useState } from "react";
 import "@/app/game.css";
-import Modal from "@/components/Modal";
-import MapSearch from "@/components/maps/search/MapSearch";
+import Modal from "@/components/primitives/modal";
+import MapSearch from "@/features/maps/components/map-search";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { setGameSettings } from "@/redux/gameSlice";
-import ProtectedRoutes from "../ProtectedRoutes";
-import { clearError } from "@/redux/errorSlice";
+import { setGameSettings } from "@/store/game-slice";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { clearError } from "@/store/error-slice";
 import { FaQuestionCircle } from "react-icons/fa";
-import Popup from "@/components/Popup";
-import Multiplayer from "./multiplayer";
-import Daily from "./daily";
-import UserInput from "@/components/party/userInput";
-import Loading from "@/components/loading";
-import HowToPlayModal from "@/components/game/HowToPlayModal";
+import Popup from "@/components/primitives/popup";
+import Multiplayer from "./_components/multiplayer";
+import Daily from "./_components/daily";
+import UserInput from "@/components/primitives/user-input";
+import Loading from "@/components/primitives/loading";
+import HowToPlayModal from "./_components/how-to-play-modal";
 
 export default function Game() {
   const router = useRouter();

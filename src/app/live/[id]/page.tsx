@@ -1,14 +1,14 @@
 "use client";
-import ProtectedRoutes from "@/app/ProtectedRoutes";
-import GamePlay from "@/components/game/challenge/gameplay/gameplay";
-import Loading from "@/components/loading";
-import api from "@/utils/api";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import GamePlay from "@/features/challenge/components/gameplay";
+import Loading from "@/components/primitives/loading";
+import api from "@/services/api";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import useLiveSocket from "../liveSocket";
-import Popup from "@/components/Popup";
-import UserIcon from "@/components/user/UserIcon";
-import calculateOffset from "@/components/time";
+import useLiveSocket from "@/app/live/_hooks/use-live-socket";
+import Popup from "@/components/primitives/popup";
+import UserIcon from "@/features/user/components/user-icon";
+import calculateOffset from "@/lib/clock-offset";
 
 export default function Page() {
   const [round,setRound] = useState<any>();
