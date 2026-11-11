@@ -2,10 +2,18 @@ import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 
 interface Location {
-    lat: number;
-    lng: number;
+  lat: number;
+  lng: number;
 }
-export default function FitBounds({ locations, options, summary}: { locations: Location[], options?: any, summary?: boolean }) {
+export default function FitBounds({
+  locations,
+  options,
+  summary,
+}: {
+  locations: Location[];
+  options?: any;
+  summary?: boolean;
+}) {
   const map = useMap();
 
   let topLeftLat = 90;
@@ -37,4 +45,4 @@ export default function FitBounds({ locations, options, summary}: { locations: L
   }, [string]);
 
   return null;
-};
+}

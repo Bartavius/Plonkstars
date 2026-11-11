@@ -12,8 +12,8 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   const [clickedOutside, setClickedOutside] = useState(false);
 
   if (!isOpen) {
-return null;
-}
+    return null;
+  }
 
   const handleBackgroundMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     // If the user clicked directly on the backdrop, close the modal
@@ -27,17 +27,17 @@ return null;
       onClose();
     }
     setClickedOutside(false);
-  }
+  };
 
   return (
-    <div 
+    <div
       ref={modalRef}
       onMouseDown={handleBackgroundMouseDown}
       onMouseUp={handleBackgroundMouseUp}
       style={{ zIndex: 100 }}
       className="fixed inset-0 bg-black bg-opacity-50 flex justify-center flex-col items-center"
     >
-      <div className="navbar-buffer"/>
+      <div className="navbar-buffer" />
       <div className="modal-window" onClick={(e) => e.stopPropagation()}>
         <button className="float-right text-xl font-bold" onClick={onClose}>
           &times;

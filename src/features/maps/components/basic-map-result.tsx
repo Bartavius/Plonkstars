@@ -1,10 +1,11 @@
 "use client";
 
 import { MapContainer, Polyline, Tooltip } from "react-leaflet";
+
+import FitBounds from "./fit-bounds";
 import "./map.css";
 import MapIcon from "./map-icon";
 import MapTileLayer from "./map-tile-layer";
-import FitBounds from "./fit-bounds";
 
 export default function BasicMapResult({
   markers,
@@ -13,11 +14,11 @@ export default function BasicMapResult({
 }: {
   markers: any;
   height?: number;
-  user?:any;
-}){
-  const boundedMarkers = markers.map((marker:any) => {
-    const newUsers = marker.users.map(
-      (user:any) => {
+  user?: any;
+}) {
+  const boundedMarkers = markers.map((marker: any) => {
+    const newUsers = marker.users
+      .map((user: any) => {
         if (user.lat === undefined || user.lng === undefined) {
           return;
         }
@@ -28,14 +29,19 @@ export default function BasicMapResult({
         } else if (user.lng - marker.correct.lng < -180) {
           newLng = user.lng + 360;
         }
-        return {...user, lat: user.lat, lng: newLng };
-      }
-    ).filter((user:any) => user !== undefined) as { lat: number; lng: number }[];
+        return { ...user, lat: user.lat, lng: newLng };
+      })
+      .filter((user: any) => user !== undefined) as { lat: number; lng: number }[];
     return { ...marker, users: newUsers };
   });
 
-  const locations = boundedMarkers.map((marker:any) => [marker.correct, ...marker.users.filter((guess:any)=> (guess.user.username === user))]).flat();
-  
+  const locations = boundedMarkers
+    .map((marker: any) => [
+      marker.correct,
+      ...marker.users.filter((guess: any) => guess.user.username === user),
+    ])
+    .flat();
+
   return (
     <div
       className="leaflet-container-result-wrapper"
@@ -47,8 +53,8 @@ export default function BasicMapResult({
         zoomControl={false}
         className="leaflet-result-map"
       >
-        <MapTileLayer size={512} offset={-1}/>
-        {boundedMarkers.map((markerObj:any, index:number) => (
+        <MapTileLayer size={512} offset={-1} />
+        {boundedMarkers.map((markerObj: any, index: number) => (
           <div key={index}>
             {markerObj && (
               <MapIcon
@@ -58,7 +64,7 @@ export default function BasicMapResult({
                 iconPercent={1}
               />
             )}
-            {markerObj.users.map((user:any, userIndex:number) => (
+            {markerObj.users.map((user: any, userIndex: number) => (
               <div key={userIndex}>
                 {user && user.lat && user.lng && (
                   <>
@@ -81,10 +87,10 @@ export default function BasicMapResult({
                           [markerObj.correct.lat, markerObj.correct.lng],
                         ]}
                         pathOptions={{
-                          color:"black",
+                          color: "black",
                           weight: 7,
                           opacity: 1,
-                          dashArray: "5, 15"
+                          dashArray: "5, 15",
                         }}
                       />
                     </div>
@@ -94,8 +100,12 @@ export default function BasicMapResult({
             ))}
           </div>
         ))}
-        <FitBounds locations={locations} options={{paddingTopLeft: [10, 50],paddingBottomRight: [10, 20]}} summary={true}/>
+        <FitBounds
+          locations={locations}
+          options={{ paddingTopLeft: [10, 50], paddingBottomRight: [10, 20] }}
+          summary={true}
+        />
       </MapContainer>
     </div>
   );
-};
+}

@@ -1,31 +1,31 @@
-import "./popup.css";
 import { useEffect, useRef, useState } from "react";
+import "./popup.css";
 
-export default function Popup({ 
-  duration = 2000, 
+export default function Popup({
+  duration = 2000,
   fadeOut = 1000,
   background,
   color,
   update,
   className,
-  type="info",
-  children
+  type = "info",
+  children,
 }: {
   update?: number;
-  duration?: number; 
+  duration?: number;
   fadeOut?: number;
   background?: string;
   color?: string;
   className?: string;
-  type?:string | null;
+  type?: string | null;
   children?: React.ReactNode;
 }) {
   const [popupFade, setPopupFade] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
-  
+
   const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   switch (type) {
     case "error":
       className += " text-red-500 bg-red-100 border border-red-400 z-100";
@@ -36,8 +36,8 @@ export default function Popup({
     case "info":
       className += " text-blue-500 bg-blue-100 border border-blue-400 z-100";
   }
-  
-    function clearTimeouts() {
+
+  function clearTimeouts() {
     if (fadeTimeoutRef.current) {
       clearTimeout(fadeTimeoutRef.current);
       fadeTimeoutRef.current = null;
@@ -50,8 +50,8 @@ export default function Popup({
 
   function showPopup() {
     if (show || !children) {
-return;
-}
+      return;
+    }
     clearTimeouts();
 
     setShow(true);
@@ -79,13 +79,16 @@ return;
 
   return (
     <>
-    {show && 
-    <div className="popup-wrapper">
-      <div className={`settings-popup ${popupFade ? "opacity-0" : "opacity-100"} ${className}`} onClick={handleClick}>
-          {children}
-      </div>
-    </div>
-    }
-   </>
+      {show && (
+        <div className="popup-wrapper">
+          <div
+            className={`settings-popup ${popupFade ? "opacity-0" : "opacity-100"} ${className}`}
+            onClick={handleClick}
+          >
+            {children}
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,14 +1,15 @@
 "use client";
 
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import Loading from "@/components/primitives/loading";
-import { setError } from "@/store/error-slice";
-import api from "@/services/api";
-import { isDemo } from "@/features/auth/services/session";
 import dynamic from "next/dynamic";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import Loading from "@/components/primitives/loading";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { isDemo } from "@/features/auth/services/session";
+import api from "@/services/api";
+import { setError } from "@/store/error-slice";
 
 const Results = dynamic(() => import("@/features/challenge/components/results"), {
   ssr: false,
@@ -28,7 +29,7 @@ export default function GameResultPage() {
   const [preloading, setPreloading] = useState<boolean>(true);
 
   const demo = isDemo();
-  const demoAvatar = useSelector((state:any) => state.demoAvatar);
+  const demoAvatar = useSelector((state: any) => state.demoAvatar);
 
   useEffect(() => {
     if (roundNumber === -1) {
@@ -66,7 +67,11 @@ export default function GameResultPage() {
   }
 
   if (preloading || loading) {
-    return <ProtectedRoutes allowDemo={true}><Loading /></ProtectedRoutes>;
+    return (
+      <ProtectedRoutes allowDemo={true}>
+        <Loading />
+      </ProtectedRoutes>
+    );
   }
 
   return (
@@ -75,7 +80,11 @@ export default function GameResultPage() {
         <Results
           onClick={nextRound}
           this_user={data.this_user}
-          users={data.users.map((((user:any) => user.user.username === 'demo' && demo ? {...user, user: {...user.user, user_cosmetics: demoAvatar}} : user)))}
+          users={data.users.map((user: any) =>
+            user.user.username === "demo" && demo
+              ? { ...user, user: { ...user.user, user_cosmetics: demoAvatar } }
+              : user,
+          )}
           roundNumber={data.round}
           correct={data.correct}
         />

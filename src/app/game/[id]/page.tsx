@@ -1,20 +1,21 @@
 "use client";
+import { useRouter, useParams } from "next/navigation";
+import { useState, useEffect, use } from "react";
+import { useSelector } from "react-redux";
+
 import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { isDemo } from "@/features/auth/services/session";
 import GamePlay from "@/features/challenge/components/gameplay";
 import Loading from "@/components/primitives/loading";
 import calculateOffset from "@/lib/clock-offset";
 import api from "@/services/api";
-import { isDemo } from "@/features/auth/services/session";
-import { useRouter,useParams } from "next/navigation";
-import { useState, useEffect, use } from "react";
-import { useSelector } from "react-redux";
 
 export default function Page() {
-  const [data,setData] = useState<any>();
-  const [offset,setOffset] = useState<number>();
+  const [data, setData] = useState<any>();
+  const [offset, setOffset] = useState<number>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [userLat, setUserLat] = useState<number|undefined>(undefined);
-  const [userLng, setUserLng] = useState<number|undefined>(undefined);
+  const [userLat, setUserLat] = useState<number | undefined>(undefined);
+  const [userLng, setUserLng] = useState<number | undefined>(undefined);
   const [cosmetics, setCosmetics] = useState<any>();
   const [score, setScore] = useState<number>(0);
 
@@ -22,9 +23,9 @@ export default function Page() {
   const params = useParams();
   const id = params.id;
   const demo = isDemo();
-  const demoAvatar = useSelector((state:any) => state.demoAvatar);
+  const demoAvatar = useSelector((state: any) => state.demoAvatar);
 
-  async function pushCorrect(data:any){
+  async function pushCorrect(data: any) {
     if (data.state === "RESULTS") {
       router.push(`/game/${id}/result?round=${data.round}`);
       return true;
@@ -36,13 +37,13 @@ export default function Page() {
       return true;
     } else if (data.state === "NOT_STARTED") {
       await api.post("/game/play", { id }).catch(() => {});
-      await api.post("/game/next", {id});
+      await api.post("/game/next", { id });
     }
 
     return false;
   }
 
-  async function getRound(){
+  async function getRound() {
     const response = await api.get(`/game/round?id=${id}`);
     setData(response.data);
     return response;
@@ -51,7 +52,7 @@ export default function Page() {
     const fetchLocation = async () => {
       try {
         const state = await api.get(`/game/state?id=${id}`);
-        if (await pushCorrect(state.data)){
+        if (await pushCorrect(state.data)) {
           return;
         }
         setUserLat(state.data.lat);
@@ -60,10 +61,9 @@ export default function Page() {
         const offset = await calculateOffset(getRound);
         setOffset(offset);
 
-        
-        if(demo){
+        if (demo) {
           setCosmetics(demoAvatar);
-        } else{
+        } else {
           const cosmetics = await api.get("/account/avatar");
           setCosmetics(cosmetics.data.user_cosmetics);
         }
@@ -75,7 +75,7 @@ export default function Page() {
           router.push(`/game/${id}/summary`);
           return;
         }
-        
+
         router.push("/game");
       }
     };
@@ -83,12 +83,16 @@ export default function Page() {
   }, []);
 
   if (loading) {
-    return <ProtectedRoutes allowDemo={true}><Loading /></ProtectedRoutes>;
+    return (
+      <ProtectedRoutes allowDemo={true}>
+        <Loading />
+      </ProtectedRoutes>
+    );
   }
 
   return (
     <ProtectedRoutes allowDemo={true}>
-      <GamePlay 
+      <GamePlay
         userLat={userLat}
         userLng={userLng}
         correctLat={data.lat}

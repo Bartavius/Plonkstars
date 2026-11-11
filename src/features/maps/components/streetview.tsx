@@ -7,7 +7,7 @@ export default function StreetView({ lat, lng }: { lat: number; lng: number }) {
       <iframe
         width="100%"
         height="100%"
-        style={{border: 0 }}
+        style={{ border: 0 }}
         className="street-view-iframe"
         referrerPolicy="no-referrer-when-downgrade"
         allow="accelerometer; gyroscope"

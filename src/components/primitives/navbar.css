@@ -10,7 +10,7 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.navbar-primary{
+.navbar-primary {
   height: var(--navbar-height);
 }
 
@@ -25,7 +25,7 @@
   width: 100%;
 }
 .nav-logo:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .navbar-elements {

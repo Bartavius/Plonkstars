@@ -1,16 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
-import api from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import Loading from "@/components/primitives/loading";
-import Summary from "@/features/challenge/components/summary";
-import { ImLink } from "react-icons/im";
-import "./page.css";
-import Popup from "@/components/primitives/popup";
+import { useEffect, useState } from "react";
 import { CgCopy } from "react-icons/cg";
 import { FaMedal } from "react-icons/fa";
+import { ImLink } from "react-icons/im";
 import { IoIosStats } from "react-icons/io";
+
+import Loading from "@/components/primitives/loading";
+import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import Summary from "@/features/challenge/components/summary";
+import api from "@/services/api";
+import "./page.css";
+import Popup from "@/components/primitives/popup";
 
 interface Location {
   lat: number;
@@ -24,7 +25,7 @@ export default function SummaryPage() {
   const [showLink, setShowLink] = useState(false);
   const [update, setUpdate] = useState(0);
   const [leaderboard, setLeaderboard] = useState<boolean>(false);
-  
+
   const params = useParams();
   const router = useRouter();
   const challengeLink = `${window.location.origin}/game/${params.id}/challenge`;
@@ -41,7 +42,7 @@ export default function SummaryPage() {
     const fetchGuesses = async () => {
       try {
         const res = await api.get(`/game/summary?id=${params.id}`);
-      
+
         setLocations(res.data.rounds);
         setUser(res.data.this_user);
         setData(res.data);
@@ -68,52 +69,58 @@ export default function SummaryPage() {
   }, []);
 
   if (!data) {
-    return <Loading/>;
+    return <Loading />;
   }
-  
+
   return (
     <ProtectedRoutes>
-      <Popup update={update}>
-        {update=== 0? undefined: "Link Copied"}
-      </Popup>
+      <Popup update={update}>{update === 0 ? undefined : "Link Copied"}</Popup>
       <div className="summary-container">
         <Summary locations={locations} data={data.users} user={user} leaderboard={leaderboard}>
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
-              <button className="summary-leaderboard-button" onClick={()=>setLeaderboard(!leaderboard)}>
-                {leaderboard? 
+              <button
+                className="summary-leaderboard-button"
+                onClick={() => setLeaderboard(!leaderboard)}
+              >
+                {leaderboard ? (
                   <>
-                    <IoIosStats className="button-icon"/>
+                    <IoIosStats className="button-icon" />
                     Your Stats
                   </>
-                  : 
+                ) : (
                   <>
-                    <FaMedal className="button-icon"/>
+                    <FaMedal className="button-icon" />
                     Leaderboard
                   </>
-                }
-                
+                )}
               </button>
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-center text-dark flex-1">
-                Game Summary
-              </h2>
+              <h2 className="text-3xl font-bold text-center text-dark flex-1">Game Summary</h2>
             </div>
-            <div className= "flex justify-end">
+            <div className="flex justify-end">
               <div className={`link-text ${showLink ? "visible" : ""} no-scrollbar`}>
                 {challengeLink}
               </div>
-              {!showLink && 
-              <button className={`link-button`} onClick={()=>setShowLink(true)} title="Challenge Link">
-                <ImLink/>
-              </button>
-              }
-              {showLink &&
-              <button className={`link-button copy-link-button`} onClick={copyLink} title="Copy Link">
-                <CgCopy/>
-              </button>
-              }
+              {!showLink && (
+                <button
+                  className={`link-button`}
+                  onClick={() => setShowLink(true)}
+                  title="Challenge Link"
+                >
+                  <ImLink />
+                </button>
+              )}
+              {showLink && (
+                <button
+                  className={`link-button copy-link-button`}
+                  onClick={copyLink}
+                  title="Copy Link"
+                >
+                  <CgCopy />
+                </button>
+              )}
               <button className="ml-1 btn-primary" onClick={() => router.push(`/party`)}>
                 Back To Party
               </button>

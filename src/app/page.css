@@ -1,29 +1,25 @@
 .start-button {
-    width: 35%;
-    background: linear-gradient(
-      to right,
-      var(--plonk-stars-red) 30%,
-      var(--lightest-blue)
-    );
-    background-size: 200% auto;
-    background-position: left center;
-    color: #ffffff;
-    font-weight: 500;
-    padding: 1rem 2rem;
-    margin-bottom: 1rem;
-    border-width: 5px;
-    border-color: var(--plonk-stars-red);
-    border-radius: 2rem;
-    cursor: pointer;
-    transition: background-position 0.5s ease;
+  width: 35%;
+  background: linear-gradient(to right, var(--plonk-stars-red) 30%, var(--lightest-blue));
+  background-size: 200% auto;
+  background-position: left center;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+  border-width: 5px;
+  border-color: var(--plonk-stars-red);
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-position 0.5s ease;
 }
 
 .start-button:hover {
-    background-position: right center;
+  background-position: right center;
 }
 
 .contacts-container {
-    padding-top: 5dvh;
+  padding-top: 5dvh;
 }
 
 .logoImage {
@@ -42,43 +38,41 @@
 }
 
 .mapImageTemprate {
-    width: 100%;
-    max-width: 500px;
-    rotate: 6deg;
-    left: calc(-36rem + 30vw);
-    bottom: 48%;
+  width: 100%;
+  max-width: 500px;
+  rotate: 6deg;
+  left: calc(-36rem + 30vw);
+  bottom: 48%;
 }
-  
+
 .mapImageCanyon {
-    width: 100%;
-    max-width: 500px;
-    rotate: -7deg;
-    right: calc(-38rem + 30vw);
-    bottom: 60%;
+  width: 100%;
+  max-width: 500px;
+  rotate: -7deg;
+  right: calc(-38rem + 30vw);
+  bottom: 60%;
 }
 
 .mapImageCity {
-    width: 100%;
-    max-width: 500px;
-    rotate: -4deg;
-    left: calc(-34rem + 25vw);
-    bottom: 12%;
+  width: 100%;
+  max-width: 500px;
+  rotate: -4deg;
+  left: calc(-34rem + 25vw);
+  bottom: 12%;
 }
 
 .mapImageArchipelago {
-    width: 100%;
-    max-width: 500px;
-    rotate: 5deg;
-    right: calc(-36rem + 27vw);
-    bottom: 10%;
+  width: 100%;
+  max-width: 500px;
+  rotate: 5deg;
+  right: calc(-36rem + 27vw);
+  bottom: 10%;
 }
 
 @media (max-width: 1000px) {
-
-    .auxillaryMapImage {
-      overflow: hidden !important;
-      width: 0px !important;
-      height: 0px !important;
-    }
-    
+  .auxillaryMapImage {
+    overflow: hidden !important;
+    width: 0px !important;
+    height: 0px !important;
+  }
 }

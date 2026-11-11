@@ -1,46 +1,49 @@
-import Table from '@/components/primitives/table';
-import './results.css';
-import ScoreBox from './score-box';
+import Table from "@/components/primitives/table";
 import UserIcon from "@/features/user/components/user-icon";
 
+import "./results.css";
+import ScoreBox from "./score-box";
+
 export default function ScoreAccordion({
-    open,
-    className = "",
-    guesses,
-    user,
+  open,
+  className = "",
+  guesses,
+  user,
 }: {
-    open: boolean;
-    className?: string;
-    guesses: any[];
-    user?: any;
+  open: boolean;
+  className?: string;
+  guesses: any[];
+  user?: any;
 }) {
-    const headers = {
-        total: 'Total',
-        guess: 'Guess',
-    };
+  const headers = {
+    total: "Total",
+    guess: "Guess",
+  };
 
+  const data = guesses.map((guess) => {
+    return {
+      total: <ScoreBox data={guess} />,
+      guess: <ScoreBox data={guess.guess} />,
+      heading: (
+        <div className="round-rank-box">
+          <div className="round-rank-number-text">
+            #{guess.rank}
+            <UserIcon data={guess.user.user_cosmetics} className="round-leaderboard-avatar" />
+          </div>
 
-    const data = guesses.map((guess) => {
-        return {
-            total: <ScoreBox data={guess}/>,
-            guess: <ScoreBox data={guess.guess}/>,
-            heading: (
-                <div className="round-rank-box">
-                  <div className="round-rank-number-text">#{guess.rank}<UserIcon data={guess.user.user_cosmetics} className="round-leaderboard-avatar"/></div>
-                  
-                  <div className="round-user-name-text">{guess.user.username}</div>
-                </div>
-            ),
-            style: guess.user.username === user && "round-highlight-self-row",
-        };
-    });
-    return (
-        <div className={`${className} leaderboard-accordion`}>
-            {open && (
-                <div className="accordion-content">
-                    <Table data={data} headers={headers} rowHeader="heading" className='w-full'/>
-                </div>
-            )}
+          <div className="round-user-name-text">{guess.user.username}</div>
         </div>
-    );
+      ),
+      style: guess.user.username === user && "round-highlight-self-row",
+    };
+  });
+  return (
+    <div className={`${className} leaderboard-accordion`}>
+      {open && (
+        <div className="accordion-content">
+          <Table data={data} headers={headers} rowHeader="heading" className="w-full" />
+        </div>
+      )}
+    </div>
+  );
 }

@@ -1,56 +1,57 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import api from "@/services/api";
+
 import GamePanel from "@/features/game/components/game-panel";
 import "@/app/game.css";
 import BasicMapWithMarker from "@/features/maps/components/basic-map-with-marker";
+import api from "@/services/api";
 
 const CombinedMap = dynamic(() => import("@/features/maps/components/combined-map"), {
   ssr: false,
 });
 
 export default function GamePlay({
-    correctLat,
-    correctLng,
-    time,
-    timeLimit,
-    roundNumber,
-    totalScore,
-    NMPZ,
-    mapBounds,
-    canGuess = true,
-    userLat,
-    userLng,
-    onTimeout,
-    onGuess,
-    rightFooter,
-    onPlonk,
-    offset=0,
-    cosmetics,
+  correctLat,
+  correctLng,
+  time,
+  timeLimit,
+  roundNumber,
+  totalScore,
+  NMPZ,
+  mapBounds,
+  canGuess = true,
+  userLat,
+  userLng,
+  onTimeout,
+  onGuess,
+  rightFooter,
+  onPlonk,
+  offset = 0,
+  cosmetics,
 }: {
-    correctLat: number;
-    correctLng: number;
-    time?: Date;
-    timeLimit?: number;
-    roundNumber: number;
-    totalScore: number;
-    NMPZ: boolean;
-    mapBounds: any;
-    cosmetics: any;
-    userLat?: number;
-    userLng?: number;
-    canGuess?: boolean;
-    onTimeout?: () => void;
-    onGuess?: () => void;
-    rightFooter?: React.ReactNode;
-    onPlonk?: (lat:number,lng:number) => void;
-    offset?: number;
+  correctLat: number;
+  correctLng: number;
+  time?: Date;
+  timeLimit?: number;
+  roundNumber: number;
+  totalScore: number;
+  NMPZ: boolean;
+  mapBounds: any;
+  cosmetics: any;
+  userLat?: number;
+  userLng?: number;
+  canGuess?: boolean;
+  onTimeout?: () => void;
+  onGuess?: () => void;
+  rightFooter?: React.ReactNode;
+  onPlonk?: (lat: number, lng: number) => void;
+  offset?: number;
 }) {
-  const [lat, setLat] = useState<number|undefined>(userLat);
-  const [lng, setLng] = useState<number|undefined>(userLng);
+  const [lat, setLat] = useState<number | undefined>(userLat);
+  const [lng, setLng] = useState<number | undefined>(userLng);
   const [submitted, setSubmitted] = useState<boolean>(!canGuess);
   const [reload, setReload] = useState<number>(0);
 
@@ -61,7 +62,7 @@ export default function GamePlay({
     setReload((prev) => prev + 1);
   }
 
-  async function submitGuess(){
+  async function submitGuess() {
     if (lat !== undefined && lng !== undefined && !submitted) {
       setSubmitted(true);
       try {
@@ -73,7 +74,7 @@ export default function GamePlay({
       } catch (err: any) {}
       onGuess && onGuess();
     }
-  };
+  }
 
   async function setPos(lat: number, lng: number) {
     if (!submitted) {
@@ -82,10 +83,10 @@ export default function GamePlay({
         id: matchId,
         lng: (((lng % 360) + 540) % 360) - 180,
         lat: boundedLat,
-      })
+      });
       setLat(boundedLat);
       setLng(lng);
-      onPlonk && onPlonk(boundedLat,lng);
+      onPlonk && onPlonk(boundedLat, lng);
     }
   }
 
@@ -95,7 +96,7 @@ export default function GamePlay({
         event.preventDefault();
         submitGuess();
       }
-      if(event.code === "KeyR"){
+      if (event.code === "KeyR") {
         setReload((prev) => prev + 1);
       }
     };
@@ -105,7 +106,7 @@ export default function GamePlay({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [lat,lng]);
+  }, [lat, lng]);
 
   return (
     <div color="bg-dark">
@@ -115,7 +116,10 @@ export default function GamePlay({
           timeLimit={timeLimit}
           timeoutFunction={onTimeout}
           offset={offset}
-          display={[{key:"SCORE",value:totalScore.toString()},{key:"ROUND", value:roundNumber.toString()}]}
+          display={[
+            { key: "SCORE", value: totalScore.toString() },
+            { key: "ROUND", value: roundNumber.toString() },
+          ]}
         />
       </div>
       <div className="streetview-map-container">
@@ -124,33 +128,39 @@ export default function GamePlay({
           correctLng={correctLng}
           reload={reload}
           NMPZ={NMPZ}
-          map={<BasicMapWithMarker lat={lat} lng={lng} setPos={setPos} mapBounds={mapBounds} cosmetics={cosmetics}/>}
+          map={
+            <BasicMapWithMarker
+              lat={lat}
+              lng={lng}
+              setPos={setPos}
+              mapBounds={mapBounds}
+              cosmetics={cosmetics}
+            />
+          }
         />
       </div>
       <div className="game-footer">
         <div className="footer-grid">
           <div className="footer-grid-left-elements">
-            {!NMPZ &&
+            {!NMPZ && (
               <button className="back-to-start-button dark-hover-button" onClick={backToStart}>
                 Back To Start
               </button>
-            }
+            )}
           </div>
           <div className="footer-grid-center-elements"></div>
           <div className="footer-grid-right-elements">
-            {rightFooter? rightFooter:
+            {rightFooter ? (
+              rightFooter
+            ) : (
               <button
                 onClick={submitGuess}
-                disabled={
-                  lat !== undefined && lng !== undefined && !submitted
-                    ? false
-                    : true
-                }
+                disabled={lat !== undefined && lng !== undefined && !submitted ? false : true}
                 className="game-button"
               >
                 <b className="block">Submit</b>
               </button>
-            }
+            )}
           </div>
         </div>
       </div>

@@ -4,12 +4,12 @@
   right: 0;
   z-index: 1000;
   height: 29vh;
-  width:25%;
+  width: 25%;
   overflow: hidden;
 }
 
-.corner-street-view:hover{
-  top:30vh;
+.corner-street-view:hover {
+  top: 30vh;
   height: 59vh;
   width: 50%;
 }
@@ -44,7 +44,7 @@
 }
 .edit-back-button {
   background-color: gray;
-  width:50%;
+  width: 50%;
   height: 70%;
   border-radius: 2rem;
 }
@@ -53,12 +53,11 @@
 }
 
 .edit-right-button {
-  width:80%;
+  width: 80%;
 }
 
 .weight-input-box {
   color: black;
-
 }
 
 .bound-weight-display {

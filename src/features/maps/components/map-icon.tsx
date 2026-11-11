@@ -1,10 +1,10 @@
 import L from "leaflet";
 import { useEffect, useState } from "react";
-import { Marker } from "react-leaflet";
 import ReactDOMServer from "react-dom/server";
-import UserIcon from "@/features/user/components/user-icon";
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import { Marker } from "react-leaflet";
 
+import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import UserIcon from "@/features/user/components/user-icon";
 import "./map-icon.css";
 
 interface Location {
@@ -61,8 +61,8 @@ export default function MapIcon({
         const calculatedSize: [number, number] = iconSize
           ? iconSize
           : iconPercent
-          ? [img.width * iconPercent, img.height * iconPercent]
-          : [img.width, img.height];
+            ? [img.width * iconPercent, img.height * iconPercent]
+            : [img.width, img.height];
 
         let newIcon;
 
@@ -91,12 +91,11 @@ export default function MapIcon({
     };
 
     loadIcon(); // Trigger the image load
-
   }, [iconUrl, iconSize, iconPercent, customize, clickable]);
 
   if (!icon) {
-return null;
-} // Don't render if icon is not yet loaded
+    return null;
+  } // Don't render if icon is not yet loaded
 
   return (
     <Marker
@@ -110,7 +109,7 @@ return null;
                 : () => {
                     window.open(
                       `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${pos.lat},${pos.lng}`,
-                      "_blank"
+                      "_blank",
                     );
                   },
             }

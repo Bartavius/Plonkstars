@@ -14,7 +14,10 @@
   display: flex;
   flex-direction: column;
   transform: scale(1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.5s ease-in-out;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background-position 0.5s ease-in-out;
   margin: auto;
   letter-spacing: 0.05rem;
   background-size: 200% auto;
@@ -93,7 +96,6 @@
   color: #7b747f;
   margin-bottom: 0.5dvh;
   text-align: center;
-
 }
 
 .profile-card-body {
@@ -103,7 +105,7 @@
   overflow-y: auto;
   max-height: 20dvh;
   margin-bottom: 1dvh;
-  font-family:monospace;
+  font-family: monospace;
   font-weight: 800;
   letter-spacing: 0.01rem;
   padding: 1rem;
@@ -122,11 +124,7 @@
 .profile-card-footer a button {
   width: auto;
   min-width: 120px;
-  background: linear-gradient(
-    to right,
-    var(--plonk-stars-red),
-    var(--lightest-blue)
-  );
+  background: linear-gradient(to right, var(--plonk-stars-red), var(--lightest-blue));
   background-size: 200% auto;
   background-position: left center;
   color: #ffffff;
@@ -137,7 +135,9 @@
   border-color: var(--plonk-stars-red);
   border-radius: 0.375rem;
   cursor: pointer;
-  transition: background-position 0.5s ease, transform 0.2s ease-in-out;
+  transition:
+    background-position 0.5s ease,
+    transform 0.2s ease-in-out;
   margin-left: 0.1rem;
   margin-right: 0.1rem;
   text-align: center;

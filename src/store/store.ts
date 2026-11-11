@@ -1,31 +1,32 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import gameReducer from './game-slice';
-import settingsReducer from './settings-slice';
-import errorReducer from './error-slice';
-import PartyReducer from './party-slice';
-import demoAvatarReducer from './demo-avatar-slice';
-import sessionStorage from 'redux-persist/lib/storage/session';
+import { configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import sessionStorage from "redux-persist/lib/storage/session";
+
+import demoAvatarReducer from "./demo-avatar-slice";
+import errorReducer from "./error-slice";
+import gameReducer from "./game-slice";
+import PartyReducer from "./party-slice";
+import settingsReducer from "./settings-slice";
 
 const gamePersistConfig = {
-  key: 'game',
+  key: "game",
   storage: sessionStorage,
 };
 
 const settingsPersistConfig = {
-  key: 'settings',
+  key: "settings",
   storage: storage,
 };
 
 const demoAvatarPersistConfig = {
-  key: 'demoAvatar',
+  key: "demoAvatar",
   storage: storage,
 };
 
 const partyPersistConfig = {
-  key: 'party',
+  key: "party",
   storage: sessionStorage,
 };
 
@@ -43,7 +44,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-  }),
+    }),
 });
 
 export const persistor = persistStore(store);

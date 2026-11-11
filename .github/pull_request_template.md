@@ -25,4 +25,4 @@ Write "No special steps" if there are none. -->
 
 - [ ] I have self-reviewed my code for readability, performance, and maintainability
 - [ ] I have commented difficult to understand areas
-- [ ] `npm run lint`, `npm run typecheck`, and `npm run build` pass
+- [ ] `npm run format:check`, `npm run lint`, `npm run typecheck`, and `npm run build` pass

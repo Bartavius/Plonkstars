@@ -1,5 +1,6 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+
 import { FlatCompat } from "@eslint/eslintrc";
 
 // eslint-config-next 15 still ships legacy configs, so FlatCompat adapts them.
@@ -17,6 +18,17 @@ const eslintConfig = [
       // Warn for now: existing code has ~250 untyped `any`s to burn down.
       // New code should use `unknown` plus a narrowing check instead.
       "@typescript-eslint/no-explicit-any": "warn",
+      // Packages, then @/ aliases, then relative imports. Not alphabetized, because
+      // imports that pull in CSS must keep their order: it is the cascade order.
+      "import/order": [
+        "error",
+        {
+          groups: ["builtin", "external", "internal", ["parent", "sibling", "index"]],
+          pathGroups: [{ pattern: "@/**", group: "internal" }],
+          pathGroupsExcludedImportTypes: ["builtin"],
+          "newlines-between": "always",
+        },
+      ],
     },
   },
   {

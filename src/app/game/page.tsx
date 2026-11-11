@@ -1,24 +1,26 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import api from "@/services/api";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import "@/app/game.css";
-import Modal from "@/components/primitives/modal";
-import MapSearch from "@/features/maps/components/map-search";
+import { FaQuestionCircle } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { setGameSettings } from "@/store/game-slice";
+
+import "@/app/game.css";
+import Modal from "@/components/primitives/modal";
 import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import { clearError } from "@/store/error-slice";
-import { FaQuestionCircle } from "react-icons/fa";
+import MapSearch from "@/features/maps/components/map-search";
 import Popup from "@/components/primitives/popup";
-import Multiplayer from "./_components/multiplayer";
-import Daily from "./_components/daily";
 import UserInput from "@/components/primitives/user-input";
 import Loading from "@/components/primitives/loading";
+import api from "@/services/api";
+import { clearError } from "@/store/error-slice";
+import { setGameSettings } from "@/store/game-slice";
+
+import Daily from "./_components/daily";
 import HowToPlayModal from "./_components/how-to-play-modal";
+import Multiplayer from "./_components/multiplayer";
 
 export default function Game() {
   const router = useRouter();
@@ -42,12 +44,17 @@ export default function Game() {
   }
 
   useEffect(() => {
-    async function fetchRules(){
+    async function fetchRules() {
       try {
         const response = await api.get("/game/rules/config");
         const responseData = response.data;
-        const nmpz = responseData.filter((rule:any) => rule.key === "nmpz")[0];
-        nmpz.name = <span title="No moving, No panning, No zooming"><b>NMPZ</b><FaQuestionCircle className="ml-2 inline" /></span>;
+        const nmpz = responseData.filter((rule: any) => rule.key === "nmpz")[0];
+        nmpz.name = (
+          <span title="No moving, No panning, No zooming">
+            <b>NMPZ</b>
+            <FaQuestionCircle className="ml-2 inline" />
+          </span>
+        );
         setRulesConfig(responseData);
         if (lastSetting.map_id === undefined) {
           const defaultRules = await api.get("/session/default");
@@ -57,8 +64,8 @@ export default function Game() {
         }
       } catch (err) {
         console.error("Failed to fetch rules config:", err);
-      } 
-    };
+      }
+    }
     fetchRules();
   }, []);
 
@@ -76,7 +83,7 @@ export default function Game() {
           setGameSettings({
             ...rules,
             mapName: mapName,
-          })
+          }),
         );
         const { id } = response.data;
 
@@ -88,13 +95,12 @@ export default function Game() {
     }
   };
 
-  const setSingleRule = (key:string, value:any) =>{
-    setRules((prevRules:any) => ({
+  const setSingleRule = (key: string, value: any) => {
+    setRules((prevRules: any) => ({
       ...prevRules,
-      [key]: value
+      [key]: value,
     }));
-
-  }
+  };
 
   const addMap = (id: string, name: string) => {
     setIsModalOpen(false);
@@ -102,28 +108,24 @@ export default function Game() {
     setMapName(name);
   };
 
-  if(!rules.map_id || !rulesConfig){
-    return <ProtectedRoutes allowDemo={true}><Loading/></ProtectedRoutes>
+  if (!rules.map_id || !rulesConfig) {
+    return (
+      <ProtectedRoutes allowDemo={true}>
+        <Loading />
+      </ProtectedRoutes>
+    );
   }
-  
 
   return (
     <ProtectedRoutes allowDemo={true}>
       <div className="relative">
-      <div className="navbar-buffer md:h-0" />
+        <div className="navbar-buffer md:h-0" />
         <div className="flex items-center justify-center min-h-screen text-white p-6 w-full h-full">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-y-8 border-white border-4 shadow-lg rounded-2xl py-6 form-window divide-x divide-x-3">
-            
             <div className="w-full px-4 h-full">
-              <h2 className="text-xl font-semibold mb-4 text-center">
-                Singleplayer
-              </h2>
+              <h2 className="text-xl font-semibold mb-4 text-center">Singleplayer</h2>
               <div className="mb-4 relative">
-                <div
-                  className="block mb-2 text-white"
-                >
-                  Map Name
-                </div>
+                <div className="block mb-2 text-white">Map Name</div>
                 <button
                   className="game-setup-btn w-full py-2 rounded-lg font-semibold"
                   disabled={loading}
@@ -134,8 +136,8 @@ export default function Game() {
                   <FaMagnifyingGlass className="inline" /> {mapName}
                 </button>
               </div>
-              {
-                rulesConfig && rulesConfig.map((data:any) => (
+              {rulesConfig &&
+                rulesConfig.map((data: any) => (
                   <div className="mb-6" key={data.key}>
                     <UserInput
                       key={data.key}
@@ -147,8 +149,7 @@ export default function Game() {
                       editable={true}
                     />
                   </div>
-                ))
-              }
+                ))}
               <button
                 disabled={loading}
                 className="game-setup-btn w-full py-2 rounded-lg font-semibold"
@@ -161,11 +162,7 @@ export default function Game() {
               <Daily loading={loading} setLoading={setLoading} />
             </div>
             <div className="border-t-2 md:border-t-0">
-              <Multiplayer
-                loading={loading}
-                setLoading={setLoading}
-                setError={setError}
-              />
+              <Multiplayer loading={loading} setLoading={setLoading} setError={setError} />
             </div>
           </div>
         </div>
@@ -183,7 +180,7 @@ export default function Game() {
           <MapSearch mapSelect={addMap} pageSize={12} bodySize="60vh" />
         </Modal>
 
-        {!isHowToPlayOpen &&
+        {!isHowToPlayOpen && (
           <div className="fixed bottom-4 right-8 z-50">
             <button
               className="
@@ -195,8 +192,8 @@ export default function Game() {
               How to Play
             </button>
           </div>
-        }
-        <HowToPlayModal onClose={() => setIsHowToPlayOpen(false)} open={isHowToPlayOpen}/>
+        )}
+        <HowToPlayModal onClose={() => setIsHowToPlayOpen(false)} open={isHowToPlayOpen} />
       </div>
     </ProtectedRoutes>
   );

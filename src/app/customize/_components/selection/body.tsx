@@ -1,6 +1,6 @@
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
 import CosmeticScrollBox from "@/features/cosmetics/components/cosmetics-box";
 import { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
+import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
 
 export default function BodySelection({
   userIcon,

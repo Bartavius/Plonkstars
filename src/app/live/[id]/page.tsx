@@ -1,20 +1,21 @@
 "use client";
+import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+
+import useLiveSocket from "@/app/live/_hooks/use-live-socket";
 import ProtectedRoutes from "@/features/auth/components/protected-routes";
 import GamePlay from "@/features/challenge/components/gameplay";
 import Loading from "@/components/primitives/loading";
-import api from "@/services/api";
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import useLiveSocket from "@/app/live/_hooks/use-live-socket";
 import Popup from "@/components/primitives/popup";
 import UserIcon from "@/features/user/components/user-icon";
 import calculateOffset from "@/lib/clock-offset";
+import api from "@/services/api";
 
 export default function Page() {
-  const [round,setRound] = useState<any>();
-  const [state,setState] = useState<any>();
-  const [guesses,setGuesses] = useState<number>(0);
-  const [players,setPlayers] = useState<number>(0);
+  const [round, setRound] = useState<any>();
+  const [state, setState] = useState<any>();
+  const [guesses, setGuesses] = useState<number>(0);
+  const [players, setPlayers] = useState<number>(0);
   const [lat, setLat] = useState<number>();
   const [lng, setLng] = useState<number>();
   const [canGuess, setCanGuess] = useState<boolean>(true);
@@ -26,7 +27,7 @@ export default function Page() {
   const params = useParams();
   const id = params.id;
 
-  async function getRound(){
+  async function getRound() {
     const response = await api.get(`/game/round?id=${id}`);
     setRound(response.data);
     return response;
@@ -42,14 +43,13 @@ export default function Page() {
         setLng(state.data.lng);
         setState(state.data);
 
-        const offset = await calculateOffset(getRound)
+        const offset = await calculateOffset(getRound);
         setOffset(offset);
 
         const cosmetics = await api.get("/account/avatar");
         setCosmetics(cosmetics.data.user_cosmetics);
 
         setLoading(false);
-        
       } catch (err: any) {
         console.log(err);
       }
@@ -57,51 +57,51 @@ export default function Page() {
     fetchLocation(); //render loading screen later
   }, []);
 
-
-
   const socketFunctions = {
-      guess: (data: any) => {
-        setGuesses((prev) => prev + 1);
-        setPopupElement(
-          <div className="flex flex-col justify-center items-center">
-            <UserIcon className="w-[1rem]" data={data.user_cosmetics}/>
-            <div>{data.username} guessed</div>
-          </div>
-        );
-      },
-      join_game: (data: any) => {
-        setPlayers((prev) => prev + 1);
-        setPopupElement(
-          <div className="flex flex-col justify-center items-center">
-            <UserIcon className="w-[1rem]" data={data.user_cosmetics}/>
-            <div>{data.username} joined</div>
-          </div>
-        );
-      }
-  }
+    guess: (data: any) => {
+      setGuesses((prev) => prev + 1);
+      setPopupElement(
+        <div className="flex flex-col justify-center items-center">
+          <UserIcon className="w-[1rem]" data={data.user_cosmetics} />
+          <div>{data.username} guessed</div>
+        </div>,
+      );
+    },
+    join_game: (data: any) => {
+      setPlayers((prev) => prev + 1);
+      setPopupElement(
+        <div className="flex flex-col justify-center items-center">
+          <UserIcon className="w-[1rem]" data={data.user_cosmetics} />
+          <div>{data.username} joined</div>
+        </div>,
+      );
+    },
+  };
 
   const socket = useLiveSocket({
-    id:id?.toString()??"",
+    id: id?.toString() ?? "",
     state,
     functions: socketFunctions,
-  })
+  });
 
   if (loading) {
-    return <ProtectedRoutes><Loading /></ProtectedRoutes>;
+    return (
+      <ProtectedRoutes>
+        <Loading />
+      </ProtectedRoutes>
+    );
   }
 
   const rightFooter = (
     <div className="border border-gray-300 bg-white shadow-md rounded-full text-base font-semibold text-gray-800 mr-4 flex justify-center items-center px-5 py-1.5">
       {guesses}/{players} guesses
     </div>
-  )
+  );
 
   return (
     <ProtectedRoutes>
-      <Popup>
-        {popupElement}
-      </Popup>
-      <GamePlay 
+      <Popup>{popupElement}</Popup>
+      <GamePlay
         userLat={lat}
         userLng={lng}
         canGuess={canGuess}
@@ -113,7 +113,7 @@ export default function Page() {
         totalScore={state.score}
         NMPZ={round.nmpz}
         mapBounds={round.map_bounds}
-        rightFooter={canGuess? undefined: rightFooter}
+        rightFooter={canGuess ? undefined : rightFooter}
         onGuess={() => setCanGuess(false)}
         offset={offset}
         cosmetics={cosmetics}
