@@ -27,7 +27,7 @@
 
 .whirlpool {
   position: absolute;
-  width: 12rem; /* 48 in Tailwind = 12rem */
+  width: 12rem;
   height: 12rem;
   border-radius: 9999px;
   opacity: 0.3;

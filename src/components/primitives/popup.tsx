@@ -68,7 +68,6 @@ export default function Popup({
   useEffect(() => {
     showPopup();
 
-    // Clean up on unmount or prop change
     return () => clearTimeouts();
   }, [update, children]);
 

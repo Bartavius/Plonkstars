@@ -70,7 +70,7 @@ export default function Page() {
 
         setLoading(false);
       } catch (err: any) {
-        console.log(err);
+        console.error(err);
         if (err.response?.data?.error == "No more rounds are available") {
           router.push(`/game/${id}/summary`);
           return;

@@ -48,7 +48,6 @@ export default function EditMapPage() {
       add: (data) => setBounds((prevBounds) => [...prevBounds, ...data.bounds]),
       remove: (data) =>
         setBounds((prevBounds) => prevBounds.filter((bound) => !data.bounds.includes(bound.id))),
-      reweight: (data) => console.log("Reweight:", data),
       message: (msg) => setConnected(true),
     },
   });

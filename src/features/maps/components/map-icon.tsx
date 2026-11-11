@@ -47,7 +47,6 @@ export default function MapIcon({
       hat: customize?.hat ?? null,
     });
 
-    // Check if icon is cached
     if (iconCache[cacheKey]) {
       setIcon(iconCache[cacheKey]);
       return;
@@ -67,7 +66,6 @@ export default function MapIcon({
         let newIcon;
 
         if (!customize) {
-          // If no customization, use the default image icon
           newIcon = L.icon({
             className: clickable ? "clickable-icon" : "non-clickable-icon",
             iconUrl: iconUrl,
@@ -75,7 +73,6 @@ export default function MapIcon({
             iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
           });
         } else {
-          // Create a divIcon with the UserIcon for customization
           const htmlString = ReactDOMServer.renderToString(<UserIcon data={customize} />);
           newIcon = L.divIcon({
             className: `${clickable ? "clickable-icon" : "non-clickable-icon"}`,

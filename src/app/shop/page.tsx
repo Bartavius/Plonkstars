@@ -165,7 +165,6 @@ interface CrateItems {
   weight: number;
 }
 
-// Map rarities to Tailwind color classes
 const rarityColors: Record<CosmeticTiers | "COINS", string> = {
   COINS: "bg-orange-300 text-orange-900",
   COMMON: "bg-gray-300 text-gray-800",

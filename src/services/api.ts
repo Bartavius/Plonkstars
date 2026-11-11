@@ -30,7 +30,6 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Check for 403 status
     if (error.response?.status === 403 && error.response?.data?.error === "login required") {
       const attemptedUrl = window.location.pathname;
       if (isAuthenticated()) {

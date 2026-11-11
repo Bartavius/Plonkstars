@@ -34,7 +34,6 @@ export default function useSocket({
 
     socket.on("connect", () => {
       socket.emit("join", { ...rooms, token });
-      console.log("Connected");
     });
     Object.keys(functions).forEach((event: string) => {
       socket.on(event, functions[event]);

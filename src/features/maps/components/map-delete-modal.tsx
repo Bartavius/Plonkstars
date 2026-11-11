@@ -44,7 +44,7 @@ export default function MapDeleteModal({
     try {
       await api.delete("/map/edit/delete", { data: { id: id } });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
     router.push("/map");
   }

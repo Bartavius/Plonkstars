@@ -15,7 +15,6 @@ export default function UserIcon({ data, className }: { data: any; className?: s
   return (
     <div className={`${className ? className : "w-full h-full"}`}>
       <div className="relative flex justify-center items-center max-w-full max-h-full aspect-square">
-        {/* Base Avatar */}
         <img
           src="/PlonkStarsAvatar.png"
           style={{
@@ -32,7 +31,6 @@ export default function UserIcon({ data, className }: { data: any; className?: s
           className="w-full h-full pixelated"
         />
 
-        {/* faces */}
         {face && (
           <div
             className="absolute flex justify-center items-center w-full h-full"
@@ -50,7 +48,6 @@ export default function UserIcon({ data, className }: { data: any; className?: s
           </div>
         )}
 
-        {/* body */}
         {body && (
           <div
             className="absolute flex justify-center items-center w-full h-full"
@@ -68,7 +65,6 @@ export default function UserIcon({ data, className }: { data: any; className?: s
           </div>
         )}
 
-        {/* hats */}
         {hat && (
           <div
             className="absolute flex justify-center items-center w-full h-full"

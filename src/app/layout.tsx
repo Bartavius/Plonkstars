@@ -32,7 +32,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google Analytics Script */}
         {!process.env.NEXT_PUBLIC_TESTING && (
           <>
             <Script

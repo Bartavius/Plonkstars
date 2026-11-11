@@ -51,7 +51,7 @@ export default function Page() {
 
         setLoading(false);
       } catch (err: any) {
-        console.log(err);
+        console.error(err);
       }
     };
     fetchLocation(); //render loading screen later

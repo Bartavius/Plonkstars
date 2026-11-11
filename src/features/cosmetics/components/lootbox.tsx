@@ -43,12 +43,10 @@ export default function Lootbox({ tier }: LootboxProps) {
       width="256"
       height="256"
     >
-      {/* Chest base */}
       <rect x="8" y="32" width="48" height="24" fill={colors.base} />
       <rect x="12" y="36" width="40" height="16" fill={colors.lid} />
       <rect x="28" y="44" width="8" height="8" fill={colors.lock} />
 
-      {/* Chest lid */}
       <rect x="8" y="16" width="48" height="16" fill={colors.base} />
       <rect x="12" y="20" width="40" height="8" fill={colors.lid} />
     </svg>

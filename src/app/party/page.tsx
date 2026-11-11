@@ -60,7 +60,6 @@ export default function PartyPage() {
         dispatch(setError(data?.reason));
         router.push("/game");
       },
-      message: (data) => console.log(data),
       add_user: (data) => {
         setUsers((prev: any) => ({
           ...prev,

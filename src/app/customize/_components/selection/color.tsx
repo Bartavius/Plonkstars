@@ -56,7 +56,6 @@ export default function ColorSelection({
           </div>
         </div>
       </div>
-      {/* Hue adjustment */}
       <div className="control-group">
         <label htmlFor="hue-slider">
           <span className="!text-white">Hue</span>
@@ -81,7 +80,6 @@ export default function ColorSelection({
         <span className="value-display !text-white">{userIcon.hue}°</span>
       </div>
 
-      {/* Saturation adjustment */}
       <div className="control-group">
         <label htmlFor="saturation-slider">
           <span className="!text-white">Saturation</span>
@@ -104,7 +102,6 @@ export default function ColorSelection({
         <span className="value-display !text-white">{userIcon.saturation}%</span>
       </div>
 
-      {/* Brightness adjustment */}
       <div className="control-group">
         <label htmlFor="brightness-slider">
           <span className="!text-white">Brightness</span>

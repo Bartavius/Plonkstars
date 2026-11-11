@@ -9,8 +9,6 @@ import DuelsSummary from "@/features/duels/components/summary";
 import api from "@/services/api";
 import "./page.css";
 
-// http://localhost:3000/duels/c30c33d3-0578-4e6e-adec-13a4640a14f3/summary
-
 export default function DuelsSummaryPage() {
   const router = useRouter();
   const [locations, setLocations] = useState<{ lat: number; lng: number }[]>([]);
