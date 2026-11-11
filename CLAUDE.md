@@ -43,6 +43,19 @@ needs it.
 - Ask before adding a dependency, changing build/CI setup, or adding a top-level
   directory.
 
+## Delegation
+
+- Pick the lowest orchestration level that fits, judged by risk rather than file
+  count (see the `orchestrator` skill). Reach for `/orchestrate <task>` only for
+  risky or cross-module work; a mechanical rename doesn't need it.
+- One writer per file: only implementers dispatched by `/orchestrate` on
+  file-disjoint slices write; every other subagent is read-only. For web or docs
+  research use `researcher`, not `general-purpose`.
+- Subagents do not inherit the conversation. Every delegated task must state its
+  files, its boundary, and how to verify it.
+- After two failed fixes for the same problem, stop and report what was ruled out
+  (see the `root-cause` skill).
+
 ## Never
 
 - Read or print environment variables or `.env*` contents. Refer to variables by name.

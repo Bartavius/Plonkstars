@@ -42,3 +42,6 @@ next-env.d.ts
 
 
 src/app/test
+# claude code
+.claude/settings.local.json
+HANDOFF.md
