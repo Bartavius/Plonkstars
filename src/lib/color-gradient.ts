@@ -1,34 +1,38 @@
 interface Color {
-    r: number;
-    g: number;
-    b: number;
+  r: number;
+  g: number;
+  b: number;
 }
-export default function colorGradient({
-    colors=[{r: 255, g: 0, b: 0},
-    {r: 255, g: 255, b: 0},
-    {r: 0, g:255, b: 0}],
-    percent,
-}:{
-    colors?: Color[],
-    percent: number
-}){
-    percent = Math.max(0, Math.min(1, percent));
+interface ColorGradientOptions {
+  colors?: Color[];
+  percent: number;
+}
 
-    if (percent == 1){
-        const lastColor = colors[colors.length - 1];
-        return `rgb(${lastColor.r}, ${lastColor.g}, ${lastColor.b})`;
-    }
+export function colorGradient({
+  colors = [
+    { r: 255, g: 0, b: 0 },
+    { r: 255, g: 255, b: 0 },
+    { r: 0, g: 255, b: 0 },
+  ],
+  percent,
+}: ColorGradientOptions) {
+  percent = Math.max(0, Math.min(1, percent));
 
-    const segmentLength = 1 / (colors.length - 1);
-    const segmentIndex = Math.floor(percent / segmentLength);
-    const segmentPercent = (percent - segmentIndex * segmentLength) / segmentLength;
+  if (percent == 1) {
+    const lastColor = colors[colors.length - 1];
+    return `rgb(${lastColor.r}, ${lastColor.g}, ${lastColor.b})`;
+  }
 
-    const startColor = colors[segmentIndex];
-    const endColor = colors[segmentIndex + 1];
+  const segmentLength = 1 / (colors.length - 1);
+  const segmentIndex = Math.floor(percent / segmentLength);
+  const segmentPercent = (percent - segmentIndex * segmentLength) / segmentLength;
 
-    const r = Math.round(startColor.r + (endColor.r - startColor.r) * segmentPercent);
-    const g = Math.round(startColor.g + (endColor.g - startColor.g) * segmentPercent);
-    const b = Math.round(startColor.b + (endColor.b - startColor.b) * segmentPercent);
+  const startColor = colors[segmentIndex];
+  const endColor = colors[segmentIndex + 1];
 
-    return `rgb(${r}, ${g}, ${b})`;
+  const r = Math.round(startColor.r + (endColor.r - startColor.r) * segmentPercent);
+  const g = Math.round(startColor.g + (endColor.g - startColor.g) * segmentPercent);
+  const b = Math.round(startColor.b + (endColor.b - startColor.b) * segmentPercent);
+
+  return `rgb(${r}, ${g}, ${b})`;
 }

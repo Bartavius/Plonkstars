@@ -1,28 +1,27 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-/* @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); */
 
 :root {
-  --lightest-blue     : rgba(201, 233, 238, 1);
-  --lighter-blue      : rgba(170, 222, 231, 1);
-  --theme-blue        : rgba(132, 188, 221, 1);
-  --dark-blue         : rgba( 89, 162, 205, 1);
-  --darker-blue       : rgba( 30,  75, 102, 1);
-  --darkest-blue      : rgba(  0,  25,  51, 1);
-  --pastel-dark-blue  : rgba( 57, 110, 214, 1);
+  --lightest-blue: rgba(201, 233, 238, 1);
+  --lighter-blue: rgba(170, 222, 231, 1);
+  --theme-blue: rgba(132, 188, 221, 1);
+  --dark-blue: rgba(89, 162, 205, 1);
+  --darker-blue: rgba(30, 75, 102, 1);
+  --darkest-blue: rgba(0, 25, 51, 1);
+  --pastel-dark-blue: rgba(57, 110, 214, 1);
 
-  --color-accent-gold : rgba(255, 215,   0, 1);
-  --leaderboard-yellow: rgba(220, 207,  24, 1);
-  --color-green    : rgb(26, 163, 26);
+  --color-accent-gold: rgba(255, 215, 0, 1);
+  --leaderboard-yellow: rgba(220, 207, 24, 1);
+  --color-green: rgb(26, 163, 26);
 
-  --plonk-stars-red   : rgba(220,  80,  75, 1);
-  --plonk-stars-white : rgba(235, 235, 235, 1);
+  --plonk-stars-red: rgba(220, 80, 75, 1);
+  --plonk-stars-white: rgba(235, 235, 235, 1);
 
-  --navbar-height     : 4rem;
+  --navbar-height: 4rem;
 }
 
-html{
+html {
   overflow: hidden;
 }
 
@@ -65,7 +64,7 @@ body {
 .btn-primary:hover {
   background-color: var(--plonk-stars-red);
   transform: scale(1.02);
-  box-shadow: 0px 3px 10px rgba(  0,  25,  51, 0.3);
+  box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
 }
 
 .btn-primary:active {
@@ -173,7 +172,7 @@ body {
   color: var(--blue4);
 }
 
-.navbar-buffer{
+.navbar-buffer {
   height: var(--navbar-height);
 }
 
@@ -185,7 +184,7 @@ body {
   width: 100%;
 }
 
-.dark-hover-button{
+.dark-hover-button {
   transition: filter 0.2s ease-in-out;
 }
 
@@ -201,10 +200,10 @@ body {
 }
 
 .no-scrollbar::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
-.gray-disabled:disabled{
+.gray-disabled:disabled {
   background-color: gray;
 }
 
@@ -214,13 +213,13 @@ body {
 
 button:disabled {
   cursor: not-allowed;
-  opacity: .5;
+  opacity: 0.5;
 }
 
-.text-shadow-dark{
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+.text-shadow-dark {
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
 }
 
-.text-shadow-light{
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+.text-shadow-light {
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
 }

@@ -2,20 +2,25 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Table from "@/components/primitives/table";
-import Loading from "@/components/primitives/loading";
-import api from "@/services/api";
 import { FaArrowRight } from "react-icons/fa";
 
+import { Table } from "@/components/primitives/table";
+import { Loading } from "@/components/primitives/loading";
 import "@/app/map/[id]/leaderboard/page.css";
 import { isDemo } from "@/features/auth/services/session";
+import { api } from "@/services/api";
+import type { UserProfile } from "@/features/user/types/user-profile";
+import type { MapLeaderboardPage } from "@/app/map/[id]/_types/map-leaderboard";
+interface MapLeaderboardProps {
+  mapID: string;
+}
 
-export default function MapLeaderboard({ mapID }: { mapID: string }) {
-  const [leaderboard, setLeaderboard] = useState<any[]>();
+function MapLeaderboard({ mapID }: MapLeaderboardProps) {
+  const [leaderboard, setLeaderboard] = useState<Record<string, React.ReactNode>[]>();
   const [page, setPage] = useState<number>(1);
   const [hasNext, setHasNext] = useState<boolean>(false);
   const [NMPZ, setNMPZ] = useState(false);
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<MapLeaderboardPage>();
   const resultsPerPage = 20;
 
   const router = useRouter();
@@ -23,8 +28,8 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
 
   const distanceString = (distance: number) => {
     if (distance < 0) {
-return "N/A";
-}
+      return "N/A";
+    }
     const m = Math.round(distance * 1000);
     const km = Math.round(m / 10) / 100;
     const num = km > 1 ? km : m;
@@ -34,37 +39,38 @@ return "N/A";
 
   const timeString = (time: number) => {
     if (time < 0) {
-return "N/A";
-}
+      return "N/A";
+    }
     const minutes = Math.floor(time / 60);
     const seconds = Math.round((time % 60) * 10) / 10;
     return minutes > 0
-      ? `${minutes.toString().padStart(2, "0")}:${seconds
-            .toFixed(1)
-            .padStart(4, "0")}`: `${seconds}s`;
+      ? `${minutes.toString().padStart(2, "0")}:${seconds.toFixed(1).padStart(4, "0")}`
+      : `${seconds}s`;
   };
 
   const getLeaderboard = async () => {
     try {
+      const user = demo
+        ? { data: { username: "demo" } }
+        : await api.get<UserProfile>("/account/avatar");
 
-      const user = demo? {data:{username:"demo"}} : await api.get("/account/avatar");
-
-      const response = await api.get(
-        `/map/leaderboard?id=${mapID}&per_page=${resultsPerPage}&page=${page}&nmpz=${NMPZ}`
+      const response = await api.get<MapLeaderboardPage>(
+        `/map/leaderboard?id=${mapID}&per_page=${resultsPerPage}&page=${page}&nmpz=${NMPZ}`,
       );
       setLeaderboard(
-        response.data.data.map((row: any) => ({
-          heading: 
-          <div className="leaderboard-rank-box">
-            <div className="rank-number-text">#{row.rank}</div>
-            <div className="user-name-text">{row.user.username}</div>
-          </div>,
+        response.data.data.map((row) => ({
+          heading: (
+            <div className="leaderboard-rank-box">
+              <div className="rank-number-text">#{row.rank}</div>
+              <div className="user-name-text">{row.user.username}</div>
+            </div>
+          ),
           rounds: row.rounds,
           average_score: row.average_score.toFixed(2),
           average_distance: distanceString(row.average_distance),
           average_time: timeString(row.average_time),
           style: row.user.username === user.data.username ? "leaderboard-highlight-self-row" : "",
-        }))
+        })),
       );
       setHasNext(page < response.data.pages);
       setData(response.data);
@@ -75,11 +81,11 @@ return "N/A";
 
   const topGame = (rowNumber: number) => {
     if (!data) {
-return;
-}
+      return;
+    }
     const row = data.data[rowNumber];
     router.push(`/map/${mapID}/best?user=${row.user.username}&nmpz=${NMPZ}`);
-  }
+  };
 
   useEffect(() => {
     getLeaderboard();
@@ -96,7 +102,6 @@ return;
     return <Loading />;
   }
 
-
   return (
     <div>
       <button
@@ -107,7 +112,9 @@ return;
           setNMPZ(!NMPZ);
           setPage(1);
         }}
-      >{NMPZ ? "Normal" : "NMPZ"} <FaArrowRight className="inline"/> </button>
+      >
+        {NMPZ ? "Normal" : "NMPZ"} <FaArrowRight className="inline" />{" "}
+      </button>
       <Table
         rowHeader="heading"
         className="leaderboard-table"
@@ -115,7 +122,7 @@ return;
         data={leaderboard}
         onClickRow={topGame}
       />
-      
+
       <div className="flex justify-between">
         {page != 1 ? (
           <button onClick={() => setPage(page - 1)} className="btn next-button">
@@ -132,9 +139,9 @@ return;
           <div></div>
         )}
       </div>
-      {
-        demo && <div className="map-leaderboard-demo-text">Login to get on the leaderboard</div>
-      }
+      {demo && <div className="map-leaderboard-demo-text">Login to get on the leaderboard</div>}
     </div>
   );
 }
+
+export { MapLeaderboard };

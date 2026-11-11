@@ -22,7 +22,7 @@
 .link-button:hover {
   background-color: var(--darker-blue);
   transform: scale(1.02);
-  box-shadow: 0px 3px 10px rgba(  0,  25,  51, 0.3);
+  box-shadow: 0px 3px 10px rgba(0, 25, 51, 0.3);
 }
 
 .link-button:active {
@@ -31,8 +31,8 @@
 
 .link-text {
   opacity: 0;
-  overflow-x:auto;
-  overflow-y:hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
   visibility: hidden;
   transform: translateX(40px);
@@ -56,11 +56,11 @@
 }
 
 .button-icon {
-  font-size:1rem;
+  font-size: 1rem;
   margin-right: 0.5rem;
 }
 
-.summary-leaderboard-button{
+.summary-leaderboard-button {
   background-color: var(--leaderboard-yellow);
   display: flex;
   align-items: center;
@@ -74,5 +74,4 @@
   border-radius: 1rem;
   margin-right: 0.25rem;
   margin-left: 0.25rem;
-  
 }

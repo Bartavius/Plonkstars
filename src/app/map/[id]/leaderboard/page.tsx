@@ -1,91 +1,109 @@
 "use client";
 
-import MapLeaderboard from "./_components/leaderboard";
+/* eslint-disable import/order -- Sorting these imports would reorder stylesheets, since
+   CSS loads in import order. See "Imports" in CLAUDE.md. */
+import { motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { IoIosStats, IoMdArrowRoundBack } from "react-icons/io";
+
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { isDemo } from "@/features/auth/services/session";
+import { api } from "@/services/api";
+
+import { MapLeaderboard } from "./_components/leaderboard";
+
 import "@/app/map/[id]/page.css";
 import "./page.css";
-import { IoIosStats, IoMdArrowRoundBack } from "react-icons/io";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import api from "@/services/api";
-import Loading from "@/components/primitives/loading";
-import MapInfoCard from "@/features/maps/components/map-info-card";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import { isDemo } from "@/features/auth/services/session";
+import { Loading } from "@/components/primitives/loading";
+import { MapInfoCard } from "@/features/maps/components/map-info-card";
+import type { MapStats } from "@/features/maps/types/map-stats";
 
-export default function MapLeaderboardPage(){
-    const [stats, setStats] = useState<any>();
-    const [loading, setLoading] = useState<boolean>();
-    const [permission, setPermission] = useState<number>(0);
-    const mapID = useParams().id ?? "";
-    const router = useRouter();
+export default function MapLeaderboardPage() {
+  const [stats, setStats] = useState<MapStats>();
+  const [loading, setLoading] = useState<boolean>();
+  const [permission, setPermission] = useState<number>(0);
+  const mapID = useParams().id ?? "";
+  const router = useRouter();
 
-    const demo = isDemo();
+  const demo = isDemo();
 
-    const mapStats = () => {
-        setLoading(true);
-        router.push(`/map/${mapID}`);
+  const mapStats = () => {
+    setLoading(true);
+    router.push(`/map/${mapID}`);
+  };
+
+  const goBack = () => {
+    setLoading(true);
+    router.push("/map");
+  };
+
+  const getMapInfo = async () => {
+    try {
+      const stats = await api.get<MapStats>(`/map/stats?id=${mapID}`);
+      setStats(stats.data);
+      if (demo) {
+        setPermission(0);
+      } else {
+        const permission = await api.get(`/map/edit?id=${mapID}`);
+        setPermission(permission.data.permission);
+      }
+      setLoading(false);
+    } catch (error) {
+      router.push("/map");
     }
+  };
 
-    const goBack = () => {
-        setLoading(true);
-        router.push("/map");
-    }
+  useEffect(() => {
+    getMapInfo();
+  }, []);
 
-    const getMapInfo = async () => {
-        try {
-            const stats = await api.get(`/map/stats?id=${mapID}`);
-            setStats(stats.data);
-            if (demo){
-                setPermission(0);
-            } else{
-                const permission = await api.get(`/map/edit?id=${mapID}`);
-                setPermission(permission.data.permission);
-            }
-            setLoading(false);
-        } catch (error) {
-            router.push("/map");
-        }
-    }
-
-    useEffect(() => {
-        getMapInfo();
-    }, []);
-
-
-    if (!stats || loading === undefined) {
-        return <ProtectedRoutes allowDemo={true}><Loading/></ProtectedRoutes>;
-    }
-
+  if (!stats || loading === undefined) {
     return (
-        <ProtectedRoutes allowDemo={true}>
-            <div className="relative">
-                <div className="navbar-buffer"/>
-                <button disabled={loading} className="map-search-back-button" onClick={goBack}>
-                    <IoMdArrowRoundBack className="map-search-back dark-hover-button"/>
-                </button>
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1 }}
-                    className="map-info-card-wrapper"
-                >
-                    <MapInfoCard stats={stats} permission={permission} loading={loading} setLoading={setLoading}>
-                        <button disabled={loading} className="map-leaderboard-button map-info-button dark-hover-button gray-disabled" onClick={mapStats}>
-                            <IoIosStats className="map-info-button-icon"/>
-                            Stats
-                        </button>
-                    </MapInfoCard>
-                </motion.div>
-                <div className="title-header-wrapper">
-                    <div className="title-header">Leaderboard</div>
-                </div>
-                <div className="map-leaderboard-wrapper">
-                    <div className="map-leaderboard-box relative">
-                        <MapLeaderboard mapID={mapID.toString()}/>
-                    </div>
-                </div>
-            </div>
-        </ProtectedRoutes>
-    )
+      <ProtectedRoutes allowDemo={true}>
+        <Loading />
+      </ProtectedRoutes>
+    );
+  }
+
+  return (
+    <ProtectedRoutes allowDemo={true}>
+      <div className="relative">
+        <div className="navbar-buffer" />
+        <button disabled={loading} className="map-search-back-button" onClick={goBack}>
+          <IoMdArrowRoundBack className="map-search-back dark-hover-button" />
+        </button>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="map-info-card-wrapper"
+        >
+          <MapInfoCard
+            stats={stats}
+            permission={permission}
+            loading={loading}
+            setLoading={setLoading}
+          >
+            <button
+              disabled={loading}
+              className="map-leaderboard-button map-info-button dark-hover-button gray-disabled"
+              onClick={mapStats}
+            >
+              <IoIosStats className="map-info-button-icon" />
+              Stats
+            </button>
+          </MapInfoCard>
+        </motion.div>
+        <div className="title-header-wrapper">
+          <div className="title-header">Leaderboard</div>
+        </div>
+        <div className="map-leaderboard-wrapper">
+          <div className="map-leaderboard-box relative">
+            <MapLeaderboard mapID={mapID.toString()} />
+          </div>
+        </div>
+      </div>
+    </ProtectedRoutes>
+  );
 }

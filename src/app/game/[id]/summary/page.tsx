@@ -1,19 +1,21 @@
 "use client";
-import { useEffect, useState } from "react";
-import api from "@/services/api";
-import { useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import Loading from "@/components/primitives/loading";
-import Summary from "@/features/challenge/components/summary";
-import { ImLink } from "react-icons/im";
-import "./page.css";
-import Popup from "@/components/primitives/popup";
+import { useEffect, useState } from "react";
 import { CgCopy } from "react-icons/cg";
 import { FaMedal } from "react-icons/fa";
+import { ImLink } from "react-icons/im";
 import { IoIosStats } from "react-icons/io";
+
+import { Loading } from "@/components/primitives/loading";
+import { LoginTooltipWrapper } from "@/features/auth/components/login-tooltip-wrapper";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { isDemo } from "@/features/auth/services/session";
-import LoginTooltipWrapper from "@/features/auth/components/login-tooltip-wrapper";
+import { Summary } from "@/features/challenge/components/summary";
+import { api } from "@/services/api";
+import "./page.css";
+import { Popup } from "@/components/primitives/popup";
+import { useAppSelector } from "@/store/use-app-selector";
+import type { GameSummary } from "@/features/challenge/types/game-summary";
 
 interface Location {
   lat: number;
@@ -22,22 +24,21 @@ interface Location {
 
 export default function SummaryPage() {
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
-  const previousGame = useSelector((state: any) => state.game);
+  const previousGame = useAppSelector((state) => state.game);
   const [locations, setLocations] = useState<Location[]>([]);
   const [user, setUser] = useState<string>("");
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<GameSummary>();
   const [showLink, setShowLink] = useState(false);
   const [update, setUpdate] = useState(0);
   const [leaderboard, setLeaderboard] = useState<boolean>(false);
   const [isHost, setIsHost] = useState<boolean>();
-  
+
   const params = useParams();
   const router = useRouter();
   const challengeLink = `${window.location.origin}/game/${params.id}/challenge`;
 
   const demo = isDemo();
-  const demoAvatar = useSelector((state: any) => state.demoAvatar);
-
+  const demoAvatar = useAppSelector((state) => state.demoAvatar);
 
   const startNewGame = async () => {
     try {
@@ -49,7 +50,7 @@ export default function SummaryPage() {
       });
       const { id } = response.data;
       router.push(`/game/${id}/join`);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
     }
   };
@@ -61,7 +62,7 @@ export default function SummaryPage() {
 
   const gameMenu = () => {
     router.push("/game");
-  }
+  };
 
   useEffect(() => {
     if (!params.id) {
@@ -69,8 +70,8 @@ export default function SummaryPage() {
     }
     const fetchGuesses = async () => {
       try {
-        const res = await api.get(`/game/summary?id=${params.id}`);
-      
+        const res = await api.get<GameSummary>(`/game/summary?id=${params.id}`);
+
         setLocations(res.data.rounds);
         setUser(res.data.this_user);
         setData(res.data);
@@ -108,72 +109,91 @@ export default function SummaryPage() {
   }, [isHost]);
 
   if (!data || isHost === undefined) {
-    return <ProtectedRoutes allowDemo={true}><Loading /></ProtectedRoutes>;
+    return (
+      <ProtectedRoutes allowDemo={true}>
+        <Loading />
+      </ProtectedRoutes>
+    );
   }
- 
+
   return (
     <ProtectedRoutes allowDemo={true}>
-      <Popup update={update}>
-        {update=== 0? undefined: "Link Copied"}
-      </Popup>
+      <Popup update={update}>{update === 0 ? undefined : "Link Copied"}</Popup>
       <div className="summary-container">
-        <Summary 
-          locations={locations} 
-          data={data.users.map((((user:any) => user.user.username === 'demo' && demo ? {...user, user: {...user.user, user_cosmetics: demoAvatar}} : user)))} 
-          user={user} 
+        <Summary
+          locations={locations}
+          data={data.users.map((user) =>
+            user.user.username === "demo" && demo
+              ? { ...user, user: { ...user.user, user_cosmetics: demoAvatar } }
+              : user,
+          )}
+          user={user}
           leaderboard={leaderboard}
         >
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
-              {isHost &&
+              {isHost && (
                 <button className="btn-selected" onClick={gameMenu}>
                   Main Menu
                 </button>
-              }
-              <button className="summary-leaderboard-button" onClick={()=>setLeaderboard(!leaderboard)}>
-                {leaderboard? 
+              )}
+              <button
+                className="summary-leaderboard-button"
+                onClick={() => setLeaderboard(!leaderboard)}
+              >
+                {leaderboard ? (
                   <>
-                    <IoIosStats className="button-icon"/>
+                    <IoIosStats className="button-icon" />
                     Your Stats
                   </>
-                  : 
+                ) : (
                   <>
-                    <FaMedal className="button-icon"/>
+                    <FaMedal className="button-icon" />
                     Leaderboard
                   </>
-                }
-                
+                )}
               </button>
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-center text-dark flex-1">
-                Game Summary
-              </h2>
+              <h2 className="text-3xl font-bold text-center text-dark flex-1">Game Summary</h2>
             </div>
-            <div className= "flex justify-end">
+            <div className="flex justify-end">
               <div className={`link-text ${showLink ? "visible" : ""} no-scrollbar`}>
                 {challengeLink}
               </div>
-              {!showLink && 
-                <LoginTooltipWrapper demo={demo} message="Create an account to challenge your friends!">
-                  <button disabled={demo} className={`link-button`} onClick={()=>setShowLink(true)} title="Challenge Link">
-                    <ImLink/>
+              {!showLink && (
+                <LoginTooltipWrapper
+                  demo={demo}
+                  message="Create an account to challenge your friends!"
+                >
+                  <button
+                    disabled={demo}
+                    className={`link-button`}
+                    onClick={() => setShowLink(true)}
+                    title="Challenge Link"
+                  >
+                    <ImLink />
                   </button>
                 </LoginTooltipWrapper>
-              }
-              {showLink &&
-                <button className={`link-button copy-link-button`} onClick={copyLink} title="Copy Link">
-                  <CgCopy/>
+              )}
+              {showLink && (
+                <button
+                  className={`link-button copy-link-button`}
+                  onClick={copyLink}
+                  title="Copy Link"
+                >
+                  <CgCopy />
                 </button>
-              }
-              {isHost ?
+              )}
+              {isHost ? (
                 <button className="ml-1 btn-primary" onClick={startNewGame}>
                   Next Game
-                </button>:
+                </button>
+              ) : (
                 <button className="ml-1 btn-primary" onClick={gameMenu}>
                   Back To Menu
-               </button>
-              }
+                </button>
+              )}
             </div>
           </div>
         </Summary>

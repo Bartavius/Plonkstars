@@ -1,9 +1,10 @@
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react"
-import "./globals.css";
-import ReduxProvider from "./_components/redux-provider";
 import Script from "next/script";
+
+import "./globals.css";
+import { ReduxProvider } from "./_components/redux-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,15 +32,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google Analytics Script */}
-      {!process.env.NEXT_PUBLIC_TESTING &&
-        <>
-          <Script
-            strategy="afterInteractive"
-            src={`https://www.googletagmanager.com/gtag/js?id=G-XKEFBP3BY6`}
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`
+        {!process.env.NEXT_PUBLIC_TESTING && (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=G-XKEFBP3BY6`}
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
@@ -47,19 +47,13 @@ export default function RootLayout({
                 page_path: window.location.pathname,
               });
             `}
-          </Script>
-        </>
-      }
+            </Script>
+          </>
+        )}
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ReduxProvider>
-          {children}
-        </ReduxProvider>
-        {!process.env.NEXT_PUBLIC_TESTING &&
-          <Analytics />
-        }
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ReduxProvider>{children}</ReduxProvider>
+        {!process.env.NEXT_PUBLIC_TESTING && <Analytics />}
       </body>
     </html>
   );

@@ -1,18 +1,21 @@
-import "@/app/customize/page.css";
-import { useEffect, useState } from "react";
-import api from "@/services/api";
-import UserIcon from "@/features/user/components/user-icon";
-import ColorSelection from "./selection/color";
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
-import HatSelection from "./selection/hat";
-import BodySelection from "./selection/body";
-import FaceSelection from "./selection/face";
-import { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
-import { isDemo } from "@/features/auth/services/session";
-import { useDispatch, useSelector } from "react-redux";
-import { setColor } from "@/store/demo-avatar-slice";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
+import "@/app/customize/page.css";
+import { isDemo } from "@/features/auth/services/session";
+import type { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import { UserIcon } from "@/features/user/components/user-icon";
+import { api } from "@/services/api";
+import { setColor } from "@/store/demo-avatar-slice";
+import { useAppSelector } from "@/store/use-app-selector";
+import { getErrorResponse } from "@/services/api-error";
+
+import { BodySelection } from "./selection/body";
+import { ColorSelection } from "./selection/color";
+import { FaceSelection } from "./selection/face";
+import { HatSelection } from "./selection/hat";
 
 enum Tabs {
   COLORS = "colors",
@@ -22,21 +25,24 @@ enum Tabs {
 }
 
 const tabNames = [Tabs.COLORS, Tabs.HATS, Tabs.BODY, Tabs.FACES];
-
-export default function AvatarCustom({
-  setMessage,
-  setType,
-}: {
+interface AvatarCustomProps {
   setMessage: (message: React.ReactNode) => void;
   setType: (type: string) => void;
-}) {
-  const userDemoAvatar = {...useSelector((state:any) => state.demoAvatar), face: null, body: null, hat: null};
+}
+
+function AvatarCustom({ setMessage, setType }: AvatarCustomProps) {
+  const userDemoAvatar = {
+    ...useAppSelector((state) => state.demoAvatar),
+    face: null,
+    body: null,
+    hat: null,
+  };
   const [userIconDefault, setUserIconDefault] = useState<UserIconCosmetics>({
     ...userDemoAvatar,
   });
 
   const [userIcon, setUserIcon] = useState<UserIconCosmetics>({
-    ...userIconDefault
+    ...userIconDefault,
   });
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState<Tabs>(Tabs.COLORS);
@@ -46,31 +52,30 @@ export default function AvatarCustom({
   const router = useRouter();
   const saveAvatarChanges = async () => {
     if (demo) {
-      if(userIcon.face == null && userIcon.body === null && userIcon.hat === null){
+      if (userIcon.face == null && userIcon.body === null && userIcon.hat === null) {
         dispatch(setColor(userIcon));
-        setType('success');
+        setType("success");
         setMessage("Avatar changes saved");
-      } else{
-        setType('error');
+      } else {
+        setType("error");
         setMessage("Cannot use cosmetics in demo mode.");
       }
-    }else{
+    } else {
       try {
         const response = await api.put("/cosmetics/customize", userIcon);
-        setType('success');
+        setType("success");
         setMessage(response.data.message);
-      } catch (error: any) {
-        setType('error');
-        if (error.response && error.response.data && error.response.data.error) {
-          
-          setMessage(`${error.response.data.error}`);
+      } catch (error) {
+        setType("error");
+        const body = getErrorResponse(error)?.data;
+        if (body && body.error) {
+          setMessage(`${body.error}`);
         } else {
           setMessage("Failed to save avatar changes. Please try again.");
         }
       }
     }
   };
-  
 
   const [facesOwned, setFacesOwned] = useState<CosmeticProps[]>([]);
   const [faces, setFaces] = useState<CosmeticProps[]>([]);
@@ -138,7 +143,7 @@ export default function AvatarCustom({
           const response = await api.get("/account/avatar");
           data = response.data.user_cosmetics;
         }
-        
+
         setUserIconDefault({
           hue: data.hue,
           saturation: data.saturation,
@@ -164,7 +169,7 @@ export default function AvatarCustom({
     fetchCosmetics();
   }, []);
 
-        // TODO: user face/body/hat is not being queried properly here
+  // TODO: user face/body/hat is not being queried properly here
 
   if (loading) {
     return <div className="loading">Loading Avatar Customization...</div>;
@@ -174,7 +179,11 @@ export default function AvatarCustom({
     <div className="settings-box">
       <div className="settings-label">Avatar Customization</div>
       <div className="mb-4 text-center text-sm font-semibold text-gray-600">
-        To buy cosmetics, go to the <a className="link" onClick={() => router.push("/shop")}>Shop</a> page.
+        To buy cosmetics, go to the{" "}
+        <a className="link" onClick={() => router.push("/shop")}>
+          Shop
+        </a>{" "}
+        page.
       </div>
       <div className="avatar-customizer-container">
         <div className="avatar-preview">
@@ -217,10 +226,7 @@ export default function AvatarCustom({
             >
               Reset
             </button>
-            <button
-              className="form-button-selected"
-              onClick={() => saveAvatarChanges()}
-            >
+            <button className="form-button-selected" onClick={() => saveAvatarChanges()}>
               Save Changes
             </button>
           </div>
@@ -229,3 +235,5 @@ export default function AvatarCustom({
     </div>
   );
 }
+
+export { AvatarCustom };

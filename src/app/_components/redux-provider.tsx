@@ -1,13 +1,16 @@
+"use client";
 
-'use client';
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistor } from '@/store/store';
-import { Provider } from 'react-redux';
-import { store } from '@/store/store';
-import NavBar from '@/components/primitives/navbar';
+import { NavBar } from "@/components/primitives/navbar";
+import { persistor } from "@/store/store";
+import { store } from "@/store/store";
+interface ReduxProviderProps {
+  children: React.ReactNode;
+}
 
-export default function ReduxProvider({ children }: { children: React.ReactNode }) {
+function ReduxProvider({ children }: ReduxProviderProps) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -16,6 +19,8 @@ export default function ReduxProvider({ children }: { children: React.ReactNode 
         </div>
         {children}
       </PersistGate>
-  </Provider>
-  )
+    </Provider>
+  );
 }
+
+export { ReduxProvider };

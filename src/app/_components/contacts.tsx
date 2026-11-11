@@ -1,6 +1,6 @@
-import ProfileCard from "./profile-card";
+import { ProfileCard } from "./profile-card";
 
-export default function Contacts() {
+function Contacts() {
   const persons = [
     {
       name: "Patrick Zhang",
@@ -31,19 +31,21 @@ export default function Contacts() {
   return (
     <div>
       <div className="contacts-container grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6 p-6 justify-items-center">
-
-  
-      {persons.map((person, number) => (
-        <div key={number}>
-        <ProfileCard
-          image={person.image}
-          name={person.name}
-          title={person.title}
-          body={person.body}
-          linkedin={person.linkedin}
-          github={person.github}
-        /></div>
-      ))}
-    </div></div>
+        {persons.map((person, number) => (
+          <div key={number}>
+            <ProfileCard
+              image={person.image}
+              name={person.name}
+              title={person.title}
+              body={person.body}
+              linkedin={person.linkedin}
+              github={person.github}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
+
+export { Contacts };

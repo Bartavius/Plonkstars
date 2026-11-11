@@ -1,18 +1,14 @@
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
-import CosmeticScrollBox from "@/features/cosmetics/components/cosmetics-box";
-import { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
-
-export default function BodySelection({
-  userIcon,
-  setUserIcon,
-  bodiesOwned,
-  bodiesUnowned,
-}: {
+import { CosmeticScrollBox } from "@/features/cosmetics/components/cosmetics-box";
+import type { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+interface BodySelectionProps {
   userIcon: UserIconCosmetics;
   setUserIcon: (icon: UserIconCosmetics) => void;
   bodiesOwned: CosmeticProps[];
   bodiesUnowned: CosmeticProps[];
-}) {
+}
+
+function BodySelection({ userIcon, setUserIcon, bodiesOwned, bodiesUnowned }: BodySelectionProps) {
   const handleBodyClick = (body: CosmeticProps | null) => {
     setUserIcon({ ...userIcon, body });
   };
@@ -28,3 +24,5 @@ export default function BodySelection({
     </div>
   );
 }
+
+export { BodySelection };

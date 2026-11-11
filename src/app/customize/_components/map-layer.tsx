@@ -1,51 +1,56 @@
-import { setMapType } from "@/store/settings-slice";
-import maps from "@/features/maps/lib/tile-layers";
 import { useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet"
-import { useDispatch, useSelector } from "react-redux";
+import { MapContainer, TileLayer } from "react-leaflet";
+import { useDispatch } from "react-redux";
 
-export default function MapDisplay({setMessage}:{setMessage: (message: React.ReactNode) => void}) {
-    const mapNumber = useSelector((state: any) => state.settings.mapNumber);
-    const [currentMap, setCurrentMap] = useState<number>(mapNumber);
-    const dispatch = useDispatch();
+import { tileLayers } from "@/features/maps/lib/tile-layers";
+import { setMapType } from "@/store/settings-slice";
+import { useAppSelector } from "@/store/use-app-selector";
+interface MapDisplayProps {
+  setMessage: (message: React.ReactNode) => void;
+}
 
-    function saveChanges() {
-        dispatch(setMapType({ mapNumber: currentMap }));
-        setMessage("Changes saved!");
-    };
-      
-    return (
+function MapDisplay({ setMessage }: MapDisplayProps) {
+  const mapNumber = useAppSelector((state) => state.settings.mapNumber);
+  const [currentMap, setCurrentMap] = useState<number>(mapNumber);
+  const dispatch = useDispatch();
+
+  function saveChanges() {
+    dispatch(setMapType({ mapNumber: currentMap }));
+    setMessage("Changes saved!");
+  }
+
+  return (
     <div className="settings-box">
-        <div className="settings-label">Map Type</div>
-        <div className="settings-dropdown">
+      <div className="settings-label">Map Type</div>
+      <div className="settings-dropdown">
         <select
-            id="map-layer-selector"
-            className="settings-dropdown-select"
-            defaultValue={currentMap}
-            onChange={(e) =>
-                setCurrentMap(parseInt((e.target as HTMLSelectElement).value))
-            }
+          id="map-layer-selector"
+          className="settings-dropdown-select"
+          defaultValue={currentMap}
+          onChange={(e) => setCurrentMap(parseInt((e.target as HTMLSelectElement).value))}
         >
-            {maps.map((mapValue: any, index: number) => (
+          {tileLayers.map((mapValue, index) => (
             <option key={index} value={index}>
-                {mapValue.name}
+              {mapValue.name}
             </option>
-            ))}
+          ))}
         </select>
         <MapContainer center={[0, 0]} zoom={0} className="customize-leaflet-map">
-            <TileLayer
-            url={maps[currentMap].url}
-            attribution={maps[currentMap].attribution}
+          <TileLayer
+            url={tileLayers[currentMap].url}
+            attribution={tileLayers[currentMap].attribution}
             tileSize={512}
             zoomOffset={-1}
             detectRetina={true}
             className="leaflet-control-attribution"
-            />
+          />
         </MapContainer>
-        </div>
-        <button className="form-button-selected mt-2" onClick={saveChanges}>
-            Save Changes
-        </button>
+      </div>
+      <button className="form-button-selected mt-2" onClick={saveChanges}>
+        Save Changes
+      </button>
     </div>
-    );
+  );
 }
+
+export { MapDisplay };

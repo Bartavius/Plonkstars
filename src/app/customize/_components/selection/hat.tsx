@@ -1,18 +1,14 @@
-import CosmeticScrollBox from "@/features/cosmetics/components/cosmetics-box";
-import { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
-
-export default function HatSelection({
-  userIcon,
-  setUserIcon,
-  hatsOwned,
-  hatsUnowned,
-}: {
+import { CosmeticScrollBox } from "@/features/cosmetics/components/cosmetics-box";
+import type { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+interface HatSelectionProps {
   userIcon: UserIconCosmetics;
   setUserIcon: (icon: UserIconCosmetics) => void;
   hatsOwned: CosmeticProps[];
   hatsUnowned: CosmeticProps[];
-}) {
+}
+
+function HatSelection({ userIcon, setUserIcon, hatsOwned, hatsUnowned }: HatSelectionProps) {
   const handleHatClick = (hat: CosmeticProps | null) => {
     setUserIcon({ ...userIcon, hat });
   };
@@ -28,3 +24,5 @@ export default function HatSelection({
     </div>
   );
 }
+
+export { HatSelection };

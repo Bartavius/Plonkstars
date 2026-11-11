@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type GameState = {
-  mapName: string|undefined;
-  map_id: string|undefined;
-  time: number|undefined; // in seconds
-  rounds: number|undefined;
-  nmpz: boolean|undefined;
+  mapName: string | undefined;
+  map_id: string | undefined;
+  time: number | undefined; // in seconds
+  rounds: number | undefined;
+  nmpz: boolean | undefined;
 };
 
 const initialState: GameState = {
@@ -20,7 +20,7 @@ const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setGameSettings(state, { payload: { mapName, map_id, time, rounds, nmpz } }) { 
+    setGameSettings(state, { payload: { mapName, map_id, time, rounds, nmpz } }) {
       state.mapName = mapName;
       state.map_id = map_id;
       state.time = time;
@@ -31,8 +31,9 @@ const gameSlice = createSlice({
       state.mapName = mapName;
       state.map_id = map_id;
     },
-}});
+  },
+});
 
-export const { setGameSettings,setGameMap } = gameSlice.actions;
+export const { setGameSettings, setGameMap } = gameSlice.actions;
 
-export default gameSlice.reducer;
+export const gameReducer = gameSlice.reducer;

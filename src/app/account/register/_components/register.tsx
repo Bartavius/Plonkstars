@@ -1,133 +1,139 @@
-import api from '@/services/api';
-import { motion } from 'framer-motion';
-import React, { useState } from 'react';
-import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import { Sigmar } from "next/font/google";
-import { isAuthenticated, isDemo } from '@/features/auth/services/session';
-import { useSelector, useDispatch } from 'react-redux';
-import { clearBlockedURL } from '@/store/error-slice';
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { isAuthenticated, isDemo } from "@/features/auth/services/session";
+import { api } from "@/services/api";
+import { clearBlockedURL } from "@/store/error-slice";
+import { useAppSelector } from "@/store/use-app-selector";
+import { getErrorResponse } from "@/services/api-error";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
-const Register = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
-    const [buttonEnabled,setButtonEnabled] = useState(true);
-    const router = useRouter();
-    const dispatch = useDispatch();
-    
-    const isAuth = isAuthenticated();
-    const demo = isDemo();
+function Register() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [buttonEnabled, setButtonEnabled] = useState(true);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
-    const reduxError = useSelector((state:any) => state.error);
-    const blockedURL = reduxError.loginRequiredUrl ?? "/";
-    
-    if (isAuth && !demo) {
-        dispatch(clearBlockedURL());
-        router.push(blockedURL);
-    }
+  const isAuth = isAuthenticated();
+  const demo = isDemo();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-           
-            {buttonEnabled &&
-                setButtonEnabled(false);
-                if (password !== confirmPassword) {
-                    throw new Error('Passwords do not match');
-                }
-                await api.post('/account/register', {
-                    username,
-                    password,
-                });
-                router.push('/account/login');
-            }
-        } catch (err: any) {
-            setError(err.response?.data?.error || err.message || 'Something went wrong');
-            setButtonEnabled(true);
+  const reduxError = useAppSelector((state) => state.error);
+  const blockedURL = reduxError.loginRequiredUrl ?? "/";
 
+  if (isAuth && !demo) {
+    dispatch(clearBlockedURL());
+    router.push(blockedURL);
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      {
+        buttonEnabled && setButtonEnabled(false);
+        if (password !== confirmPassword) {
+          throw new Error("Passwords do not match");
         }
+        await api.post("/account/register", {
+          username,
+          password,
+        });
+        router.push("/account/login");
+      }
+    } catch (err) {
+      setError(
+        getErrorResponse(err)?.data?.error ||
+          (err instanceof Error ? err.message : undefined) ||
+          "Something went wrong",
+      );
+      setButtonEnabled(true);
     }
-    return (
-        <div className="min-h-screen flex items-center justify-center">
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="w-full max-w-md p-6 form-window shadow-lg rounded-2xl border border-white/10"
-            >
-                <div className="text-center mb-6">
-                    <h2 className={`${sigmar.className} text-white text-4xl`}>Register</h2>
-                </div>
-                {error && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className={`${sigmar.className} mb-4 text-center text-red-600 bg-red-100 p-2 rounded-lg border border-red-400`}
-                        aria-live="polite"
-                    >
-                        {error}
-                    </motion.div>
-                )}
-                <form onSubmit={handleSubmit} className="space-y-4 flex flex-col justify-center">
-                    <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-700"></label>
-                        <input
-                            type="username"
-                            id="username"
-                            placeholder="Enter Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className={`input-field ${sigmar.className}`}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700"></label>
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="Enter Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={`input-field ${sigmar.className}`}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="cpassword" className="block text-sm font-medium text-gray-700"></label>
-                        <input
-                            type="password"
-                            id="cpassword"
-                            placeholder="Confirm Password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            className={`input-field ${sigmar.className}`}
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        disabled={!buttonEnabled}
-                        className={`${buttonEnabled? `form-button-selected` : `form-button-not-selected`} ${sigmar.className} py-2 form-button-general`}
-                    >
-                        Register
-                    </button>
-                </form>
-                <div className={`${sigmar.className} text-white`}>
-                    Already have an account?{" "}
-                    <a 
-                        onClick={(e) => {
-                            e.preventDefault(); 
-                            router.push('/account/login');
-                        }} 
-                        className='link'
-                    >
-                        Login here
-                    </a>
-                </div>
-            </motion.div>
+  };
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md p-6 form-window shadow-lg rounded-2xl border border-white/10"
+      >
+        <div className="text-center mb-6">
+          <h2 className={`${sigmar.className} text-white text-4xl`}>Register</h2>
         </div>
-    );
-};
-export default Register;
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`${sigmar.className} mb-4 text-center text-red-600 bg-red-100 p-2 rounded-lg border border-red-400`}
+            aria-live="polite"
+          >
+            {error}
+          </motion.div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-4 flex flex-col justify-center">
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700"></label>
+            <input
+              type="username"
+              id="username"
+              placeholder="Enter Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className={`input-field ${sigmar.className}`}
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700"></label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={`input-field ${sigmar.className}`}
+            />
+          </div>
+          <div>
+            <label htmlFor="cpassword" className="block text-sm font-medium text-gray-700"></label>
+            <input
+              type="password"
+              id="cpassword"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className={`input-field ${sigmar.className}`}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={!buttonEnabled}
+            className={`${buttonEnabled ? `form-button-selected` : `form-button-not-selected`} ${sigmar.className} py-2 form-button-general`}
+          >
+            Register
+          </button>
+        </form>
+        <div className={`${sigmar.className} text-white`}>
+          Already have an account?{" "}
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/account/login");
+            }}
+            className="link"
+          >
+            Login here
+          </a>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+export { Register };

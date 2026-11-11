@@ -1,72 +1,72 @@
 .accordion-container {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    z-index: 1000;
-    max-width: 300px;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  z-index: 1000;
+  max-width: 300px;
 }
-  
+
 .accordion-toggle {
-    background-color: var(--leaderboard-yellow);
-    padding: 0.5rem;
-    color: white;
-    border: none;
-    border-radius: 1rem;
-    cursor: pointer;
-    margin: 1rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.25rem;
+  background-color: var(--leaderboard-yellow);
+  padding: 0.5rem;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  margin: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
 }
-  
+
 .accordion-content {
-    overflow-y: auto;
-    border-radius: 4px;
-    padding: 0.5rem;
-    min-width: 30vw;
-    max-height: 50vh;
-    background-color: var(--theme-blue);
+  overflow-y: auto;
+  border-radius: 4px;
+  padding: 0.5rem;
+  min-width: 30vw;
+  max-height: 50vh;
+  background-color: var(--theme-blue);
 }
 
 .leaderboard-accordion {
-    bottom: 5rem;
-    left: 1rem;
+  bottom: 5rem;
+  left: 1rem;
 }
 
 .map-accordion {
-    bottom: 5rem;
-    right: 1rem;
+  bottom: 5rem;
+  right: 1rem;
 }
 
-.round-rank-number-text{
-    color:white;
-    font-size: 2rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 0.5rem;
-    align-items: center;
+.round-rank-number-text {
+  color: white;
+  font-size: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+  align-items: center;
 }
 
-.round-leaderboard-avatar{
-    width:2rem;
-}
-  
-.round-user-name-text{
-    color:var(--lightest-blue);
-    font-size: 1rem;
-    height: 100%;
-}
-  
-.round-rank-box{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.round-leaderboard-avatar {
+  width: 2rem;
 }
 
-.round-highlight-self-row{
-    background-color: var(--dark-blue);
+.round-user-name-text {
+  color: var(--lightest-blue);
+  font-size: 1rem;
+  height: 100%;
+}
+
+.round-rank-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.round-highlight-self-row {
+  background-color: var(--dark-blue);
 }

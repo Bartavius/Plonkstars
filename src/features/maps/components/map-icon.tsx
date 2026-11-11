@@ -1,10 +1,10 @@
 import L from "leaflet";
 import { useEffect, useState } from "react";
-import { Marker } from "react-leaflet";
 import ReactDOMServer from "react-dom/server";
-import UserIcon from "@/features/user/components/user-icon";
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import { Marker } from "react-leaflet";
 
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import { UserIcon } from "@/features/user/components/user-icon";
 import "./map-icon.css";
 
 interface Location {
@@ -13,17 +13,7 @@ interface Location {
 }
 
 const iconCache: { [key: string]: L.Icon | L.DivIcon } = {};
-
-export default function MapIcon({
-  pos,
-  clickable = false,
-  onClick,
-  iconUrl,
-  iconSize,
-  iconPercent,
-  customize,
-  children,
-}: {
+interface MapIconProps {
   pos: Location;
   clickable?: boolean;
   onClick?: () => void;
@@ -32,7 +22,18 @@ export default function MapIcon({
   iconPercent?: number;
   customize?: UserIconCosmetics;
   children?: React.ReactNode;
-}) {
+}
+
+function MapIcon({
+  pos,
+  clickable = false,
+  onClick,
+  iconUrl,
+  iconSize,
+  iconPercent,
+  customize,
+  children,
+}: MapIconProps) {
   const [icon, setIcon] = useState<L.Icon | L.DivIcon | null>(null);
 
   useEffect(() => {
@@ -47,7 +48,6 @@ export default function MapIcon({
       hat: customize?.hat ?? null,
     });
 
-    // Check if icon is cached
     if (iconCache[cacheKey]) {
       setIcon(iconCache[cacheKey]);
       return;
@@ -61,13 +61,12 @@ export default function MapIcon({
         const calculatedSize: [number, number] = iconSize
           ? iconSize
           : iconPercent
-          ? [img.width * iconPercent, img.height * iconPercent]
-          : [img.width, img.height];
+            ? [img.width * iconPercent, img.height * iconPercent]
+            : [img.width, img.height];
 
         let newIcon;
 
         if (!customize) {
-          // If no customization, use the default image icon
           newIcon = L.icon({
             className: clickable ? "clickable-icon" : "non-clickable-icon",
             iconUrl: iconUrl,
@@ -75,7 +74,6 @@ export default function MapIcon({
             iconAnchor: [calculatedSize[0] / 2, calculatedSize[1]],
           });
         } else {
-          // Create a divIcon with the UserIcon for customization
           const htmlString = ReactDOMServer.renderToString(<UserIcon data={customize} />);
           newIcon = L.divIcon({
             className: `${clickable ? "clickable-icon" : "non-clickable-icon"}`,
@@ -91,12 +89,11 @@ export default function MapIcon({
     };
 
     loadIcon(); // Trigger the image load
-
   }, [iconUrl, iconSize, iconPercent, customize, clickable]);
 
   if (!icon) {
-return null;
-} // Don't render if icon is not yet loaded
+    return null;
+  } // Don't render if icon is not yet loaded
 
   return (
     <Marker
@@ -110,7 +107,7 @@ return null;
                 : () => {
                     window.open(
                       `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${pos.lat},${pos.lng}`,
-                      "_blank"
+                      "_blank",
                     );
                   },
             }
@@ -121,3 +118,5 @@ return null;
     </Marker>
   );
 }
+
+export { MapIcon };

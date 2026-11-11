@@ -1,26 +1,27 @@
-import maps from "@/features/maps/lib/tile-layers";
-import { TileLayer } from "react-leaflet";
-import { useSelector } from "react-redux";
 import "leaflet/dist/leaflet.css";
+import { TileLayer } from "react-leaflet";
 
-export default function MapTileLayer({
-    size = 256,
-    offset = 0
-}:{
-    size?: number,
-    offset?: number
-}){
-    const mapNumber = useSelector((state: any) => state.settings.mapNumber);
-    const url = maps[mapNumber].url;
-    const attribution =  maps[mapNumber].attribution;
-    return (
-        <TileLayer 
-            url={url} 
-            attribution={attribution} 
-            tileSize={size}
-            zoomOffset={offset}
-            detectRetina={true}
-            className="leaflet-control-attribution"
-        />
-    );
+import { tileLayers } from "@/features/maps/lib/tile-layers";
+import { useAppSelector } from "@/store/use-app-selector";
+interface MapTileLayerProps {
+  size?: number;
+  offset?: number;
 }
+
+function MapTileLayer({ size = 256, offset = 0 }: MapTileLayerProps) {
+  const mapNumber = useAppSelector((state) => state.settings.mapNumber);
+  const url = tileLayers[mapNumber].url;
+  const attribution = tileLayers[mapNumber].attribution;
+  return (
+    <TileLayer
+      url={url}
+      attribution={attribution}
+      tileSize={size}
+      zoomOffset={offset}
+      detectRetina={true}
+      className="leaflet-control-attribution"
+    />
+  );
+}
+
+export { MapTileLayer };

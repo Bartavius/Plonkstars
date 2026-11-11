@@ -1,20 +1,20 @@
-'use client';
+"use client";
 import { Sigmar } from "next/font/google";
-import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FiMenu } from "react-icons/fi";
-import "./navbar.css";
+
 import { isAuthenticated, isDemo } from "@/features/auth/services/session";
+import "./navbar.css";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
-export default function NavBar() {
-
+function NavBar() {
   const router = useRouter();
   const auth = isAuthenticated();
   const demo = isDemo();
-  
+
   const registeredTabs = [
     { tab: "Home", link: "/" },
     { tab: "Game", link: "/game" },
@@ -33,7 +33,7 @@ export default function NavBar() {
     { tab: "Login", link: "/account/login" },
     { tab: "Register", link: "/account/register" },
     { tab: "Contacts", link: "/#contact" },
-  ]
+  ];
 
   const unregisteredTabs = [
     { tab: "Home", link: "/" },
@@ -41,7 +41,6 @@ export default function NavBar() {
     { tab: "Register", link: "/account/register" },
     { tab: "Contacts", link: "/#contact" },
   ];
-  
 
   const params = useParams();
 
@@ -49,7 +48,7 @@ export default function NavBar() {
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   const toggleMenu = () => {
-    setIsMenuOpen(prev => !prev);
+    setIsMenuOpen((prev) => !prev);
   };
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -76,33 +75,30 @@ export default function NavBar() {
           </Link>
           <button
             onClick={toggleMenu}
-            className={`text-gray-200 hamburger ${
-              isMenuOpen && "hamburger-active"
-            }`}
+            className={`text-gray-200 hamburger ${isMenuOpen && "hamburger-active"}`}
           >
             <FiMenu size={24} />
           </button>
         </div>
         <ul className={`navbar-elements ${isMenuOpen && "navbar-elements-open"}`}>
-          {(auth ? (demo? demoTabs: registeredTabs) : unregisteredTabs).map((tab) => (
+          {(auth ? (demo ? demoTabs : registeredTabs) : unregisteredTabs).map((tab) => (
             <li
-              onClick={()=>{
+              onClick={() => {
                 router.push(tab.link);
                 setIsMenuOpen(false);
               }}
               key={tab.tab}
               className={`navbar-element ${
-                Array.isArray(params) && params.includes(tab.tab)
-                  ? "active"
-                  : ""
+                Array.isArray(params) && params.includes(tab.tab) ? "active" : ""
               }`}
             >
               <div>{tab.tab}</div>
             </li>
-            
           ))}
         </ul>
       </nav>
     </div>
   );
 }
+
+export { NavBar };

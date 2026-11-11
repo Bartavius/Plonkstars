@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import "./modal.css";
 
 interface ModalProps {
@@ -7,13 +7,13 @@ interface ModalProps {
   children: ReactNode;
 }
 
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+function Modal({ isOpen, onClose, children }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [clickedOutside, setClickedOutside] = useState(false);
 
   if (!isOpen) {
-return null;
-}
+    return null;
+  }
 
   const handleBackgroundMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     // If the user clicked directly on the backdrop, close the modal
@@ -27,17 +27,17 @@ return null;
       onClose();
     }
     setClickedOutside(false);
-  }
+  };
 
   return (
-    <div 
+    <div
       ref={modalRef}
       onMouseDown={handleBackgroundMouseDown}
       onMouseUp={handleBackgroundMouseUp}
       style={{ zIndex: 100 }}
       className="fixed inset-0 bg-black bg-opacity-50 flex justify-center flex-col items-center"
     >
-      <div className="navbar-buffer"/>
+      <div className="navbar-buffer" />
       <div className="modal-window" onClick={(e) => e.stopPropagation()}>
         <button className="float-right text-xl font-bold" onClick={onClose}>
           &times;
@@ -46,6 +46,6 @@ return null;
       </div>
     </div>
   );
-};
+}
 
-export default Modal;
+export { Modal };

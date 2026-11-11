@@ -1,5 +1,5 @@
-export default function DuelsRoundSummary(){
-    return (
-        <div>Duels Round Summary</div>
-    )
+function DuelsRoundSummary() {
+  return <div>Duels Round Summary</div>;
 }
+
+export { DuelsRoundSummary };

@@ -1,16 +1,16 @@
-.game-panel{
-    position: relative;
-    width: 100%;
-    pointer-events: none;
+.game-panel {
+  position: relative;
+  width: 100%;
+  pointer-events: none;
 }
 
-.text-white{
-    color:white;
+.text-white {
+  color: white;
 }
 
-.score-wrapper{
-    position: relative;
-    height: var(--navbar-height);
-    width: 100%;
-    z-index: 101;
+.score-wrapper {
+  position: relative;
+  height: var(--navbar-height);
+  width: 100%;
+  z-index: 101;
 }

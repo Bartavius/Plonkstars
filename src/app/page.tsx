@@ -1,12 +1,19 @@
 "use client";
 
+/* eslint-disable import/order -- Sorting these imports would reorder stylesheets, since
+   CSS loads in import order. See "Imports" in CLAUDE.md. */
 import { useRouter } from "next/navigation";
-import Contacts from "./_components/contacts";
-import { Sigmar } from "next/font/google";
-import Footer from "@/components/primitives/footer";
+
 import { isAuthenticated } from "@/features/auth/services/session";
+
+import { Contacts } from "./_components/contacts";
+
+import { Sigmar } from "next/font/google";
+
+import { Footer } from "@/components/primitives/footer";
+
 import "./page.css";
-import FeedbackComponent from "./_components/feedback";
+import { FeedbackComponent } from "./_components/feedback";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
@@ -26,7 +33,9 @@ export default function Home() {
       >
         <img src="logo.png" alt="Map of Temperate Climate" className="logoImage" />
 
-        <h1 className={`${sigmar.className} font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl`}>
+        <h1
+          className={`${sigmar.className} font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl`}
+        >
           <span className="text-[var(--plonk-stars-red)]">Plonk</span>
           <span className="text-[var(--plonk-stars-white)]"> Stars</span>
         </h1>
@@ -37,10 +46,26 @@ export default function Home() {
           Get Started
         </button>
       </div>
-      <img src="PlonkStarsMaps/map1.png" alt="Map of Temperate Climate" className="mapImage mapImageTemprate" />
-      <img src="PlonkStarsMaps/map2.png" alt="Map of Red Sand Desert" className="mapImage mapImageCanyon" />
-      <img src="PlonkStarsMaps/map3.png" alt="Map of Temperate Climate" className="mapImage mapImageCity" />
-      <img src="PlonkStarsMaps/map4.png" alt="Map of Red Sand Desert" className="mapImage mapImageArchipelago" />
+      <img
+        src="PlonkStarsMaps/map1.png"
+        alt="Map of Temperate Climate"
+        className="mapImage mapImageTemprate"
+      />
+      <img
+        src="PlonkStarsMaps/map2.png"
+        alt="Map of Red Sand Desert"
+        className="mapImage mapImageCanyon"
+      />
+      <img
+        src="PlonkStarsMaps/map3.png"
+        alt="Map of Temperate Climate"
+        className="mapImage mapImageCity"
+      />
+      <img
+        src="PlonkStarsMaps/map4.png"
+        alt="Map of Red Sand Desert"
+        className="mapImage mapImageArchipelago"
+      />
 
       <div className="relative w-full pt-48 sm:pt-56 md:pt-72">
         <svg
@@ -57,14 +82,21 @@ export default function Home() {
         </svg>
       </div>
 
-      <div id="contact" className="bg-[var(--darker-blue)] w-full -mt-2 pb-6 transition ease-in-out">
+      <div
+        id="contact"
+        className="bg-[var(--darker-blue)] w-full -mt-2 pb-6 transition ease-in-out"
+      >
         <div className="mt-16">
           <div className="p-12">
-            <span className={`${sigmar.className} font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl`}>
+            <span
+              className={`${sigmar.className} font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl`}
+            >
               Who we are
             </span>
-            
-            <div className="mt-12"><Contacts /></div>
+
+            <div className="mt-12">
+              <Contacts />
+            </div>
           </div>
         </div>
       </div>

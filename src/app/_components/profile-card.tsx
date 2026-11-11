@@ -1,29 +1,23 @@
+import Image from "next/image";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 import "./profile-card.css";
 import { Sigmar } from "next/font/google";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
-import Image from "next/image";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
-
-export default function ProfileCard({
-  name,
-  title,
-  body,
-  image,
-  linkedin,
-  github
-}: {
+interface ProfileCardProps {
   name: string;
   title: string;
   body: string;
   image: string;
   linkedin: string;
   github: string;
-}) {
+}
+
+function ProfileCard({ name, title, body, image, linkedin, github }: ProfileCardProps) {
   return (
     <div className={`profile-card-container ${sigmar.className}`}>
       <div className="profile-card-image">
-        <Image src={image} alt={name} width={180} height={360}/>
+        <Image src={image} alt={name} width={180} height={360} />
       </div>
       <div className="profile-card-content">
         <div className="profile-card-name-container">
@@ -50,3 +44,5 @@ export default function ProfileCard({
     </div>
   );
 }
+
+export { ProfileCard };

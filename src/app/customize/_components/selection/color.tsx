@@ -1,25 +1,24 @@
-import colorPresets from "./color-presets.json";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
 import constants from "@/lib/constants.json";
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+
+import colorPresets from "./color-presets.json";
 
 const MAX_HUE = constants.AVATAR_MAX_HUE;
 const MAX_SATURATION = constants.AVATAR_MAX_SATURATION;
 const MAX_BRIGHTNESS = constants.AVATAR_MAX_BRIGHTNESS;
-
-export default function ColorSelection({
-    userIcon,
-  setUserIcon,
-}: {
-    userIcon: UserIconCosmetics;
+interface ColorSelectionProps {
+  userIcon: UserIconCosmetics;
   setUserIcon: (icon: UserIconCosmetics) => void;
-}) {
+}
+
+function ColorSelection({ userIcon, setUserIcon }: ColorSelectionProps) {
   const handleSliderChange = (property: string, value: number) => {
     setUserIcon({ ...userIcon, [property]: value });
   };
 
   const handlePresetClick = (preset: UserIconCosmetics) => {
     setUserIcon({
-        ...userIcon,
+      ...userIcon,
       hue: preset.hue,
       saturation: preset.saturation,
       brightness: preset.brightness,
@@ -33,10 +32,7 @@ export default function ColorSelection({
         <div className="text-center justify-center flex">
           <div className="color-presets">
             {colorPresets.map((preset) => (
-              <div
-                className="flex-column align-center justify-center"
-                key={preset.name}
-              >
+              <div className="flex-column align-center justify-center" key={preset.name}>
                 <label htmlFor={preset.name}>{preset.name}</label>
                 <div
                   id={preset.name}
@@ -58,9 +54,10 @@ export default function ColorSelection({
           </div>
         </div>
       </div>
-      {/* Hue adjustment */}
       <div className="control-group">
-        <label htmlFor="hue-slider"><span className="!text-white">Hue</span></label>
+        <label htmlFor="hue-slider">
+          <span className="!text-white">Hue</span>
+        </label>
         <div className="slider-wrapper">
           <div
             className="hue-slider-background"
@@ -75,17 +72,16 @@ export default function ColorSelection({
             max={`${MAX_HUE}`}
             value={userIcon.hue}
             className="slider hue-slider"
-            onChange={(e) =>
-              handleSliderChange("hue", parseInt(e.target.value))
-            }
+            onChange={(e) => handleSliderChange("hue", parseInt(e.target.value))}
           />
         </div>
         <span className="value-display !text-white">{userIcon.hue}°</span>
       </div>
 
-      {/* Saturation adjustment */}
       <div className="control-group">
-        <label htmlFor="saturation-slider"><span className="!text-white">Saturation</span></label>
+        <label htmlFor="saturation-slider">
+          <span className="!text-white">Saturation</span>
+        </label>
         <div className="slider-wrapper">
           <div
             className="saturation-slider-background slider"
@@ -98,17 +94,16 @@ export default function ColorSelection({
             max={`${MAX_SATURATION}`}
             value={userIcon.saturation}
             className="slider saturation-slider"
-            onChange={(e) =>
-              handleSliderChange("saturation", parseInt(e.target.value))
-            }
+            onChange={(e) => handleSliderChange("saturation", parseInt(e.target.value))}
           />
         </div>
         <span className="value-display !text-white">{userIcon.saturation}%</span>
       </div>
 
-      {/* Brightness adjustment */}
       <div className="control-group">
-        <label htmlFor="brightness-slider"><span className="!text-white">Brightness</span></label>
+        <label htmlFor="brightness-slider">
+          <span className="!text-white">Brightness</span>
+        </label>
         <div className="slider-wrapper">
           <div
             className="brightness-slider-background"
@@ -123,9 +118,7 @@ export default function ColorSelection({
             max={`${MAX_BRIGHTNESS}`}
             value={userIcon.brightness}
             className="slider brightness-slider"
-            onChange={(e) =>
-              handleSliderChange("brightness", parseInt(e.target.value))
-            }
+            onChange={(e) => handleSliderChange("brightness", parseInt(e.target.value))}
           />
         </div>
         <span className="value-display !text-white">{userIcon.brightness}%</span>
@@ -133,3 +126,5 @@ export default function ColorSelection({
     </div>
   );
 }
+
+export { ColorSelection };

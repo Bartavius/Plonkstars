@@ -1,21 +1,17 @@
 import { useState } from "react";
-import StreetView from "./streetview";
-import "./streetview.css"
-import "./map.css"
 
-export default function CombinedMap({
-  correctLat,
-  correctLng,
-  reload,
-  NMPZ,
-  map,
-}: {
+import { StreetView } from "./streetview";
+import "./streetview.css";
+import "./map.css";
+interface CombinedMapProps {
   correctLat: number;
   correctLng: number;
   reload: number;
   NMPZ: boolean;
   map: React.ReactNode;
-}) {
+}
+
+function CombinedMap({ correctLat, correctLng, reload, NMPZ, map }: CombinedMapProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnterMap = () => {
@@ -28,13 +24,12 @@ export default function CombinedMap({
     }, 1000);
   };
 
-  
   return (
     <div className="relative">
       <div className={`${NMPZ ? "NMPZ" : ""} street-view-container`} key={reload}>
-        <StreetView lat={correctLat} lng={correctLng}/>
+        <StreetView lat={correctLat} lng={correctLng} />
       </div>
-      {map &&
+      {map && (
         <div style={{ position: "absolute", bottom: "1.5%", right: "0.8%" }}>
           <div
             className={`game-map-wrapper ${isHovered ? "hovered" : ""}`}
@@ -44,9 +39,9 @@ export default function CombinedMap({
             {map}
           </div>
         </div>
-      }
+      )}
     </div>
   );
 }
 
-
+export { CombinedMap };

@@ -1,6 +1,7 @@
-import { CosmeticTiers } from "@/features/cosmetics/types/cosmetic-tiers";
 import React from "react";
 import { IoIosLock } from "react-icons/io";
+
+import { CosmeticTiers } from "@/features/cosmetics/types/cosmetic-tiers";
 
 type CosmeticDisplayBoxProps = {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ type CosmeticDisplayBoxProps = {
   locked?: boolean;
 };
 
-export default function CosmeticDisplayBox({
+function CosmeticDisplayBox({
   children,
   tier,
   className = "",
@@ -39,8 +40,7 @@ export default function CosmeticDisplayBox({
       shadowClass: "shadow-[0_0_30px_#eab308ff]",
     },
   };
-  const { colorClass, shadowClass } =
-    tierStyles[tier] || tierStyles[CosmeticTiers.COMMON];
+  const { colorClass, shadowClass } = tierStyles[tier] || tierStyles[CosmeticTiers.COMMON];
 
   return (
     <div
@@ -56,3 +56,5 @@ export default function CosmeticDisplayBox({
     </div>
   );
 }
+
+export { CosmeticDisplayBox };

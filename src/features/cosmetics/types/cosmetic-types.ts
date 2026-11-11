@@ -1,5 +1,5 @@
 export enum CosmeticTypes {
-    FACE = "FACE",
-    BODY = "BODY",
-    HAT = "HAT",
+  FACE = "FACE",
+  BODY = "BODY",
+  HAT = "HAT",
 }

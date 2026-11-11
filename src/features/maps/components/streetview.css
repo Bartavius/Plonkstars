@@ -1,28 +1,28 @@
 .street-view-box {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    background-color: black;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: black;
 }
 
 .street-view-iframe {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
-.street-view-container{
-    display: flex;
-    height: 90vh;
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    background-color: white;
+.street-view-container {
+  display: flex;
+  height: 90vh;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: white;
 }
 
 .NMPZ {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .bg-accent1 {
-    background: linear-gradient(to right, var(--theme-blue), var(--lighter-blue));
+  background: linear-gradient(to right, var(--theme-blue), var(--lighter-blue));
 }
