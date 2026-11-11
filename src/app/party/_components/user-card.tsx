@@ -1,18 +1,15 @@
 import { FaCrown } from "react-icons/fa";
 
-import UserIcon from "@/features/user/components/user-icon";
+import { UserIcon } from "@/features/user/components/user-icon";
 import "./user-card.css";
-export default function UserCard({
-  data,
-  className = "",
-  leader = false,
-  children,
-}: {
+interface UserCardProps {
   data: any;
   className?: string;
   leader?: boolean;
   children?: React.ReactNode;
-}) {
+}
+
+function UserCard({ data, className = "", leader = false, children }: UserCardProps) {
   return (
     <div className={`user-card-card ${className}`}>
       <div className="user-card-user-icon">
@@ -26,3 +23,5 @@ export default function UserCard({
     </div>
   );
 }
+
+export { UserCard };

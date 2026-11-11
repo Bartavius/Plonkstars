@@ -1,16 +1,17 @@
-export default function LoginTooltipWrapper({
-  children,
-  message = "Login to use this feature",
-  demo,
-  position = "top",
-  className,
-}: {
+interface LoginTooltipWrapperProps {
   children: React.ReactNode;
   message?: string;
   demo: boolean;
   position?: "top" | "bottom" | "center";
   className?: string;
-}) {
+}
+function LoginTooltipWrapper({
+  children,
+  message = "Login to use this feature",
+  demo,
+  position = "top",
+  className,
+}: LoginTooltipWrapperProps) {
   if (!demo) {
     return <>{children}</>;
   }
@@ -44,3 +45,5 @@ export default function LoginTooltipWrapper({
     </div>
   );
 }
+
+export { LoginTooltipWrapper };

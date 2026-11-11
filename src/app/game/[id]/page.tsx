@@ -3,12 +3,12 @@ import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect, use } from "react";
 import { useSelector } from "react-redux";
 
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { isDemo } from "@/features/auth/services/session";
-import GamePlay from "@/features/challenge/components/gameplay";
-import Loading from "@/components/primitives/loading";
-import calculateOffset from "@/lib/clock-offset";
-import api from "@/services/api";
+import { GamePlay } from "@/features/challenge/components/gameplay";
+import { Loading } from "@/components/primitives/loading";
+import { calculateOffset } from "@/lib/clock-offset";
+import { api } from "@/services/api";
 
 export default function Page() {
   const [data, setData] = useState<any>();

@@ -3,26 +3,21 @@
 import { MapContainer, useMapEvents } from "react-leaflet";
 import { useSelector } from "react-redux";
 
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
 
-import FitBounds from "./fit-bounds";
+import { FitBounds } from "./fit-bounds";
 import "./map.css";
-import MapTileLayer from "./map-tile-layer";
-import MapIcon from "./map-icon";
-
-export default function BasicMapWithMarker({
-  lat,
-  lng,
-  setPos,
-  mapBounds,
-  cosmetics,
-}: {
+import { MapTileLayer } from "./map-tile-layer";
+import { MapIcon } from "./map-icon";
+interface BasicMapWithMarkerProps {
   lat?: number;
   lng?: number;
   setPos: (lat: number, lng: number) => void;
   mapBounds: any;
   cosmetics?: UserIconCosmetics;
-}) {
+}
+
+function BasicMapWithMarker({ lat, lng, setPos, mapBounds, cosmetics }: BasicMapWithMarkerProps) {
   const res = useSelector((state: any) => state.settings.miniMapResolution);
 
   const ClickHandler = () => {
@@ -51,3 +46,5 @@ export default function BasicMapWithMarker({
     </MapContainer>
   );
 }
+
+export { BasicMapWithMarker };

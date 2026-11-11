@@ -1,16 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./popup.css";
-
-export default function Popup({
-  duration = 2000,
-  fadeOut = 1000,
-  background,
-  color,
-  update,
-  className,
-  type = "info",
-  children,
-}: {
+interface PopupProps {
   update?: number;
   duration?: number;
   fadeOut?: number;
@@ -19,7 +9,18 @@ export default function Popup({
   className?: string;
   type?: string | null;
   children?: React.ReactNode;
-}) {
+}
+
+function Popup({
+  duration = 2000,
+  fadeOut = 1000,
+  background,
+  color,
+  update,
+  className,
+  type = "info",
+  children,
+}: PopupProps) {
   const [popupFade, setPopupFade] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
 
@@ -91,3 +92,5 @@ export default function Popup({
     </>
   );
 }
+
+export { Popup };

@@ -2,11 +2,11 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import useDuelsSocket from "@/app/duels/_hooks/use-duels-socket";
-import Loading from "@/components/primitives/loading";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import DuelsSummary from "@/features/duels/components/summary";
-import api from "@/services/api";
+import { useDuelsSocket } from "@/app/duels/_hooks/use-duels-socket";
+import { Loading } from "@/components/primitives/loading";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { DuelsSummary } from "@/features/duels/components/summary";
+import { api } from "@/services/api";
 import "./page.css";
 
 export default function DuelsSummaryPage() {

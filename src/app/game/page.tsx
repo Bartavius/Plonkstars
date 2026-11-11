@@ -8,19 +8,19 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 
 import "@/app/game.css";
-import Modal from "@/components/primitives/modal";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import MapSearch from "@/features/maps/components/map-search";
-import Popup from "@/components/primitives/popup";
-import UserInput from "@/components/primitives/user-input";
-import Loading from "@/components/primitives/loading";
-import api from "@/services/api";
+import { Modal } from "@/components/primitives/modal";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { MapSearch } from "@/features/maps/components/map-search";
+import { Popup } from "@/components/primitives/popup";
+import { UserInput } from "@/components/primitives/user-input";
+import { Loading } from "@/components/primitives/loading";
+import { api } from "@/services/api";
 import { clearError } from "@/store/error-slice";
 import { setGameSettings } from "@/store/game-slice";
 
-import Daily from "./_components/daily";
-import HowToPlayModal from "./_components/how-to-play-modal";
-import Multiplayer from "./_components/multiplayer";
+import { Daily } from "./_components/daily";
+import { HowToPlayModal } from "./_components/how-to-play-modal";
+import { Multiplayer } from "./_components/multiplayer";
 
 export default function Game() {
   const router = useRouter();

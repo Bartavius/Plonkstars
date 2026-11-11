@@ -4,14 +4,12 @@ import { useDispatch } from "react-redux";
 
 import { isAuthenticated, isDemo } from "@/features/auth/services/session";
 import { setBlockedURL, setError } from "@/store/error-slice";
-
-export default function ProtectedRoutes({
-  children,
-  allowDemo = false,
-}: {
+interface ProtectedRoutesProps {
   children: React.ReactNode;
   allowDemo?: boolean;
-}) {
+}
+
+function ProtectedRoutes({ children, allowDemo = false }: ProtectedRoutesProps) {
   const isAuth = isAuthenticated();
   const demo = isDemo();
   const dispatch = useDispatch();
@@ -27,3 +25,5 @@ export default function ProtectedRoutes({
   }
   return <>{children}</>;
 }
+
+export { ProtectedRoutes };

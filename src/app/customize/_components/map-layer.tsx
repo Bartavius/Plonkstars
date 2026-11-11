@@ -2,14 +2,13 @@ import { useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
 
-import maps from "@/features/maps/lib/tile-layers";
+import { tileLayers } from "@/features/maps/lib/tile-layers";
 import { setMapType } from "@/store/settings-slice";
-
-export default function MapDisplay({
-  setMessage,
-}: {
+interface MapDisplayProps {
   setMessage: (message: React.ReactNode) => void;
-}) {
+}
+
+function MapDisplay({ setMessage }: MapDisplayProps) {
   const mapNumber = useSelector((state: any) => state.settings.mapNumber);
   const [currentMap, setCurrentMap] = useState<number>(mapNumber);
   const dispatch = useDispatch();
@@ -29,7 +28,7 @@ export default function MapDisplay({
           defaultValue={currentMap}
           onChange={(e) => setCurrentMap(parseInt((e.target as HTMLSelectElement).value))}
         >
-          {maps.map((mapValue: any, index: number) => (
+          {tileLayers.map((mapValue: any, index: number) => (
             <option key={index} value={index}>
               {mapValue.name}
             </option>
@@ -37,8 +36,8 @@ export default function MapDisplay({
         </select>
         <MapContainer center={[0, 0]} zoom={0} className="customize-leaflet-map">
           <TileLayer
-            url={maps[currentMap].url}
-            attribution={maps[currentMap].attribution}
+            url={tileLayers[currentMap].url}
+            attribution={tileLayers[currentMap].attribution}
             tileSize={512}
             zoomOffset={-1}
             detectRetina={true}
@@ -52,3 +51,5 @@ export default function MapDisplay({
     </div>
   );
 }
+
+export { MapDisplay };

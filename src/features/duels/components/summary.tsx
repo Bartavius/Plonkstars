@@ -2,23 +2,13 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import DuelsMapResult from "@/features/maps/components/duels-map-results";
+import { DuelsMapResult } from "@/features/maps/components/duels-map-results";
 
-import DuelsRoundSummary from "./round-summary";
+import { DuelsRoundSummary } from "./round-summary";
 import "./summary.css";
-import DuelsTeamBox from "./team-box";
-import DuelsTeamSummary from "./team-summary";
-
-export default function DuelsSummary({
-  users,
-  thisUser,
-  teams,
-  teamHP,
-  startHP,
-  teamGuesses,
-  locations,
-  children,
-}: {
+import { DuelsTeamBox } from "./team-box";
+import { DuelsTeamSummary } from "./team-summary";
+interface DuelsSummaryProps {
   users: { [key: string]: any };
   thisUser: string;
   teams: { [key: string]: any };
@@ -27,7 +17,18 @@ export default function DuelsSummary({
   teamGuesses: { [key: string]: any };
   locations: { lat: number; lng: number }[];
   children?: any;
-}) {
+}
+
+function DuelsSummary({
+  users,
+  thisUser,
+  teams,
+  teamHP,
+  startHP,
+  teamGuesses,
+  locations,
+  children,
+}: DuelsSummaryProps) {
   const router = useRouter();
   const teamPlacements = Object.keys(teams).sort((a, b) => {
     if (teamHP[b].length != teamHP[a].length) {
@@ -173,3 +174,5 @@ export default function DuelsSummary({
     </div>
   );
 }
+
+export { DuelsSummary };

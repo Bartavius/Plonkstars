@@ -4,11 +4,11 @@ import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist
 import storage from "redux-persist/lib/storage";
 import sessionStorage from "redux-persist/lib/storage/session";
 
-import demoAvatarReducer from "./demo-avatar-slice";
-import errorReducer from "./error-slice";
-import gameReducer from "./game-slice";
-import PartyReducer from "./party-slice";
-import settingsReducer from "./settings-slice";
+import { demoAvatarReducer } from "./demo-avatar-slice";
+import { errorReducer } from "./error-slice";
+import { gameReducer } from "./game-slice";
+import { partyReducer } from "./party-slice";
+import { settingsReducer } from "./settings-slice";
 
 const gamePersistConfig = {
   key: "game",
@@ -35,7 +35,7 @@ export const store = configureStore({
     game: persistReducer<any>(gamePersistConfig, gameReducer),
     settings: persistReducer<any>(settingsPersistConfig, settingsReducer),
     demoAvatar: persistReducer<any>(demoAvatarPersistConfig, demoAvatarReducer),
-    party: persistReducer<any>(partyPersistConfig, PartyReducer),
+    party: persistReducer<any>(partyPersistConfig, partyReducer),
     error: errorReducer,
   },
 

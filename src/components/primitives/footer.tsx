@@ -1,7 +1,7 @@
 import { FaGithub } from "react-icons/fa";
 import "./footer.css";
 
-export default function Footer() {
+function Footer() {
   return (
     <footer className="footer-container">
       <div className="about-text">
@@ -32,3 +32,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export { Footer };

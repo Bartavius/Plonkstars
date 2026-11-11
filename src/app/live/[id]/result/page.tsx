@@ -5,14 +5,17 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-import useLiveSocket from "@/app/live/_hooks/use-live-socket";
-import Loading from "@/components/primitives/loading";
-import Popup from "@/components/primitives/popup";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import UserIcon from "@/features/user/components/user-icon";
-import api from "@/services/api";
+import { useLiveSocket } from "@/app/live/_hooks/use-live-socket";
+import { Loading } from "@/components/primitives/loading";
+import { Popup } from "@/components/primitives/popup";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { UserIcon } from "@/features/user/components/user-icon";
+import { api } from "@/services/api";
 
-const Results = dynamic(() => import("@/features/challenge/components/results"), { ssr: false });
+const Results = dynamic(
+  () => import("@/features/challenge/components/results").then((m) => m.Results),
+  { ssr: false },
+);
 
 export default function GameResultPage() {
   const params = useParams();

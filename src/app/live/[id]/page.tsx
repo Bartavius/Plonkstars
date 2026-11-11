@@ -2,14 +2,14 @@
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
-import useLiveSocket from "@/app/live/_hooks/use-live-socket";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import GamePlay from "@/features/challenge/components/gameplay";
-import Loading from "@/components/primitives/loading";
-import Popup from "@/components/primitives/popup";
-import UserIcon from "@/features/user/components/user-icon";
-import calculateOffset from "@/lib/clock-offset";
-import api from "@/services/api";
+import { useLiveSocket } from "@/app/live/_hooks/use-live-socket";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { GamePlay } from "@/features/challenge/components/gameplay";
+import { Loading } from "@/components/primitives/loading";
+import { Popup } from "@/components/primitives/popup";
+import { UserIcon } from "@/features/user/components/user-icon";
+import { calculateOffset } from "@/lib/clock-offset";
+import { api } from "@/services/api";
 
 export default function Page() {
   const [round, setRound] = useState<any>();

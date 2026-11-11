@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import "./loading.css";
-const Loading = () => {
+function Loading() {
   return (
     <div className="h-full absolute inset-0 flex items-center justify-center">
       <motion.div
@@ -49,6 +49,6 @@ const Loading = () => {
       </motion.div>
     </div>
   );
-};
+}
 
-export default Loading;
+export { Loading };

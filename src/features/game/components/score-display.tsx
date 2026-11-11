@@ -1,9 +1,9 @@
 import "./score-display.css";
-const ScoreDisplay = ({
-  display,
-}: {
+interface ScoreDisplayProps {
   display: [{ key: string; value: string }, { key: string; value: string }];
-}) => {
+}
+
+function ScoreDisplay({ display }: ScoreDisplayProps) {
   return (
     <div className="score-wrapper">
       <div className="score-box">
@@ -27,5 +27,6 @@ const ScoreDisplay = ({
       </div>
     </div>
   );
-};
-export default ScoreDisplay;
+}
+
+export { ScoreDisplay };

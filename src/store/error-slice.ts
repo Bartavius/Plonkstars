@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface ErrorState {
   error: string | undefined;
@@ -33,4 +33,4 @@ const errorSlice = createSlice({
 
 export const { setError, clearError, setBlockedURL, clearBlockedURL } = errorSlice.actions;
 
-export default errorSlice.reducer;
+export const errorReducer = errorSlice.reducer;

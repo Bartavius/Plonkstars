@@ -1,20 +1,18 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import LoginTooltipWrapper from "@/features/auth/components/login-tooltip-wrapper";
+import { LoginTooltipWrapper } from "@/features/auth/components/login-tooltip-wrapper";
 import { isDemo } from "@/features/auth/services/session";
-import calculateOffset from "@/lib/clock-offset";
-import api from "@/services/api";
+import { calculateOffset } from "@/lib/clock-offset";
+import { api } from "@/services/api";
 
-import DailyTimer from "./daily-timer";
-
-export default function Daily({
-  loading,
-  setLoading,
-}: {
+import { DailyTimer } from "./daily-timer";
+interface DailyProps {
   loading: boolean;
   setLoading: (loading: boolean) => void;
-}) {
+}
+
+function Daily({ loading, setLoading }: DailyProps) {
   const demo = isDemo();
   const [daily, setDaily] = useState<any>();
   const [offset, setOffset] = useState<number | undefined>(undefined);
@@ -96,3 +94,5 @@ export default function Daily({
     </div>
   );
 }
+
+export { Daily };

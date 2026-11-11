@@ -1,4 +1,5 @@
 "use client";
+
 /* eslint-disable import/order -- Sorting these imports would reorder stylesheets, since
    CSS loads in import order. See "Imports" in CLAUDE.md. */
 import { useRouter } from "next/navigation";
@@ -8,24 +9,24 @@ import { BsInfinity } from "react-icons/bs";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 
-import Loading from "@/components/primitives/loading";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import useSocket from "@/lib/hooks/use-socket";
-import api from "@/services/api";
+import { Loading } from "@/components/primitives/loading";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { useSocket } from "@/lib/hooks/use-socket";
+import { api } from "@/services/api";
 import { setError } from "@/store/error-slice";
 import { clearPartyCode } from "@/store/party-slice";
 
-import { Team } from "./_types/team";
+import type { Team } from "./_types/team";
 
 import "./page.css";
-import MapCard from "@/features/maps/components/map-card";
-import Modal from "@/components/primitives/modal";
-import MapSearch from "@/features/maps/components/map-search";
-import Popup from "@/components/primitives/popup";
-import UserInput from "@/components/primitives/user-input";
+import { MapCard } from "@/features/maps/components/map-card";
+import { Modal } from "@/components/primitives/modal";
+import { MapSearch } from "@/features/maps/components/map-search";
+import { Popup } from "@/components/primitives/popup";
+import { UserInput } from "@/components/primitives/user-input";
 
-import PlayerDisplay from "./_components/player-display";
-import TeamDisplay from "./_components/team-display";
+import { PlayerDisplay } from "./_components/player-display";
+import { TeamDisplay } from "./_components/team-display";
 
 const modes = ["Live", "Duels"];
 

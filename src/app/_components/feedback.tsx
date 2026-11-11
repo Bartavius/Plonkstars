@@ -1,12 +1,12 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import Modal from "@/components/primitives/modal";
-import Popup from "@/components/primitives/popup";
-import api from "@/services/api";
+import { Modal } from "@/components/primitives/modal";
+import { Popup } from "@/components/primitives/popup";
+import { api } from "@/services/api";
 
 const maxFeedbackLength = 2048;
-export default function FeedbackComponent() {
+function FeedbackComponent() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [update, setUpdate] = useState(0);
@@ -80,3 +80,5 @@ export default function FeedbackComponent() {
     </div>
   );
 }
+
+export { FeedbackComponent };

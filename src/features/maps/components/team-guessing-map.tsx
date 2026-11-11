@@ -1,24 +1,19 @@
 import { MapContainer, useMapEvents } from "react-leaflet";
 import { useSelector } from "react-redux";
 
-import FitBounds from "./fit-bounds";
-import MapIcon from "./map-icon";
-import MapTileLayer from "./map-tile-layer";
+import { FitBounds } from "./fit-bounds";
+import { MapIcon } from "./map-icon";
+import { MapTileLayer } from "./map-tile-layer";
 import "./map.css";
-
-export default function TeamGuessingMap({
-  guesses,
-  plonks,
-  users,
-  mapBounds,
-  onClick,
-}: {
+interface TeamGuessingMapProps {
   guesses: { [key: string]: any };
   plonks: { [key: string]: any };
   users: { [key: string]: any };
   mapBounds: any;
   onClick: (lat: number, lng: number) => void;
-}) {
+}
+
+function TeamGuessingMap({ guesses, plonks, users, mapBounds, onClick }: TeamGuessingMapProps) {
   const res = useSelector((state: any) => state.settings.miniMapResolution);
 
   const ClickHandler = () => {
@@ -68,3 +63,5 @@ export default function TeamGuessingMap({
     </MapContainer>
   );
 }
+
+export { TeamGuessingMap };

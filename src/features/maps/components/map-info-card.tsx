@@ -4,26 +4,21 @@ import { FaPencilAlt, FaPlay } from "react-icons/fa";
 import { TbTrash } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 
-import api from "@/services/api";
+import { api } from "@/services/api";
 import { setGameMap } from "@/store/game-slice";
 
 import "./map-info-card.css";
 import "@/app/game.css";
-import MapDeleteModal from "./map-delete-modal";
-
-export default function MapInfoCard({
-  stats,
-  permission,
-  loading,
-  setLoading,
-  children,
-}: {
+import { MapDeleteModal } from "./map-delete-modal";
+interface MapInfoCardProps {
   stats: any;
   permission: number;
   loading: boolean;
   setLoading: (loading: boolean) => void;
   children?: React.ReactNode;
-}) {
+}
+
+function MapInfoCard({ stats, permission, loading, setLoading, children }: MapInfoCardProps) {
   const [description, setDescription] = useState<string | undefined>(stats.description);
   const [editingDescription, setEditingDescription] = useState(false);
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
@@ -251,3 +246,5 @@ export default function MapInfoCard({
     </div>
   );
 }
+
+export { MapInfoCard };

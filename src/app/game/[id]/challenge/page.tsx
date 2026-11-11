@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { BsInfinity } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import api from "@/services/api";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { api } from "@/services/api";
 import { setError } from "@/store/error-slice";
 import "./page.css";
 import "@/app/game.css";
-import Loading from "@/components/primitives/loading";
-import MapCard from "@/features/maps/components/map-card";
+import { Loading } from "@/components/primitives/loading";
+import { MapCard } from "@/features/maps/components/map-card";
 
 export default function ChallengePage() {
   const [data, setData] = useState<any>();

@@ -1,4 +1,4 @@
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
 import constants from "@/lib/constants.json";
 
 import colorPresets from "./color-presets.json";
@@ -6,14 +6,12 @@ import colorPresets from "./color-presets.json";
 const MAX_HUE = constants.AVATAR_MAX_HUE;
 const MAX_SATURATION = constants.AVATAR_MAX_SATURATION;
 const MAX_BRIGHTNESS = constants.AVATAR_MAX_BRIGHTNESS;
-
-export default function ColorSelection({
-  userIcon,
-  setUserIcon,
-}: {
+interface ColorSelectionProps {
   userIcon: UserIconCosmetics;
   setUserIcon: (icon: UserIconCosmetics) => void;
-}) {
+}
+
+function ColorSelection({ userIcon, setUserIcon }: ColorSelectionProps) {
   const handleSliderChange = (property: string, value: number) => {
     setUserIcon({ ...userIcon, [property]: value });
   };
@@ -128,3 +126,5 @@ export default function ColorSelection({
     </div>
   );
 }
+
+export { ColorSelection };

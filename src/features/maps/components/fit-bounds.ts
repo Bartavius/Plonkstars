@@ -5,15 +5,13 @@ interface Location {
   lat: number;
   lng: number;
 }
-export default function FitBounds({
-  locations,
-  options,
-  summary,
-}: {
+interface FitBoundsProps {
   locations: Location[];
   options?: any;
   summary?: boolean;
-}) {
+}
+
+export function FitBounds({ locations, options, summary }: FitBoundsProps) {
   const map = useMap();
 
   let topLeftLat = 90;

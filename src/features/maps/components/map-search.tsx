@@ -4,24 +4,20 @@
    CSS loads in import order. See "Imports" in CLAUDE.md. */
 import { useEffect, useState } from "react";
 
-import api from "@/services/api";
+import { api } from "@/services/api";
 
-import MapCard from "./map-card";
+import { MapCard } from "./map-card";
 
 import "./map-search.css";
-import Loading from "@/components/primitives/loading";
-
-export default function MapSearch({
-  mapSelect,
-  pageSize,
-  bodySize,
-  editable = false,
-}: {
+import { Loading } from "@/components/primitives/loading";
+interface MapSearchProps {
   mapSelect: (id: string, name: string) => void;
   pageSize?: number;
   bodySize?: string;
   editable?: boolean;
-}) {
+}
+
+function MapSearch({ mapSelect, pageSize, bodySize, editable = false }: MapSearchProps) {
   const [loading, setLoading] = useState<boolean>();
   const [page, setPage] = useState(1);
   const [input, setInput] = useState("");
@@ -127,3 +123,5 @@ export default function MapSearch({
     </div>
   );
 }
+
+export { MapSearch };

@@ -3,17 +3,19 @@ interface Color {
   g: number;
   b: number;
 }
-export default function colorGradient({
+interface ColorGradientOptions {
+  colors?: Color[];
+  percent: number;
+}
+
+export function colorGradient({
   colors = [
     { r: 255, g: 0, b: 0 },
     { r: 255, g: 255, b: 0 },
     { r: 0, g: 255, b: 0 },
   ],
   percent,
-}: {
-  colors?: Color[];
-  percent: number;
-}) {
+}: ColorGradientOptions) {
   percent = Math.max(0, Math.min(1, percent));
 
   if (percent == 1) {

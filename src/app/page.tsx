@@ -6,14 +6,14 @@ import { useRouter } from "next/navigation";
 
 import { isAuthenticated } from "@/features/auth/services/session";
 
-import Contacts from "./_components/contacts";
+import { Contacts } from "./_components/contacts";
 
 import { Sigmar } from "next/font/google";
 
-import Footer from "@/components/primitives/footer";
+import { Footer } from "@/components/primitives/footer";
 
 import "./page.css";
-import FeedbackComponent from "./_components/feedback";
+import { FeedbackComponent } from "./_components/feedback";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 

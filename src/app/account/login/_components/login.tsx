@@ -7,12 +7,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { isAuthenticated, isDemo, login } from "@/features/auth/services/session";
-import api from "@/services/api";
+import { api } from "@/services/api";
 import { clearBlockedURL, clearError } from "@/store/error-slice";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
-const Login: React.FC = () => {
+function Login() {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -139,6 +139,6 @@ const Login: React.FC = () => {
       </motion.div>
     </div>
   );
-};
+}
 
-export default Login;
+export { Login };

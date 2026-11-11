@@ -1,6 +1,10 @@
 import "./streetview.css";
+interface StreetViewProps {
+  lat: number;
+  lng: number;
+}
 
-export default function StreetView({ lat, lng }: { lat: number; lng: number }) {
+function StreetView({ lat, lng }: StreetViewProps) {
   const API_KEY = process.env.NEXT_PUBLIC_STREET_VIEW_API;
   return (
     <div className="street-view-box">
@@ -18,3 +22,5 @@ export default function StreetView({ lat, lng }: { lat: number; lng: number }) {
     </div>
   );
 }
+
+export { StreetView };

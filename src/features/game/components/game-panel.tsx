@@ -1,19 +1,15 @@
-import Timer from "./timer";
-import ScoreDisplay from "./score-display";
+import { Timer } from "./timer";
+import { ScoreDisplay } from "./score-display";
 import "./game-panel.css";
-const GamePanel = ({
-  time,
-  timeLimit,
-  timeoutFunction,
-  display,
-  offset = 0,
-}: {
+interface GamePanelProps {
   time?: Date;
   timeLimit?: number;
   timeoutFunction?: () => void;
   display: [{ key: string; value: string }, { key: string; value: string }];
   offset?: number;
-}) => {
+}
+
+function GamePanel({ time, timeLimit, timeoutFunction, display, offset = 0 }: GamePanelProps) {
   return (
     <div className="game-panel">
       <div className="score-wrapper">
@@ -33,5 +29,6 @@ const GamePanel = ({
       </div>
     </div>
   );
-};
-export default GamePanel;
+}
+
+export { GamePanel };

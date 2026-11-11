@@ -1,18 +1,14 @@
-import colorGradient from "@/lib/color-gradient";
+import { colorGradient } from "@/lib/color-gradient";
 import "./healthbar.css";
-export default function HealthBar({
-  health,
-  maxHealth,
-  fontSize = "1rem",
-  teamInfo,
-  prevHealth,
-}: {
+interface HealthBarProps {
   health: number;
   maxHealth: number;
   fontSize?: string;
   teamInfo: any;
   prevHealth?: number;
-}) {
+}
+
+function HealthBar({ health, maxHealth, fontSize = "1rem", teamInfo, prevHealth }: HealthBarProps) {
   function getColor(color: number) {
     return `#${color.toString(16).padStart(6, "0")}`;
   }
@@ -53,3 +49,5 @@ export default function HealthBar({
     </div>
   );
 }
+
+export { HealthBar };

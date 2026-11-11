@@ -3,11 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import LoginTooltipWrapper from "@/features/auth/components/login-tooltip-wrapper";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { LoginTooltipWrapper } from "@/features/auth/components/login-tooltip-wrapper";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { isDemo } from "@/features/auth/services/session";
-import MapSearch from "@/features/maps/components/map-search";
-import api from "@/services/api";
+import { MapSearch } from "@/features/maps/components/map-search";
+import { api } from "@/services/api";
 
 export default function MapMainPage() {
   const [loading, setLoading] = useState<boolean>(false);

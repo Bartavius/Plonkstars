@@ -1,14 +1,9 @@
 import { motion } from "framer-motion";
-import { JSX } from "react";
+import type { JSX } from "react";
 
 import "@/app/map/[id]/page.css";
-import LoginTooltipWrapper from "@/features/auth/components/login-tooltip-wrapper";
-
-const StatBox = ({
-  mapStats,
-  demoBlur = false,
-  demo = false,
-}: {
+import { LoginTooltipWrapper } from "@/features/auth/components/login-tooltip-wrapper";
+interface StatBoxProps {
   mapStats: {
     name: string;
     onClick?: () => void;
@@ -26,7 +21,9 @@ const StatBox = ({
   };
   demoBlur?: boolean;
   demo?: boolean;
-}) => {
+}
+
+function StatBox({ mapStats, demoBlur = false, demo = false }: StatBoxProps) {
   return (
     <div className="map-info-container">
       <div
@@ -84,6 +81,6 @@ const StatBox = ({
       </div>
     </div>
   );
-};
+}
 
-export default StatBox;
+export { StatBox };

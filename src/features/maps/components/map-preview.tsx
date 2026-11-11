@@ -2,12 +2,12 @@
 import L from "leaflet";
 import { MapContainer, Rectangle } from "react-leaflet";
 
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
 
-import FitBounds from "./fit-bounds";
-import MapIcon from "./map-icon";
+import { FitBounds } from "./fit-bounds";
+import { MapIcon } from "./map-icon";
 import "./map.css";
-import MapTileLayer from "./map-tile-layer";
+import { MapTileLayer } from "./map-tile-layer";
 
 interface Location {
   lat: number;
@@ -18,16 +18,7 @@ interface Bounds {
   start: Location;
   end: Location;
 }
-
-export default function MapPreview({
-  bounds,
-  children,
-  iconClick,
-  height,
-  onSelect,
-  selected,
-  user_cosmetics,
-}: {
+interface MapPreviewProps {
   bounds: (Bounds | Location)[];
   children?: React.ReactNode;
   iconClick?: boolean;
@@ -35,7 +26,17 @@ export default function MapPreview({
   onSelect?: (location: Location | Bounds | undefined, isRect: boolean) => void;
   selected?: Location | Bounds | undefined;
   user_cosmetics?: UserIconCosmetics;
-}) {
+}
+
+function MapPreview({
+  bounds,
+  children,
+  iconClick,
+  height,
+  onSelect,
+  selected,
+  user_cosmetics,
+}: MapPreviewProps) {
   const points = bounds.filter((marker) => {
     return "lat" in marker && "lng" in marker;
   });
@@ -128,3 +129,5 @@ export default function MapPreview({
     </div>
   );
 }
+
+export { MapPreview };

@@ -1,21 +1,18 @@
 import { useEffect, useRef } from "react";
-import io, { Socket } from "socket.io-client";
+import io, { type Socket } from "socket.io-client";
 
 import { getToken } from "@/features/auth/services/session";
 
 type SocketEvents = {
   [event: string]: (...args: any[]) => void;
 };
-
-export default function useSocket({
-  namespace,
-  rooms,
-  functions,
-}: {
+interface UseSocketOptions {
   namespace: string;
   rooms?: any;
   functions: SocketEvents;
-}) {
+}
+
+function useSocket({ namespace, rooms, functions }: UseSocketOptions) {
   const token = getToken();
   const socketRef = useRef<Socket | null>(null);
 
@@ -47,3 +44,5 @@ export default function useSocket({
 
   return socketRef;
 }
+
+export { useSocket };

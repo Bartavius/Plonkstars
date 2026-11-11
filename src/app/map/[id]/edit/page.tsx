@@ -4,14 +4,14 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Rectangle, useMap, useMapEvent } from "react-leaflet";
 
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import MapPreview from "@/features/maps/components/map-preview";
-import MapIcon from "@/features/maps/components/map-icon";
-import Loading from "@/components/primitives/loading";
-import StreetView from "@/features/maps/components/streetview";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { MapPreview } from "@/features/maps/components/map-preview";
+import { MapIcon } from "@/features/maps/components/map-icon";
+import { Loading } from "@/components/primitives/loading";
+import { StreetView } from "@/features/maps/components/streetview";
 import "@/app/game.css";
-import useSocket from "@/lib/hooks/use-socket";
-import api from "@/services/api";
+import { useSocket } from "@/lib/hooks/use-socket";
+import { api } from "@/services/api";
 import "./page.css";
 
 interface Location {

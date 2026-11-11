@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 
-import Loading from "@/components/primitives/loading";
-import Popup from "@/components/primitives/popup";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
-import { CosmeticTiers } from "@/features/cosmetics/types/cosmetic-tiers";
-import api from "@/services/api";
+import { Loading } from "@/components/primitives/loading";
+import { Popup } from "@/components/primitives/popup";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import type { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
+import type { CosmeticTiers } from "@/features/cosmetics/types/cosmetic-tiers";
+import { api } from "@/services/api";
 
 export default function Page() {
   const [message, _setMessage] = useState<React.ReactNode>();

@@ -1,20 +1,16 @@
-import Table from "@/components/primitives/table";
-import UserIcon from "@/features/user/components/user-icon";
+import { Table } from "@/components/primitives/table";
+import { UserIcon } from "@/features/user/components/user-icon";
 
 import "./results.css";
-import ScoreBox from "./score-box";
-
-export default function ScoreAccordion({
-  open,
-  className = "",
-  guesses,
-  user,
-}: {
+import { ScoreBox } from "./score-box";
+interface ScoreAccordionProps {
   open: boolean;
   className?: string;
   guesses: any[];
   user?: any;
-}) {
+}
+
+function ScoreAccordion({ open, className = "", guesses, user }: ScoreAccordionProps) {
   const headers = {
     total: "Total",
     guess: "Guess",
@@ -47,3 +43,5 @@ export default function ScoreAccordion({
     </div>
   );
 }
+
+export { ScoreAccordion };

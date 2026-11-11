@@ -4,34 +4,18 @@ import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import GamePanel from "@/features/game/components/game-panel";
+import { GamePanel } from "@/features/game/components/game-panel";
 import "@/app/game.css";
-import BasicMapWithMarker from "@/features/maps/components/basic-map-with-marker";
-import api from "@/services/api";
+import { BasicMapWithMarker } from "@/features/maps/components/basic-map-with-marker";
+import { api } from "@/services/api";
 
-const CombinedMap = dynamic(() => import("@/features/maps/components/combined-map"), {
-  ssr: false,
-});
-
-export default function GamePlay({
-  correctLat,
-  correctLng,
-  time,
-  timeLimit,
-  roundNumber,
-  totalScore,
-  NMPZ,
-  mapBounds,
-  canGuess = true,
-  userLat,
-  userLng,
-  onTimeout,
-  onGuess,
-  rightFooter,
-  onPlonk,
-  offset = 0,
-  cosmetics,
-}: {
+const CombinedMap = dynamic(
+  () => import("@/features/maps/components/combined-map").then((m) => m.CombinedMap),
+  {
+    ssr: false,
+  },
+);
+interface GamePlayProps {
   correctLat: number;
   correctLng: number;
   time?: Date;
@@ -49,7 +33,27 @@ export default function GamePlay({
   rightFooter?: React.ReactNode;
   onPlonk?: (lat: number, lng: number) => void;
   offset?: number;
-}) {
+}
+
+function GamePlay({
+  correctLat,
+  correctLng,
+  time,
+  timeLimit,
+  roundNumber,
+  totalScore,
+  NMPZ,
+  mapBounds,
+  canGuess = true,
+  userLat,
+  userLng,
+  onTimeout,
+  onGuess,
+  rightFooter,
+  onPlonk,
+  offset = 0,
+  cosmetics,
+}: GamePlayProps) {
   const [lat, setLat] = useState<number | undefined>(userLat);
   const [lng, setLng] = useState<number | undefined>(userLng);
   const [submitted, setSubmitted] = useState<boolean>(!canGuess);
@@ -167,3 +171,5 @@ export default function GamePlay({
     </div>
   );
 }
+
+export { GamePlay };

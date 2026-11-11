@@ -1,30 +1,12 @@
 import { useEffect, useState } from "react";
 
-import CombinedMap from "@/features/maps/components/combined-map";
-import TeamGuessingMap from "@/features/maps/components/team-guessing-map";
+import { CombinedMap } from "@/features/maps/components/combined-map";
+import { TeamGuessingMap } from "@/features/maps/components/team-guessing-map";
 import "@/app/game.css";
-import api from "@/services/api";
+import { api } from "@/services/api";
 
-import DuelsUIOverlay from "./map-ui-overlay";
-
-export default function DuelsGameplay({
-  id,
-  users,
-  thisUser,
-  teams,
-  teamPlonks,
-  teamGuesses,
-  roundInfo,
-  spectator,
-  canGuess,
-  guesses,
-  maxGuesses,
-  multi,
-  maxHealth,
-  endTime,
-  timeLimit,
-  timeOffset = 0,
-}: {
+import { DuelsUIOverlay } from "./map-ui-overlay";
+interface DuelsGameplayProps {
   id: string;
   users: { [key: string]: any };
   thisUser: string;
@@ -41,7 +23,26 @@ export default function DuelsGameplay({
   endTime?: Date;
   timeLimit?: number;
   timeOffset?: number;
-}) {
+}
+
+function DuelsGameplay({
+  id,
+  users,
+  thisUser,
+  teams,
+  teamPlonks,
+  teamGuesses,
+  roundInfo,
+  spectator,
+  canGuess,
+  guesses,
+  maxGuesses,
+  multi,
+  maxHealth,
+  endTime,
+  timeLimit,
+  timeOffset = 0,
+}: DuelsGameplayProps) {
   const [guessed, setGuessed] = useState<boolean>(canGuess === false);
   const [reload, setReload] = useState<number>(0);
   const [rightTeamIndex, setrightTeamIndex] = useState<number>(0);
@@ -161,3 +162,5 @@ export default function DuelsGameplay({
     </div>
   );
 }
+
+export { DuelsGameplay };

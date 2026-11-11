@@ -3,35 +3,40 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import UserIcon from "@/features/user/components/user-icon";
+import { UserIcon } from "@/features/user/components/user-icon";
 import "./summary.css";
-import Table from "@/components/primitives/table";
+import { Table } from "@/components/primitives/table";
 
-import ScoreBox from "./score-box";
+import { ScoreBox } from "./score-box";
 
-const BasicMapResult = dynamic(() => import("@/features/maps/components/basic-map-result"), {
-  ssr: false,
-});
+const BasicMapResult = dynamic(
+  () => import("@/features/maps/components/basic-map-result").then((m) => m.BasicMapResult),
+  {
+    ssr: false,
+  },
+);
 
 interface Location {
   lat: number;
   lng: number;
 }
-export default function Summary({
-  locations,
-  data,
-  user,
-  children,
-  mapHeight = 70,
-  leaderboard = false,
-}: {
+interface SummaryProps {
   locations: Location[];
   data: any;
   user: any;
   children?: any;
   mapHeight?: number;
   leaderboard?: boolean;
-}) {
+}
+
+function Summary({
+  locations,
+  data,
+  user,
+  children,
+  mapHeight = 70,
+  leaderboard = false,
+}: SummaryProps) {
   //will need to set total number of rounds that pop up (click more at the bottom), limit of...10 per?
   const guesses = [...Array(locations.length).keys()].map((index) => {
     return data.map((u: any) => {
@@ -205,3 +210,5 @@ export default function Summary({
     </div>
   );
 }
+
+export { Summary };

@@ -4,16 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "@/app/customize/page.css";
 import { isDemo } from "@/features/auth/services/session";
-import { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
-import UserIcon from "@/features/user/components/user-icon";
-import api from "@/services/api";
+import type { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import { UserIcon } from "@/features/user/components/user-icon";
+import { api } from "@/services/api";
 import { setColor } from "@/store/demo-avatar-slice";
 
-import BodySelection from "./selection/body";
-import ColorSelection from "./selection/color";
-import FaceSelection from "./selection/face";
-import HatSelection from "./selection/hat";
+import { BodySelection } from "./selection/body";
+import { ColorSelection } from "./selection/color";
+import { FaceSelection } from "./selection/face";
+import { HatSelection } from "./selection/hat";
 
 enum Tabs {
   COLORS = "colors",
@@ -23,14 +23,12 @@ enum Tabs {
 }
 
 const tabNames = [Tabs.COLORS, Tabs.HATS, Tabs.BODY, Tabs.FACES];
-
-export default function AvatarCustom({
-  setMessage,
-  setType,
-}: {
+interface AvatarCustomProps {
   setMessage: (message: React.ReactNode) => void;
   setType: (type: string) => void;
-}) {
+}
+
+function AvatarCustom({ setMessage, setType }: AvatarCustomProps) {
   const userDemoAvatar = {
     ...useSelector((state: any) => state.demoAvatar),
     face: null,
@@ -234,3 +232,5 @@ export default function AvatarCustom({
     </div>
   );
 }
+
+export { AvatarCustom };

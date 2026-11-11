@@ -1,18 +1,19 @@
-import CosmeticScrollBox from "@/features/cosmetics/components/cosmetics-box";
-import { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
-
-export default function FaceSelection({
-  userIcon,
-  setUserIcon,
-  facesOwned, //TODO: figure out the facesOwned / not owned
-  facesUnowned,
-}: {
+import { CosmeticScrollBox } from "@/features/cosmetics/components/cosmetics-box";
+import type { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+interface FaceSelectionProps {
   userIcon: UserIconCosmetics;
   setUserIcon: (icon: UserIconCosmetics) => void;
   facesOwned: CosmeticProps[];
   facesUnowned: CosmeticProps[];
-}) {
+}
+
+function FaceSelection({
+  userIcon,
+  setUserIcon,
+  facesOwned, //TODO: figure out the facesOwned / not owned
+  facesUnowned,
+}: FaceSelectionProps) {
   const handleFaceClick = (face: CosmeticProps | null) => {
     setUserIcon({ ...userIcon, face });
   };
@@ -28,3 +29,5 @@ export default function FaceSelection({
     </div>
   );
 }
+
+export { FaceSelection };

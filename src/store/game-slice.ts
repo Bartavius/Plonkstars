@@ -36,4 +36,4 @@ const gameSlice = createSlice({
 
 export const { setGameSettings, setGameMap } = gameSlice.actions;
 
-export default gameSlice.reducer;
+export const gameReducer = gameSlice.reducer;

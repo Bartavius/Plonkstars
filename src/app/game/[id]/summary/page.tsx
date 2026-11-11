@@ -7,14 +7,14 @@ import { ImLink } from "react-icons/im";
 import { IoIosStats } from "react-icons/io";
 import { useSelector } from "react-redux";
 
-import Loading from "@/components/primitives/loading";
-import LoginTooltipWrapper from "@/features/auth/components/login-tooltip-wrapper";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { Loading } from "@/components/primitives/loading";
+import { LoginTooltipWrapper } from "@/features/auth/components/login-tooltip-wrapper";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { isDemo } from "@/features/auth/services/session";
-import Summary from "@/features/challenge/components/summary";
-import api from "@/services/api";
+import { Summary } from "@/features/challenge/components/summary";
+import { api } from "@/services/api";
 import "./page.css";
-import Popup from "@/components/primitives/popup";
+import { Popup } from "@/components/primitives/popup";
 
 interface Location {
   lat: number;

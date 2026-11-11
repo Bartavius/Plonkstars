@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 
-import colorGradient from "@/lib/color-gradient";
+import { colorGradient } from "@/lib/color-gradient";
 import "./timer.css";
-const Timer = ({
-  time,
-  timeLimit,
-  offset = 0,
-  timeoutFunction,
-}: {
+interface TimerProps {
   time: Date;
   timeLimit: number;
   offset?: number;
   timeoutFunction?: () => void;
-}) => {
+}
+
+function Timer({ time, timeLimit, offset = 0, timeoutFunction }: TimerProps) {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [percentRemaining, setPercentRemaining] = useState<number>(1);
   useEffect(() => {
@@ -57,6 +54,6 @@ const Timer = ({
       </div>
     </div>
   );
-};
+}
 
-export default Timer;
+export { Timer };

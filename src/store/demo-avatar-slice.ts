@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface AvatarState {
   hue: number;
@@ -29,4 +29,4 @@ const DemoAvatarSlice = createSlice({
 
 export const { setColor } = DemoAvatarSlice.actions;
 
-export default DemoAvatarSlice.reducer;
+export const demoAvatarReducer = DemoAvatarSlice.reducer;

@@ -1,4 +1,8 @@
-export default function UserIcon({ data, className }: { data: any; className?: string }) {
+interface UserIconProps {
+  data: any;
+  className?: string;
+}
+function UserIcon({ data, className }: UserIconProps) {
   if ("user_cosmetics" in data) {
     data = data.user_cosmetics;
   }
@@ -85,3 +89,5 @@ export default function UserIcon({ data, className }: { data: any; className?: s
     </div>
   );
 }
+
+export { UserIcon };

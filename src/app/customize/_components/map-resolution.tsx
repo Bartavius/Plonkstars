@@ -3,14 +3,13 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
 
 import "@/app/customize/page.css";
-import maps from "@/features/maps/lib/tile-layers";
+import { tileLayers } from "@/features/maps/lib/tile-layers";
 import { setMiniMapResolution } from "@/store/settings-slice";
-
-export default function MapResolution({
-  setMessage,
-}: {
+interface MapResolutionProps {
   setMessage: (message: React.ReactNode) => void;
-}) {
+}
+
+function MapResolution({ setMessage }: MapResolutionProps) {
   const res = useSelector((state: any) => state.settings.miniMapResolution);
   const mapNumber = useSelector((state: any) => state.settings.mapNumber);
 
@@ -42,8 +41,8 @@ export default function MapResolution({
         <MapContainer center={[0, 0]} zoom={0} className="resolution-map-container">
           <TileLayer
             key={`tile-${resolution}`}
-            url={maps[mapNumber].url}
-            attribution={maps[mapNumber].attribution}
+            url={tileLayers[mapNumber].url}
+            attribution={tileLayers[mapNumber].attribution}
             tileSize={2 ** resolution * 256}
             zoomOffset={-resolution}
             detectRetina={true}
@@ -58,3 +57,5 @@ export default function MapResolution({
     </div>
   );
 }
+
+export { MapResolution };

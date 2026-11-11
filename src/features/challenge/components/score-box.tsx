@@ -1,9 +1,9 @@
 import "./summary.css";
-export default function formatGuess({
-  data,
-}: {
+interface ScoreBoxProps {
   data: { score: number; distance: number; time: number };
-}) {
+}
+
+function ScoreBox({ data }: ScoreBoxProps) {
   function distanceString(distance: number) {
     if (distance === undefined) {
       return "N/A";
@@ -33,3 +33,5 @@ export default function formatGuess({
     </div>
   );
 }
+
+export { ScoreBox };

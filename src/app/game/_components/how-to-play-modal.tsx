@@ -1,7 +1,11 @@
-import Modal from "@/components/primitives/modal";
+import { Modal } from "@/components/primitives/modal";
 import "./how-to-play-modal.css";
+interface HowToPlayModalProps {
+  open: boolean;
+  onClose: () => void;
+}
 
-export default function HowToPlayModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+function HowToPlayModal({ open, onClose }: HowToPlayModalProps) {
   return (
     <Modal onClose={onClose} isOpen={open}>
       <div className="how-to-play-modal">
@@ -42,3 +46,5 @@ export default function HowToPlayModal({ open, onClose }: { open: boolean; onClo
     </Modal>
   );
 }
+
+export { HowToPlayModal };

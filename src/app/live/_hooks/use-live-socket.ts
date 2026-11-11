@@ -2,23 +2,20 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import useSocket from "@/lib/hooks/use-socket";
+import { useSocket } from "@/lib/hooks/use-socket";
 import { setError } from "@/store/error-slice";
 import { clearPartyCode } from "@/store/party-slice";
 
 type SocketEvents = {
   [event: string]: (...args: any[]) => void;
 };
-
-export default function useLiveSocket({
-  id,
-  state,
-  functions,
-}: {
+interface UseLiveSocketOptions {
   id: string;
   state: any;
   functions?: SocketEvents;
-}) {
+}
+
+function useLiveSocket({ id, state, functions }: UseLiveSocketOptions) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -67,3 +64,5 @@ export default function useLiveSocket({
 
   return socket;
 }
+
+export { useLiveSocket };

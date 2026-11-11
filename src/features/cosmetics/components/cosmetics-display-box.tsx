@@ -11,7 +11,7 @@ type CosmeticDisplayBoxProps = {
   locked?: boolean;
 };
 
-export default function CosmeticDisplayBox({
+function CosmeticDisplayBox({
   children,
   tier,
   className = "",
@@ -56,3 +56,5 @@ export default function CosmeticDisplayBox({
     </div>
   );
 }
+
+export { CosmeticDisplayBox };

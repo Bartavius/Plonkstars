@@ -1,7 +1,7 @@
 import { FaClock, FaGlobeAmericas } from "react-icons/fa";
 import { GiNetworkBars } from "react-icons/gi";
 
-import colorGradient from "@/lib/color-gradient";
+import { colorGradient } from "@/lib/color-gradient";
 import "./map-search.css";
 interface MapInfo {
   name: string;
@@ -10,15 +10,13 @@ interface MapInfo {
   average_generation_time: number;
   total_guesses: number;
 }
-const MapCard = ({
-  map,
-  onClick,
-  className = "",
-}: {
+interface MapCardProps {
   map: MapInfo;
   onClick?: () => void;
   className?: string;
-}) => {
+}
+
+function MapCard({ map, onClick, className = "" }: MapCardProps) {
   const getColor = (score: number, lower: number, upper: number, des?: boolean) => {
     score -= lower;
     const percent = Math.min(Math.max(score / (upper - lower), 0), 1);
@@ -74,6 +72,6 @@ const MapCard = ({
       </div>
     </div>
   );
-};
+}
 
-export default MapCard;
+export { MapCard };

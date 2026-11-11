@@ -1,4 +1,4 @@
-import { CosmeticTiers } from "@/features/cosmetics/types/cosmetic-tiers";
+import type { CosmeticTiers } from "@/features/cosmetics/types/cosmetic-tiers";
 
 const tierColors: Record<CosmeticTiers, { base: string; lid: string; lock: string }> = {
   COMMON: {
@@ -32,7 +32,7 @@ interface LootboxProps {
   tier: CosmeticTiers;
 }
 
-export default function Lootbox({ tier }: LootboxProps) {
+function Lootbox({ tier }: LootboxProps) {
   const colors = tierColors[tier];
 
   return (
@@ -52,3 +52,5 @@ export default function Lootbox({ tier }: LootboxProps) {
     </svg>
   );
 }
+
+export { Lootbox };

@@ -5,15 +5,18 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Loading from "@/components/primitives/loading";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { Loading } from "@/components/primitives/loading";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { isDemo } from "@/features/auth/services/session";
-import api from "@/services/api";
+import { api } from "@/services/api";
 import { setError } from "@/store/error-slice";
 
-const Results = dynamic(() => import("@/features/challenge/components/results"), {
-  ssr: false,
-});
+const Results = dynamic(
+  () => import("@/features/challenge/components/results").then((m) => m.Results),
+  {
+    ssr: false,
+  },
+);
 
 export default function GameResultPage() {
   const searchParams = useSearchParams();

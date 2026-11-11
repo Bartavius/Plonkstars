@@ -1,17 +1,13 @@
 import { BsInfinity } from "react-icons/bs";
 import "@/app/game.css";
-
-export default function SliderInput({
-  data,
-  setInput,
-  value,
-  editable = true,
-}: {
+interface SliderInputProps {
   data: any;
   setInput: (input: any) => void;
   value?: any;
   editable?: boolean;
-}) {
+}
+
+function SliderInput({ data, setInput, value, editable = true }: SliderInputProps) {
   const valueDisplay = value === -1 ? <BsInfinity className="inline" /> : value;
 
   let label;
@@ -51,3 +47,5 @@ export default function SliderInput({
     </div>
   );
 }
+
+export { SliderInput };

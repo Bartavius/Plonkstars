@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 type Party = {
   code: string | undefined;
@@ -23,4 +23,4 @@ const partySlice = createSlice({
 
 export const { setPartyCode, clearPartyCode } = partySlice.actions;
 
-export default partySlice.reducer;
+export const partyReducer = partySlice.reducer;

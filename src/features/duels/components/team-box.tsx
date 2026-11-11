@@ -1,19 +1,21 @@
 import "./team-box.css";
-export default function DuelsTeamBox({
-  placement,
-  teamInfo,
-  teamHP,
-  teamGuesses,
-  roundsWon,
-  onClick,
-}: {
+interface DuelsTeamBoxProps {
   placement: number;
   teamInfo: any;
   teamHP: number[];
   teamGuesses: any;
   roundsWon: number[];
   onClick?: () => void;
-}) {
+}
+
+function DuelsTeamBox({
+  placement,
+  teamInfo,
+  teamHP,
+  teamGuesses,
+  roundsWon,
+  onClick,
+}: DuelsTeamBoxProps) {
   function getPlacementColor(placement: number): string {
     switch (placement) {
       case 1:
@@ -76,3 +78,5 @@ export default function DuelsTeamBox({
     </div>
   );
 }
+
+export { DuelsTeamBox };

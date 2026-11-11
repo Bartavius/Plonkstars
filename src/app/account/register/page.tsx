@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import Register from "./_components/register";
+import { Register } from "./_components/register";
 
 export default function RegisterPage() {
   return (

@@ -10,7 +10,7 @@ import "./navbar.css";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
-export default function NavBar() {
+function NavBar() {
   const router = useRouter();
   const auth = isAuthenticated();
   const demo = isDemo();
@@ -100,3 +100,5 @@ export default function NavBar() {
     </div>
   );
 }
+
+export { NavBar };

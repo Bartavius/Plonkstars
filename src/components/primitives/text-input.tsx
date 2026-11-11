@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
-
-export default function TextInput({
-  data,
-  setInput,
-  value,
-  editable = true,
-}: {
+interface TextInputProps {
   data: any;
   setInput: (input: string) => void;
   value?: any;
   editable?: boolean;
-}) {
+}
+
+function TextInput({ data, setInput, value, editable = true }: TextInputProps) {
   const [input, setInputState] = useState(value || "");
 
   useEffect(() => {
@@ -36,3 +32,5 @@ export default function TextInput({
     </div>
   );
 }
+
+export { TextInput };

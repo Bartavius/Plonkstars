@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-
-export default function DailyTimer({
-  time,
-  offset = 0,
-  onFinish,
-}: {
+interface DailyTimerProps {
   time: Date;
   offset?: number;
   onFinish: () => void;
-}) {
+}
+
+function DailyTimer({ time, offset = 0, onFinish }: DailyTimerProps) {
   const date = new Date(time).getTime();
   const [second, setSeconds] = useState((date - (new Date().getTime() + offset)) / 1000);
   useEffect(() => {
@@ -41,3 +38,5 @@ export default function DailyTimer({
 
   return <div>{formatTime(second)}</div>;
 }
+
+export { DailyTimer };

@@ -1,14 +1,10 @@
-export default function CheckboxInput({
-  data,
-  setInput,
-  value,
-  editable = true,
-}: {
+interface CheckboxInputProps {
   data: any;
   setInput: (input: boolean) => void;
   value?: any;
   editable?: boolean;
-}) {
+}
+function CheckboxInput({ data, setInput, value, editable = true }: CheckboxInputProps) {
   return (
     <div className="w-full relative flex flex-row gap-2">
       <label htmlFor={data.name}>{data.name}:</label>
@@ -23,3 +19,5 @@ export default function CheckboxInput({
     </div>
   );
 }
+
+export { CheckboxInput };

@@ -7,16 +7,16 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosStats, IoMdArrowRoundBack } from "react-icons/io";
 
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { isDemo } from "@/features/auth/services/session";
-import api from "@/services/api";
+import { api } from "@/services/api";
 
-import MapLeaderboard from "./_components/leaderboard";
+import { MapLeaderboard } from "./_components/leaderboard";
 
 import "@/app/map/[id]/page.css";
 import "./page.css";
-import Loading from "@/components/primitives/loading";
-import MapInfoCard from "@/features/maps/components/map-info-card";
+import { Loading } from "@/components/primitives/loading";
+import { MapInfoCard } from "@/features/maps/components/map-info-card";
 
 export default function MapLeaderboardPage() {
   const [stats, setStats] = useState<any>();

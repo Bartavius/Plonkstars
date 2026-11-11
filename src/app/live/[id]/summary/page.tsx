@@ -6,12 +6,12 @@ import { FaMedal } from "react-icons/fa";
 import { ImLink } from "react-icons/im";
 import { IoIosStats } from "react-icons/io";
 
-import Loading from "@/components/primitives/loading";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import Summary from "@/features/challenge/components/summary";
-import api from "@/services/api";
+import { Loading } from "@/components/primitives/loading";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { Summary } from "@/features/challenge/components/summary";
+import { api } from "@/services/api";
 import "./page.css";
-import Popup from "@/components/primitives/popup";
+import { Popup } from "@/components/primitives/popup";
 
 interface Location {
   lat: number;

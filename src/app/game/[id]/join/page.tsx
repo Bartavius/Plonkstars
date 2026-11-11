@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import Loading from "@/components/primitives/loading";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import api from "@/services/api";
+import { Loading } from "@/components/primitives/loading";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { api } from "@/services/api";
 import { setError } from "@/store/error-slice";
 
 export default function JoinGame() {

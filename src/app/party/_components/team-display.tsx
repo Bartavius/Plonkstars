@@ -3,25 +3,16 @@
 import { useEffect, useState } from "react";
 import { GiExitDoor } from "react-icons/gi";
 
-import { Team } from "@/app/party/_types/team";
-import api from "@/services/api";
+import type { Team } from "@/app/party/_types/team";
+import { api } from "@/services/api";
 
-import TeamSettings from "./team-settings";
-import UserCard from "./user-card";
-import TeamBox from "./team-box";
+import { TeamSettings } from "./team-settings";
+import { UserCard } from "./user-card";
+import { TeamBox } from "./team-box";
 
 import "@/app/party/page.css";
-import Modal from "@/components/primitives/modal";
-
-export default function TeamDisplay({
-  code,
-  users,
-  host,
-  thisUser,
-  teams,
-  kickUser,
-  setMessage,
-}: {
+import { Modal } from "@/components/primitives/modal";
+interface TeamDisplayProps {
   code: string;
   users: { [key: string]: { username: string; user_cosmetics: any; in_lobby: boolean } };
   host: string;
@@ -29,7 +20,17 @@ export default function TeamDisplay({
   teams: { [key: string]: Team };
   kickUser: (username: string) => void;
   setMessage: (message: string, type?: string) => void;
-}) {
+}
+
+function TeamDisplay({
+  code,
+  users,
+  host,
+  thisUser,
+  teams,
+  kickUser,
+  setMessage,
+}: TeamDisplayProps) {
   const [selectedTeam, setSelectedTeam] = useState<string | undefined>(undefined);
   const [teamEdit, setTeamEdit] = useState<string | undefined>(undefined);
 
@@ -198,3 +199,5 @@ export default function TeamDisplay({
     </div>
   );
 }
+
+export { TeamDisplay };

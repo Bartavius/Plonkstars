@@ -1,22 +1,23 @@
-import CheckboxInput from "./checkbox-input";
-import SliderInput from "./slider-input";
-import TextInput from "./text-input";
-
-export default function UserInput({
-  inputType,
-  data,
-  value,
-  editable = true,
-  setInput,
-  setError,
-}: {
+import { CheckboxInput } from "./checkbox-input";
+import { SliderInput } from "./slider-input";
+import { TextInput } from "./text-input";
+interface UserInputProps {
   inputType: "input" | "slider" | "checkbox";
   data: any;
   value?: any;
   editable?: boolean;
   setInput: (data: any) => void;
   setError: (error: string) => void;
-}) {
+}
+
+function UserInput({
+  inputType,
+  data,
+  value,
+  editable = true,
+  setInput,
+  setError,
+}: UserInputProps) {
   function setRestrictions(value: any) {
     if (data.type === "number" && typeof value === "string") {
       try {
@@ -56,3 +57,5 @@ export default function UserInput({
     <CheckboxInput data={data} setInput={setRestrictions} value={value} editable={editable} />
   ) : null;
 }
+
+export { UserInput };

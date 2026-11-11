@@ -1,9 +1,9 @@
 import React from "react";
 
-import { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
+import type { CosmeticProps } from "@/features/cosmetics/types/cosmetic-props";
 import { CosmeticTiers } from "@/features/cosmetics/types/cosmetic-tiers";
 
-import CosmeticDisplayBox from "./cosmetics-display-box";
+import { CosmeticDisplayBox } from "./cosmetics-display-box";
 
 type CosmeticScrollBoxProps = {
   cosmeticsOwned: CosmeticProps[];
@@ -12,7 +12,7 @@ type CosmeticScrollBoxProps = {
   onClick?: (cosmetic: CosmeticProps | null) => void;
 };
 
-export default function CosmeticScrollBox({
+function CosmeticScrollBox({
   cosmeticsOwned,
   cosmeticsUnowned,
   selected,
@@ -67,3 +67,5 @@ export default function CosmeticScrollBox({
     </div>
   );
 }
+
+export { CosmeticScrollBox };

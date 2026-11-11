@@ -1,22 +1,10 @@
 /* eslint-disable import/order -- Sorting these imports would reorder stylesheets, since
    CSS loads in import order. See "Imports" in CLAUDE.md. */
 import "./map-ui-overlay.css";
-import HealthBar from "./healthbar";
+import { HealthBar } from "./healthbar";
 
-import GamePanel from "@/features/game/components/game-panel";
-
-export default function DuelsUIOverlay({
-  time,
-  timeLimit,
-  timeOffset,
-  roundNumber,
-  multi,
-  teams,
-  teamHP,
-  maxHealth,
-  leftTeam,
-  rightTeam,
-}: {
+import { GamePanel } from "@/features/game/components/game-panel";
+interface DuelsUIOverlayProps {
   time?: Date;
   timeLimit?: number;
   timeOffset?: number;
@@ -27,7 +15,20 @@ export default function DuelsUIOverlay({
   maxHealth: number;
   leftTeam: string;
   rightTeam: string;
-}) {
+}
+
+function DuelsUIOverlay({
+  time,
+  timeLimit,
+  timeOffset,
+  roundNumber,
+  multi,
+  teams,
+  teamHP,
+  maxHealth,
+  leftTeam,
+  rightTeam,
+}: DuelsUIOverlayProps) {
   return (
     <div className="duels-ui-overlay">
       <GamePanel
@@ -60,3 +61,5 @@ export default function DuelsUIOverlay({
     </div>
   );
 }
+
+export { DuelsUIOverlay };

@@ -1,4 +1,4 @@
-import { CosmeticProps } from "./cosmetic-props";
+import type { CosmeticProps } from "./cosmetic-props";
 
 export interface UserIconCosmetics {
   hue: number;

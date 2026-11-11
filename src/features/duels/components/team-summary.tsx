@@ -1,25 +1,15 @@
 import { useState } from "react";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 
-import UserIcon from "@/features/user/components/user-icon";
+import { UserIcon } from "@/features/user/components/user-icon";
 
 import playerTitlesJSON from "./player-titles.json" assert { type: "json" };
-import DuelsTeamRoundSummary from "./round-display";
-import DuelsTeamBox from "./team-box";
+import { DuelsTeamRoundSummary } from "./round-display";
+import { DuelsTeamBox } from "./team-box";
 import "./team-summary.css";
 
 const PLAYER_TITLES = playerTitlesJSON as { [key: string]: any };
-export default function DuelsTeamSummary({
-  users,
-  thisUser,
-  teams,
-  teamHP,
-  startHP,
-  teamGuesses,
-  locations,
-  router,
-  setDisplayRound,
-}: {
+interface DuelsTeamSummaryProps {
   users: { [key: string]: any };
   thisUser: string;
   teams: { [key: string]: any };
@@ -29,7 +19,19 @@ export default function DuelsTeamSummary({
   locations: { lat: number; lng: number }[];
   router: any;
   setDisplayRound: (round: number | "all") => void;
-}) {
+}
+
+function DuelsTeamSummary({
+  users,
+  thisUser,
+  teams,
+  teamHP,
+  startHP,
+  teamGuesses,
+  locations,
+  router,
+  setDisplayRound,
+}: DuelsTeamSummaryProps) {
   const teamPlacements = Object.keys(teams).sort((a, b) => {
     if (teamHP[b].length != teamHP[a].length) {
       return teamHP[b].length - teamHP[a].length;
@@ -266,3 +268,5 @@ export default function DuelsTeamSummary({
     </div>
   );
 }
+
+export { DuelsTeamSummary };

@@ -1,6 +1,6 @@
-import ProfileCard from "./profile-card";
+import { ProfileCard } from "./profile-card";
 
-export default function Contacts() {
+function Contacts() {
   const persons = [
     {
       name: "Patrick Zhang",
@@ -47,3 +47,5 @@ export default function Contacts() {
     </div>
   );
 }
+
+export { Contacts };

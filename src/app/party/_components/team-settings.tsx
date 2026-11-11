@@ -1,20 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 
-import { Team } from "@/app/party/_types/team";
-import api from "@/services/api";
+import type { Team } from "@/app/party/_types/team";
+import { api } from "@/services/api";
 
 const MAX_NAME_LENGTH = 64;
-
-export default function TeamSettings({
-  teamInfo,
-  setMessage,
-  onClose,
-}: {
+interface TeamSettingsProps {
   teamInfo: Team;
   setMessage: (message: string, type?: string) => void;
   onClose: () => void;
-}) {
+}
+
+function TeamSettings({ teamInfo, setMessage, onClose }: TeamSettingsProps) {
   const [localSettings, setLocalSettings] = useState<Team>(teamInfo);
   const [editingName, setEditingName] = useState<number | undefined>(undefined);
   const [name, setName] = useState<string>(teamInfo.name);
@@ -152,3 +149,5 @@ export default function TeamSettings({
     </div>
   );
 }
+
+export { TeamSettings };

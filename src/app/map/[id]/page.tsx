@@ -1,4 +1,5 @@
 "use client";
+
 /* eslint-disable import/order -- Sorting these imports would reorder stylesheets, since
    CSS loads in import order. See "Imports" in CLAUDE.md. */
 import { motion } from "framer-motion";
@@ -14,16 +15,16 @@ import { Md5K } from "react-icons/md";
 import { PiMapPin } from "react-icons/pi";
 import { PiMapPinAreaBold } from "react-icons/pi";
 
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { isDemo } from "@/features/auth/services/session";
-import api from "@/services/api";
+import { api } from "@/services/api";
 import "./page.css";
-import MapPreview from "@/features/maps/components/map-preview";
+import { MapPreview } from "@/features/maps/components/map-preview";
 
-import StatBox from "./_components/stat-box";
+import { StatBox } from "./_components/stat-box";
 
-import Loading from "@/components/primitives/loading";
-import MapInfoCard from "@/features/maps/components/map-info-card";
+import { Loading } from "@/components/primitives/loading";
+import { MapInfoCard } from "@/features/maps/components/map-info-card";
 
 interface Location {
   lat: number;

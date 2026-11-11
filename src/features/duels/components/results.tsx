@@ -1,26 +1,13 @@
 import { use, useEffect, useState } from "react";
 
-import DuelsMapResult from "@/features/maps/components/duels-map-results";
+import { DuelsMapResult } from "@/features/maps/components/duels-map-results";
 
-import DuelsUIOverlay from "./map-ui-overlay";
+import { DuelsUIOverlay } from "./map-ui-overlay";
 import "@/app/game.css";
 import "./duels.css";
 import "./results.css";
-import GuessFooter from "./team-guess-footer";
-
-export default function DuelsResults({
-  teamGuesses,
-  location,
-  users,
-  teams,
-  startHP,
-  roundNumber,
-  multi,
-  thisUser,
-  teamHP,
-  timeOffset,
-  nextRoundTime,
-}: {
+import { GuessFooter } from "./team-guess-footer";
+interface DuelsResultsProps {
   teamGuesses: { [key: string]: any };
   location: { lat: number; lng: number };
   users: { [key: string]: any };
@@ -32,7 +19,21 @@ export default function DuelsResults({
   teamHP: { [key: string]: { hp: number; prev_hp: number } };
   timeOffset: number;
   nextRoundTime: Date;
-}) {
+}
+
+function DuelsResults({
+  teamGuesses,
+  location,
+  users,
+  teams,
+  startHP,
+  roundNumber,
+  multi,
+  thisUser,
+  teamHP,
+  timeOffset,
+  nextRoundTime,
+}: DuelsResultsProps) {
   const [timeLeft, setTimeLeft] = useState<number>(
     Math.max(0, nextRoundTime.getTime() - (new Date().getTime() + timeOffset)),
   );
@@ -155,3 +156,5 @@ export default function DuelsResults({
     </div>
   );
 }
+
+export { DuelsResults };

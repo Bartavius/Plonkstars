@@ -1,17 +1,13 @@
-import api from "@/services/api";
+import { api } from "@/services/api";
 import { setPartyCode } from "@/store/party-slice";
-
-export default async function joinParty({
-  code,
-  setError,
-  router,
-  dispatch,
-}: {
+interface JoinPartyOptions {
   code: string;
   setError: (error: string) => void;
   router: any;
   dispatch: any;
-}) {
+}
+
+export async function joinParty({ code, setError, router, dispatch }: JoinPartyOptions) {
   try {
     await api.post("/party/join", { code });
   } catch (err: any) {

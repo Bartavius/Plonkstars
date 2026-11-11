@@ -25,4 +25,4 @@ const settingsSlice = createSlice({
 
 export const { setMapType, setMiniMapResolution } = settingsSlice.actions;
 
-export default settingsSlice.reducer;
+export const settingsReducer = settingsSlice.reducer;

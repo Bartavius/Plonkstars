@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import "./modal.css";
 
 interface ModalProps {
@@ -7,7 +7,7 @@ interface ModalProps {
   children: ReactNode;
 }
 
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+function Modal({ isOpen, onClose, children }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [clickedOutside, setClickedOutside] = useState(false);
 
@@ -46,6 +46,6 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
       </div>
     </div>
   );
-};
+}
 
-export default Modal;
+export { Modal };

@@ -1,21 +1,17 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import Modal from "@/components/primitives/modal";
-import api from "@/services/api";
+import { Modal } from "@/components/primitives/modal";
+import { api } from "@/services/api";
 import "./map-delete-modal.css";
-
-export default function MapDeleteModal({
-  name,
-  id,
-  isOpen,
-  onClose,
-}: {
+interface MapDeleteModalProps {
   name: string;
   id: string;
   isOpen: boolean;
   onClose: () => void;
-}) {
+}
+
+function MapDeleteModal({ name, id, isOpen, onClose }: MapDeleteModalProps) {
   const [input, setInput] = useState<string>("");
   const [deleting, setDeleting] = useState<boolean>(false);
   const [countdown, setCountdown] = useState<number>(-1);
@@ -89,3 +85,5 @@ export default function MapDeleteModal({
     </Modal>
   );
 }
+
+export { MapDeleteModal };

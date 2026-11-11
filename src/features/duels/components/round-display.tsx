@@ -1,22 +1,11 @@
 import { TbMoodSadFilled } from "react-icons/tb";
 
-import UserIcon from "@/features/user/components/user-icon";
+import { UserIcon } from "@/features/user/components/user-icon";
 
-import HealthBar from "./healthbar";
+import { HealthBar } from "./healthbar";
 import "./team-summary.css";
 import "./healthbar";
-export default function DuelsTeamRoundSummary({
-  roundNumber,
-  teamInfo,
-  prevHp,
-  hp,
-  maxHealth,
-  bestGuess,
-  bestTeamGuess,
-  users,
-  teams,
-  onClick,
-}: {
+interface DuelsTeamRoundSummaryProps {
   roundNumber: number;
   teamInfo: any;
   prevHp: number;
@@ -27,7 +16,20 @@ export default function DuelsTeamRoundSummary({
   users: { [key: string]: any };
   teams: { [key: string]: any };
   onClick: () => void;
-}) {
+}
+
+function DuelsTeamRoundSummary({
+  roundNumber,
+  teamInfo,
+  prevHp,
+  hp,
+  maxHealth,
+  bestGuess,
+  bestTeamGuess,
+  users,
+  teams,
+  onClick,
+}: DuelsTeamRoundSummaryProps) {
   function getColor(color: number) {
     return `#${color.toString(16).padStart(6, "0")}`;
   }
@@ -91,3 +93,5 @@ export default function DuelsTeamRoundSummary({
     </div>
   );
 }
+
+export { DuelsTeamRoundSummary };

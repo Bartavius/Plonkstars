@@ -1,5 +1,5 @@
-import { CosmeticTiers } from "./cosmetic-tiers";
-import { CosmeticTypes } from "./cosmetic-types";
+import type { CosmeticTiers } from "./cosmetic-tiers";
+import type { CosmeticTypes } from "./cosmetic-types";
 
 export interface CosmeticProps {
   image: string;

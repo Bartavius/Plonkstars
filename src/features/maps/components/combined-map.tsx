@@ -1,22 +1,17 @@
 import { useState } from "react";
 
-import StreetView from "./streetview";
+import { StreetView } from "./streetview";
 import "./streetview.css";
 import "./map.css";
-
-export default function CombinedMap({
-  correctLat,
-  correctLng,
-  reload,
-  NMPZ,
-  map,
-}: {
+interface CombinedMapProps {
   correctLat: number;
   correctLng: number;
   reload: number;
   NMPZ: boolean;
   map: React.ReactNode;
-}) {
+}
+
+function CombinedMap({ correctLat, correctLng, reload, NMPZ, map }: CombinedMapProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnterMap = () => {
@@ -48,3 +43,5 @@ export default function CombinedMap({
     </div>
   );
 }
+
+export { CombinedMap };

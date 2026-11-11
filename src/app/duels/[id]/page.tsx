@@ -2,14 +2,14 @@
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import useDuelsSocket from "@/app/duels/_hooks/use-duels-socket";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import DuelsGameplay from "@/features/duels/components/gameplay";
-import Loading from "@/components/primitives/loading";
-import Popup from "@/components/primitives/popup";
-import UserIcon from "@/features/user/components/user-icon";
-import calculateOffset from "@/lib/clock-offset";
-import api from "@/services/api";
+import { useDuelsSocket } from "@/app/duels/_hooks/use-duels-socket";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { DuelsGameplay } from "@/features/duels/components/gameplay";
+import { Loading } from "@/components/primitives/loading";
+import { Popup } from "@/components/primitives/popup";
+import { UserIcon } from "@/features/user/components/user-icon";
+import { calculateOffset } from "@/lib/clock-offset";
+import { api } from "@/services/api";
 
 export default function DuelsGamePage() {
   const users = useRef<{ [key: string]: any }>({});

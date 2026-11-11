@@ -1,15 +1,12 @@
-import UserIcon from "@/features/user/components/user-icon";
+import { UserIcon } from "@/features/user/components/user-icon";
 import "./results.css";
-
-export default function GuessFooter({
-  team,
-  bestGuess,
-  bestGuessUserCosmetics,
-}: {
+interface GuessFooterProps {
   team: any;
   bestGuess?: any;
   bestGuessUserCosmetics?: any;
-}) {
+}
+
+function GuessFooter({ team, bestGuess, bestGuessUserCosmetics }: GuessFooterProps) {
   function getColor(color: number) {
     return `#${color.toString(16).padStart(6, "0")}`;
   }
@@ -43,3 +40,5 @@ export default function GuessFooter({
     </div>
   );
 }
+
+export { GuessFooter };

@@ -1,25 +1,26 @@
 import { MapContainer, Polyline, Tooltip } from "react-leaflet";
 
-import FitBounds from "./fit-bounds";
-import MapTileLayer from "./map-tile-layer";
-import MapIcon from "./map-icon";
+import { FitBounds } from "./fit-bounds";
+import { MapTileLayer } from "./map-tile-layer";
+import { MapIcon } from "./map-icon";
 import "./map.css";
-
-export default function DuelsMapResult({
-  locations,
-  teamGuesses,
-  teams,
-  users,
-  createTooltips = (guess) => guess.user,
-  showRound = false,
-}: {
+interface DuelsMapResultProps {
   locations: { lat: number; lng: number }[];
   teamGuesses: { [key: string]: { lat: number; lng: number; user: string }[][] };
   teams: { [key: string]: any };
   users: { [key: string]: any };
   createTooltips?: (guess: any) => React.ReactNode;
   showRound?: boolean;
-}) {
+}
+
+function DuelsMapResult({
+  locations,
+  teamGuesses,
+  teams,
+  users,
+  createTooltips = (guess) => guess.user,
+  showRound = false,
+}: DuelsMapResultProps) {
   locations.forEach((loc, i) => {
     Object.keys(teamGuesses).forEach((team) => {
       teamGuesses[team][i]?.forEach((guess, j, arr) => {
@@ -116,3 +117,5 @@ export default function DuelsMapResult({
     </MapContainer>
   );
 }
+
+export { DuelsMapResult };

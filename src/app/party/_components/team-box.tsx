@@ -1,19 +1,10 @@
 import { GiBootStomp, GiExitDoor } from "react-icons/gi";
 
-import { Team } from "@/app/party/_types/team";
-import api from "@/services/api";
+import type { Team } from "@/app/party/_types/team";
+import { api } from "@/services/api";
 
-import UserCard from "./user-card";
-
-export default function TeamBox({
-  users,
-  info,
-  thisUser,
-  host,
-  selected,
-  code,
-  kickUser,
-}: {
+import { UserCard } from "./user-card";
+interface TeamBoxProps {
   users: { [key: string]: { username: string; user_cosmetics: any } };
   info: Team;
   thisUser: string;
@@ -21,7 +12,9 @@ export default function TeamBox({
   selected: boolean;
   code: string;
   kickUser: (username: string) => void;
-}) {
+}
+
+function TeamBox({ users, info, thisUser, host, selected, code, kickUser }: TeamBoxProps) {
   function kickFromTeam(username: string) {
     api.post(`/party/teams/kick`, { code, username });
   }
@@ -77,3 +70,5 @@ export default function TeamBox({
     </div>
   );
 }
+
+export { TeamBox };

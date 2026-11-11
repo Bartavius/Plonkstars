@@ -1,19 +1,15 @@
 import { GiExitDoor } from "react-icons/gi";
 
-import UserCard from "./user-card";
+import { UserCard } from "./user-card";
 import "@/app/party/page.css";
-
-export default function PlayerDisplay({
-  users,
-  host,
-  thisUser,
-  kickUser,
-}: {
+interface PlayerDisplayProps {
   users: { [key: string]: { username: string; user_cosmetics: any; in_lobby: boolean } };
   host: string;
   thisUser: string;
   kickUser: (username: string) => void;
-}) {
+}
+
+function PlayerDisplay({ users, host, thisUser, kickUser }: PlayerDisplayProps) {
   return (
     <div className="party-page-user-list">
       {Object.entries(users).map(([username, user]) => {
@@ -42,3 +38,5 @@ export default function PlayerDisplay({
     </div>
   );
 }
+
+export { PlayerDisplay };

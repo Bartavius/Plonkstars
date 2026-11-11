@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { Marker } from "react-leaflet";
 
-import { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
-import UserIcon from "@/features/user/components/user-icon";
+import type { UserIconCosmetics } from "@/features/cosmetics/types/user-icon-cosmetics";
+import { UserIcon } from "@/features/user/components/user-icon";
 import "./map-icon.css";
 
 interface Location {
@@ -13,17 +13,7 @@ interface Location {
 }
 
 const iconCache: { [key: string]: L.Icon | L.DivIcon } = {};
-
-export default function MapIcon({
-  pos,
-  clickable = false,
-  onClick,
-  iconUrl,
-  iconSize,
-  iconPercent,
-  customize,
-  children,
-}: {
+interface MapIconProps {
   pos: Location;
   clickable?: boolean;
   onClick?: () => void;
@@ -32,7 +22,18 @@ export default function MapIcon({
   iconPercent?: number;
   customize?: UserIconCosmetics;
   children?: React.ReactNode;
-}) {
+}
+
+function MapIcon({
+  pos,
+  clickable = false,
+  onClick,
+  iconUrl,
+  iconSize,
+  iconPercent,
+  customize,
+  children,
+}: MapIconProps) {
   const [icon, setIcon] = useState<L.Icon | L.DivIcon | null>(null);
 
   useEffect(() => {
@@ -117,3 +118,5 @@ export default function MapIcon({
     </Marker>
   );
 }
+
+export { MapIcon };

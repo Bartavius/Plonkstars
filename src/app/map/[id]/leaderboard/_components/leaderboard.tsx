@@ -4,13 +4,16 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
-import Table from "@/components/primitives/table";
-import Loading from "@/components/primitives/loading";
+import { Table } from "@/components/primitives/table";
+import { Loading } from "@/components/primitives/loading";
 import "@/app/map/[id]/leaderboard/page.css";
 import { isDemo } from "@/features/auth/services/session";
-import api from "@/services/api";
+import { api } from "@/services/api";
+interface MapLeaderboardProps {
+  mapID: string;
+}
 
-export default function MapLeaderboard({ mapID }: { mapID: string }) {
+function MapLeaderboard({ mapID }: MapLeaderboardProps) {
   const [leaderboard, setLeaderboard] = useState<any[]>();
   const [page, setPage] = useState<number>(1);
   const [hasNext, setHasNext] = useState<boolean>(false);
@@ -136,3 +139,5 @@ export default function MapLeaderboard({ mapID }: { mapID: string }) {
     </div>
   );
 }
+
+export { MapLeaderboard };

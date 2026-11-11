@@ -18,6 +18,13 @@ const eslintConfig = [
       // Warn for now: existing code has ~250 untyped `any`s to burn down.
       // New code should use `unknown` plus a narrowing check instead.
       "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { prefer: "type-imports", fixStyle: "inline-type-imports" },
+      ],
+      // Together with the rule above: `import type { A }` when every name is a type,
+      // `import { a, type B }` when they are mixed.
+      "@typescript-eslint/no-import-type-side-effects": "error",
       // Packages, then @/ aliases, then relative imports. Not alphabetized, because
       // imports that pull in CSS must keep their order: it is the cascade order.
       "import/order": [

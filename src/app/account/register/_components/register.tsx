@@ -5,12 +5,12 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { isAuthenticated, isDemo } from "@/features/auth/services/session";
-import api from "@/services/api";
+import { api } from "@/services/api";
 import { clearBlockedURL } from "@/store/error-slice";
 
 const sigmar = Sigmar({ subsets: ["latin"], weight: "400" });
 
-const Register = () => {
+function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -128,5 +128,6 @@ const Register = () => {
       </motion.div>
     </div>
   );
-};
-export default Register;
+}
+
+export { Register };

@@ -2,12 +2,12 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import useDuelsSocket from "@/app/duels/_hooks/use-duels-socket";
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
-import DuelsResults from "@/features/duels/components/results";
-import Loading from "@/components/primitives/loading";
-import calculateOffset from "@/lib/clock-offset";
-import api from "@/services/api";
+import { useDuelsSocket } from "@/app/duels/_hooks/use-duels-socket";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
+import { DuelsResults } from "@/features/duels/components/results";
+import { Loading } from "@/components/primitives/loading";
+import { calculateOffset } from "@/lib/clock-offset";
+import { api } from "@/services/api";
 
 export default function DuelsResultsPage() {
   const params = useParams();

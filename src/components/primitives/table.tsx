@@ -1,19 +1,21 @@
 import "./table.css";
-export default function Table({
-  headers,
-  rowHeader,
-  data,
-  onClickRow,
-  onClickHeader,
-  className = "",
-}: {
+interface TableProps {
   headers: any;
   data: any[];
   onClickRow?: (row: number) => void;
   onClickHeader?: (col: number) => void;
   rowHeader?: string;
   className?: string;
-}) {
+}
+
+function Table({
+  headers,
+  rowHeader,
+  data,
+  onClickRow,
+  onClickHeader,
+  className = "",
+}: TableProps) {
   const keys = Object.keys(headers);
 
   if (!data || data.length === 0) {
@@ -60,3 +62,5 @@ export default function Table({
     </table>
   );
 }
+
+export { Table };

@@ -2,20 +2,17 @@
 
 import { MapContainer, Polyline, Tooltip } from "react-leaflet";
 
-import FitBounds from "./fit-bounds";
+import { FitBounds } from "./fit-bounds";
 import "./map.css";
-import MapIcon from "./map-icon";
-import MapTileLayer from "./map-tile-layer";
-
-export default function BasicMapResult({
-  markers,
-  height,
-  user,
-}: {
+import { MapIcon } from "./map-icon";
+import { MapTileLayer } from "./map-tile-layer";
+interface BasicMapResultProps {
   markers: any;
   height?: number;
   user?: any;
-}) {
+}
+
+function BasicMapResult({ markers, height, user }: BasicMapResultProps) {
   const boundedMarkers = markers.map((marker: any) => {
     const newUsers = marker.users
       .map((user: any) => {
@@ -109,3 +106,5 @@ export default function BasicMapResult({
     </div>
   );
 }
+
+export { BasicMapResult };

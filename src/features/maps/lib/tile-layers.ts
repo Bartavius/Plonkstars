@@ -1,5 +1,5 @@
 const API_KEY = process.env.NEXT_PUBLIC_MAP_API;
-const maps = [
+const tileLayers = [
   {
     name: "Open Street Map",
     url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -26,4 +26,4 @@ const maps = [
   },
 ];
 
-export default maps;
+export { tileLayers };

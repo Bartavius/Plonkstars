@@ -7,34 +7,31 @@ import { useEffect, useState } from "react";
 import { FaMedal } from "react-icons/fa";
 
 import "@/app/game.css";
-import GamePanel from "@/features/game/components/game-panel";
-import api from "@/services/api";
+import { GamePanel } from "@/features/game/components/game-panel";
+import { api } from "@/services/api";
 
-import ScoreAccordion from "./score-accordion";
+import { ScoreAccordion } from "./score-accordion";
 
-import Popup from "@/components/primitives/popup";
-import Modal from "@/components/primitives/modal";
-import MapSearch from "@/features/maps/components/map-search";
+import { Popup } from "@/components/primitives/popup";
+import { Modal } from "@/components/primitives/modal";
+import { MapSearch } from "@/features/maps/components/map-search";
 
-const BasicMapResult = dynamic(() => import("@/features/maps/components/basic-map-result"), {
-  ssr: false,
-});
-
-export default function Results({
-  onClick,
-  this_user,
-  users,
-  roundNumber,
-  correct,
-  centerText,
-}: {
+const BasicMapResult = dynamic(
+  () => import("@/features/maps/components/basic-map-result").then((m) => m.BasicMapResult),
+  {
+    ssr: false,
+  },
+);
+interface ResultsProps {
   onClick: () => void;
   this_user: any;
   users: any;
   roundNumber: number;
   correct: any;
   centerText?: React.ReactNode;
-}) {
+}
+
+function Results({ onClick, this_user, users, roundNumber, correct, centerText }: ResultsProps) {
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState<number>(0);
   const [message, _setMessage] = useState<React.ReactNode>();
@@ -181,3 +178,5 @@ export default function Results({
     </div>
   );
 }
+
+export { Results };

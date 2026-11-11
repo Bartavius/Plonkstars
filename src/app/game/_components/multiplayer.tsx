@@ -2,21 +2,18 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import LoginTooltipWrapper from "@/features/auth/components/login-tooltip-wrapper";
+import { LoginTooltipWrapper } from "@/features/auth/components/login-tooltip-wrapper";
 import { isDemo } from "@/features/auth/services/session";
-import joinParty from "@/features/party/services/join-party";
-import api from "@/services/api";
+import { joinParty } from "@/features/party/services/join-party";
+import { api } from "@/services/api";
 import { setPartyCode } from "@/store/party-slice";
-
-export default function Multiplayer({
-  loading,
-  setLoading,
-  setError,
-}: {
+interface MultiplayerProps {
   loading: boolean;
   setLoading: (loading: boolean) => void;
   setError: (error: string) => void;
-}) {
+}
+
+function Multiplayer({ loading, setLoading, setError }: MultiplayerProps) {
   const [input, setInput] = useState<string[]>(["", "", "", ""]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isFocused, setIsFocused] = useState(false);
@@ -170,3 +167,5 @@ export default function Multiplayer({
     </div>
   );
 }
+
+export { Multiplayer };

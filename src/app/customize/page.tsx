@@ -4,15 +4,15 @@
    CSS loads in import order. See "Imports" in CLAUDE.md. */
 import { useState } from "react";
 
-import ProtectedRoutes from "@/features/auth/components/protected-routes";
+import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 
-import MapDisplay from "./_components/map-layer";
+import { MapDisplay } from "./_components/map-layer";
 
 import "./page.css";
-import Popup from "@/components/primitives/popup";
+import { Popup } from "@/components/primitives/popup";
 
-import AvatarCustom from "./_components/avatar";
-import MapResolution from "./_components/map-resolution";
+import { AvatarCustom } from "./_components/avatar";
+import { MapResolution } from "./_components/map-resolution";
 import "leaflet/dist/leaflet.css";
 
 export default function Settings() {

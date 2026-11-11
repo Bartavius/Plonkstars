@@ -38,6 +38,15 @@ needs it.
 - **Type the boundaries**: props, API responses, route params. No new `any`; use
   `unknown` plus a narrowing check. The existing `any`s are lint warnings to burn down.
 - Every `if`/`else`/loop body gets braces (enforced by ESLint).
+- **Named exports only**, except the default export Next requires from `page.tsx` and
+  `layout.tsx`. Components and hooks end with `export { Name };`; plain functions in
+  `.ts` files use `export function`. Load a component with `next/dynamic` as
+  `import("...").then((m) => m.Name)`.
+- **Components are function declarations** with props typed by an `interface NameProps`
+  declared just above them, never an inline object type. Hooks and other functions that
+  take an options object use `interface NameOptions`.
+- **Type-only imports use `import type`** (`import { a, type B }` when mixed), enforced
+  by ESLint.
 
 ## Imports
 
