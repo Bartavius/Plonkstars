@@ -1,4 +1,4 @@
-import UserIcon from "./user-icon"
+import UserIcon from "@/features/user/components/user-icon"
 import "./user-card.css"
 import { FaCrown } from "react-icons/fa"
 export default function UserCard({

@@ -1,4 +1,4 @@
-import UserCard from "@/features/user/components/user-card";
+import UserCard from "./user-card";
 import { GiExitDoor } from "react-icons/gi";
 import TeamBox from "./team-box";
 import "@/app/party/page.css";

@@ -1,4 +1,4 @@
-import UserCard from "@/features/user/components/user-card";
+import UserCard from "./user-card";
 import api from "@/services/api";
 import { GiBootStomp, GiExitDoor } from "react-icons/gi";
 import { Team } from "@/app/party/_types/team";
