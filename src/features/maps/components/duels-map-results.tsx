@@ -33,7 +33,14 @@ export default function DuelsMapResult({
         });
     });
 
-    const fit = [...locations, ...Object.values(teamGuesses).map(team => team.map((rounds) => rounds[0])).flat()].filter((loc) => loc !== undefined);
+    const fit = [
+            ...locations, 
+            ...Object.values(teamGuesses)
+            .map(team => team
+                .map((rounds) => rounds[0])
+            ).flat()
+        ]
+        .filter((loc) => loc !== undefined);
 
     return(
         <MapContainer

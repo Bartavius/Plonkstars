@@ -38,7 +38,6 @@ export default function DuelsTeamBox({
         return (r * 299 + g * 587 + b * 114) / 1000;
     }
 
-    console.log(teamGuesses);
     const brightness = getBrightness(teamInfo.color) > 128;
     const numWon = roundsWon.length;
     const avgScore = teamGuesses.reduce((acc: number, guesses:any) => acc + (guesses[0]?.score ?? 0), 0) / teamGuesses.length
@@ -57,7 +56,7 @@ export default function DuelsTeamBox({
             <div className="duels-team-box-stats">
                 <div className="duels-team-box-stat-box">
                     <div className="duels-team-box-stat-title">
-                        Num. Players
+                        Players
                     </div>
                     <div className="duels-team-box-stat-stat">
                         {teamInfo.members.length}

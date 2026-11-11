@@ -1,22 +1,3 @@
-.duels-summary-header-container{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding-top: 1rem;
-}
-
-.duels-summary-header{
-    color: var(--plonk-stars-white);
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-}
-
-.duels-summary-back-to-party-wrapper{
-    padding-right: 1rem;
-    display: flex;
-    justify-content:right;
-}
-
 .duels-team-container{
     display: flex;
     flex-direction: row;

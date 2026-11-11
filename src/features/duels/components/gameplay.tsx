@@ -112,8 +112,6 @@ export default function DuelsGameplay({
           multi={multi} 
           maxHealth={maxHealth} 
           teams={teams} 
-          users={users} 
-          thisUser={thisUser} 
           leftTeam={thisTeam} 
           rightTeam={teamsToDisplay[rightTeamIndex]}
         />
