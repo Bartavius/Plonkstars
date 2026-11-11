@@ -133,7 +133,7 @@ export default function Game() {
               <div className="mb-4 relative">
                 <div className="block mb-2 text-white">Map Name</div>
                 <button
-                  className="game-setup-btn w-full py-2 rounded-lg font-semibold"
+                  className="bg-plonk-stars-red text-plonk-stars-white transition-all duration-200 ease-[ease-in-out] hover:[filter:brightness(90%)] w-full py-2 rounded-lg font-semibold"
                   disabled={loading}
                   onClick={() => {
                     !loading && setIsModalOpen(true);
@@ -158,7 +158,7 @@ export default function Game() {
                 ))}
               <button
                 disabled={loading}
-                className="game-setup-btn w-full py-2 rounded-lg font-semibold"
+                className="bg-plonk-stars-red text-plonk-stars-white transition-all duration-200 ease-[ease-in-out] hover:[filter:brightness(90%)] w-full py-2 rounded-lg font-semibold"
                 onClick={startGame}
               >
                 Start Game
@@ -190,8 +190,8 @@ export default function Game() {
           <div className="fixed bottom-4 right-8 z-50">
             <button
               className="
-                bg-red text-white px-4 py-2 text-lg font-semibold rounded-lg shadow-lg 
-                game-setup-btn transition
+                px-4 py-2 text-lg font-semibold rounded-lg shadow-lg 
+                bg-plonk-stars-red text-plonk-stars-white transition-all duration-200 ease-[ease-in-out] hover:[filter:brightness(90%)]
               "
               onClick={() => setIsHowToPlayOpen(true)}
             >

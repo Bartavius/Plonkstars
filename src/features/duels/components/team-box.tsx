@@ -1,4 +1,3 @@
-import "./team-box.css";
 import type { DuelsSummaryGuess } from "../types/duels-guess";
 import type { DuelsTeam } from "../types/duels-team";
 interface DuelsTeamBoxProps {
@@ -49,7 +48,7 @@ function DuelsTeamBox({
     teamGuesses.length;
   return (
     <div
-      className="duels-team-box-container dark-hover-button"
+      className="bg-dark-blue border-2 border-solid border-plonk-stars-white rounded-2xl flex flex-col justify-center items-center text-plonk-stars-white p-4 dark-hover-button"
       style={{
         borderColor: getPlacementColor(placement),
         backgroundColor: getColor(teamInfo.color),
@@ -57,24 +56,27 @@ function DuelsTeamBox({
       }}
       onClick={onClick}
     >
-      <div className="duels-team-box-placement" style={{ color: getPlacementColor(placement) }}>
+      <div
+        className="text-[1rem] font-bold [-webkit-text-stroke:0.5px_gray]"
+        style={{ color: getPlacementColor(placement) }}
+      >
         #{placement}
       </div>
-      <div className="duels-team-box-name">{teamInfo.name}</div>
-      <div className="duels-team-box-stats">
+      <div className="text-[1.25rem] font-bold mt-2">{teamInfo.name}</div>
+      <div className="flex flex-row gap-4 mt-2">
         <div className="duels-team-box-stat-box">
-          <div className="duels-team-box-stat-title">Players</div>
-          <div className="duels-team-box-stat-stat">{teamInfo.members.length}</div>
+          <div className="text-[0.75rem] font-bold text-center">Players</div>
+          <div className="text-[1rem] text-center">{teamInfo.members.length}</div>
         </div>
         <div className="duels-team-box-stat-box">
-          <div className="duels-team-box-stat-title">Rounds Won</div>
-          <div className="duels-team-box-stat-stat">
+          <div className="text-[0.75rem] font-bold text-center">Rounds Won</div>
+          <div className="text-[1rem] text-center">
             {numWon} / {teamGuesses.length}
           </div>
         </div>
         <div className="duels-team-box-stat-box">
-          <div className="duels-team-box-stat-title">Avg. Score</div>
-          <div className="duels-team-box-stat-stat">{avgScore.toFixed(2)}</div>
+          <div className="text-[0.75rem] font-bold text-center">Avg. Score</div>
+          <div className="text-[1rem] text-center">{avgScore.toFixed(2)}</div>
         </div>
       </div>
     </div>

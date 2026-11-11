@@ -96,16 +96,16 @@ function Summary({
       const rank = scores.rank ? scores.rank : index + 1;
       map.total = <ScoreBox data={scores} />;
       map.heading = (
-        <div className="summary-rank-box">
+        <div className="w-full flex flex-col items-center justify-center whitespace-nowrap">
           <div className="rank-number-text">
             #{rank}
-            <UserIcon data={scores.user.user_cosmetics} className="summary-leaderboard-avatar" />
+            <UserIcon data={scores.user.user_cosmetics} className="w-6" />
           </div>
-          <div className="user-name-text">{scores.user.username}</div>
+          <div className="text-lightest-blue text-[1rem] h-full">{scores.user.username}</div>
         </div>
       );
       if (scores.user.username === user) {
-        map.style = "summary-highlight-self-row";
+        map.style = "bg-dark-blue";
       }
       return map;
     });
@@ -130,7 +130,7 @@ function Summary({
   }, [leaderboard]);
   return (
     <div>
-      <div id="map-summary" className="map-container absolute">
+      <div id="map-summary" className="w-full h-[70%] overflow-hidden relative z-0">
         <BasicMapResult
           markers={displayedLocation.map((location, index) => {
             return {
@@ -150,7 +150,7 @@ function Summary({
             onClickHeader={clickHeader}
             headers={keys}
             rowHeader="heading"
-            className="table-leaderboard-style"
+            className="mt-4 min-w-full"
           />
         ) : (
           <div>

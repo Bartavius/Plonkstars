@@ -1,103 +1,8 @@
-.settings-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.settings-label {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 5px;
-}
-
-.settings-header {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.settings-box {
-  margin: 1rem;
-  width: 80%;
-  padding: 1rem;
-  border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--dark-blue);
-  border-color: white;
-  border-width: 2px;
-}
-
-.settings-dropdown {
-  width: 100%;
-  color: var(--darkest-blue);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .customize-leaflet-map {
   z-index: 0;
   margin-top: 1rem;
   width: 100%;
   height: 50vh;
-}
-
-.avatar-customizer-container {
-  display: flex;
-  flex-direction: row;
-  gap: 30px;
-  align-items: center;
-  width: 100%;
-}
-
-.avatar-preview {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1rem;
-  width: 50%;
-  height: auto;
-  min-height: 300px;
-  max-width: 100%;
-  aspect-ratio: 1;
-  overflow: hidden;
-}
-
-.avatar-customizer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  height: auto;
-  max-width: 100%;
-  aspect-ratio: 1;
-}
-
-.avatar-icon {
-  max-width: 100%;
-  width: 50%;
-  height: auto;
-  object-fit: contain;
-  image-rendering: pixelated;
-}
-
-.color-controls {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.control-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .control-group label {
@@ -149,39 +54,6 @@
   transform: scale(1.1);
 }
 
-.value-display {
-  min-width: 40px;
-  text-align: right;
-  color: #666;
-  font-size: 14px;
-}
-
-.reset-button {
-  margin-top: 16px;
-  align-self: flex-start;
-  padding: 8px 16px;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  color: #555;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.reset-button:hover {
-  background-color: #e0e0e0;
-}
-
-.color-presets {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin: 15px 0;
-  width: 80%;
-}
-
 .color-preset {
   width: 50px;
   height: 50px;
@@ -207,24 +79,6 @@
   border: 2px solid #ccc;
 }
 
-.slider-wrapper {
-  position: relative;
-  width: 100%;
-  height: 32px;
-}
-
-.hue-slider-background {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 32px;
-  background: linear-gradient(to right, #dd8600, #00bc43, #339cff, #ff5fd6, #dd8600);
-  border-radius: 10px;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .saturation-slider-background {
   position: absolute;
   top: 50%;
@@ -232,18 +86,6 @@
   width: 100%;
   height: 32px;
   background: linear-gradient(to right, grey, #dd8600);
-  border-radius: 10px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.brightness-slider-background {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 32px;
-  background: linear-gradient(to right, black, white);
   border-radius: 10px;
   pointer-events: none;
   z-index: 1;
@@ -281,30 +123,10 @@ input[type="range"].slider::-moz-range-thumb {
 }
 
 @media (max-width: 800px) {
-  .avatar-customizer-container {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .avatar-icon {
-    width: 100%;
-    height: auto;
-  }
-
-  .avatar-customizer {
-    width: 100%;
-    align-items: stretch;
-  }
-
-  .reset-button,
   .form-button-general,
   .form-button-selected {
     padding: 12px 24px;
     font-size: 1rem;
-  }
-
-  .color-controls {
-    gap: 12px;
   }
 
   .control-group label {
@@ -320,17 +142,6 @@ input[type="range"].slider::-moz-range-thumb {
     width: 40px;
     height: 40px;
   }
-
-  .color-presets {
-    margin: 10px 0;
-    width: 100%;
-  }
-}
-
-.resolution-map {
-  width: 100%;
-  height: 100%;
-  cursor: crosshair !important;
 }
 
 .resolution-map-container {
@@ -344,9 +155,4 @@ input[type="range"].slider::-moz-range-thumb {
   transform: scale(2.4);
   opacity: 1;
   cursor: crosshair;
-}
-
-.resolution-map-buffer {
-  width: 100%;
-  height: 35vh;
 }

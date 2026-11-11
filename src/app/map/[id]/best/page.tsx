@@ -67,7 +67,10 @@ export default function SummaryPage() {
         <Summary locations={locations} data={[data]} user={user!.username}>
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
-              <button className="btn-selected" onClick={goBack}>
+              <button
+                className="bg-[gray] rounded-2xl text-plonk-stars-white py-2 px-4 transition-all duration-200 ease-[ease-in-out] hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)] active:scale-[0.97]"
+                onClick={goBack}
+              >
                 Go Back
               </button>
             </div>

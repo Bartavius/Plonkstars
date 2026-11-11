@@ -71,31 +71,31 @@ function TeamSettings({ teamInfo, setMessage, onClose }: TeamSettingsProps) {
 
   return (
     <div>
-      <h2 className="party-page-modal-title">Team Settings</h2>
-      <div className="party-page-modal-team-settings-form">
-        <div className="party-page-team-settings-name-edit">
+      <h2 className="text-[x-large] font-semibold text-center">Team Settings</h2>
+      <div className="bg-lighter-blue rounded-2xl p-2 shadow-[0px_3px_10px_rgba(0,25,51,0.3)] text-darkest-blue">
+        <div className="w-full flex justify-center items-center flex-col text-[3rem] font-semibold text-black">
           {editingName === undefined ? (
-            <div className="party-page-team-settings-name no-scrollbar">
+            <div className="w-full overflow-auto whitespace-nowrap [word-break:break-all] text-center no-scrollbar">
               <div className="inline" onDoubleClick={setClickPosition}>
                 {localSettings.name}
               </div>
               <FaPencilAlt
-                className="party-page-team-name-edit-button"
+                className="inline ml-2 text-[1.5rem] hover:cursor-pointer hover:brightness-110"
                 onClick={() => setEditingName(name.length)}
               />
             </div>
           ) : (
             <>
               <input
-                className="party-page-team-settings-name-edit-textbox"
+                className="text-center w-full"
                 defaultValue={localSettings.name}
                 onChange={(e) => setName(e.target.value)}
                 ref={nameRef}
                 maxLength={MAX_NAME_LENGTH}
                 onKeyDown={nameKeyListener}
               />
-              <div className="party-page-team-settings-name-editing-footer">
-                <div className="party-page-team-settings-name-edit-instruction">
+              <div className="text-[gray] text-[0.5rem] flex justify-between w-full">
+                <div className="text-[0.5rem] text-center">
                   Press &quot;Enter&quot; to save or &quot;Esc&quot; to cancel
                 </div>
                 <div className="party-page-team-settings-name-char-count">
@@ -105,18 +105,18 @@ function TeamSettings({ teamInfo, setMessage, onClose }: TeamSettingsProps) {
             </>
           )}
         </div>
-        <div className="party-page-team-settings-color">
+        <div className="flex justify-center items-center flex-col gap-2">
           <input
             type="color"
             value={`#${localSettings.color.toString(16).padStart(6, "0")}`}
             onChange={(e) =>
               setLocalSettings({ ...localSettings, color: parseInt(e.target.value.slice(1), 16) })
             }
-            className="party-page-team-settings-color-picker"
+            className="items-center w-20 h-20 cursor-pointer"
           />
-          <div className="party-page-team-settings-color-buttons">
+          <div className="flex gap-4">
             <button
-              className="party-page-team-button party-page-team-settings-color-random"
+              className="rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)] bg-color-green font-bold hover:bg-[linear-gradient(45deg,red,orange,yellow,green,cyan,blue,violet,red)] hover:bg-color-green hover:bg-[length:400%_100%] hover:animate-[rainbow_8s_linear_infinite]"
               onClick={() =>
                 setLocalSettings({ ...localSettings, color: Math.floor(Math.random() * numColors) })
               }
@@ -124,7 +124,7 @@ function TeamSettings({ teamInfo, setMessage, onClose }: TeamSettingsProps) {
               Random Color
             </button>
             <button
-              className="party-page-team-button party-page-team-settings-color-reset"
+              className="rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)] font-bold bg-[gray]"
               onClick={() => setLocalSettings({ ...localSettings, color: teamInfo.color })}
             >
               Reset Color
@@ -132,15 +132,15 @@ function TeamSettings({ teamInfo, setMessage, onClose }: TeamSettingsProps) {
           </div>
         </div>
       </div>
-      <div className="party-page-team-settings-buttons">
+      <div className="flex justify-center items-center gap-4 mt-4">
         <button
-          className="party-page-team-button party-team-settings-modal-save"
+          className="rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)] bg-plonk-stars-red"
           onClick={saveChanges}
         >
           Save Changes
         </button>
         <button
-          className="party-page-team-button party-team-settings-modal-cancel"
+          className="rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)] bg-[gray]"
           onClick={onClose}
         >
           Cancel

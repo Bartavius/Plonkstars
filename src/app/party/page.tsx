@@ -303,19 +303,19 @@ export default function PartyPage() {
           {message}
         </Popup>
         <div className="navbar-buffer" />
-        <div className="party-page-content">
+        <div className="h-[calc(100vh-4rem-var(--navbar-height))] relative flex flex-col items-center justify-center">
           <div
-            className="party-page-code-box"
+            className="absolute top-2 right-2 w-[100px] h-[60px] flex justify-center items-center text-center rounded-2xl bg-dark-blue p-2 z-[1] hover:cursor-pointer hover:brightness-90"
             onMouseEnter={() => setHoverCode(true)}
             onMouseLeave={() => setHoverCode(false)}
             onClick={copyPartyLink}
           >
             {hoverCode ? code : "Hover for Code"}
           </div>
-          <div className="party-page-mode-box">
+          <div className="absolute top-2 w-[200px] left-1/2 flex justify-between items-center text-center rounded-2xl bg-dark-blue p-2 z-[1] -translate-x-1/2">
             {isHost ? (
               <GoTriangleLeft
-                className="party-page-mode-change-arrow"
+                className="text-[1.5rem] text-white transition-all duration-200 ease-[ease-in-out] hover:cursor-pointer hover:text-plonk-stars-red hover:scale-110"
                 onClick={() => changeMode(modeIndex - 1)}
               />
             ) : (
@@ -324,7 +324,7 @@ export default function PartyPage() {
             {modes[modeIndex]}
             {isHost ? (
               <GoTriangleRight
-                className="party-page-mode-change-arrow"
+                className="text-[1.5rem] text-white transition-all duration-200 ease-[ease-in-out] hover:cursor-pointer hover:text-plonk-stars-red hover:scale-110"
                 onClick={() => changeMode(modeIndex + 1)}
               />
             ) : (
@@ -345,8 +345,8 @@ export default function PartyPage() {
             />
           ) : undefined}
         </div>
-        <div className="party-page-footer">
-          <div className="party-page-footer-content-left">
+        <div className="h-16 w-full bg-dark-blue flex justify-between shadow-[0px_-2px_4px_rgba(0,0,0,0.05)] items-center overflow-hidden">
+          <div className="ml-4 flex justify-center items-center gap-4">
             <button
               className="btn-primary party-page-exit-button"
               onClick={() => (isHost ? disbandParty() : leaveParty())}
@@ -354,18 +354,23 @@ export default function PartyPage() {
               {isHost ? "Disband Party" : "Leave"}
             </button>
           </div>
-          <div className="party-page-footer-content-center">
-            <div className="party-page-rules-footer" onClick={() => setRulesOpen(true)}>
+          <div className="grid grid-cols-[repeat(2,1fr)] justify-center items-center gap-8 w-[50rem]">
+            <div
+              className="flex justify-between items-center flex-row h-full w-full bg-dark-blue rounded-2xl px-4 border-2 border-solid border-white brightness-110 transition-all duration-200 ease-[ease-in-out] hover:cursor-pointer hover:brightness-90"
+              onClick={() => setRulesOpen(true)}
+            >
               {Object.entries(displayRules).map(([key, value]) => (
-                <div key={key} className="party-page-rule-item">
-                  <div className="party-page-rule-key-text">{key}</div>
-                  <div className="party-page-rule-value-text">{value}</div>
+                <div key={key} className="grid grid-rows-[auto_auto] grid-cols-[1fr] h-full">
+                  <div className="flex justify-center text-[1.25rem] text-plonk-stars-red font-extrabold">
+                    {key}
+                  </div>
+                  <div className="flex justify-center text-[1rem] text-white">{value}</div>
                 </div>
               ))}
             </div>
             <MapCard
               map={rules!.map}
-              className={`party-page-map ${isHost ? "party-page-map-host" : ""}`}
+              className={`!bg-dark-blue !border-2 !border-white brightness-110 ${isHost ? "hover:cursor-pointer hover:brightness-90" : ""}`}
               onClick={
                 isHost
                   ? () => {
@@ -376,19 +381,28 @@ export default function PartyPage() {
               }
             />
           </div>
-          <div className="party-page-footer-content-right">
+          <div className="mr-4">
             {state!.state === "playing" ? (
               state!.joined ? (
-                <button className="party-page-start-button" onClick={() => pushGame(state!)}>
+                <button
+                  className="bg-color-green transition-all duration-200 ease-[ease-in-out] px-8 py-2 rounded-2xl hover:bg-color-green hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
+                  onClick={() => pushGame(state!)}
+                >
                   Rejoin Game
                 </button>
               ) : (
-                <button className="party-page-start-button" onClick={joinGame}>
+                <button
+                  className="bg-color-green transition-all duration-200 ease-[ease-in-out] px-8 py-2 rounded-2xl hover:bg-color-green hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
+                  onClick={joinGame}
+                >
                   Join Game
                 </button>
               )
             ) : isHost ? (
-              <button className="party-page-start-button" onClick={gameStart}>
+              <button
+                className="bg-color-green transition-all duration-200 ease-[ease-in-out] px-8 py-2 rounded-2xl hover:bg-color-green hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
+                onClick={gameStart}
+              >
                 Start
               </button>
             ) : (
@@ -397,7 +411,7 @@ export default function PartyPage() {
           </div>
         </div>
         <Modal isOpen={mapOpen} onClose={() => setMapOpen(false)}>
-          <h2 className="party-page-modal-title">Select Map</h2>
+          <h2 className="text-[x-large] font-semibold text-center">Select Map</h2>
           <MapSearch mapSelect={setMap} pageSize={12} bodySize="60vh" />
         </Modal>
 
@@ -407,7 +421,7 @@ export default function PartyPage() {
             setRulesOpen(false);
           }}
         >
-          <h2 className="party-page-modal-title">Rules</h2>
+          <h2 className="text-[x-large] font-semibold text-center">Rules</h2>
           {rulesConfig &&
             rulesConfig.map((data) => (
               <div className="py-2" key={data.key}>

@@ -26,13 +26,16 @@ function CombinedMap({ correctLat, correctLng, reload, NMPZ, map }: CombinedMapP
 
   return (
     <div className="relative">
-      <div className={`${NMPZ ? "NMPZ" : ""} street-view-container`} key={reload}>
+      <div
+        className={`${NMPZ ? "pointer-events-none" : ""} flex h-[90vh] w-full overflow-hidden relative bg-[white]`}
+        key={reload}
+      >
         <StreetView lat={correctLat} lng={correctLng} />
       </div>
       {map && (
         <div style={{ position: "absolute", bottom: "1.5%", right: "0.8%" }}>
           <div
-            className={`game-map-wrapper ${isHovered ? "hovered" : ""}`}
+            className={`w-[23vw] h-[25vh] overflow-hidden z-[99] transition-all duration-100 ease-[ease-in-out] origin-bottom-right max-[720px]:w-screen max-[720px]:h-[30vh] ${isHovered ? "scale-[2.4] opacity-100 cursor-crosshair max-[720px]:transform-none" : "opacity-60 max-[720px]:opacity-100 hover:scale-[2.4] hover:opacity-100 hover:cursor-crosshair max-[720px]:hover:transform-none"}`}
             onMouseEnter={handleMouseEnterMap}
             onMouseLeave={handleMouseLeaveMap}
           >

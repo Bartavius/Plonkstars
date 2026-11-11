@@ -8,7 +8,6 @@ import type { DuelsTeam } from "@/features/duels/types/duels-team";
 import type { DuelsUser } from "@/features/duels/types/duels-user";
 
 import { DuelsRoundSummary } from "./round-summary";
-import "./summary.css";
 import { DuelsTeamBox } from "./team-box";
 import { DuelsTeamSummary } from "./team-summary";
 interface DuelsSummaryProps {

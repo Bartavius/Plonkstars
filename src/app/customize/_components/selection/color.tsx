@@ -26,11 +26,11 @@ function ColorSelection({ userIcon, setUserIcon }: ColorSelectionProps) {
   };
 
   return (
-    <div className="color-controls p-1">
+    <div className="flex-1 flex flex-col gap-[16px] max-[800px]:gap-[12px] p-1">
       <div className="text-center">
         <span className="">Set Colors</span>
         <div className="text-center justify-center flex">
-          <div className="color-presets">
+          <div className="flex flex-wrap justify-center gap-[10px] my-[15px] w-4/5 max-[800px]:my-[10px] max-[800px]:w-full">
             {colorPresets.map((preset) => (
               <div className="flex-column align-center justify-center" key={preset.name}>
                 <label htmlFor={preset.name}>{preset.name}</label>
@@ -54,13 +54,13 @@ function ColorSelection({ userIcon, setUserIcon }: ColorSelectionProps) {
           </div>
         </div>
       </div>
-      <div className="control-group">
+      <div className="control-group flex items-center gap-[12px]">
         <label htmlFor="hue-slider">
           <span className="!text-white">Hue</span>
         </label>
-        <div className="slider-wrapper">
+        <div className="relative w-full h-[32px]">
           <div
-            className="hue-slider-background"
+            className="absolute top-1/2 -translate-y-1/2 w-full h-[32px] bg-[linear-gradient(to_right,#dd8600,#00bc43,#339cff,#ff5fd6,#dd8600)] rounded-[10px] pointer-events-none z-[1]"
             style={{
               filter: `saturate(${userIcon.saturation}%) brightness(${userIcon.brightness}%)`,
             }}
@@ -75,14 +75,16 @@ function ColorSelection({ userIcon, setUserIcon }: ColorSelectionProps) {
             onChange={(e) => handleSliderChange("hue", parseInt(e.target.value))}
           />
         </div>
-        <span className="value-display !text-white">{userIcon.hue}°</span>
+        <span className="min-w-[40px] text-right text-[#666] text-[14px] !text-white">
+          {userIcon.hue}°
+        </span>
       </div>
 
-      <div className="control-group">
+      <div className="control-group flex items-center gap-[12px]">
         <label htmlFor="saturation-slider">
           <span className="!text-white">Saturation</span>
         </label>
-        <div className="slider-wrapper">
+        <div className="relative w-full h-[32px]">
           <div
             className="saturation-slider-background slider"
             style={{ filter: `hue-rotate(${userIcon.hue}deg) ` }}
@@ -97,16 +99,18 @@ function ColorSelection({ userIcon, setUserIcon }: ColorSelectionProps) {
             onChange={(e) => handleSliderChange("saturation", parseInt(e.target.value))}
           />
         </div>
-        <span className="value-display !text-white">{userIcon.saturation}%</span>
+        <span className="min-w-[40px] text-right text-[#666] text-[14px] !text-white">
+          {userIcon.saturation}%
+        </span>
       </div>
 
-      <div className="control-group">
+      <div className="control-group flex items-center gap-[12px]">
         <label htmlFor="brightness-slider">
           <span className="!text-white">Brightness</span>
         </label>
-        <div className="slider-wrapper">
+        <div className="relative w-full h-[32px]">
           <div
-            className="brightness-slider-background"
+            className="absolute top-1/2 -translate-y-1/2 w-full h-[32px] bg-[linear-gradient(to_right,black,white)] rounded-[10px] pointer-events-none z-[1]"
             style={{
               filter: `hue-rotate(${userIcon.hue}deg) saturate(${userIcon.saturation}%)`,
             }}
@@ -121,7 +125,9 @@ function ColorSelection({ userIcon, setUserIcon }: ColorSelectionProps) {
             onChange={(e) => handleSliderChange("brightness", parseInt(e.target.value))}
           />
         </div>
-        <span className="value-display !text-white">{userIcon.brightness}%</span>
+        <span className="min-w-[40px] text-right text-[#666] text-[14px] !text-white">
+          {userIcon.brightness}%
+        </span>
       </div>
     </div>
   );

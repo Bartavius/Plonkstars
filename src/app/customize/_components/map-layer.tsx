@@ -20,9 +20,9 @@ function MapDisplay({ setMessage }: MapDisplayProps) {
   }
 
   return (
-    <div className="settings-box">
-      <div className="settings-label">Map Type</div>
-      <div className="settings-dropdown">
+    <div className="m-4 w-4/5 p-4 rounded-2xl flex flex-col items-center justify-center bg-dark-blue border-white border-2">
+      <div className="text-[1.5rem] font-bold mb-[5px]">Map Type</div>
+      <div className="w-full text-darkest-blue flex flex-col items-center justify-center">
         <select
           id="map-layer-selector"
           className="settings-dropdown-select"

@@ -69,9 +69,12 @@ function TeamDisplay({
   const team = Object.values(teams).find((team) => team.members.includes(thisUser));
 
   return (
-    <div className="party-page-team-content-wrapper" onClick={() => setSelectedTeam(undefined)}>
-      <div className="party-page-team-content no-scrollbar">
-        <div className="party-page-team-boxes">
+    <div
+      className="w-full h-full flex flex-col items-center justify-center gap-4"
+      onClick={() => setSelectedTeam(undefined)}
+    >
+      <div className="relative flex flex-col items-center w-full h-auto z-0 gap-4 overflow-auto pt-[50px] pb-[50px] no-scrollbar">
+        <div className="flex flex-wrap gap-4 justify-center items-center">
           {Object.entries(teams).map(([teamId, team]) => (
             <div
               key={teamId}
@@ -96,19 +99,19 @@ function TeamDisplay({
             </div>
           ))}
         </div>
-        <div className="party-page-team-buttons">
+        <div className="flex justify-center items-center w-full gap-2">
           {(selectedTeam === undefined || selectedTeam === team?.id) &&
             (spectators.includes(thisUser) ? (
               <button
                 onClick={createTeam}
-                className="party-page-create-team-button party-page-team-button"
+                className="bg-color-green rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
               >
                 Create Team
               </button>
             ) : (
               <button
                 onClick={leaveTeam}
-                className="party-page-leave-team-button party-page-team-button"
+                className="bg-plonk-stars-red rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
               >
                 Leave Team
               </button>
@@ -116,7 +119,7 @@ function TeamDisplay({
           {selectedTeam && selectedTeam !== team?.id && (
             <button
               onClick={() => joinTeam(selectedTeam)}
-              className="party-page-join-team-button party-page-team-button"
+              className="bg-color-green rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
             >
               Join Team
             </button>
@@ -125,13 +128,13 @@ function TeamDisplay({
             <>
               <button
                 onClick={() => setTeamEdit(selectedTeam)}
-                className="party-page-team-settings-button party-page-team-button"
+                className="bg-[gray] rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
               >
                 Team Settings
               </button>
               <button
                 onClick={() => deleteTeam(selectedTeam)}
-                className="party-page-delete-team-button party-page-team-button"
+                className="bg-plonk-stars-red rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
               >
                 Delete Team
               </button>
@@ -143,13 +146,13 @@ function TeamDisplay({
               <>
                 <button
                   onClick={() => setTeamEdit(team.id)}
-                  className="party-page-team-settings-button party-page-team-button"
+                  className="bg-[gray] rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
                 >
                   Team Settings
                 </button>
                 <button
                   onClick={() => deleteTeam(team.id)}
-                  className="party-page-delete-team-button party-page-team-button"
+                  className="bg-plonk-stars-red rounded-2xl px-8 py-1 border-none transition-all duration-200 ease-[ease-in-out] text-white hover:cursor-pointer hover:brightness-90 hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)]"
                 >
                   Delete Team
                 </button>
@@ -158,19 +161,21 @@ function TeamDisplay({
           )}
         </div>
         {spectators.length > 0 && (
-          <div className="party-page-spectator-box">
-            <div className="party-page-team-box-title">Spectators</div>
-            <div className="party-page-user-list">
+          <div className="border-white border-2 p-4 rounded-2xl flex flex-col gap-2">
+            <div className="text-white text-center w-full text-[1.2rem] [-webkit-text-stroke:0.5px_black] [-webkit-text-fill-color:white] font-extrabold">
+              Spectators
+            </div>
+            <div className="flex flex-wrap gap-4 justify-center items-center h-full w-full z-0">
               {spectators.map((username) => (
-                <div key={username} className="party-page-user-card">
+                <div key={username} className="min-w-[8vw]">
                   <UserCard
                     data={users[username]}
-                    className={`user-card-style ${username === thisUser ? "user-card-outline" : ""} ${username === host ? "user-card-gold-name" : ""} ${!users[username].in_lobby ? "party-page-user-card-not-in-lobby" : ""}`}
+                    className={`shadow-[0px_3px_10px_rgba(0,25,51,0.3)] ${username === thisUser ? "border-white border-2" : ""} ${username === host ? "text-leaderboard-yellow" : ""} ${!users[username].in_lobby ? "opacity-50" : ""}`}
                   >
-                    <div className="party-user-buttons">
+                    <div className="absolute top-2 right-2 text-[1.5rem] text-white transition-all duration-200 ease-[ease-in-out] flex gap-2 flex-col">
                       {username !== host && thisUser === host && (
                         <button
-                          className="party-kick-button"
+                          className="hover:text-plonk-stars-red"
                           onClick={(e) => {
                             e.stopPropagation();
                             kickUser(username);

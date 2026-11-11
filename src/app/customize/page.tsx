@@ -32,8 +32,8 @@ export default function Settings() {
         <Popup update={update} type={type}>
           {message}
         </Popup>
-        <div className="settings-wrapper">
-          <div id="top" className="settings-header">
+        <div className="flex flex-col items-center justify-center h-full">
+          <div id="top" className="text-[2rem] font-bold">
             Customizations
           </div>
           <AvatarCustom setMessage={setMessage} setType={setType} />

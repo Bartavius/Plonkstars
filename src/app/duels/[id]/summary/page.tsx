@@ -7,7 +7,6 @@ import { Loading } from "@/components/primitives/loading";
 import { ProtectedRoutes } from "@/features/auth/components/protected-routes";
 import { DuelsSummary } from "@/features/duels/components/summary";
 import { api } from "@/services/api";
-import "./page.css";
 import type { DuelsSummaryGuess } from "@/features/duels/types/duels-guess";
 import type { DuelsTeam } from "@/features/duels/types/duels-team";
 import type { DuelsUser } from "@/features/duels/types/duels-user";
@@ -103,10 +102,12 @@ export default function DuelsSummaryPage() {
         teamGuesses={teamGuesses}
         locations={locations}
       >
-        <div className="duels-summary-header-container">
+        <div className="grid grid-cols-[1fr_1fr_1fr] pt-4">
           <div></div>
-          <div className="duels-summary-header">Game Summary</div>
-          <div className="duels-summary-back-to-party-wrapper">
+          <div className="text-plonk-stars-white text-[1.5rem] font-bold text-center">
+            Game Summary
+          </div>
+          <div className="pr-4 flex [justify-content:right]">
             <button className="btn-primary" onClick={() => router.push(`/party`)}>
               Back To Party
             </button>

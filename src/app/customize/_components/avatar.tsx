@@ -176,8 +176,8 @@ function AvatarCustom({ setMessage, setType }: AvatarCustomProps) {
   }
 
   return (
-    <div className="settings-box">
-      <div className="settings-label">Avatar Customization</div>
+    <div className="m-4 w-4/5 p-4 rounded-2xl flex flex-col items-center justify-center bg-dark-blue border-white border-2">
+      <div className="text-[1.5rem] font-bold mb-[5px]">Avatar Customization</div>
       <div className="mb-4 text-center text-sm font-semibold text-gray-600">
         To buy cosmetics, go to the{" "}
         <a className="link" onClick={() => router.push("/shop")}>
@@ -185,11 +185,14 @@ function AvatarCustom({ setMessage, setType }: AvatarCustomProps) {
         </a>{" "}
         page.
       </div>
-      <div className="avatar-customizer-container">
-        <div className="avatar-preview">
-          <UserIcon data={userIcon} className="avatar-icon" />
+      <div className="flex flex-row gap-[30px] items-center w-full max-[800px]:flex-col max-[800px]:gap-[20px]">
+        <div className="flex justify-center items-center rounded-2xl w-1/2 h-auto min-h-[300px] max-w-full aspect-[1] overflow-hidden">
+          <UserIcon
+            data={userIcon}
+            className="max-w-full w-1/2 h-auto object-contain pixelated max-[800px]:w-full max-[800px]:h-auto"
+          />
         </div>
-        <div className="avatar-customizer p-2 rounded-lg">
+        <div className="flex flex-col justify-center items-center w-1/2 h-auto max-w-full aspect-[1] max-[800px]:w-full max-[800px]:items-stretch p-2 rounded-lg">
           <div className="flex justify-center">
             {tabNames.map((tab) => (
               <button

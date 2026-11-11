@@ -30,7 +30,7 @@ function Contacts() {
 
   return (
     <div>
-      <div className="contacts-container grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6 p-6 justify-items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6 p-6 pt-[5dvh] justify-items-center">
         {persons.map((person, number) => (
           <div key={number}>
             <ProfileCard

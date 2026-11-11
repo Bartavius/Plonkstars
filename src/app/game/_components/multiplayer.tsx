@@ -107,7 +107,7 @@ function Multiplayer({ loading, setLoading, setError }: MultiplayerProps) {
           <div>Start your own party: </div>
           <LoginTooltipWrapper message="Login to create a party" demo={demo} className="w-full">
             <button
-              className="game-setup-btn w-full py-2 rounded-lg font-semibold"
+              className="bg-plonk-stars-red text-plonk-stars-white transition-all duration-200 ease-[ease-in-out] hover:[filter:brightness(90%)] w-full py-2 rounded-lg font-semibold"
               disabled={demo || loading}
               onClick={createParty}
             >

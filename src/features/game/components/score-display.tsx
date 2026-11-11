@@ -6,7 +6,7 @@ interface ScoreDisplayProps {
 function ScoreDisplay({ display }: ScoreDisplayProps) {
   return (
     <div className="score-wrapper">
-      <div className="score-box">
+      <div className="flex justify-center items-center h-full rounded-bl-[3rem] rounded-br-[3rem] border-color-accent-gold border-solid border-r-2 border-l-2 bg-darkest-blue">
         <div className="text-center inline p-6">
           <div className="text-red font-bold">
             <b>{display[0].key}</b>

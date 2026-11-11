@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import "./popup.css";
 interface PopupProps {
   update?: number;
   duration?: number;
@@ -80,9 +79,9 @@ function Popup({
   return (
     <>
       {show && (
-        <div className="popup-wrapper">
+        <div className="fixed top-[15%] w-full flex items-center justify-center z-[100]">
           <div
-            className={`settings-popup ${popupFade ? "opacity-0" : "opacity-100"} ${className}`}
+            className={`p-4 rounded-2xl w-fit h-fit transition-all duration-1000 ease-[ease-in-out] ${popupFade ? "opacity-0" : "opacity-100"} ${className}`}
             onClick={handleClick}
           >
             {children}

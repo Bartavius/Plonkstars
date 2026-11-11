@@ -4,7 +4,6 @@ import { DuelsMapResult } from "@/features/maps/components/duels-map-results";
 
 import { DuelsUIOverlay } from "./map-ui-overlay";
 import "@/app/game.css";
-import "./duels.css";
 import "./results.css";
 import { GuessFooter } from "./team-guess-footer";
 import type { DuelsGuess } from "../types/duels-guess";
@@ -124,7 +123,7 @@ function DuelsResults({
         leftTeam={leftTeam}
         rightTeam={rightTeam}
       />
-      <div className="duels-results-map-container">
+      <div className="h-[90vh] w-full relative z-0">
         <DuelsMapResult
           locations={[location]}
           teamGuesses={guesses}
@@ -133,19 +132,21 @@ function DuelsResults({
           createTooltips={createTooltips}
         />
       </div>
-      <div className="duels-results-footer-grid">
-        <div className="duels-results-footer-item col-span-2">
+      <div className="grid grid-cols-[repeat(5,1fr)] w-full h-[10vh]">
+        <div className="flex justify-center items-center col-span-2">
           <GuessFooter
             team={teams[leftTeam]}
             bestGuess={teamGuesses[leftTeam][0]}
             bestGuessUserCosmetics={users[teamGuesses[leftTeam][0]?.user]?.user_cosmetics}
           />
         </div>
-        <div className="duels-results-footer-item-center">
+        <div className="flex justify-center items-center flex-col">
           <div className="duels-results-footer-timer-header">Next Round in:</div>
-          <div className="duels-results-footer-timer">{Math.round(timeLeft)}</div>
+          <div className="text-[2rem] font-bold text-white [text-shadow:0_0_5px_#ffcc00,0_0_10px_#ffcc00,0_0_20px_#ffcc00,0_0_40px_#ffcc00]">
+            {Math.round(timeLeft)}
+          </div>
         </div>
-        <div className="duels-results-footer-item col-span-2">
+        <div className="flex justify-center items-center col-span-2">
           <GuessFooter
             team={teams[rightTeam]}
             bestGuess={teamGuesses[rightTeam][0]}

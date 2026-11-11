@@ -81,17 +81,17 @@ export default function SummaryPage() {
           <div className="grid grid-cols-3 gap-4 w-full">
             <div className="flex justify-right">
               <button
-                className="summary-leaderboard-button"
+                className="bg-leaderboard-yellow flex items-center justify-center flex-row text-[1rem] font-bold text-white px-6 rounded-2xl mx-1"
                 onClick={() => setLeaderboard(!leaderboard)}
               >
                 {leaderboard ? (
                   <>
-                    <IoIosStats className="button-icon" />
+                    <IoIosStats className="text-[1rem] mr-2" />
                     Your Stats
                   </>
                 ) : (
                   <>
-                    <FaMedal className="button-icon" />
+                    <FaMedal className="text-[1rem] mr-2" />
                     Leaderboard
                   </>
                 )}
@@ -101,12 +101,14 @@ export default function SummaryPage() {
               <h2 className="text-3xl font-bold text-center text-dark flex-1">Game Summary</h2>
             </div>
             <div className="flex justify-end">
-              <div className={`link-text ${showLink ? "visible" : ""} no-scrollbar`}>
+              <div
+                className={`link-text ${showLink ? "visible opacity-100 translate-x-0" : "opacity-0 invisible translate-x-[40px]"} whitespace-nowrap transition-all duration-500 ease-[ease] text-[1rem] font-medium max-w-[50%] z-[1] flex items-center bg-dark-blue text-lightest-blue rounded-l-2xl no-scrollbar`}
+              >
                 {challengeLink}
               </div>
               {!showLink && (
                 <button
-                  className={`link-button`}
+                  className={`bg-dark-blue rounded-2xl p-4 text-white transition-all duration-200 ease-[ease-in-out] z-[2] hover:bg-darker-blue hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)] active:scale-[0.97]`}
                   onClick={() => setShowLink(true)}
                   title="Challenge Link"
                 >
@@ -115,7 +117,7 @@ export default function SummaryPage() {
               )}
               {showLink && (
                 <button
-                  className={`link-button copy-link-button`}
+                  className={`bg-darkest-blue rounded-r-2xl rounded-l-none p-4 text-white transition-all duration-200 ease-[ease-in-out] z-[2] hover:bg-darker-blue hover:scale-[1.02] hover:shadow-[0px_3px_10px_rgba(0,25,51,0.3)] active:scale-[0.97]`}
                   onClick={copyLink}
                   title="Copy Link"
                 >

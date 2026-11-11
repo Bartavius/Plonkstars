@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { colorGradient } from "@/lib/color-gradient";
-import "./timer.css";
 interface TimerProps {
   time: Date;
   timeLimit: number;
@@ -33,9 +32,9 @@ function Timer({ time, timeLimit, offset = 0, timeoutFunction }: TimerProps) {
   const seconds = Math.floor(timeLeft % 60);
 
   return (
-    <div className="timer-container">
+    <div className="relative min-w-20 w-full text-[large] overflow-hidden flex items-center">
       <div
-        className="timer-fill"
+        className="absolute w-full h-full bg-[#00ff00] opacity-80 transition-all duration-100 ease-linear z-[1]"
         style={{
           maxWidth: `${percentRemaining * 100}%`,
           background: colorGradient({ percent: percentRemaining }),
@@ -43,14 +42,18 @@ function Timer({ time, timeLimit, offset = 0, timeoutFunction }: TimerProps) {
         }}
       />
 
-      <div className="timer-box relative">
+      <div className="flex justify-center items-center w-full h-full text-white text-center z-[101] relative">
         {timeLeft >= 0 && (
-          <div className="timer-text">
+          <div className="h-full px-8 font-bold bg-darkest-blue border-color-accent-gold border-solid border-2 border-t-0 rounded-bl-[10rem] rounded-br-[10rem]">
             {hours != 0 && <label>{hours}:</label>}
             {minutes.toString().padStart(2, "0")}:{seconds.toString().padStart(2, "0")}
           </div>
         )}
-        {timeLeft < 0 && <b className="timer-text">00:00</b>}
+        {timeLeft < 0 && (
+          <b className="h-full px-8 font-bold bg-darkest-blue border-color-accent-gold border-solid border-2 border-t-0 rounded-bl-[10rem] rounded-br-[10rem]">
+            00:00
+          </b>
+        )}
       </div>
     </div>
   );

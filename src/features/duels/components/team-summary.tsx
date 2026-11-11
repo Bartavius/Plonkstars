@@ -10,7 +10,6 @@ import type { DuelsUser } from "@/features/duels/types/duels-user";
 import playerTitlesJSON from "./player-titles.json" assert { type: "json" };
 import { DuelsTeamRoundSummary } from "./round-display";
 import { DuelsTeamBox } from "./team-box";
-import "./team-summary.css";
 
 interface PlayerTitle {
   text: string;
@@ -191,7 +190,7 @@ function DuelsTeamSummary({
 
   return (
     <div>
-      <div className="duels-team-container">
+      <div className="flex flex-row justify-center items-center gap-4 mt-4 flex-wrap">
         {teamPlacements.map((teamId, placement) => (
           <DuelsTeamBox
             key={placement}
@@ -204,65 +203,70 @@ function DuelsTeamSummary({
           />
         ))}
       </div>
-      <div className="duels-team-summary-container" id="team-summary">
-        <div className="duels-team-summary-title">{displayTeamInfo.name} Summary</div>
-        <div className="duels-team-summary-overall-stats">
-          <div className="duels-team-summary-title-container">
-            <div className="duels-team-summary-title-title">
+      <div
+        className="flex flex-col justify-center items-center m-4 border-2 border-solid border-plonk-stars-white rounded-2xl bg-dark-blue p-4"
+        id="team-summary"
+      >
+        <div className="text-plonk-stars-white text-[1.5rem] font-bold text-center">
+          {displayTeamInfo.name} Summary
+        </div>
+        <div className="bg-theme-blue border-2 border-solid border-plonk-stars-white rounded-2xl grid grid-cols-[2fr_1fr_2fr] text-plonk-stars-white p-4 gap-8 w-[80%] [@media(width<1024px)]:grid-cols-[1fr] [@media(width<1024px)]:gap-2">
+          <div className="flex flex-col justify-center items-center">
+            <div className="text-[1.5rem] font-[1000] text-center">
               {PLAYER_TITLES[playerTitles[currentTeamPlayer]].text}
             </div>
-            <div className="duels-team-summary-title-subtext">
+            <div className="text-[0.75rem] italic mt-2 text-center">
               {getRandomTitle(playerTitles[currentTeamPlayer])}
             </div>
           </div>
-          <div className="duels-team-summary-player">
-            <div className="duels-team-summary-player-title duels-team-summary-small-screen-hidden">
+          <div className="flex flex-col justify-center items-center">
+            <div className="text-[1rem] font-bold text-center flex flex-row gap-2 [@media(width<1024px)]:!hidden">
               Team Player{teams[displayTeam].members.length > 1 && "s"}
             </div>
-            <div className="duels-team-summary-player-players-container">
+            <div className="flex flex-row gap-2 mt-2 items-center">
               {teams[displayTeam].members.length > 1 && (
                 <BiSolidLeftArrow onClick={leftPlayer} className="dark-hover-button" />
               )}
-              <div className="duels-team-summary-players-user-icon">
+              <div className="mt-4 w-20">
                 <UserIcon data={users[currentTeamPlayer]} />
               </div>
               {teams[displayTeam].members.length > 1 && (
                 <BiSolidRightArrow onClick={rightPlayer} className="dark-hover-button" />
               )}
             </div>
-            <div className="duels-team-summary-players-username">{currentTeamPlayer}</div>
+            <div className="mt-2 text-[1rem] font-bold">{currentTeamPlayer}</div>
           </div>
           <div className="duels-team-summary-player-stats">
-            <div className="duels-team-summary-player-stats-title">Player Stats</div>
-            <div className="duels-team-summary-player-stats-container">
-              <div className="duels-team-summary-player-stat">
-                <div className="duels-team-summary-player-stat-key">Average Score</div>
-                <div className="duels-team-summary-player-stat-value">
+            <div className="text-[1.5rem] font-extrabold text-center">Player Stats</div>
+            <div className="grid grid-cols-[1fr_1fr] gap-8 mt-2">
+              <div className="flex flex-col justify-center items-center">
+                <div className="text-[0.75rem] font-bold text-center">Average Score</div>
+                <div className="text-[1.25rem] font-bold text-center">
                   {currentPlayerAvgStats.score.toFixed(2)}
                 </div>
               </div>
-              <div className="duels-team-summary-player-stat">
-                <div className="duels-team-summary-player-stat-key">Average Time</div>
-                <div className="duels-team-summary-player-stat-value">
+              <div className="flex flex-col justify-center items-center">
+                <div className="text-[0.75rem] font-bold text-center">Average Time</div>
+                <div className="text-[1.25rem] font-bold text-center">
                   {currentPlayerAvgStats.time.toFixed(2)}
                 </div>
               </div>
-              <div className="duels-team-summary-player-stat">
-                <div className="duels-team-summary-player-stat-key">Average Team Rank</div>
-                <div className="duels-team-summary-player-stat-value">
+              <div className="flex flex-col justify-center items-center">
+                <div className="text-[0.75rem] font-bold text-center">Average Team Rank</div>
+                <div className="text-[1.25rem] font-bold text-center">
                   {currentPlayerAvgStats.teamRank.toFixed(2)}
                 </div>
               </div>
-              <div className="duels-team-summary-player-stat">
-                <div className="duels-team-summary-player-stat-key">Average Global Rank</div>
-                <div className="duels-team-summary-player-stat-value">
+              <div className="flex flex-col justify-center items-center">
+                <div className="text-[0.75rem] font-bold text-center">Average Global Rank</div>
+                <div className="text-[1.25rem] font-bold text-center">
                   {currentPlayerAvgStats.totalRank.toFixed(2)}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="duels-team-summary-rounds">
+        <div className="flex flex-row gap-4 mt-4 flex-wrap justify-center">
           {displayTeamGuesses.map((guesses, round) => (
             <DuelsTeamRoundSummary
               key={round}

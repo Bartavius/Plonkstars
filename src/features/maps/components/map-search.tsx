@@ -88,7 +88,7 @@ function MapSearch({ mapSelect, pageSize, bodySize, editable = false }: MapSearc
         </div>
       )}
       <div
-        className={`search-body ${bodySize ? "search-body-height" : ""}`}
+        className={`text-[1rem] grow ${bodySize ? "overflow-y-auto" : ""}`}
         style={{ height: bodySize ? bodySize : "100%" }}
       >
         {!loading && maps.length === 0 && page === 1 && (
@@ -96,7 +96,7 @@ function MapSearch({ mapSelect, pageSize, bodySize, editable = false }: MapSearc
         )}
         {!loading && (
           <div className="mx-10">
-            <ul className="results-grid">
+            <ul className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-4 pb-4 items-stretch">
               {maps.map((map, index) => (
                 <li key={index}>
                   <MapCard map={map} onClick={() => mapSelect(map.id, map.name)} />

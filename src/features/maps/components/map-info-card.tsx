@@ -8,7 +8,6 @@ import { api } from "@/services/api";
 import { setGameMap } from "@/store/game-slice";
 import type { MapStats } from "@/features/maps/types/map-stats";
 
-import "./map-info-card.css";
 import "@/app/game.css";
 import { MapDeleteModal } from "./map-delete-modal";
 interface MapInfoCardProps {
@@ -124,15 +123,18 @@ function MapInfoCard({ stats, permission, loading, setLoading, children }: MapIn
   };
 
   return (
-    <div className="map-info-card">
+    <div className="flex flex-col items-center justify-center relative h-full max-w-[80%] bg-lighter-blue text-darkest-blue rounded-2xl p-4 max-[800px]:max-w-[90%]">
       {3 <= permission && (
-        <TbTrash className="map-delete-trash-button" onClick={() => setDeleteModalOpen(true)} />
+        <TbTrash
+          className="text-white absolute top-4 right-4 text-[1.5rem] transition-all duration-200 ease-[ease-in-out] hover:text-plonk-stars-red hover:cursor-pointer"
+          onClick={() => setDeleteModalOpen(true)}
+        />
       )}
-      <div className="map-info-title">
+      <div className="text-[3rem] font-semibold text-black">
         {!editingName && <>{stats.name}</>}
         {2 <= permission && !editingName && (
           <FaPencilAlt
-            className="map-name-edit-pencil dark-hover-button"
+            className="inline text-[1.5rem] ml-2 dark-hover-button"
             onClick={() => setEditingName(true)}
           />
         )}
@@ -140,15 +142,15 @@ function MapInfoCard({ stats, permission, loading, setLoading, children }: MapIn
           <div className="map-name-editing">
             <input
               id="map-title-editor"
-              className="map-name-edit-textbox"
+              className="text-center"
               defaultValue={name}
               onChange={(e) => setName(e.target.value)}
               maxLength={maxNameLength}
               ref={nameRef}
               onKeyDown={nameKeyListener}
             />
-            <div className="map-name-editing-footer">
-              <div className="map-name-edit-instruction">
+            <div className="text-[gray] text-[0.5rem] flex justify-between">
+              <div className="text-[0.5rem] text-center">
                 Press &quot;Enter&quot; to save or &quot;Esc&quot; to cancel
               </div>
               <div className="map-name-char-count">
@@ -158,17 +160,17 @@ function MapInfoCard({ stats, permission, loading, setLoading, children }: MapIn
           </div>
         )}
       </div>
-      <div className="map-info-creator">
-        Made by: <span className="map-info-creator-name">{stats.creator}</span>
+      <div className="text-[gray]">
+        Made by: <span className="text-[1rem] font-bold">{stats.creator}</span>
       </div>
-      <div className="map-info-description-button">
+      <div className="bg-dark-blue w-full flex items-center justify-center flex-col p-4 rounded-2xl overflow-hidden">
         {description && !editingDescription && (
           <div className="map-info-description">
-            <div className="map-info-description-text">
+            <div className="text-[1.2rem] text-white [white-space:pre-line] [overflow-wrap:break-word] [word-break:break-word] max-[800px]:text-[1rem]">
               {description}
               {2 <= permission && (
                 <FaPencilAlt
-                  className="description-edit-pencil dark-hover-button"
+                  className="inline ml-4 dark-hover-button"
                   onClick={() => setEditingDescription(true)}
                 />
               )}
@@ -176,30 +178,30 @@ function MapInfoCard({ stats, permission, loading, setLoading, children }: MapIn
           </div>
         )}
         {editingDescription && 2 <= permission && (
-          <div className="map-info-description-editing">
+          <div className="w-full">
             <textarea
               id="map-info-description-editor"
-              className="map-info-description-textbox"
+              className="w-full"
               defaultValue={stats.description ?? ""}
               onChange={changeDescription}
               maxLength={maxDescriptionLength}
               ref={descriptionRef}
               onKeyDown={descriptionKeyListener}
             />
-            <p className="map-description-char-counter">
+            <p className="text-[0.5rem] text-right">
               {description ? description.length : 0}/{maxDescriptionLength} characters
             </p>
-            <div className="map-description-editing-footer">
+            <div className="grid grid-cols-[repeat(2,1fr)] w-full h-full gap-[4px]">
               <button
                 onClick={descriptionCancel}
-                className="map-description-cancel dark-hover-button gray-disabled"
+                className="h-full text-center items-center font-bold rounded-2xl bg-[gray] text-white py-1 dark-hover-button gray-disabled"
                 disabled={loading}
               >
                 Cancel
               </button>
               <button
                 onClick={editDescription}
-                className="map-description-save dark-hover-button gray-disabled"
+                className="h-full text-center items-center font-bold rounded-2xl bg-plonk-stars-red text-white border py-1 dark-hover-button gray-disabled"
                 disabled={loading}
               >
                 <div>Save</div>
@@ -209,29 +211,29 @@ function MapInfoCard({ stats, permission, loading, setLoading, children }: MapIn
         )}
         {!description && !editingDescription && 2 <= permission && (
           <button
-            className="game-button map-add-description"
+            className="h-[70%] w-full bg-plonk-stars-red justify-center items-center text-plonk-stars-white border border-solid border-plonk-stars-white transition-all duration-150 ease-[ease-in-out] rounded-[2rem] [&:not(:disabled)]:hover:-translate-y-[0.1rem] [&:not(:disabled)]:hover:[scale:1.03] [&:not(:disabled)]:hover:bg-plonk-stars-red [&:not(:disabled)]:hover:text-plonk-stars-white [&:not(:disabled)]:hover:border [&:not(:disabled)]:hover:border-solid [&:not(:disabled)]:hover:border-plonk-stars-white disabled:opacity-50 disabled:![background:#000] disabled:cursor-not-allowed py-2 font-bold"
             onClick={() => setEditingDescription(true)}
             disabled={loading}
           >
             Add Description
           </button>
         )}
-        <div className="map-info-button-div">
+        <div className="mt-4 flex flex-row w-full overflow-hidden justify-center gap-2 max-[800px]:flex-col max-[800px]:m-4">
           <button
             disabled={loading}
-            className="play-button map-info-button dark-hover-button gray-disabled"
+            className="bg-[rgb(27,202,27)] flex items-center justify-center flex-row text-[1.5rem] font-bold text-white px-6 rounded-2xl dark-hover-button gray-disabled"
             onClick={playMap}
           >
-            <FaPlay className="map-info-button-icon" />
+            <FaPlay className="text-[1rem] mr-2" />
             Play
           </button>
           {1 <= permission && (
             <button
               disabled={loading}
-              className="edit-button map-info-button dark-hover-button gray-disabled"
+              className="bg-[rgb(226,134,14)] flex items-center justify-center flex-row text-[1.5rem] font-bold text-white px-6 rounded-2xl dark-hover-button gray-disabled"
               onClick={editMap}
             >
-              <FaPencilAlt className="map-info-button-icon" />
+              <FaPencilAlt className="text-[1rem] mr-2" />
               Edit
             </button>
           )}

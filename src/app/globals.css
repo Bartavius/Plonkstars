@@ -144,10 +144,6 @@ body {
   background-color: var(--lighter-blue);
 }
 
-.bg-accent2 {
-  background-color: var(--accent2);
-}
-
 .bg-yellow {
   background-color: var(--leaderboard-yellow);
 }
@@ -162,14 +158,6 @@ body {
 
 .text-red {
   color: var(--plonk-stars-red);
-}
-
-.text-accent1 {
-  color: var(--lighter-blue);
-}
-
-.text-accent2 {
-  color: var(--blue4);
 }
 
 .navbar-buffer {

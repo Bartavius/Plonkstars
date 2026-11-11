@@ -13,7 +13,6 @@ import "@/app/game.css";
 import { useSocket } from "@/lib/hooks/use-socket";
 import { api } from "@/services/api";
 import type { UserProfile } from "@/features/user/types/user-profile";
-import "./page.css";
 
 interface Location {
   id?: number;
@@ -270,30 +269,35 @@ export default function EditMapPage() {
             )}
           </MapPreview>
           {selectedBound && "lat" in selectedBound && "lng" in selectedBound && (
-            <div className={`corner-street-view`}>
+            <div
+              className={`absolute top-[60vh] right-0 z-[1000] h-[29vh] w-1/4 overflow-hidden hover:top-[30vh] hover:h-[59vh] hover:w-1/2`}
+            >
               <StreetView lat={selectedBound.lat} lng={selectedBound.lng} />
             </div>
           )}
         </div>
-        <div className="game-footer w-full">
-          <div className="edit-grid-footer">
-            <div className="edit-grid-left-elements">
-              <button onClick={goBack} className="edit-back-button">
+        <div className="text-[#ffffff] flex h-[10vh] w-full items-center">
+          <div className="grid grid-cols-[repeat(3,1fr)] w-full h-full">
+            <div className="flex justify-start items-center h-full">
+              <button
+                onClick={goBack}
+                className="bg-[gray] w-1/2 h-[70%] rounded-[2rem] hover:[filter:brightness(90%)]"
+              >
                 Back to Map Page
               </button>
             </div>
-            <div className="edit-grid-middle-elements">
+            <div className="flex justify-center flex-col h-full">
               <div>Ctrl/Cmd + Drag: Create bound</div>
               <div>Click: Select point</div>
             </div>
-            <div className="edit-grid-right-elements">
-              <div className="bound-weight-display">
+            <div className="flex justify-end items-center h-full">
+              <div className="pr-2">
                 <label className="weight-input-wrapper">
-                  <div className="weight-title">Weight</div>
+                  <div className="w-full justify-items-center text-center">Weight</div>
                   <input
                     id="map-weight-input-box"
                     type="number"
-                    className="weight-input-box"
+                    className="text-black"
                     value={existingBound ? selectedBound && selectedBound.weight : (weight ?? "")}
                     disabled={existingBound}
                     onChange={(e) =>
@@ -306,7 +310,7 @@ export default function EditMapPage() {
               <button
                 onClick={buttonClick}
                 disabled={selectedBound === undefined || buttonDisabled}
-                className="game-button edit-right-button"
+                className="h-[70%] w-[80%] bg-plonk-stars-red justify-center items-center text-plonk-stars-white border border-solid border-plonk-stars-white transition-all duration-150 ease-[ease-in-out] rounded-[2rem] [&:not(:disabled)]:hover:-translate-y-[0.1rem] [&:not(:disabled)]:hover:[scale:1.03] [&:not(:disabled)]:hover:bg-plonk-stars-red [&:not(:disabled)]:hover:text-plonk-stars-white [&:not(:disabled)]:hover:border [&:not(:disabled)]:hover:border-solid [&:not(:disabled)]:hover:border-plonk-stars-white disabled:opacity-50 disabled:![background:#000] disabled:cursor-not-allowed"
               >
                 {existingBound ? "Remove" : "Add"}{" "}
                 {selectedBound && "lat" in selectedBound && "lng" in selectedBound

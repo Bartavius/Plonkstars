@@ -32,7 +32,7 @@ function Table({
               onClick={() => onClickHeader && onClickHeader(index)}
               className={onClickHeader && "dark-hover-button"}
             >
-              <div className="leaderboard-table-header">{headers[key]}</div>
+              <div className="text-[1.5rem]">{headers[key]}</div>
             </th>
           ))}
         </tr>
@@ -46,13 +46,17 @@ function Table({
           >
             {rowHeader && (
               <th>
-                <div className="leaderboard-table-position">{row[rowHeader]}</div>
+                <div className="flex [justify-content:left] items-center text-[1.5rem] pr-2">
+                  {row[rowHeader]}
+                </div>
               </th>
             )}
             {keys.map((key, colNum) => (
               <td key={colNum}>
-                <div className="leaderboard-table-cell-wrapper">
-                  <div className="leaderboard-table-cell">{row[key]}</div>
+                <div className="flex items-stretch justify-center w-full h-full p-1">
+                  <div className="flex justify-center items-center bg-[lightblue] rounded-2xl h-full w-full py-2 text-black">
+                    {row[key]}
+                  </div>
                 </div>
               </td>
             ))}

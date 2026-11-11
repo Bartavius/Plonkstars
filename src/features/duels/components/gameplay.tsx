@@ -122,7 +122,7 @@ function DuelsGameplay({
         leftTeam={thisTeam}
         rightTeam={teamsToDisplay[rightTeamIndex]}
       />
-      <div className="streetview-map-container">
+      <div className="relative w-full h-full">
         <CombinedMap
           correctLat={roundInfo.lat}
           correctLng={roundInfo.lng}
@@ -141,23 +141,30 @@ function DuelsGameplay({
           }
         />
       </div>
-      <div className="game-footer">
-        <div className="footer-grid">
-          <div className="footer-grid-left-elements">
+      <div className="text-[#ffffff] flex h-[10vh] w-full items-center">
+        <div className="grid grid-cols-[repeat(3,1fr)] w-full h-full">
+          <div className="flex justify-start items-center h-full">
             {!roundInfo.NMPZ && (
-              <button className="back-to-start-button dark-hover-button" onClick={backToStart}>
+              <button
+                className="bg-[gray] w-1/2 h-[70%] rounded-[2rem] dark-hover-button"
+                onClick={backToStart}
+              >
                 Back To Start
               </button>
             )}
           </div>
-          <div className="footer-grid-center-elements"></div>
-          <div className="footer-grid-right-elements">
+          <div className="flex justify-center items-center h-full"></div>
+          <div className="flex justify-end items-center h-full">
             {guessed ? (
               <div className="border border-gray-300 bg-white shadow-md rounded-full text-base font-semibold text-gray-800 mr-4 flex justify-center items-center px-5 py-1.5">
                 {guesses}/{maxGuesses} guesses
               </div>
             ) : (
-              <button onClick={submitGuess} disabled={!canGuess} className="game-button">
+              <button
+                onClick={submitGuess}
+                disabled={!canGuess}
+                className="h-[70%] w-full bg-plonk-stars-red justify-center items-center text-plonk-stars-white border border-solid border-plonk-stars-white transition-all duration-150 ease-[ease-in-out] rounded-[2rem] [&:not(:disabled)]:hover:-translate-y-[0.1rem] [&:not(:disabled)]:hover:[scale:1.03] [&:not(:disabled)]:hover:bg-plonk-stars-red [&:not(:disabled)]:hover:text-plonk-stars-white [&:not(:disabled)]:hover:border [&:not(:disabled)]:hover:border-solid [&:not(:disabled)]:hover:border-plonk-stars-white disabled:opacity-50 disabled:![background:#000] disabled:cursor-not-allowed"
+              >
                 <b className="block">Submit</b>
               </button>
             )}
